@@ -6,4 +6,7 @@ class Document:
         
         #document parameters
         self.task = None
+        self.numberOfSpeakers = 1 #specify number of speakers in transcript, default: 1
+        self.sections = None
+
         #etc...

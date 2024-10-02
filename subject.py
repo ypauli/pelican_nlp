@@ -10,11 +10,8 @@ class Subject:
         self.age = None
         self.gender = None
 
-        #specify all files belonging to same subject
-        self.files = []
-        if filelist:
-            for file in filelist:
-                self.files.append(file)
+        self.healthy = True #set to false if disease subject...
 
         self.document1 = Document(self.files[0])
+        self.document2 = None #optional, in case subject has more than one textfile
         #etc...
