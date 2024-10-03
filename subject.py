@@ -1,12 +1,14 @@
 #class subject
 #==============
 
-from Document import Document
+from document import Document
 
 class Subject:
     def __init__(self) -> None:
         
         #subject parameters...
+        self.subjectID = None
+
         self.age = None
         self.gender = None
 
