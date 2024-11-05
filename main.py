@@ -1,34 +1,45 @@
 #this is the main project file
 #created 1.10.24
+#created by Yves Pauli
 #=============================
+import os
 
 from config import Config
-from subject import Subject
-from preprocessing.corpus import Corpus
+from document import Document
+from preprocessing import Subject, Corpus, TextPreprocessingPipeline
 
 if __name__ == '__main__':
-    #main script for preprocessing and extraction of data
+
+    #check for correct folder structure (subject|session|group|textfile)
+    #...
 
     # Initialize the pipeline with configuration settings
     config = Config()
-    pipeline = TextPreprocessingPipeline(config)
 
-    # Create subjects with their associated document file paths
-    subject_1 = Subject()
+    # Instantiate all subjects
+    subjects = []
+    for subject in os.listdir(config.PATH_TO_SUBJECTS_FOLDER):
+        subjects.append(Subject(subject))
 
-    # Initialize the corpus with subjects
-    corpus = Corpus([subject_1], config)
+    for current_corpus in config.corpus_names:
 
-    # Process all subjects in the corpus, assuming these documents are dialogs
-    for subject in corpus.subjects:
-        for document in subject.documents:
-            document.load_text(corpus.importer)
-            document.clean_text(corpus.cleaner, is_dialog=True)  # Set is_dialog to True for dialog
-            document.tokenize_text(corpus.tokenizer)
-            document.normalize_text(corpus.normalizer)
+        documents = []
+        # load all files belonging to same corpus
+        for i in range(len(subjects)):
 
-    # Run the pipeline with the specified file
-    text = pipeline.process_text(config.input_file)
+            #Check if subject has file belonging to corpus and add if available
+            FILEPATH = config.PATH_TO_SUBJECTS_FOLDER + subjects[i].subjectID + '/' + current_corpus
+            if os.path.isdir(FILEPATH):
+                file_name = os.listdir(FILEPATH)[0]
+                documents.append(Document(FILEPATH, file_name, current_corpus))
+                subjects[i].add_document(documents[-1])
 
-    # Output results
-    print(text)
+        # Initialize the corpus with respective files
+        corpus = Corpus(current_corpus, documents, config)
+
+        # Process all files in the corpus
+        corpus.process_all_documents()
+
+
+        for i in range(len(documents)):
+            print(documents[i].processed_text)
