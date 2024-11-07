@@ -1,30 +1,30 @@
 import torch
-import numpy as np
-from collections import defaultdict
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch.nn.functional as F
+import pandas as pd
+import time
+import os
+from tqdm import tqdm
+
 
 class LogitsExtractor:
-    def __init__(self, model, tokenizer, metric_functions, aggregation_functions, device='cpu'):
+    def __init__(self, model, tokenizer, device='cpu'):
         """
         Initialize the LogitsExtractor.
 
         Parameters:
-        - model: The language model to use for processing text.
+        - model: The language model for processing text.
         - tokenizer: The tokenizer associated with the model.
-        - metric_functions: A dictionary of metric functions.
-                            Each function should accept (logits, input_ids) and return a list of metric values.
-        - aggregation_functions: A dictionary of aggregation functions.
-                                 Each function should accept a list of metric values and return a scalar.
-        - device: The device to run the computations on ('cpu' or 'cuda').
+        - device: The device to run computations ('cpu', 'cuda', or 'mps').
         """
         self.model = model.to(device)
         self.tokenizer = tokenizer
-        self.metric_functions = metric_functions
-        self.aggregation_functions = aggregation_functions
         self.device = device
 
-    def process_text(self, text, chunk_size=512, overlap_size=256):
+
+    def extract_features(self, text, chunk_size=512, overlap_size=256):
         """
-        Process the text, calculate per-token metrics, and aggregate them.
+        Process the text and calculate per-token metrics, including log probabilities, entropy, and the most likely token.
 
         Parameters:
         - text: The input text string.
@@ -32,52 +32,87 @@ class LogitsExtractor:
         - overlap_size: The number of tokens to overlap between chunks.
 
         Returns:
-        - aggregated_metrics: A dictionary with aggregated metrics.
-        - per_token_metrics: A dictionary with per-token metrics.
-        - tokens_list: A list of tokens corresponding to the metrics.
+        - per_token_data: A list of dictionaries containing the token and its corresponding metrics.
         """
-        # Tokenize the input text
-        input_ids = self.tokenizer.encode(text, return_tensors='pt').to(self.device)
 
-        # Split the input_ids into chunks with overlap
+        input_ids = self.tokenizer.encode(text, return_tensors='pt').to(self.device)
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)
 
-        per_token_metrics = defaultdict(list)
-        tokens_list = []
+        per_token_data = []
 
-        for i, chunk in enumerate(chunks):
-            # Perform a forward pass
+        total_processed_tokens = 0  # Keep track of total tokens processed to avoid duplicates
+
+        for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
             with torch.no_grad():
+
                 outputs = self.model(input_ids=chunk)
-                logits = outputs.logits
+                logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
-            # Calculate per-token metrics using the provided metric functions
-            for metric_name, metric_function in self.metric_functions.items():
-                metric_values = metric_function(logits, chunk)
-                # Adjust for overlapping tokens
-                if i > 0 and overlap_size > 0:
-                    metric_values = metric_values[overlap_size:]
-                per_token_metrics[metric_name].extend(metric_values)
-
-            # Keep track of tokens
             tokens = self.tokenizer.convert_ids_to_tokens(chunk.squeeze())
-            # Exclude overlapping tokens except for the first chunk
-            if i > 0 and overlap_size > 0:
-                tokens = tokens[overlap_size:]
-            tokens_list.extend(tokens)
+            num_tokens = len(tokens)
 
-        # Aggregate the metrics using the provided aggregation functions
-        aggregated_metrics = {}
-        for metric_name, values in per_token_metrics.items():
-            aggregated_metrics[metric_name] = {}
-            for agg_name, agg_function in self.aggregation_functions.items():
-                aggregated_metrics[metric_name][agg_name] = agg_function(values)
+            chunk_data = []
 
-        return aggregated_metrics, per_token_metrics, tokens_list
+            # Determine the starting index for predictions
+            if i == 0:
+                # For the first chunk, start from index 1 (since the first token has no previous context)
+                start_idx = 1
+            else:
+                # For subsequent chunks, skip tokens that were already processed in the overlap
+                start_idx = overlap_size
+
+            # Loop over the tokens to predict
+            for j in range(start_idx, num_tokens):
+                # Compute per-token metrics
+                per_token_metrics = self._compute_per_token_metrics(logits, chunk, tokens, j)
+                chunk_data.append(per_token_metrics)
+
+            # Append the chunk data to the per_token_data list
+            per_token_data.extend(chunk_data)
+            total_processed_tokens += len(chunk_data)
+
+        return per_token_data
+
+    def _compute_per_token_metrics(self, logits, chunk, tokens, j):
+        """
+        Compute per-token metrics for a given position in the chunk.
+
+        Parameters:
+        - logits: The logits output from the model.
+        - chunk: The input_ids chunk.
+        - tokens: The list of tokens in the chunk.
+        - j: The current token position.
+
+        Returns:
+        - A dictionary containing per-token metrics.
+        """
+        # The model predicts the token at position j using tokens up to position j-1
+        # Therefore, logits at position j-1 correspond to predictions for token at position j
+        token_logits = logits[:, j - 1, :]  # Shape: [1, vocab_size]
+        token_probs = F.softmax(token_logits, dim=-1)
+        token_logprobs = F.log_softmax(token_logits, dim=-1)
+
+        actual_token_id = chunk[:, j]  # The actual token at position j
+        logprob_actual = token_logprobs[0, actual_token_id].item()
+        max_logprob, max_token_id = torch.max(token_logprobs, dim=-1)
+        max_logprob = max_logprob.item()
+        max_token_id = max_token_id.item()
+        entropy = -(token_probs * token_logprobs).sum().item()
+
+        most_likely_token = self.tokenizer.convert_ids_to_tokens([max_token_id])[0]
+        token = tokens[j]  # The token at position j
+
+        return {
+            'token': token,
+            'logprob_actual': logprob_actual,
+            'logprob_max': max_logprob,
+            'entropy': entropy,
+            'most_likely_token': most_likely_token
+        }
 
     def _split_into_chunks(self, input_ids, chunk_size, overlap_size):
         """
-        Split the input_ids into chunks with overlap.
+        Split input_ids into chunks with overlap.
 
         Parameters:
         - input_ids: The tokenized input ids.
@@ -100,135 +135,76 @@ class LogitsExtractor:
                 break
 
         return chunks
-    
-    
-def log_probability_metric(logits, input_ids):
+
+
+def process_folder(folder_path, extractor, chunk_size, overlap_size):
     """
-    Calculate per-token log probabilities.
+    Process all text files in the specified folder, extract information from filenames,
+    and collect results into a DataFrame.
 
     Parameters:
-    - logits: The output logits from the model.
-    - input_ids: The input ids corresponding to the tokens.
+    - folder_path: The path to the folder containing text files.
+    - extractor: An instance of LogitsExtractor.
+    - chunk_size: The size of chunks to split the input text for processing.
+    - overlap_size: The number of tokens to overlap between chunks.
 
     Returns:
-    - log_probs: A list of per-token log probabilities.
+    - df_results: A pandas DataFrame containing the filename information and language features.
     """
-    shift_logits = logits[:, :-1, :].contiguous()
-    shift_labels = input_ids[:, 1:].contiguous()
+    data = []
+    failed_files = []
 
-    log_probs = torch.nn.functional.log_softmax(shift_logits, dim=-1)
-    log_probs = log_probs.gather(2, shift_labels.unsqueeze(-1)).squeeze(-1)
-    return log_probs.squeeze().tolist()
+    # List all files in the folder
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.txt'):
+            # Read the text content
+            file_path = os.path.join(folder_path, filename)
+            with open(file_path, 'r', encoding='utf-8') as f:
+                text = f.read()
 
-def entropy_metric(logits, input_ids):
-    """
-    Calculate per-token entropy.
+            print(f"Processing file: {filename}")
+            # Tokenize the text to get total number of tokens
+            input_ids = extractor.tokenizer.encode(text, return_tensors='pt')
+            total_num_tokens = input_ids.size(1)
+            print(f"Total number of tokens: {total_num_tokens}")
 
-    Parameters:
-    - logits: The output logits from the model.
-    - input_ids: The input ids corresponding to the tokens.
+            try:
+                tic = time.time()
+                # Process the text to extract features
+                per_token_data = extractor.extract_features(text, chunk_size=chunk_size, overlap_size=overlap_size)
+                toc = time.time()
+                print(f"Time for logits extraction: {toc - tic:.2f} seconds")
+                print(f"Number of per-token data entries: {len(per_token_data)}")
+                # Should have total_num_tokens - 1 == len(per_token_data)
+                print(f"Tokens excluding the first: {total_num_tokens - 1}")
 
-    Returns:
-    - entropies: A list of per-token entropies.
-    """
-    probs = torch.nn.functional.softmax(logits[:, :-1, :], dim=-1)
-    log_probs = torch.nn.functional.log_softmax(logits[:, :-1, :], dim=-1)
-    entropies = -torch.sum(probs * log_probs, dim=-1)
-    return entropies.squeeze().tolist()
+                # Collect the results
+                data.append({
+                    'filename': filename,
+                    'length': total_num_tokens,
+                    'features': per_token_data
+                })
 
-def perplexity_metric(logits, input_ids):
-    """
-    Calculate per-token perplexity.
+            except Exception as e:
+                print(f"Error processing file {filename}: {e}")
+                failed_files.append(filename)
+                continue  # Skip to the next file
 
-    Parameters:
-    - logits: The output logits from the model.
-    - input_ids: The input ids corresponding to the tokens.
+    # Create a DataFrame
+    df_results = pd.DataFrame(data)
+    df_results.to_csv(os.path.join(folder_path, "test_features.csv"), index=False)
+    return df_results
 
-    Returns:
-    - perplexities: A list of per-token perplexities.
-    """
-    log_probs = log_probability_metric(logits, input_ids)
-    perplexities = [np.exp(-lp) if lp is not None else None for lp in log_probs]
-    return perplexities
 
-def mean_aggregation(values):
-    """Calculate the mean of the values."""
-    values = np.array(values)
-    return np.mean(values)
+# Example usage:
 
-def std_aggregation(values):
-    """Calculate the standard deviation of the values."""
-    values = np.array(values)
-    return np.std(values)
-
-def median_aggregation(values):
-    """Calculate the median of the values."""
-    values = np.array(values)
-    return np.median(values)
-
-def min_aggregation(values):
-    """Calculate the minimum of the values."""
-    values = np.array(values)
-    return np.min(values)
-
-def max_aggregation(values):
-    """Calculate the maximum of the values."""
-    values = np.array(values)
-    return np.max(values)
-
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-# Load a pre-trained language model and tokenizer
-model_name = 'gpt2'  # Replace with your desired model
+model_name = 'DiscoResearch/Llama3-German-8B-32k'  # Replace with your model
 model = AutoModelForCausalLM.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+extractor = LogitsExtractor(model=model, tokenizer=tokenizer, device='cuda')  # Use 'cuda' if a GPU is available
 
-# Define metric functions and aggregation functions
-metric_functions = {
-    'log_probability': log_probability_metric,
-    'entropy': entropy_metric,
-    'perplexity': perplexity_metric
-}
+# Specify the folder containing text files
+folder_path = 'test_documents'  # Replace with your folder path
 
-aggregation_functions = {
-    'mean': mean_aggregation,
-    'std': std_aggregation,
-    'median': median_aggregation,
-    'min': min_aggregation,
-    'max': max_aggregation
-}
-
-# Initialize the LogitsExtractor
-extractor = LogitsExtractor(
-    model=model,
-    tokenizer=tokenizer,
-    metric_functions=metric_functions,
-    aggregation_functions=aggregation_functions,
-    device='cpu'  # Use 'cuda' if a GPU is available
-)
-
-# Input text
-text = "The quick brown fox jumps over the lazy dog."
-
-# Process the text
-aggregated_metrics, per_token_metrics, tokens = extractor.process_text(
-    text,
-    chunk_size=16,      # Adjust based on your requirements
-    overlap_size=8      # Adjust based on your requirements
-)
-
-# Display the results
-print("Aggregated Metrics:")
-for metric_name, aggs in aggregated_metrics.items():
-    print(f"{metric_name}:")
-    for agg_name, value in aggs.items():
-        print(f"  {agg_name}: {value}")
-
-print("\nPer-Token Metrics:")
-for i in range(len(tokens) - 1):  # Exclude the last token which has no prediction
-    print(f"Token: {tokens[i+1]}")  # Shifted by 1 due to prediction alignment
-    for metric_name in per_token_metrics.keys():
-        value = per_token_metrics[metric_name][i]
-        print(f"  {metric_name}: {value}")
-    print()
+# Process the folder
+df_results = process_folder(folder_path, extractor, chunk_size=2048, overlap_size=1024)
