@@ -17,7 +17,7 @@ class TextPreprocessingPipeline:
         # Clean, tokenize, and normalize chapters or whole document
         document.clean_text(self.cleaner, is_dialog=is_dialog)
         document.tokenize_text(self.tokenizer)
-        document.normalize_text(self.normalizer)
+        #document.normalize_text(self.normalizer)
 
         # Return processed chapters if available, otherwise whole document
         return document.get_processed_text()

@@ -1,5 +1,9 @@
+from extraction.extract_logits import LogitsExtractor
 from preprocessing import TextPreprocessingPipeline
-from preprocessing.subject import Subject
+from transformers import AutoModelForCausalLM, AutoModel, LlamaForCausalLM
+
+import torch
+from accelerate import Accelerator, init_empty_weights
 
 class Corpus:
     def __init__(self, corpus_name, documents, config, task=None):
@@ -10,7 +14,7 @@ class Corpus:
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = task
 
-    def process_all_documents(self):
+    def preprocess_all_documents(self):
         """Processes all files in each subject."""
         for document in self.documents:
             document.process_document(self.pipeline)
@@ -21,6 +25,13 @@ class Corpus:
         for subject in self.documents:
             result[subject.name] = subject.get_processed_texts()
         return result
+
+    def extract_logits(self):
+
+        logitsExtractor = LogitsExtractor(self.config.tokenization_options.get('model_name'), self.pipeline, self.config)
+        for i in range(len(self.documents)):
+            self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens)
+            print(self.documents[i].logits)
 
     def get_corpus_info(self):
         """Returns metadata for the entire corpus."""

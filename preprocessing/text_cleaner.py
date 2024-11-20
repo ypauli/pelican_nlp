@@ -19,7 +19,7 @@ class TextCleaner:
             text = text.strip()
             replacements = [
                 (' +', ' '),
-                (r' \.', r'\.'),
+                (r'\s+([?.!"])',r'\1'),
                 (r'\n\s*\n', '\n'),
                 (r'\\', '')
             ]

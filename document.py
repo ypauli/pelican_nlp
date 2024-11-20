@@ -4,6 +4,7 @@ from preprocessing import TextImporter
 class Document:
     def __init__(self, file_path, name, corpus_name, task=None, num_speakers=None, has_sections=False):
 
+        self.audiofile = False
         self.name = name
         self.file_path = file_path
         self.file = self.file_path + '/' + self.name
@@ -19,6 +20,9 @@ class Document:
         self.tokens = None
         self.normalized_tokens = None
         self.processed_text = None
+        self.logits = None
+        self.embeddings = None
+        self.acoustic_features = None
         self.sections = []
         self.processed_sections = []
 
@@ -26,9 +30,7 @@ class Document:
         return f"TextDocument(file={self.file}, task={self.task}, speakers={self.num_speakers}, has_sections={self.has_sections}, cleaned_text={self.cleaned_text})"
 
     def process_document(self, pipeline):
-        print(self)
-        self.processed_text = pipeline.process_document(self)
-        print(self.processed_text)
+        pipeline.process_document(self)
 
     def clean_text(self, cleaner, is_dialog=False):
         """Cleans the raw text. If it's a dialog, extract spoken lines."""
@@ -39,14 +41,12 @@ class Document:
             self.cleaned_text = self.extract_spoken_text(self.raw_text)
         else:
             self.cleaned_text = cleaner.clean(self.raw_text)
-            print(self.cleaned_text)
 
     def tokenize_text(self, tokenizer):
         """Tokenizes the cleaned text."""
         if self.cleaned_text is None:
             raise ValueError("Text must be cleaned before tokenizing.")
         self.tokens = tokenizer.tokenize(self.cleaned_text)
-        print(self.tokens)
 
     def normalize_text(self, normalizer):
         """Normalizes the tokens (e.g., stemming or lemmatization)."""
@@ -57,9 +57,12 @@ class Document:
 
     def get_processed_text(self):
         """Returns the fully processed text (normalized tokens joined as string)."""
-        if self.normalized_tokens is None:
-            raise ValueError("Text must be normalized before accessing processed text.")
-        return ' '.join(self.normalized_tokens)
+        if self.normalized_tokens is not None:
+            return ' '.join(self.normalized_tokens)
+        elif self.tokens is not None:
+            return self.tokens
+        else:
+            print('no tokens')
 
     def get_document_metadata(self):
         """Returns a summary of metadata for this document."""
