@@ -25,7 +25,6 @@ class LogitsExtractor:
             'cpu': self.config.RAM_str,
             'disk': '100GB'
         })
-        print(device_map)
 
         #cpu offloading
         print('cpu offloading in progress')
@@ -66,6 +65,8 @@ class LogitsExtractor:
             # Append the chunk data to the per_token_data list
             per_token_data.extend(chunk_data)
             total_processed_tokens += len(chunk_data)
+
+        self._store_features_to_csv(per_token_data)
 
         return per_token_data
 
@@ -111,6 +112,10 @@ class LogitsExtractor:
 
         return chunks
 
+
+    def _store_features_to_csv(self):
+        #saving features in desired format
+        return
 
 def process_folder(folder_path, extractor, chunk_size, overlap_size):
     """
@@ -169,18 +174,3 @@ def process_folder(folder_path, extractor, chunk_size, overlap_size):
     df_results = pd.DataFrame(data)
     df_results.to_csv(os.path.join(folder_path, "test_features.csv"), index=False)
     return df_results
-
-'''
-# Example usage:
-
-model_name = 'DiscoResearch/Llama3-German-8B-32k'  # Replace with your model
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-extractor = LogitsExtractor(model=model, tokenizer=tokenizer, device='cuda')  # Use 'cuda' if a GPU is available
-
-# Specify the folder containing text files
-folder_path = 'test_documents'  # Replace with your folder path
-
-# Process the folder
-df_results = process_folder(folder_path, extractor, chunk_size=2048, overlap_size=1024)
-'''
