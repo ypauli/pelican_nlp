@@ -1,41 +1,37 @@
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch.nn.functional as F
 import pandas as pd
 import time
 import os
 from tqdm import tqdm
+from accelerate import Accelerator, dispatch_model, infer_auto_device_map, init_empty_weights
+from transformers import AutoModelForCausalLM
+from torch.amp import autocast
 
 
 class LogitsExtractor:
-    def __init__(self, model, tokenizer, device='cpu'):
-        """
-        Initialize the LogitsExtractor.
+    def __init__(self, model_name, pipeline, config):
 
-        Parameters:
-        - model: The language model for processing text.
-        - tokenizer: The tokenizer associated with the model.
-        - device: The device to run computations ('cpu', 'cuda', or 'mps').
-        """
-        self.model = model.to(device)
-        self.tokenizer = tokenizer
-        self.device = device
+        self.device = 'cuda' if torch.cuda.is_available()==True else 'cpu'
+        self.model_name = model_name
+        self.pipeline = pipeline
+        self.config = config
 
+    def extract_features(self, tokens, chunk_size=128, overlap_size=64):
 
-    def extract_features(self, text, chunk_size=512, overlap_size=256):
-        """
-        Process the text and calculate per-token metrics, including log probabilities, entropy, and the most likely token.
+        model = AutoModelForCausalLM.from_pretrained(self.model_name, torch_dtype=torch.float16)
+        device_map = infer_auto_device_map(model, max_memory={
+            0: self.config.VRAM_str,
+            'cpu': self.config.RAM_str,
+            'disk': '100GB'
+        })
+        print(device_map)
 
-        Parameters:
-        - text: The input text string.
-        - chunk_size: The size of chunks to split the input text for processing.
-        - overlap_size: The number of tokens to overlap between chunks.
+        #cpu offloading
+        print('cpu offloading in progress')
+        model = dispatch_model(model, device_map=device_map)
 
-        Returns:
-        - per_token_data: A list of dictionaries containing the token and its corresponding metrics.
-        """
-
-        input_ids = self.tokenizer.encode(text, return_tensors='pt').to(self.device)
+        input_ids = tokens.to(self.device)
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)
 
         per_token_data = []
@@ -43,12 +39,12 @@ class LogitsExtractor:
         total_processed_tokens = 0  # Keep track of total tokens processed to avoid duplicates
 
         for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
-            with torch.no_grad():
 
-                outputs = self.model(input_ids=chunk)
+            with torch.no_grad():
+                outputs = model(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
-            tokens = self.tokenizer.convert_ids_to_tokens(chunk.squeeze())
+            tokens = self.pipeline.tokenizer.convert_IDs_to_tokens(chunk.squeeze())
             num_tokens = len(tokens)
 
             chunk_data = []
@@ -74,18 +70,7 @@ class LogitsExtractor:
         return per_token_data
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j):
-        """
-        Compute per-token metrics for a given position in the chunk.
 
-        Parameters:
-        - logits: The logits output from the model.
-        - chunk: The input_ids chunk.
-        - tokens: The list of tokens in the chunk.
-        - j: The current token position.
-
-        Returns:
-        - A dictionary containing per-token metrics.
-        """
         # The model predicts the token at position j using tokens up to position j-1
         # Therefore, logits at position j-1 correspond to predictions for token at position j
         token_logits = logits[:, j - 1, :]  # Shape: [1, vocab_size]
@@ -99,7 +84,7 @@ class LogitsExtractor:
         max_token_id = max_token_id.item()
         entropy = -(token_probs * token_logprobs).sum().item()
 
-        most_likely_token = self.tokenizer.convert_ids_to_tokens([max_token_id])[0]
+        most_likely_token = self.pipeline.tokenizer.convert_IDs_to_tokens([max_token_id])[0]
         token = tokens[j]  # The token at position j
 
         return {
@@ -111,17 +96,7 @@ class LogitsExtractor:
         }
 
     def _split_into_chunks(self, input_ids, chunk_size, overlap_size):
-        """
-        Split input_ids into chunks with overlap.
 
-        Parameters:
-        - input_ids: The tokenized input ids.
-        - chunk_size: The size of each chunk.
-        - overlap_size: The number of tokens to overlap between chunks.
-
-        Returns:
-        - chunks: A list of input_ids chunks.
-        """
         input_ids = input_ids.squeeze()
         input_length = input_ids.size(0)
         stride = chunk_size - overlap_size
@@ -195,7 +170,7 @@ def process_folder(folder_path, extractor, chunk_size, overlap_size):
     df_results.to_csv(os.path.join(folder_path, "test_features.csv"), index=False)
     return df_results
 
-
+'''
 # Example usage:
 
 model_name = 'DiscoResearch/Llama3-German-8B-32k'  # Replace with your model
@@ -208,3 +183,4 @@ folder_path = 'test_documents'  # Replace with your folder path
 
 # Process the folder
 df_results = process_folder(folder_path, extractor, chunk_size=2048, overlap_size=1024)
+'''

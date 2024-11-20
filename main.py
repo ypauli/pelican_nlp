@@ -4,11 +4,17 @@
 #=============================
 import os
 
+import torch.cuda
+
 from config import Config
 from document import Document
-from preprocessing import Subject, Corpus, TextPreprocessingPipeline
+from preprocessing import Subject, Corpus
+
 
 if __name__ == '__main__':
+
+    #clear gpu memory from previous runs/projects
+    torch.cuda.empty_cache()
 
     #check for correct folder structure (subject|session|group|textfile)
     #...
@@ -38,8 +44,6 @@ if __name__ == '__main__':
         corpus = Corpus(current_corpus, documents, config)
 
         # Process all files in the corpus
-        corpus.process_all_documents()
+        corpus.preprocess_all_documents()
 
-
-        for i in range(len(documents)):
-            print(documents[i].processed_text)
+        corpus.extract_logits()

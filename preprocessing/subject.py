@@ -24,10 +24,6 @@ class Subject:
             document.tokenize_text(tokenizer)
             document.normalize_text(normalizer)
 
-    def get_processed_texts(self):
-        """Returns processed texts for all files under this subject."""
-        return {doc.file_path: doc.get_processed_text() for doc in self.documents}
-
     def get_subject_info(self):
         """Returns a string with subject metadata."""
         return f"Subject: {self.name}\nDescription: {self.description}\nNumber of files: {len(self.documents)}"
