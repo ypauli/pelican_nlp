@@ -7,15 +7,9 @@ from collections import Counter
 
 class EmbeddingsExtractor:
     def __init__(self, model, mode='semantic'):
-        """
-        Initializes the EmbeddingsExtractor class.
 
-        Parameters:
-        - model: The embedding model to use (e.g., fastText, Epitran instance).
-        - mode: 'semantic' or 'phonetic', determines how embeddings are generated.
-        """
-        self.model = model
-        self.mode = mode
+        self.model = model #embedding model (e.g., fastText, Epitran instance)
+        self.mode = mode #semantic or phonetic
 
     def get_vector(self, tokens):
         """
@@ -41,17 +35,7 @@ class EmbeddingsExtractor:
         return embeddings
 
     def compute_similarity(self, vec1, vec2, metric_function):
-        """
-        Compute similarity between two embeddings using the provided metric function.
-
-        Parameters:
-        - vec1: First embedding vector.
-        - vec2: Second embedding vector.
-        - metric_function: Function to compute similarity between two vectors.
-
-        Returns:
-        - Similarity score.
-        """
+        #Compute similarity between two embeddings using the provided metric function.
         return metric_function(vec1, vec2)
 
     def pairwise_similarities(self, embeddings, metric_function):
