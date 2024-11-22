@@ -13,7 +13,7 @@ class TextTokenizer:
 
         if method == 'whitespace':
             return text.split()
-        if method == 'model':
+        if method == 'model_instance':
             self.model = self.options.get('model_name')
             self.tokenizer = AutoTokenizer.from_pretrained(self.model, use_fast=True)
             return self.tokenizer.encode(text, return_tensors='pt').to(self.device_used)

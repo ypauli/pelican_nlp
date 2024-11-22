@@ -7,6 +7,7 @@ from tqdm import tqdm
 from accelerate import Accelerator, dispatch_model, infer_auto_device_map, init_empty_weights
 from transformers import AutoModelForCausalLM
 from torch.amp import autocast
+from model import Model
 
 
 class LogitsExtractor:
@@ -19,16 +20,8 @@ class LogitsExtractor:
 
     def extract_features(self, tokens, chunk_size=128, overlap_size=64):
 
-        model = AutoModelForCausalLM.from_pretrained(self.model_name, torch_dtype=torch.float16)
-        device_map = infer_auto_device_map(model, max_memory={
-            0: self.config.VRAM_str,
-            'cpu': self.config.RAM_str,
-            'disk': '100GB'
-        })
-
-        #cpu offloading
-        print('cpu offloading in progress')
-        model = dispatch_model(model, device_map=device_map)
+        model = Model(self.model_name)
+        model.load_model()
 
         input_ids = tokens.to(self.device)
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)
@@ -40,7 +33,7 @@ class LogitsExtractor:
         for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
 
             with torch.no_grad():
-                outputs = model(input_ids=chunk)
+                outputs = model.model_instance(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
             tokens = self.pipeline.tokenizer.convert_IDs_to_tokens(chunk.squeeze())
@@ -72,7 +65,7 @@ class LogitsExtractor:
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j):
 
-        # The model predicts the token at position j using tokens up to position j-1
+        # The model_instance predicts the token at position j using tokens up to position j-1
         # Therefore, logits at position j-1 correspond to predictions for token at position j
         token_logits = logits[:, j - 1, :]  # Shape: [1, vocab_size]
         token_probs = F.softmax(token_logits, dim=-1)

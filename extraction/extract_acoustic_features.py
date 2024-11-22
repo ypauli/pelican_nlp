@@ -11,9 +11,9 @@ class AudioFeatureExtractor:
         Initializes the AudioFeatureExtractor class.
 
         Parameters:
-        - model_name: str, name of the pretrained model from pyannote
-        - token: str, the Hugging Face authentication token for downloading the model
-        - device: str, device to run the model on (default is "cpu")
+        - model_name: str, name of the pretrained model_instance from pyannote
+        - token: str, the Hugging Face authentication token for downloading the model_instance
+        - device: str, device to run the model_instance on (default is "cpu")
         """
         self.model = Model.from_pretrained(model_name, use_auth_token=token).to(device)
 
@@ -34,7 +34,7 @@ class AudioFeatureExtractor:
 
     def extract_embeddings(self, inference, file_path):
         """
-        Extract embeddings from an audio file using the inference model.
+        Extract embeddings from an audio file using the inference model_instance.
         
         Parameters:
         - inference: Inference object from pyannote
@@ -136,8 +136,8 @@ class AudioFeatureExtractor:
         Initializes the AudioFeatureExtractor class.
 
         Parameters:
-        - model_name_or_instance: str or Model, the name of the pretrained model from pyannote or an instance of Model
-        - device: str, device to run the model on (default is "cpu")
+        - model_name_or_instance: str or Model, the name of the pretrained model_instance from pyannote or an instance of Model
+        - device: str, device to run the model_instance on (default is "cpu")
         - use_auth_token: str, Hugging Face authentication token if required
         """
         if isinstance(model_name_or_instance, str):
@@ -167,7 +167,7 @@ class AudioFeatureExtractor:
 
     def extract_embeddings(self, inference, file_path):
         """
-        Extract embeddings from the audio file using the specified inference model.
+        Extract embeddings from the audio file using the specified inference model_instance.
 
         Parameters:
         - inference: Inference object from pyannote
@@ -245,7 +245,7 @@ class AudioFeatureExtractor:
 
 # Example usage:
 if __name__ == "__main__":
-    # Initialize the extractor with a model name and token if required
+    # Initialize the extractor with a model_instance name and token if required
     extractor = AudioFeatureExtractor(
         model_name_or_instance="pyannote/embedding",
         device="cpu",
