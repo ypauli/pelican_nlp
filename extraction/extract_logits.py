@@ -7,16 +7,15 @@ from tqdm import tqdm
 from accelerate import Accelerator, dispatch_model, infer_auto_device_map, init_empty_weights
 from transformers import AutoModelForCausalLM
 from torch.amp import autocast
-from model import Model
-
+from extraction.LanguageModel import Model
+from config import Config
 
 class LogitsExtractor:
-    def __init__(self, model_name, pipeline, config):
+    def __init__(self, model_name, pipeline):
 
         self.device = 'cuda' if torch.cuda.is_available()==True else 'cpu'
         self.model_name = model_name
         self.pipeline = pipeline
-        self.config = config
 
     def extract_features(self, tokens, chunk_size=128, overlap_size=64):
 

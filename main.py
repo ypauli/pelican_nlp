@@ -48,4 +48,4 @@ if __name__ == '__main__':
         # Process all files in the corpus
         corpus.preprocess_all_documents()
 
-        #corpus.extract_logits()
+        corpus.extract_logits()

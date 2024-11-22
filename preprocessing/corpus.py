@@ -1,7 +1,7 @@
 from extraction.extract_logits import LogitsExtractor
 from preprocessing import TextPreprocessingPipeline
 from transformers import AutoModelForCausalLM, AutoModel, LlamaForCausalLM
-
+from config import Config
 import torch
 from accelerate import Accelerator, init_empty_weights
 
@@ -29,7 +29,7 @@ class Corpus:
         return
 
     def extract_logits(self):
-        logitsExtractor = LogitsExtractor(self.config.tokenization_options.get('model_name'), self.pipeline, self.config)
+        logitsExtractor = LogitsExtractor(self.config.tokenization_options.get('model_name'), self.pipeline)
         for i in range(len(self.documents)):
             self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens)
             print(self.documents[i].logits)
