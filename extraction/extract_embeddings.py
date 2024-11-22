@@ -8,12 +8,12 @@ from collections import Counter
 class EmbeddingsExtractor:
     def __init__(self, model, mode='semantic'):
 
-        self.model = model #embedding model (e.g., fastText, Epitran instance)
+        self.model = model #embedding model_instance (e.g., fastText, Epitran instance)
         self.mode = mode #semantic or phonetic
 
     def get_vector(self, tokens):
         """
-        Get embeddings for a list of tokens using the provided model.
+        Get embeddings for a list of tokens using the provided model_instance.
 
         Parameters:
         - tokens: List of tokens (words).

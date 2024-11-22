@@ -41,8 +41,8 @@ class Config:
             'remove_backslashes': True
         }
         self.tokenization_options = {
-            'method': 'model', #model, regex, nltk, etc.
-            'model_name': 'DiscoResearch/Llama3-German-8B-32k' # Replace with your model
+            'method': 'model_instance', #model_instance, regex, nltk, etc.
+            'model_name': 'DiscoResearch/Llama3-German-8B-32k' # Replace with your model_instance
         }
         # names: 'mayflowergmbh/Llama3-German-8B-32k-GPTQ' 'DiscoResearch/Llama3-German-8B-32k' 'QuantFactory/Llama3-German-8B-GGUF'
         self.normalization_options = {
