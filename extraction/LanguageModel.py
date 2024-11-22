@@ -1,5 +1,6 @@
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
-from transformers import AutoModelForCausalLM, init_empty_weights
+from transformers import AutoModelForCausalLM
+from config import Config
 
 class Model:
     def __init__(self, model_name):
