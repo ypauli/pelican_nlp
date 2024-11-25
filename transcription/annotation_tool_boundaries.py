@@ -8,7 +8,7 @@ import librosa
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFileDialog, QMessageBox,
-    QInputDialog, QMenu, QAction, QAbstractItemView, QSplitter, QUndoStack, QUndoCommand
+    QInputDialog, QMenu, QAction, QAbstractItemView, QSplitter, QUndoStack, QUndoCommand, QScrollBar
 )
 from PyQt5.QtCore import Qt, QTimer, QObject, pyqtSignal, QThread
 from PyQt5.QtGui import QColor
@@ -125,6 +125,9 @@ class DraggableLine(pg.InfiniteLine):
         super().__init__(pos=pos, angle=90, pen=pen, movable=movable)
         self.idx = idx
         self.boundary_type = boundary_type
+        self.setHoverPen(pen.color().lighter())
+        self.setCursor(Qt.SizeHorCursor)
+
 
 # --- WaveformCanvas Class Using pyqtgraph ---
 
@@ -143,8 +146,15 @@ class WaveformCanvas(QWidget):
         self.plot_widget.setLabel('bottom', 'Time', 's')
         self.layout.addWidget(self.plot_widget)
 
+        self.scrollbar = QScrollBar(Qt.Horizontal)
+        self.layout.addWidget(self.scrollbar)
+        self.scrollbar.valueChanged.connect(self.on_scrollbar_value_changed)
+
+        self.plot_widget.plotItem.vb.sigXRangeChanged.connect(self.on_x_range_changed)
+
         self.words = []
         self.lines = []
+        self.connecting_lines = []
 
         self.dragging_line = None
 
@@ -153,6 +163,7 @@ class WaveformCanvas(QWidget):
         self.audio_data = None
         self.sr = None
         self.duration = None
+        self.window_size = 5.0
 
     def load_audio(self, file_path):
         self.thread = QThread()
@@ -169,19 +180,28 @@ class WaveformCanvas(QWidget):
     def on_audio_loaded(self, samples, sr):
         self.audio_data = samples
         self.sr = sr
-        self.duration = len(samples) / sr
+        effective_sr = sr /  self.loader.downsample_factor
+        self.duration = len(samples) / effective_sr
         t = np.linspace(0, self.duration, num=len(samples))
 
         self.plot_widget.clear()
         self.plot_widget.plot(t, samples, pen='b')
-        self.playtime_line = pg.InfiniteLine(pos=0, angle=90, pen=pg.mkPen('r', width=2))
+        self.playtime_line = pg.InfiniteLine(pos=0, angle=90, pen=pg.mkPen('y', width=4))
+        self.playtime_line.setZValue(1000)
         self.plot_widget.addItem(self.playtime_line)
         self.plot_widget.setLimits(xMin=0, xMax=self.duration)
-        self.plot_widget.setXRange(0, min(5, self.duration))
+        self.plot_widget.setXRange(0, min(self.window_size, self.duration))
         self.plot_widget.setLabel('bottom', 'Time', 's')
         self.draw_lines()
         self.boundary_changed.emit(-1, '', 0.0)  # Reset
         print("Audio loaded successfully.")
+        print(f"Duration: {self.duration}, Window Size: {self.window_size}")
+        self.scrollbar.setMinimum(0)
+        self.scrollbar.setMaximum(int(self.duration * 1000))
+        self.scrollbar.setSingleStep(100)
+        self.scrollbar.setPageStep(int(self.window_size * 1000))
+        self.scrollbar.setValue(0)
+
         self.audio_loaded.emit()
 
     def on_loading_error(self, error_message):
@@ -195,6 +215,9 @@ class WaveformCanvas(QWidget):
         for line in self.lines:
             self.plot_widget.removeItem(line['line'])
         self.lines = []
+        for cline in self.connecting_lines:
+            self.plot_widget.removeItem(cline)
+        self.connecting_lines = []
 
     def draw_lines(self):
         self.clear_lines()
@@ -206,11 +229,39 @@ class WaveformCanvas(QWidget):
             self.lines.append({'line': start_line, 'idx': idx, 'type': 'start'})
             self.lines.append({'line': end_line, 'idx': idx, 'type': 'end'})
 
+            # Connecting line with arrows
+            connecting_line = pg.ArrowItem(
+                pos=(word['start'], 0),
+                angle=0,
+                tipAngle=30,
+                baseAngle=20,
+                headLen=15,
+                tailLen=0,
+                tailWidth=0,
+                brush='blue'
+            )
+            connecting_line.setParentItem(self.plot_widget.plotItem)
+            self.connecting_lines.append(connecting_line)
+
+            # Update the connecting line position
+            self.update_connecting_line(idx)
+
             # Connect the built-in signal to the on_line_moved method
             start_line.sigPositionChangeFinished.connect(lambda _, line=start_line: self.on_line_moved(line))
             end_line.sigPositionChangeFinished.connect(lambda _, line=end_line: self.on_line_moved(line))
 
         self.plot_widget.update()
+
+    def update_connecting_line(self, idx):
+        word = self.words[idx]
+        start = word['start']
+        end = word['end']
+        mid_point = (start + end) / 2
+        cline = self.connecting_lines[idx]
+        cline.setPos(mid_point, 0)
+        cline.setStyle(angle=0, tipAngle=30, baseAngle=20, headLen=15)
+        cline.setRotation(0)
+        cline.update()
 
     def on_line_moved(self, line):
         idx = line.idx
@@ -219,6 +270,7 @@ class WaveformCanvas(QWidget):
         new_pos = max(0.0, min(new_pos, self.duration))
         self.words[idx][boundary_type] = new_pos
         self.boundary_changed.emit(idx, boundary_type, new_pos)
+        self.update_connecting_line(idx)
 
     def on_waveform_click(self, event):
         pos = event.scenePos()
@@ -232,11 +284,7 @@ class WaveformCanvas(QWidget):
     def update_playtime_line(self, current_time):
         self.playtime_line.setPos(current_time)
         # Adjust view range
-        window_size = 5.0
-        half_window = window_size / 2.0
-        start = max(0.0, current_time - half_window)
-        end = min(self.duration, current_time + half_window)
-        self.plot_widget.setXRange(start, end, padding=0)
+        self.adjust_view_range(current_time)
 
     def add_word_lines(self, row, start_time, end_time):
         """Add draggable lines for a new word."""
@@ -246,14 +294,34 @@ class WaveformCanvas(QWidget):
         self.plot_widget.addItem(end_line)
         self.lines.append({'line': start_line, 'idx': row, 'type': 'start'})
         self.lines.append({'line': end_line, 'idx': row, 'type': 'end'})
-        start_line.positionChangedFinished.connect(self.on_line_moved)
-        end_line.positionChangedFinished.connect(self.on_line_moved)
 
-    def adjust_view_range(self, current_time, window_size=5.0):
+        # Connecting line with arrows
+        connecting_line = pg.ArrowItem(
+            pos=((start_time + end_time) / 2, 0),
+            angle=0,
+            tipAngle=30,
+            baseAngle=20,
+            headLen=15,
+            tailLen=0,
+            tailWidth=0,
+            brush='blue'
+        )
+        connecting_line.setParentItem(self.plot_widget.plotItem)
+        self.connecting_lines.append(connecting_line)
+
+        start_line.sigPositionChangeFinished.connect(lambda _, line=start_line: self.on_line_moved(line))
+        end_line.sigPositionChangeFinished.connect(lambda _, line=end_line: self.on_line_moved(line))
+
+    def adjust_view_range(self, current_time, window_size=None):
+        if window_size is None:
+            window_size = self.window_size
         half_window = window_size / 2.0
         start = max(0.0, current_time - half_window)
         end = min(self.duration, current_time + half_window)
         self.plot_widget.setXRange(start, end, padding=0)
+        self.scrollbar.blockSignals(True)
+        self.scrollbar.setValue(int(start * 1000))
+        self.scrollbar.blockSignals(False)
 
     def update_line_position(self, idx, boundary_type, new_pos):
         # Find the line and update its position
@@ -262,6 +330,18 @@ class WaveformCanvas(QWidget):
                 line_info['line'].setValue(new_pos)
                 break
         self.words[idx][boundary_type] = new_pos
+        self.update_connecting_line(idx)
+
+    def on_scrollbar_value_changed(self, value):
+        start = min(value / 1000.0, self.duration - self.window_size)
+        end = min(start + self.window_size, self.duration)
+        self.plot_widget.setXRange(start, end, padding=0)
+
+    def on_x_range_changed(self, view_box, range):
+        start, end = max(0, range[0]), min(self.duration, range[1])
+        self.scrollbar.blockSignals(True)
+        self.scrollbar.setValue(int(start * 1000))
+        self.scrollbar.blockSignals(False)
 
 
 # --- MainWindow Class ---
@@ -430,6 +510,12 @@ class MainWindow(QMainWindow):
             self.table_widget.setItem(i, 1, start_item)
             self.table_widget.setItem(i, 2, end_item)
             self.table_widget.setCellWidget(i, 3, speaker_dropdown)
+            # Set default cell colors
+            for j in range(3):
+                item = self.table_widget.item(i, j)
+                if item:
+                    item.setBackground(QColor("black"))
+                    item.setForeground(QColor("white"))
         self.table_widget.blockSignals(False)
         self.statusBar().showMessage("Transcript loaded successfully.", 5000)
 
@@ -556,14 +642,20 @@ class MainWindow(QMainWindow):
 
     def highlight_current_row(self):
         current_row = self.get_current_row()
+        selected_rows = self.get_selected_rows()
         for row in range(self.table_widget.rowCount()):
-            for column in range(self.table_widget.columnCount()):
+            for column in range(3):  # Exclude speaker dropdown
                 item = self.table_widget.item(row, column)
                 if item:
-                    if row == current_row:
-                        item.setBackground(QColor("lightblue"))
+                    if row in selected_rows:
+                        item.setBackground(QColor("blue"))
+                        item.setForeground(QColor("white"))
+                    elif row == current_row:
+                        item.setBackground(QColor("yellow"))
+                        item.setForeground(QColor("black"))
                     else:
-                        item.setBackground(QColor("white"))
+                        item.setBackground(QColor("black"))
+                        item.setForeground(QColor("white"))
         if current_row != -1:
             self.table_widget.scrollToItem(self.table_widget.item(current_row, 0), QAbstractItemView.PositionAtCenter)
 
@@ -763,8 +855,7 @@ class MainWindow(QMainWindow):
                 pass
 
     def on_selection_changed(self, selected, deselected):
-        # Optional: Implement if needed
-        pass
+        self.highlight_current_row()
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_X:
@@ -786,6 +877,12 @@ class MainWindow(QMainWindow):
         self.table_widget.setItem(row_position, 1, start_item)
         self.table_widget.setItem(row_position, 2, end_item)
         self.table_widget.setCellWidget(row_position, 3, speaker_dropdown)
+        # Set default cell colors
+        for j in range(3):
+            item = self.table_widget.item(row_position, j)
+            if item:
+                item.setBackground(QColor("black"))
+                item.setForeground(QColor("white"))
         self.table_widget.blockSignals(False)
         # Update waveform
         self.canvas.words.insert(row_position, {
