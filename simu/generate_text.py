@@ -38,7 +38,7 @@ class Generator:
 
         while text_ids.shape[1] < constants["target_length"]:
             
-            input_ids = text_ids[:, -parameter[2]:]
+            input_ids = text_ids[:, -parameter[2]:] # parameter[2] = retroactive span
             output_ids = setup.model.generate(
                 input_ids,
                 attention_mask = torch.ones_like(input_ids).to(device),
@@ -83,15 +83,18 @@ class Generator:
         Returns:
             dict: Arguments to be used for the model generation.
         """
+        print(parameter)
         return {
             # Set parameters, constant for all generations
             # "bad_words_ids": setup.excluded_tokens,
             "pad_token_id": setup.tokenizer.pad_token_id,
-            "do_sample": True,
             "output_scores": constants["calculate_metrics"], #return logits
             "return_dict_in_generate": constants["calculate_metrics"],
             "use_cache": False,
             "temperature": parameter[1],
+            "do_sample": True,
+            parameter[5][0]: parameter[5][1],
+            # "sampling_parameter": ,
             "num_beams": parameter[4],
             "max_new_tokens": parameter[3],
         }
