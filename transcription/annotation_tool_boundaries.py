@@ -222,46 +222,96 @@ class WaveformCanvas(QWidget):
     def draw_lines(self):
         self.clear_lines()
         for idx, word in enumerate(self.words):
-            start_line = DraggableLine(pos=word['start'], color='green', idx=idx, boundary_type='start')
-            end_line = DraggableLine(pos=word['end'], color='red', idx=idx, boundary_type='end')
+            
+            if idx % 2 == 0:
+                y_pos_line = 0.55
+            else:
+                y_pos_line = 0.45
+            
+            ### I adjust the line positions slightly because otherwise start and endlines of consecutive words ###
+            start_line = DraggableLine(pos=(word['start']+0.005), color='green', idx=idx, boundary_type='start')
+            end_line = DraggableLine(pos=(word['end']-0.005), color='red', idx=idx, boundary_type='end')
             self.plot_widget.addItem(start_line)
             self.plot_widget.addItem(end_line)
             self.lines.append({'line': start_line, 'idx': idx, 'type': 'start'})
             self.lines.append({'line': end_line, 'idx': idx, 'type': 'end'})
 
-            # Connecting line with arrows
-            connecting_line = pg.ArrowItem(
-                pos=(word['start'], 0),
-                angle=0,
-                tipAngle=30,
-                baseAngle=20,
-                headLen=15,
-                tailLen=0,
-                tailWidth=0,
-                brush='blue'
+            # Connecting line at y=0.5
+            connecting_line = pg.PlotCurveItem(
+                [word['start'] +0.005, word['end']-0.005],
+                [y_pos_line, y_pos_line],  # Position the line at y=0.5
+                pen=pg.mkPen('blue', width=2),
             )
-            connecting_line.setParentItem(self.plot_widget.plotItem)
-            self.connecting_lines.append(connecting_line)
+            self.plot_widget.addItem(connecting_line)
 
-            # Update the connecting line position
+            # Create arrowheads
+            start_arrow = self.create_arrow(word['start'] + 0.005, y_pos_line, 0)
+            end_arrow = self.create_arrow(word['end'] - 0.005, y_pos_line, 180)
+
+            # Create label
+            label = pg.TextItem(word['word'], anchor=(0.5, 0), color='white')
+            self.plot_widget.addItem(label)
+
+            # Store all items in the connecting_lines list
+            self.connecting_lines.append({
+                "line": connecting_line,
+                "start_arrow": start_arrow,
+                "end_arrow": end_arrow,
+                "label": label,
+            })
+
+            # Position label initially
             self.update_connecting_line(idx)
 
-            # Connect the built-in signal to the on_line_moved method
+            # Connect signals to update arrows and labels
             start_line.sigPositionChangeFinished.connect(lambda _, line=start_line: self.on_line_moved(line))
             end_line.sigPositionChangeFinished.connect(lambda _, line=end_line: self.on_line_moved(line))
 
         self.plot_widget.update()
+    
+    def create_arrow(self, x, y, angle):
+        
+        arrow = pg.ArrowItem(
+            pos=(x, y),
+            angle=angle,  # Direction of the arrow in degrees
+            tipAngle=30,
+            baseAngle=20,
+            headLen=15,
+            brush='blue',
+        )
+        self.plot_widget.addItem(arrow)
+        return arrow
 
     def update_connecting_line(self, idx):
         word = self.words[idx]
         start = word['start']
         end = word['end']
-        mid_point = (start + end) / 2
-        cline = self.connecting_lines[idx]
-        cline.setPos(mid_point, 0)
-        cline.setStyle(angle=0, tipAngle=30, baseAngle=20, headLen=15)
-        cline.setRotation(0)
-        cline.update()
+        
+        if idx % 2 == 0:
+            y_pos_line = 0.55
+        else:
+            y_pos_line = 0.45
+
+        # Update the connecting line's x-coordinates and keep y fixed at 0.5
+        self.connecting_lines[idx]['line'].setData([start+ 0.005, end- 0.005], [y_pos_line, y_pos_line])
+
+        # Update arrowhead positions
+        self.connecting_lines[idx]['start_arrow'].setPos(start+ 0.005, y_pos_line)
+        self.connecting_lines[idx]['end_arrow'].setPos(end- 0.005, y_pos_line)
+
+        # Update label position (middle of the line, slightly above)
+        mid_x = (start + end) / 2
+        
+        if word["speaker"] in ["", "UNKOWN"]:
+            mid_y = 0.7  # Slightly above y=0.5
+        elif word["speaker"] == "SPEAKER_00":
+            mid_y = 0.4
+        elif word["speaker"] == "SPEAKER_01":
+            mid_y = -0.4
+        else:
+            mid_y = 0.0
+        
+        self.connecting_lines[idx]['label'].setPos(mid_x, mid_y)
 
     def on_line_moved(self, line):
         idx = line.idx
