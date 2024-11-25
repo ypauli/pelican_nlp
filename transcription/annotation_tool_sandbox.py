@@ -6,7 +6,7 @@ import numpy as np
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFileDialog, QMessageBox,
-    QInputDialog, QMenu, QAction, QScrollBar, QAbstractItemView
+    QInputDialog, QMenu, QAction, QScrollBar, Q
 )
 from PyQt5.QtCore import Qt, QTimer, QObject, pyqtSignal, QThread
 from PyQt5.QtGui import QColor

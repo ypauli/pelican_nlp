@@ -416,6 +416,11 @@ class MainWindow(QMainWindow):
         # Setup UI components
         self.setup_ui()
         self.setup_signals()
+        
+        # Start the autosave timer
+        self.autosave_timer = QTimer(self)
+        self.autosave_timer.timeout.connect(self.autosave)
+        self.autosave_timer.start(5000)  # Trigger autosave every 5 seconds
 
         # Load autosave if exists
         self.load_autosave()
@@ -583,6 +588,7 @@ class MainWindow(QMainWindow):
             if item is not None:
                 item.setText(f"{new_pos:.2f}")
         self.table_widget.blockSignals(False)
+        self.autosave()
 
     def on_waveform_clicked(self, time):
         self.current_time = time
@@ -613,6 +619,7 @@ class MainWindow(QMainWindow):
 
             command = EditCellCommand(self, row, column, old_value, new_value)
             self.undo_stack.push(command)
+            self.autosave()
 
         if key in self.old_values:
             del self.old_values[key]
@@ -661,7 +668,7 @@ class MainWindow(QMainWindow):
                 self.playback_start_position = self.current_time
                 self.playback_timer = QTimer()
                 self.playback_timer.timeout.connect(self.update_current_time)
-                self.playback_timer.start(5)  # Increased frequency for smoother updates
+                self.playback_timer.start(50)  # Increased frequency for smoother updates
             except Exception as e:
                 QMessageBox.critical(self, "Playback Error", f"Failed to play audio:\n{str(e)}")
 
@@ -773,6 +780,7 @@ class MainWindow(QMainWindow):
         row_data = {'word': '', 'start_time': 0.0, 'end_time': 0.0, 'speaker': ''}
         command = AddRowCommand(self, row_count, row_data)
         self.undo_stack.push(command)
+        self.autosave()
 
     def delete_selected_rows(self):
         selected_rows = self.get_selected_rows()
@@ -800,6 +808,7 @@ class MainWindow(QMainWindow):
         if confirm == QMessageBox.Yes:
             command = DeleteRowsCommand(self, rows_data, selected_rows)
             self.undo_stack.push(command)
+            self.autosave()
 
     def bulk_edit_speaker(self):
         selected_rows = self.get_selected_rows()
@@ -822,6 +831,7 @@ class MainWindow(QMainWindow):
             if speaker and speaker not in self.speakers:
                 self.speakers.append(speaker)
                 self.update_speaker_dropdowns()
+            self.autosave()
 
     def autosave(self):
         words = self.canvas.words
@@ -983,6 +993,7 @@ class MainWindow(QMainWindow):
                 new_time = float(value)
                 boundary_type = 'start' if column == 1 else 'end'
                 self.canvas.update_line_position(row, boundary_type, new_time)
+                self.autosave()
             except ValueError:
                 pass
 
@@ -995,6 +1006,7 @@ class MainWindow(QMainWindow):
         if speaker and speaker not in self.speakers:
             self.speakers.append(speaker)
             self.update_speaker_dropdowns()
+            self.autosave()
 
     def validate_annotations(self):
         sorted_rows = sorted(range(self.table_widget.rowCount()), key=lambda r: float(self.table_widget.item(r, 1).text()) if self.table_widget.item(r, 1).text() else 0.0)
