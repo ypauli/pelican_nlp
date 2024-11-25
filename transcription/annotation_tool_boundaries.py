@@ -4,6 +4,7 @@ import json
 import tempfile
 import numpy as np
 import librosa
+import time
 
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem,
@@ -411,7 +412,7 @@ class MainWindow(QMainWindow):
         self.undo_stack = QUndoStack(self)
         self.old_values = {}
         self.temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.json').name
-
+        self.previous_current_row = None  # Initialize previous_current_row
         # Setup UI components
         self.setup_ui()
         self.setup_signals()
@@ -655,9 +656,12 @@ class MainWindow(QMainWindow):
                 self.play_obj = play_audio(sliced_audio)
                 self.is_playing = True
                 self.play_button.setText("Pause")
+                # Record the start time and position
+                self.playback_start_time = time.time()
+                self.playback_start_position = self.current_time
                 self.playback_timer = QTimer()
                 self.playback_timer.timeout.connect(self.update_current_time)
-                self.playback_timer.start(100)
+                self.playback_timer.start(5)  # Increased frequency for smoother updates
             except Exception as e:
                 QMessageBox.critical(self, "Playback Error", f"Failed to play audio:\n{str(e)}")
 
@@ -669,6 +673,9 @@ class MainWindow(QMainWindow):
         self.play_button.setText("Play")
         if hasattr(self, 'playback_timer') and self.playback_timer.isActive():
             self.playback_timer.stop()
+        # Update current_time to the actual playback position
+        elapsed_time = time.time() - self.playback_start_time
+        self.current_time = self.playback_start_position + elapsed_time
 
     def stop_playback(self):
         if self.play_obj:
@@ -683,7 +690,8 @@ class MainWindow(QMainWindow):
             self.playback_timer.stop()
 
     def update_current_time(self):
-        self.current_time += 0.1
+        elapsed_time = time.time() - self.playback_start_time
+        self.current_time = self.playback_start_position + elapsed_time
         if self.current_time >= self.canvas.duration:
             self.stop_playback()
             return
@@ -693,22 +701,34 @@ class MainWindow(QMainWindow):
     def highlight_current_row(self):
         current_row = self.get_current_row()
         selected_rows = self.get_selected_rows()
-        for row in range(self.table_widget.rowCount()):
-            for column in range(3):  # Exclude speaker dropdown
-                item = self.table_widget.item(row, column)
+        
+        if current_row == self.previous_current_row:
+            return  # No change, so no need to update
+        
+        # Reset previous current row background
+        if self.previous_current_row is not None:
+            for column in range(3):
+                item = self.table_widget.item(self.previous_current_row, column)
                 if item:
-                    if row in selected_rows:
+                    if self.previous_current_row in selected_rows:
                         item.setBackground(QColor("blue"))
                         item.setForeground(QColor("white"))
-                    elif row == current_row:
-                        item.setBackground(QColor("yellow"))
-                        item.setForeground(QColor("black"))
                     else:
                         item.setBackground(QColor("black"))
                         item.setForeground(QColor("white"))
+        
+        # Set new current row background
         if current_row != -1:
+            for column in range(3):
+                item = self.table_widget.item(current_row, column)
+                if item:
+                    item.setBackground(QColor("yellow"))
+                    item.setForeground(QColor("black"))
             self.table_widget.scrollToItem(self.table_widget.item(current_row, 0), QAbstractItemView.PositionAtCenter)
-
+        
+        self.previous_current_row = current_row
+    
+    
     def get_current_row(self):
         for row in range(self.table_widget.rowCount()):
             try:
@@ -905,6 +925,7 @@ class MainWindow(QMainWindow):
                 pass
 
     def on_selection_changed(self, selected, deselected):
+        self.previous_current_row = None
         self.highlight_current_row()
 
     def keyPressEvent(self, event):
@@ -987,7 +1008,7 @@ class MainWindow(QMainWindow):
             try:
                 start_time = float(start_item.text())
                 end_time = float(end_item.text())
-                if start_time >= end_time:
+                if start_time > end_time:
                     QMessageBox.warning(self, "Invalid Annotation", f"Start time must be less than end time at row {row + 1}.")
                     return False
                 if i < len(sorted_rows) - 1:
