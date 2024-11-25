@@ -20,13 +20,6 @@ import pandas as pd
 import textgrids
 import json
 
-# Removed Decimal import as it's no longer necessary
-# from decimal import Decimal, getcontext
-
-# Re-import pydub functions (duplicate removed)
-# from pydub import AudioSegment
-# from pydub.silence import detect_silence
-
 
 def detect_silence_intervals(audio_segment, min_silence_len=1000, silence_thresh=-40):
     """
@@ -60,10 +53,6 @@ def create_initial_chunks(splitting_points):
 
 
 def adjust_intervals_by_length(intervals, min_length=30000, max_length=180000):
-    """
-    Adjusts intervals to enforce minimum and maximum lengths.
-    Merges intervals shorter than min_length and splits intervals longer than max_length.
-    """
     adjusted_intervals = []
     buffer_start, buffer_end = intervals[0]
 
@@ -85,20 +74,25 @@ def adjust_intervals_by_length(intervals, min_length=30000, max_length=180000):
                     adjusted_intervals.append((split_start, split_end))
             else:
                 adjusted_intervals.append((buffer_start, buffer_end))
-            buffer_start, buffer_end = start, end
+            # Correctly update buffer_start to prevent overlap
+            buffer_start = buffer_end  # Start from the end of the last buffer
 
-    # Handle the last buffer
-    buffer_length = buffer_end - buffer_start
-    if buffer_length >= min_length:
-        if buffer_length > max_length:
-            num_splits = int(np.ceil(buffer_length / max_length))
-            split_size = int(np.ceil(buffer_length / num_splits))
-            for i in range(num_splits):
-                split_start = buffer_start + i * split_size
-                split_end = min(buffer_start + (i + 1) * split_size, buffer_end)
-                adjusted_intervals.append((split_start, split_end))
+    # Handle any remaining buffer
+    if buffer_end > buffer_start:
+        buffer_length = buffer_end - buffer_start
+        if buffer_length >= min_length:
+            if buffer_length > max_length:
+                num_splits = int(np.ceil(buffer_length / max_length))
+                split_size = int(np.ceil(buffer_length / num_splits))
+                for i in range(num_splits):
+                    split_start = buffer_start + i * split_size
+                    split_end = min(buffer_start + (i + 1) * split_size, buffer_end)
+                    adjusted_intervals.append((split_start, split_end))
+            else:
+                adjusted_intervals.append((buffer_start, buffer_end))
         else:
-            adjusted_intervals.append((buffer_start, buffer_end))
+            # Decide how to handle intervals shorter than min_length
+            pass
 
     return adjusted_intervals
 
@@ -716,6 +710,10 @@ def process_audio_files(files, hf_token="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",
         # Step 3: Transcribe chunks
         print("Step 3/6: Transcribing audio chunks...")
         transcriber.transcribe(audio_file)
+        
+        for chunk in audio_file.chunks:
+            print(chunk.transcript)
+            print("\n")
 
         # Step 4: Align transcription with audio
         print("Step 4/6: Performing forced alignment...")
