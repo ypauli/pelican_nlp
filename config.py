@@ -13,6 +13,12 @@ class Config:
                 "My favourite thing in the world is"
                 ],
             "temperatures": [1.5, 2.5],
+            # "sampling_methods": ["top_p", "top_k", "typical_p"],
+            "sampling": {
+                "top_p": [0.2, 0.6, 1.0],
+                "top_k": [4, 16, 32, 64],
+                "typical_p": [0.2, 0.6, 1.0],
+            } ,
             "retroactive_spans": [20],
             "proactive_spans": [20],
             "num_beams": [2]

@@ -19,6 +19,7 @@ if __name__ == "__main__":
         
         for parameter in setup.parameters:
             print("Generation: ", i)
+            print(parameter)
             
             start_time = time.time()
             output, metrics = Generator(setup, config.device, parameter, config.constants).out

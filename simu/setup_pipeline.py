@@ -51,7 +51,14 @@ class Setup:
             itertools.product: An iterator over all combinations of the parameter values.
         """
         print("Setting up the parameters")
-        return product(*config.parameters.values())
+        sampling_tuples = [
+            (method, value)
+            for method, values in config.parameters["sampling"].items()
+            for value in values
+        ]
+        parametersets = product(*config.parameters.values(), sampling_tuples)
+        modified_sets = {t[:2] + t[3:] for t in parametersets}
+        return modified_sets
     
     def setup_tokenizer(self):
         """
