@@ -204,6 +204,35 @@ class WaveformCanvas(QWidget):
         self.scrollbar.setValue(0)
 
         self.audio_loaded.emit()
+        
+    def add_speaker_regions(self, speaker_segments):
+        """Add background colors for speaker segments."""
+        self.clear_regions()  # Clear existing regions before adding new ones
+        self.speaker_regions = []
+        speaker_colors = {
+            "SPEAKER_00": QColor(255, 200, 200, 100),  # Light red
+            "SPEAKER_01": QColor(200, 255, 200, 100),  # Light green
+            "SPEAKER_02": QColor(200, 200, 255, 100),  # Light blue
+            "UNKNOWN": QColor(200, 200, 200, 100),    # Light gray
+        }
+        
+        for segment in speaker_segments:
+            start = segment["start"]
+            end = segment["end"]
+            speaker = segment["speaker"]
+            color = speaker_colors.get(speaker, QColor(200, 200, 200, 100))  # Default to light gray
+
+            region = pg.LinearRegionItem(values=[start, end], brush=color)
+            region.setMovable(False)  # Ensure regions are not draggable
+            self.plot_widget.addItem(region)
+            self.speaker_regions.append(region)
+
+    def clear_regions(self):
+        """Clear existing regions."""
+        if hasattr(self, 'speaker_regions'):
+            for region in self.speaker_regions:
+                self.plot_widget.removeItem(region)
+            self.speaker_regions = []
 
     def on_loading_error(self, error_message):
         self.loading_error.emit(error_message)
@@ -531,7 +560,10 @@ class MainWindow(QMainWindow):
         if file_path:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    words = json.load(f)
+                    transcript = json.load(f)
+                    words = transcript.get("combined_data", [])
+                    speaker_segments = transcript.get("speaker_segments", [])
+                    self.canvas.add_speaker_regions(speaker_segments)
                 # Validate and process words
                 for word in words:
                     if 'word' not in word or 'start_time' not in word or 'end_time' not in word:
