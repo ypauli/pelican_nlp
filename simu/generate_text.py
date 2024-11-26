@@ -16,7 +16,43 @@ class Generator:
             constants (dict): A dictionary of constants required for text generation.
         """
         arguments = self.generate_arguments(setup, parameter, constants)
-        self.out = self.generate_text(setup, device, parameter, constants, arguments)
+        
+        if parameter[3][0] == -1: # if retroactive_span == -1 (no sliding window)
+            self.out = self.generate_unbounded(setup, device, parameter, constants, arguments)
+        else:
+            self.out = self.generate_text(setup, device, parameter, constants, arguments)
+        
+    def generate_unbounded(self, setup, device, parameter, constants, arguments):
+        text = parameter[0]
+        text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
+        metrics = [torch.empty((0,)).to(device) for _ in range(5)] #might have to adjust depending on which metrics are calculated
+        output_ids = setup.model.generate(
+                text_ids,
+                attention_mask = torch.ones_like(text_ids).to(device),
+                **arguments
+            )
+        
+        if constants["calculate_metrics"]:
+            logits = output_ids.scores
+            output_sequences = output_ids.sequences[:, -arguments["max_new_tokens"]:]
+            logits = torch.cat(
+                [
+                    logits[i][output_ids["beam_indices"][0, i], :].unsqueeze(0)
+                    for i in range(len(logits))
+                ],
+                dim=0,
+            ) 
+            output_ids = output_ids.sequences[:, -arguments["max_new_tokens"]:] 
+            metrics = self.calculate_metrics(output_sequences, logits)
+        else:
+            output_ids = output_ids[:, -arguments["max_new_tokens"]:] 
+                
+        text_ids = torch.cat((text_ids, output_ids), dim=1)    
+        output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        text += " " + output
+        # print("text: ", text)
+            
+        return text, metrics 
     
     def generate_text(self, setup, device, parameter, constants, arguments):
         """
@@ -32,13 +68,17 @@ class Generator:
         Returns:
             tuple: Generated text (str) and list of accumulated metrics (list of torch.Tensor).
         """
-        text = parameter[0]
+        prompt = parameter[0]
+        retroactive_span = parameter[3][0]
+        proactive_span = parameter[3][1]
+        
+        text = prompt
         text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
-        metrics = [torch.empty((0,)).to(device) for _ in range(5)]
+        metrics = [torch.empty((0,)).to(device) for _ in range(4)] #might have to adjust depending on which metrics are calculated
 
         while text_ids.shape[1] < constants["target_length"]:
             
-            input_ids = text_ids[:, -parameter[2]:] # parameter[2] = retroactive span
+            input_ids = text_ids[:, -retroactive_span:]
             output_ids = setup.model.generate(
                 input_ids,
                 attention_mask = torch.ones_like(input_ids).to(device),
@@ -47,7 +87,7 @@ class Generator:
             
             if constants["calculate_metrics"]:
                 logits = output_ids.scores
-                output_sequences = output_ids.sequences[:, -parameter[3]:]
+                output_sequences = output_ids.sequences[:, -proactive_span:]
                 
                 logits = torch.cat(
                     [
@@ -57,17 +97,17 @@ class Generator:
                     dim=0,
                 )              
                                
-                output_ids = output_ids.sequences[:, -parameter[3]:] 
+                output_ids = output_ids.sequences[:, -proactive_span:] 
                 
-                current_metrics = self.calculate_metrics(output_sequences, logits) #??? output_sequences[:, input_ids.shape[1]:]
+                current_metrics = self.calculate_metrics(output_sequences, logits)
                 metrics = self.concatenate_metrics(metrics, current_metrics)
             else:
-                output_ids = output_ids[:, -parameter[3]:] 
+                output_ids = output_ids[:, -proactive_span:] 
             
             text_ids = torch.cat((text_ids, output_ids), dim=1)    
             output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
             text += " " + output
-            print("text: ", text)
+            # print("text: ", text)
             
         return text, metrics
     
@@ -83,20 +123,18 @@ class Generator:
         Returns:
             dict: Arguments to be used for the model generation.
         """
-        print(parameter)
         return {
             # Set parameters, constant for all generations
             # "bad_words_ids": setup.excluded_tokens,
             "pad_token_id": setup.tokenizer.pad_token_id,
-            "output_scores": constants["calculate_metrics"], #return logits
+            "output_scores": constants["calculate_metrics"], # returns logits
             "return_dict_in_generate": constants["calculate_metrics"],
             "use_cache": False,
             "temperature": parameter[1],
             "do_sample": True,
-            parameter[5][0]: parameter[5][1],
-            # "sampling_parameter": ,
-            "num_beams": parameter[4],
-            "max_new_tokens": parameter[3],
+            parameter[4][0]: parameter[4][1], # sampling_method: value
+            "num_beams": parameter[2],
+            "max_new_tokens": parameter[3][1], # proactive_span
         }
      
     def calculate_metrics(self, output_only, logits_tensor): 
@@ -119,7 +157,7 @@ class Generator:
         max_probs, _ = torch.max(probs, dim=-1)
         log_probs = torch.log(probs + 1e-9)
         actual_probs = torch.gather(probs, 1, output_only.t()).t().squeeze()
-        log_actual_probs = torch.log(actual_probs +1e-9)
+        # log_actual_probs = torch.log(actual_probs +1e-9)
 
         probability_differences_tensor_single_generation = max_probs - actual_probs
         entropy_tensor_single_generation = (-probs * log_probs).sum(dim=-1)
@@ -127,17 +165,17 @@ class Generator:
         entropy_deviations_tensor_single_generation = (entropy_tensor_single_generation - information_content_tensor_single_generation)
 
         #precalculations for perplexity
-        log_prob_tens = torch.tensor(log_actual_probs, device="cuda")
-        finite_mask = torch.isfinite(log_prob_tens)
-        finite_mean = log_prob_tens[finite_mask].mean()
-        log_prob_tens = torch.where(finite_mask, log_prob_tens, finite_mean)
+        # log_prob_tens = torch.tensor(log_actual_probs, device="cuda")
+        # finite_mask = torch.isfinite(log_prob_tens)
+        # finite_mean = log_prob_tens[finite_mask].mean()
+        # log_prob_tens = torch.where(finite_mask, log_prob_tens, finite_mean)
 
         return (
             probability_differences_tensor_single_generation,
             entropy_tensor_single_generation,
             information_content_tensor_single_generation,
             entropy_deviations_tensor_single_generation,
-            log_prob_tens
+            # log_prob_tens
         ) 
      
     def concatenate_metrics(self, metrics, current_metrics):

@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     with open(config.file, "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-        writer.writerow(config.parameters.keys())
+        writer.writerow(config.parameters.keys()) # might have to change depending on implementation
         
         i = 1
         
@@ -26,7 +26,6 @@ if __name__ == "__main__":
             end_time = time.time()
 
             print(f"Time taken for generation: {end_time - start_time:.2f} seconds")
-            print(parameter)
             writer.writerow(parameter)
             writer.writerow([metrics])
             writer.writerow([output])  
