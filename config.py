@@ -13,9 +13,9 @@ class Config:
         
         self.parameters = {
             "prompts": [
-                "Once upon a time", 
-                "I am going to tell you about",
-                "My favourite thing in the world is"
+                "Es war einmal", 
+                "Ich erzähle ihnen jetzt eine Geschichte",
+                "Mein grösstes Hobby ist"
                 ],
             "temperatures": [1.5, 2.5],
             "num_beams": [2],
