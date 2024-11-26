@@ -11,15 +11,16 @@ from extraction.LanguageModel import Model
 from config import Config
 
 class LogitsExtractor:
-    def __init__(self, model_name, pipeline):
+    def __init__(self, model_name, pipeline, project_path):
 
         self.device = 'cuda' if torch.cuda.is_available()==True else 'cpu'
         self.model_name = model_name
         self.pipeline = pipeline
+        self.PROJECT_PATH = project_path
 
     def extract_features(self, tokens, chunk_size=128, overlap_size=64):
 
-        model = Model(self.model_name)
+        model = Model(self.model_name, self.PROJECT_PATH)
         model.load_model()
 
         input_ids = tokens.to(self.device)
@@ -105,7 +106,7 @@ class LogitsExtractor:
         return chunks
 
 
-    def _store_features_to_csv(self):
+    def _store_features_to_csv(self, per_token_data, filename='test_features.csv'):
         #saving features in desired format
         return
 

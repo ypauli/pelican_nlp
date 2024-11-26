@@ -5,6 +5,7 @@ import psutil
 
 class Config:
     def __init__(self):
+
         self.input_file = 'text' #possibly add option of audio file
         self.PATH_TO_PROJECT_FOLDER = '/home/yvespauli/PycharmProjects/KetamineStudy/KetamineStudy_ProjectFolder/' #set default to home directory, e.g. '/home/usr/...'
         self.language = 'german' #possibly add options for german and english

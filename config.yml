@@ -15,8 +15,6 @@ corpus_names:
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
-PATH_TO_SUBJECTS: "/home/yvespauli/PycharmProjects/KetamineStudy/KetamineStudy_ProjectFolder/Subjects"
-
 # Options for extract_logits
 chunk_size: null
 overlap_size: null

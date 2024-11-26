@@ -6,11 +6,11 @@ import torch
 from accelerate import Accelerator, init_empty_weights
 
 class Corpus:
-    def __init__(self, corpus_name, documents, config, task=None):
+    def __init__(self, corpus_name, documents, configuration_settings, task=None):
         """Takes a list of file instances and configures the pipeline."""
         self.name = corpus_name #e.g. placebo_group
         self.documents = documents
-        self.config = config
+        self.config = configuration_settings
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = task
 
@@ -29,7 +29,7 @@ class Corpus:
         return
 
     def extract_logits(self):
-        logitsExtractor = LogitsExtractor(self.config.tokenization_options.get('model_name'), self.pipeline)
+        logitsExtractor = LogitsExtractor(self.config['tokenization_options'].get('model_name'), self.pipeline, self.config['PATH_TO_PROJECT_FOLDER'])
         for i in range(len(self.documents)):
             self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens)
             print(self.documents[i].logits)
