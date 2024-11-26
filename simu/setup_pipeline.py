@@ -51,14 +51,31 @@ class Setup:
             itertools.product: An iterator over all combinations of the parameter values.
         """
         print("Setting up the parameters")
+        
+        for prompt in config.parameters["prompts"]:
+            tokenized_prompt_length = len(self.tokenizer(prompt))
+            for retroactive_span in config.parameters["retroactive_spans"]:
+                assert (tokenized_prompt_length <= retroactive_span) or (retroactive_span == -1), \
+                    f"Error: Tokenized prompt length ({tokenized_prompt_length}) exceeds the retroactive span ({retroactive_span})."
+        
+        parameters = [
+            config.parameters["prompts"], config.parameters["temperatures"], config.parameters["num_beams"]
+        ]
+        
+        context = [
+            (retro, pro)
+            for retro in config.parameters["retroactive_spans"]
+            for pro in config.parameters["proactive_spans"]
+            if retro != -1 or (retro == -1 and pro == config.parameters["proactive_spans"][0])
+        ]
+        
         sampling_tuples = [
             (method, value)
             for method, values in config.parameters["sampling"].items()
             for value in values
         ]
-        parametersets = product(*config.parameters.values(), sampling_tuples)
-        modified_sets = {t[:2] + t[3:] for t in parametersets}
-        return modified_sets
+        
+        return product(*parameters, context, sampling_tuples)
     
     def setup_tokenizer(self):
         """
