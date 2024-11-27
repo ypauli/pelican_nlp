@@ -17,7 +17,7 @@ class Setup:
         """
         self.model, self.tokenizer = self.setup_model(config)
         self.parameters = self.setup_parameters(config)
-        self.excluded_tokens = self.setup_tokenizer()
+        self.excluded_tokens, self.punctuation_tokens = self.setup_tokenizer()
 
     def setup_model(self, config):
         """
@@ -52,6 +52,7 @@ class Setup:
         """
         print("Setting up the parameters")
         
+        # Check whether the retroactive_span exceeds the prompt length
         for prompt in config.parameters["prompts"]:
             tokenized_prompt_length = len(self.tokenizer(prompt))
             for retroactive_span in config.parameters["retroactive_spans"]:
@@ -62,18 +63,20 @@ class Setup:
             config.parameters["prompts"], config.parameters["temperatures"], config.parameters["num_beams"]
         ]
         
+        # Keep (retroactive_span, proactive_span) tuples only once for case unbounded context
         context = [
             (retro, pro)
             for retro in config.parameters["retroactive_spans"]
             for pro in config.parameters["proactive_spans"]
-            if retro != -1 or (retro == -1 and pro == config.parameters["proactive_spans"][0])
+            if retro != config.constants["target_length"] or (retro == config.constants["target_length"] and pro == config.parameters["proactive_spans"][0])
         ]
         
+        # Assign sampling methods to their values
         sampling_tuples = [
             (method, value)
             for method, values in config.parameters["sampling"].items()
             for value in values
-        ]
+        ] 
         
         return product(*parameters, context, sampling_tuples)
     
@@ -98,11 +101,6 @@ class Setup:
             "<html>", "</html>", "<br>", "<p>", "<div>", "</div>", "<a>", "</a>", "<img>", "</img>",
             "<body>", "</body>", "<head>", "</head>", "<title>", "</title>", "<script>", "</script>",
             "<style>", "</style>", "<meta>", "<iframe>", "</iframe>", "<form>", "</form>", "export", "default",
-
-            # Special Characters and Symbols
-            "@", "#", "$", "%", "&", "*", "^", "!", "~", "`", "?", "+", "-", "=", "_", "[", "]", "{", "}",
-            "|", "\\", ":", ";", "\"", "'", "<", ">", "/", ".", ",", "(", ")", "»", "£", "•", "‰", "→", "→", "÷", 
-            "∘", "§", "©", "®", "†", "‡", "€", "¥", "₹",
 
             # Social Media Handles and Patterns
             "@username", "#hashtag", "RT", "DM", "PM", "like", "share", "follow", "subscribe", "retweet", 
@@ -178,4 +176,25 @@ class Setup:
 
             # Random Nonsense or Placeholders
             "asdf", "qwerty", "test", "test123", "sample", "example", "foo", "bar", "baz", "BACKWARDS",
-        ]).input_ids
+
+            # Special Characters and Symbols
+            "@", "#", "$", "%", "&", "*", "^", "~", "`", "+", "-", "=", "_", "[", "]", "{", "}",
+            "|", "\\", "\"", "'", "<", ">", "/", "»", "£", "•", "‰", "→", "→", "÷", 
+            "∘", "§", "©", "®", "†", "‡", "€", "¥", "₹",
+        
+        ]).input_ids, self.tokenizer([
+            
+            # Punctuation Symbols
+            "!", "?", ":", ";", ".", ",", "(", ")",
+            
+            # Combinations
+            "!!", "!?", "!:", "!;", "!.", "!,", "!(", "!)",
+            "?!", "??", "?:", "?;", "?.", "?,", "?(", "?)",
+            ":!", ":?", "::", ":;", ":.", ":,", ":(", ":)",
+            ";!", ";?", ";:", ";;", ";.", ";,", ";(", ";)",
+            ".!", ".?", ".:", ".;", "..", ".,", ".(", ".)",
+            ",!", ",?", ",:", ",;", ",.", ",,", ",(", ",)",
+            "(!", "(?", "(:", "(;", "(.", "(,", "((", "(()",
+            ")!", ")?", "):", ");", ").", "),", ")(", "))"
+            
+            ]).input_ids

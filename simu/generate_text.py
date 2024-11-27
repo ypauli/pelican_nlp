@@ -16,43 +16,7 @@ class Generator:
             constants (dict): A dictionary of constants required for text generation.
         """
         arguments = self.generate_arguments(setup, parameter, constants)
-        
-        if parameter[3][0] == -1: # if retroactive_span == -1 (no sliding window)
-            self.out = self.generate_unbounded(setup, device, parameter, constants, arguments)
-        else:
-            self.out = self.generate_text(setup, device, parameter, constants, arguments)
-        
-    def generate_unbounded(self, setup, device, parameter, constants, arguments):
-        text = parameter[0]
-        text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
-        metrics = [torch.empty((0,)).to(device) for _ in range(5)] #might have to adjust depending on which metrics are calculated
-        output_ids = setup.model.generate(
-                text_ids,
-                attention_mask = torch.ones_like(text_ids).to(device),
-                **arguments
-            )
-        
-        if constants["calculate_metrics"]:
-            logits = output_ids.scores
-            output_sequences = output_ids.sequences[:, -arguments["max_new_tokens"]:]
-            logits = torch.cat(
-                [
-                    logits[i][output_ids["beam_indices"][0, i], :].unsqueeze(0)
-                    for i in range(len(logits))
-                ],
-                dim=0,
-            ) 
-            output_ids = output_ids.sequences[:, -arguments["max_new_tokens"]:] 
-            metrics = self.calculate_metrics(output_sequences, logits)
-        else:
-            output_ids = output_ids[:, -arguments["max_new_tokens"]:] 
-                
-        text_ids = torch.cat((text_ids, output_ids), dim=1)    
-        output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
-        text += " " + output
-        # print("text: ", text)
-            
-        return text, metrics 
+        self.out = self.generate_text(setup, device, parameter, constants, arguments)
     
     def generate_text(self, setup, device, parameter, constants, arguments):
         """
@@ -74,17 +38,20 @@ class Generator:
         
         text = prompt
         text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
-        metrics = [torch.empty((0,)).to(device) for _ in range(4)] #might have to adjust depending on which metrics are calculated
+        metrics = [torch.empty((0,)).to(device) for _ in range(4)] # might have to adjust depending on which metrics are calculated
+        n_punctuations = self.count_punctuations(setup, text_ids)
+        
+        if parameter[3][0] == constants["target_length"]: # case: unbounded context
+            proactive_span = constants["target_length"] - text_ids.shape[1]
+            arguments["max_new_tokens"] = proactive_span
 
-        while text_ids.shape[1] < constants["target_length"]:
-            
+        while text_ids.shape[1] < constants["target_length"] + n_punctuations:
             input_ids = text_ids[:, -retroactive_span:]
             output_ids = setup.model.generate(
                 input_ids,
                 attention_mask = torch.ones_like(input_ids).to(device),
                 **arguments
             )
-            
             if constants["calculate_metrics"]:
                 logits = output_ids.scores
                 output_sequences = output_ids.sequences[:, -proactive_span:]
@@ -98,18 +65,37 @@ class Generator:
                 )              
                                
                 output_ids = output_ids.sequences[:, -proactive_span:] 
-                
                 current_metrics = self.calculate_metrics(output_sequences, logits)
                 metrics = self.concatenate_metrics(metrics, current_metrics)
             else:
-                output_ids = output_ids[:, -proactive_span:] 
+                output_ids = output_ids[:, -proactive_span:]
+                 
+            # Exclude punctuation tokens from count
+            n_punctuations += self.count_punctuations(setup, output_ids)
             
             text_ids = torch.cat((text_ids, output_ids), dim=1)    
             output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
             text += " " + output
-            # print("text: ", text)
+                
+            if parameter[3][0] == constants["target_length"]: # case: unbounded context
+                proactive_span = constants["target_length"] + n_punctuations - text_ids.shape[1]
+                arguments["max_new_tokens"] = proactive_span
+        
+        # print("text: ", text)
+        print("target length: ", constants["target_length"])
+        print("actual length: ", text_ids.shape[1])
+        print("punctuation tokens: ", n_punctuations)
             
         return text, metrics
+    
+    def count_punctuations(self, setup, text_ids):
+        n = 0
+        punctuation_tokens = [num for sublist in setup.punctuation_tokens for num in sublist[1:]]
+        for token in text_ids[0]:
+            print(token.item())
+            if token.item() in punctuation_tokens:
+                n += 1
+        return n
     
     def generate_arguments(self, setup, parameter, constants):
         """
@@ -130,10 +116,10 @@ class Generator:
             "output_scores": constants["calculate_metrics"], # returns logits
             "return_dict_in_generate": constants["calculate_metrics"],
             "use_cache": False,
-            "temperature": parameter[1],
+            "temperature": parameter[1], # temperature
             "do_sample": True,
             parameter[4][0]: parameter[4][1], # sampling_method: value
-            "num_beams": parameter[2],
+            "num_beams": parameter[2], # num_beams
             "max_new_tokens": parameter[3][1], # proactive_span
         }
      
@@ -151,31 +137,22 @@ class Generator:
                 - entropy (torch.Tensor)
                 - information content (torch.Tensor)
                 - entropy deviations (torch.Tensor)
-                - log probabilities (torch.Tensor)
         """
         probs = torch.nn.functional.softmax(logits_tensor, dim=-1)
         max_probs, _ = torch.max(probs, dim=-1)
         log_probs = torch.log(probs + 1e-9)
         actual_probs = torch.gather(probs, 1, output_only.t()).t().squeeze()
-        # log_actual_probs = torch.log(actual_probs +1e-9)
 
         probability_differences_tensor_single_generation = max_probs - actual_probs
         entropy_tensor_single_generation = (-probs * log_probs).sum(dim=-1)
         information_content_tensor_single_generation = -torch.log(actual_probs + 1e-9)
         entropy_deviations_tensor_single_generation = (entropy_tensor_single_generation - information_content_tensor_single_generation)
 
-        #precalculations for perplexity
-        # log_prob_tens = torch.tensor(log_actual_probs, device="cuda")
-        # finite_mask = torch.isfinite(log_prob_tens)
-        # finite_mean = log_prob_tens[finite_mask].mean()
-        # log_prob_tens = torch.where(finite_mask, log_prob_tens, finite_mean)
-
         return (
             probability_differences_tensor_single_generation,
             entropy_tensor_single_generation,
             information_content_tensor_single_generation,
             entropy_deviations_tensor_single_generation,
-            # log_prob_tens
         ) 
      
     def concatenate_metrics(self, metrics, current_metrics):
@@ -193,6 +170,50 @@ class Generator:
         if len(metrics) != len(current_metrics):
             raise ValueError("Mismatch between metrics and current_metrics length.")
         for i in range(len(metrics)):
+            print(f"metrics[{i}] shape: {metrics[i].shape}")
+            print(f"current_metrics[{i}] shape: {current_metrics[i].shape}")
             metrics[i] = torch.cat((metrics[i], current_metrics[i]), dim=0)
         
         return metrics
+    
+    
+    # def generate_unbounded(self, setup, device, parameter, constants, arguments):
+    #     text = parameter[0]
+    #     text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
+        
+    #     print("prompt length: ", text_ids.shape[1])
+        
+    #     metrics = [torch.empty((0,)).to(device) for _ in range(4)] #might have to adjust depending on which metrics are calculated
+    #     arguments["max_new_tokens"] = constants["target_length"] -  text_ids.shape[1] # generate target_length tokens and subtract the prompt length
+    #     output_ids = setup.model.generate(
+    #             text_ids,
+    #             attention_mask = torch.ones_like(text_ids).to(device),
+    #             **arguments
+    #         )
+        
+    #     if constants["calculate_metrics"]:
+    #         logits = output_ids.scores
+    #         output_sequences = output_ids.sequences[:, -arguments["max_new_tokens"]:]
+    #         logits = torch.cat(
+    #             [
+    #                 logits[i][output_ids["beam_indices"][0, i], :].unsqueeze(0)
+    #                 for i in range(len(logits))
+    #             ],
+    #             dim=0,
+    #         ) 
+    #         output_ids = output_ids.sequences[:, -arguments["max_new_tokens"]:] 
+    #         metrics = self.calculate_metrics(output_sequences, logits)
+    #     else:
+    #         output_ids = output_ids[:, -arguments["max_new_tokens"]:] 
+               
+    #     text_ids = torch.cat((text_ids, output_ids), dim=1)    
+    #     output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+    #     text += " " + output
+        
+    #     n_punctuations = self.count_punctuations(setup, text_ids) 
+    #     # print("text: ", text)
+    #     print("target length: ", constants["target_length"])
+    #     print("actual length: ", text_ids.shape[1])
+    #     print("punctuation tokens: ", n_punctuations)
+            
+    #     return text, metrics 
