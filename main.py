@@ -41,7 +41,7 @@ if __name__ == '__main__':
     #==============================================
 
     shutil.copytree(PATH_TO_SUBJECTS, OUTPUT_DIRECTORY, ignore=ignore_files)
-    os.mkdir(OUTPUT_DIRECTORY + 'consolidation_results')
+    os.mkdir(OUTPUT_DIRECTORY + 'results_consolidation')
 
     # Instantiate all subjects
     subjects = []
