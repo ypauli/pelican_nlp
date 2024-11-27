@@ -746,8 +746,12 @@ def process_audio_files(files: List[str],
         # Save all data as JSON
         all_output_file = Path(output_folder) / f"{Path(file_path).stem}_all_outputs.json"
         print(f"Saving results to: {all_output_file}")
-        transcript.save_all_data_as_json(all_output_file)
+        transcript.save_as_json(all_output_file)
         print(f"Finished processing: {file_path}\n{'-' * 60}")
+
+    del transcriber
+    del aligner
+    del diarizer
 
     print("All files have been processed.")
 
@@ -757,7 +761,7 @@ if __name__ == "__main__":
     import os
 
     # Define input and output paths
-    audio_file_path = "holmes_control_nova.wav"  # Replace with your actual audio file path
+    audio_file_path = "audio.wav"  # Replace with your actual audio file path
     output_directory = "output"
 
     # Ensure output directory exists
@@ -774,5 +778,5 @@ if __name__ == "__main__":
         files=files_to_process,
         hf_token=hugging_face_token,
         output_folder=output_directory,
-        num_speakers=1
+        num_speakers=2
     )
