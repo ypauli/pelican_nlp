@@ -128,6 +128,7 @@ class AudioFile:
         self.forced_alignments = []
         self.speaker_segments = []
         self.combined_data = []
+        self.combined_utterances = []
         self.load_audio()
 
     def load_audio(self):
@@ -194,37 +195,85 @@ class AudioFile:
             self.whisper_alignments.extend(chunk.whisper_alignments)
             self.forced_alignments.extend(chunk.forced_alignments)
             
-    def adjust_overlapping_intervals(self):
-        """
-        Adjusts overlapping word intervals to ensure that each word starts after the previous word ends.
-        Modifies self.combined_data in place.
-        """
+    def aggregate_to_utterances(self):
         if not self.combined_data:
             print("No combined data available to adjust.")
             return
+
+        utterances = []
+        current_utterance = {
+            "text": "",
+            "start_time": None,
+            "end_time": None,
+            "speakers": {}
+        }
         
-        # Sort combined_data by start_time
-        self.combined_data.sort(key=lambda x: x['start_time'])
+        sentence_endings = re.compile(r'[.?!]$')
+        print(self.combined_data)
+        for word_data in self.combined_data:
+            word = word_data["word"]
+            start_time = word_data["start_time"]
+            end_time = word_data["end_time"]
+            speaker = word_data["speaker"]
+            
+            # Initialize the current utterance start time if not already set
+            if current_utterance["start_time"] is None:
+                current_utterance["start_time"] = start_time
+            
+            # Append the word to the current utterance text
+            current_utterance["text"] += ("" if current_utterance["text"] == "" else " ") + word
+            
+            # Update the end time of the current utterance
+            current_utterance["end_time"] = end_time
+            
+            # Update the speaker count for this utterance
+            if speaker not in current_utterance["speakers"]:
+                current_utterance["speakers"][speaker] = 0
+            current_utterance["speakers"][speaker] += 1
+            
+            # Check if this word ends the sentence
+            if sentence_endings.search(word):
+                # Determine the majority speaker
+                majority_speaker, majority_count = max(
+                    current_utterance["speakers"].items(), key=lambda item: item[1]
+                )
+                total_words = sum(current_utterance["speakers"].values())
+                confidence = majority_count / total_words
+                
+                # Append the completed utterance
+                utterances.append({
+                    "text": current_utterance["text"],
+                    "start_time": current_utterance["start_time"],
+                    "end_time": current_utterance["end_time"],
+                    "speaker": majority_speaker,
+                    "confidence": round(confidence, 2),
+                })
+                
+                # Reset the current utterance
+                current_utterance = {
+                    "text": "",
+                    "start_time": None,
+                    "end_time": None,
+                    "speakers": {}
+                }
         
-        previous_end = 0.0
-        for idx, word in enumerate(self.combined_data):
-            start = word['start_time']
-            end = word['end_time']
+        # Handle any remaining words as the last utterance
+        if current_utterance["text"]:
+            majority_speaker, majority_count = max(
+                current_utterance["speakers"].items(), key=lambda item: item[1]
+            )
+            total_words = sum(current_utterance["speakers"].values())
+            confidence = majority_count / total_words
             
-            if start < previous_end:
-                # Adjust the start_time to be equal to the previous word's end_time
-                adjusted_start = previous_end
-                # Ensure that the adjusted start does not exceed the original end_time
-                if adjusted_start < end:
-                    word['start_time'] = adjusted_start
-                else:
-                    # If the adjusted start is after the end, set both to previous_end to avoid negative duration
-                    word['start_time'] = previous_end
-                    word['end_time'] = previous_end
-                print(f"Adjusted word '{word['word']}' start_time to {word['start_time']}s to prevent overlap.")
-            
-            # Update previous_end for the next iteration
-            previous_end = word['end_time']
+            utterances.append({
+                "text": current_utterance["text"],
+                "start_time": current_utterance["start_time"],
+                "end_time": current_utterance["end_time"],
+                "speaker": majority_speaker,
+                "confidence": round(confidence, 2),
+            })
+        
+        self.combined_utterances = utterances
             
     def combine_alignment_and_diarization(self, alignment_source: str):
         """
@@ -263,160 +312,44 @@ class AudioFile:
         for word in alignment:
             word_start = word['start_time']
             word_end = word['end_time']
-            word_duration = word_end - word_start
+            word_duration = max(1e-6, word_end - word_start)  # Avoid zero-duration
 
-            # Initialize overlap dictionary
             speaker_overlap = {}
 
-            # Move the speaker segment pointer to the first segment that might overlap with the word
             while seg_idx < num_segments and speaker_segments[seg_idx]['end'] < word_start:
                 seg_idx += 1
 
-            temp_idx = seg_idx  # Temporary index to iterate without modifying seg_idx
-
-            # Iterate through speaker segments that overlap with the word
+            temp_idx = seg_idx
             while temp_idx < num_segments and speaker_segments[temp_idx]['start'] < word_end:
                 seg = speaker_segments[temp_idx]
                 seg_start = seg['start']
                 seg_end = seg['end']
                 speaker = seg['speaker']
 
-                # Calculate overlap between word and speaker segment
-                overlap_start = max(word_start, seg_start)
-                overlap_end = min(word_end, seg_end)
-                overlap = max(0.0, overlap_end - overlap_start)
+                if seg_start <= word_start < seg_end:  # Handle zero-duration case
+                    overlap = word_duration  # Treat as full overlap for zero-duration
+                else:
+                    overlap_start = max(word_start, seg_start)
+                    overlap_end = min(word_end, seg_end)
+                    overlap = max(0.0, overlap_end - overlap_start)
 
                 if overlap > 0:
                     speaker_overlap[speaker] = speaker_overlap.get(speaker, 0.0) + overlap
 
                 temp_idx += 1
 
-            if speaker_overlap:
-                # Assign the speaker with the maximum overlap
-                assigned_speaker = max(speaker_overlap, key=speaker_overlap.get)
-            else:
-                assigned_speaker = 'UNKNOWN'
+            assigned_speaker = max(speaker_overlap, key=speaker_overlap.get) if speaker_overlap else 'UNKNOWN'
 
-            # Create a copy of the word dictionary and assign the speaker
             word_with_speaker = word.copy()
             word_with_speaker['speaker'] = assigned_speaker
-
             combined.append(word_with_speaker)
 
         self.combined_data = combined
+        print(self.combined_data)
         print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
-        self.adjust_overlapping_intervals()
-        
-    def create_textgrid(self, output_textgrid):
-        """
-        Creates a Praat-compatible TextGrid file using combined_data.
+        # self.adjust_overlapping_intervals()
+        self.aggregate_to_utterances()
 
-        Parameters:
-            output_textgrid (str): Path to save the generated TextGrid file.
-        """
-        if not self.combined_data:
-            print("No combined data available. Run combine_alignment_and_diarization first.")
-            return
-
-        try:
-            # Step 1: Validate and prepare data
-            def validate_intervals(data):
-                """
-                Validate intervals to ensure they are non-overlapping and sequentially ordered.
-                """
-                for i in range(len(data) - 1):
-                    if data[i]["end_time"] > data[i + 1]["start_time"]:
-                        raise ValueError(f"Overlapping intervals: {data[i]} and {data[i + 1]}")
-
-            # Ensure all times are floats and have valid durations
-            for entry in self.combined_data:
-                entry["start_time"] = float(entry["start_time"])
-                entry["end_time"] = float(entry["end_time"])
-                if entry["end_time"] < entry["start_time"]:
-                    print(f"Warning: Word '{entry['word']}' has end_time before start_time. Adjusting...")
-                    entry["end_time"] = entry["start_time"]
-
-            # Remove zero-duration words
-            original_length = len(self.combined_data)
-            self.combined_data = [entry for entry in self.combined_data if entry["end_time"] > entry["start_time"]]
-            if len(self.combined_data) < original_length:
-                print(f"Removed {original_length - len(self.combined_data)} zero-duration words.")
-
-            # Validate intervals
-            self.combined_data = sorted(self.combined_data, key=lambda x: x["start_time"])  # Ensure order
-            validate_intervals(self.combined_data)
-
-            # Step 2: Calculate global xmin and xmax
-            global_xmin = min(entry["start_time"] for entry in self.combined_data)
-            global_xmax = max(entry["end_time"] for entry in self.combined_data)
-
-            # Step 3: Initialize a new TextGrid
-            tg = textgrids.TextGrid()
-            tg.xmin = global_xmin
-            tg.xmax = global_xmax
-
-            # Step 4: Create and populate tiers
-            words_tier = textgrids.Tier(xmin=global_xmin, xmax=global_xmax, point_tier=False)
-            speakers_tier = textgrids.Tier(xmin=global_xmin, xmax=global_xmax, point_tier=False)
-
-            for entry in self.combined_data:
-                start_time = entry["start_time"]
-                end_time = entry["end_time"]
-                word = entry["word"]
-                speaker = entry.get("speaker", "")
-
-                # Add intervals to tiers
-                words_tier.append(textgrids.Interval(xmin=start_time, xmax=end_time, text=word))
-                if speaker:
-                    speakers_tier.append(textgrids.Interval(xmin=start_time, xmax=end_time, text=speaker))
-                else:
-                    speakers_tier.append(textgrids.Interval(xmin=start_time, xmax=end_time, text='UNKNOWN'))
-
-            # Step 5: Add tiers to TextGrid
-            if words_tier:
-                tg["Words"] = words_tier
-            if speakers_tier:
-                tg["Speakers"] = speakers_tier
-
-            # Step 6: Save the TextGrid in TEXT_LONG format
-            tg.write(output_textgrid, fmt=textgrids.TEXT_LONG)
-            print(f"TextGrid successfully saved to '{output_textgrid}'")
-
-        except ValueError as e:
-            print(f"Validation error while creating TextGrid: {e}")
-        except Exception as e:
-            print(f"An error occurred while creating the TextGrid: {e}")
-
-    def save_transcript_as_json(self, output_file="word_speaker_timestamps.json"):
-        """
-        Saves the combined data (word alignments with speaker information) as a JSON file.
-
-        Parameters:
-        - output_file: str, optional
-            The path to save the JSON file. Default is 'word_speaker_timestamps.json'.
-        """
-        # Check if combined data exists
-        if not self.combined_data:
-            print("No combined data available to save. Ensure 'combine_alignment_and_diarization' is run first.")
-            return
-
-        # Convert combined data to DataFrame
-        df = pd.DataFrame(self.combined_data)
-
-        # Convert DataFrame to JSON
-        json_output = df.to_json(orient="records", indent=4)
-
-        # Print the JSON output for verification (optional)
-        print("Combined Data:")
-        print(json_output)
-
-        # Save JSON to a file
-        try:
-            with open(output_file, "w", encoding="utf-8") as f:
-                f.write(json_output)
-            print(f"Combined data successfully saved to '{output_file}'.")
-        except Exception as e:
-            print(f"Error saving JSON file: {e}")
 
     def save_all_data_as_json(self, output_file="all_audio_data.json"):
         """
@@ -437,7 +370,8 @@ class AudioFile:
             "whisper_alignments": self.whisper_alignments,
             "forced_alignments": self.forced_alignments,
             "speaker_segments": self.speaker_segments,
-            "combined_data": self.combined_data
+            "combined_data": self.combined_data,
+            "utterance_data": self.combined_utterances
         }
 
         # Convert the data to JSON format
@@ -458,6 +392,8 @@ class AudioFile:
             print(f"All audio data successfully saved to '{output_file}'.")
         except Exception as e:
             print(f"Error saving JSON file: {e}")
+        
+        print(self.combined_data)
 
 # Define the AudioTranscriber class
 class AudioTranscriber:
@@ -729,11 +665,10 @@ def process_audio_files(files, hf_token="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",
         audio_file.combine_alignment_and_diarization(timestamp_source)
 
         # Save output
-        output_file = Path(output_folder) / f"{Path(file_path).stem}_output.json"
         all_output_file = Path(output_folder) / f"{Path(file_path).stem}_all_outputs.json"
-        print(f"Saving results to: {output_file}")
-        audio_file.save_transcript_as_json(output_file=str(output_file))
-        audio_file.create_textgrid(f"{Path(file_path).stem}_output.TextGrid")
+        print(f"Saving results to: {all_output_file}")
+
+        # audio_file.create_textgrid(f"{Path(file_path).stem}_output.TextGrid")
         audio_file.save_all_data_as_json(all_output_file)
         print(f"Finished processing: {file_path}\n{'-' * 40}")
 
