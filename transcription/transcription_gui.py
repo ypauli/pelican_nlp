@@ -5,6 +5,7 @@ import tempfile
 import numpy as np
 import librosa
 import time
+import re
 
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem,
@@ -17,6 +18,10 @@ from PyQt5.QtGui import QColor
 import pyqtgraph as pg
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio as play_audio
+
+# Assume Transcript class is imported from another file
+from transcription import Transcript  # Replace 'transcript' with the actual module name
+
 
 # --- Undo/Redo Command Classes ---
 
@@ -158,7 +163,7 @@ class WaveformCanvas(QWidget):
         self.connecting_lines = []
 
         self.dragging_line = None
-        
+
         self.utterances = []
         self.utterance_items = []
         self.utterance_regions = []
@@ -185,7 +190,7 @@ class WaveformCanvas(QWidget):
     def on_audio_loaded(self, samples, sr):
         self.audio_data = samples
         self.sr = sr
-        effective_sr = sr /  self.loader.downsample_factor
+        effective_sr = sr / self.loader.downsample_factor
         self.duration = len(samples) / effective_sr
         t = np.linspace(0, self.duration, num=len(samples))
 
@@ -208,11 +213,11 @@ class WaveformCanvas(QWidget):
         self.scrollbar.setValue(0)
 
         self.audio_loaded.emit()
-        
+
     def load_utterances(self, utterances):
         self.utterances = utterances
         self.draw_utterances()
-        
+
     def draw_utterances(self):
         self.clear_utterance_items()
         self.utterance_items = []
@@ -234,7 +239,7 @@ class WaveformCanvas(QWidget):
             color = speaker_colors.get(speaker, QColor(200, 200, 200, 100))
 
             # Add background region for utterance
-            region = pg.LinearRegionItem(values=[start+0.01, end-0.01], brush=color)
+            region = pg.LinearRegionItem(values=[start + 0.01, end - 0.01], brush=color)
             region.setMovable(False)
             self.plot_widget.addItem(region)
             self.utterance_regions.append(region)
@@ -248,13 +253,13 @@ class WaveformCanvas(QWidget):
                 continue
 
             # Add a label for utterance metadata (e.g., speaker, index, duration)
-            label_text = f"Utterance: {idx + 1}, Speaker: {speaker}, Speaker Confidence: {confidence}, Duration: {round(end - start, 2)}s"
+            label_text = f"Utterance: {idx + 1}, Speaker: {speaker}, Confidence: {confidence}, Duration: {round(end - start, 2)}s"
             meta_label = pg.TextItem(label_text, anchor=(0.5, 0), color='yellow')
             meta_label.setPos((start + end) / 2, -0.25)  # Centered above the utterance
             self.plot_widget.addItem(meta_label)
             self.utterance_items.append(meta_label)
 
-            word_times = np.linspace(start, end, num_words+2)
+            word_times = np.linspace(start, end, num_words + 2)
 
             for word, word_time in zip(words, word_times[1:-1]):
                 # Plot the word as a text label at y=-0.5
@@ -262,7 +267,7 @@ class WaveformCanvas(QWidget):
                 label.setPos(word_time, -0.5)
                 self.plot_widget.addItem(label)
                 self.utterance_items.append(label)
-            
+
     def clear_utterance_items(self):
         if hasattr(self, 'utterance_items'):
             for item in self.utterance_items:
@@ -285,21 +290,24 @@ class WaveformCanvas(QWidget):
             self.plot_widget.removeItem(line['line'])
         self.lines = []
         for cline in self.connecting_lines:
-            self.plot_widget.removeItem(cline)
+            self.plot_widget.removeItem(cline['line'])
+            self.plot_widget.removeItem(cline['start_arrow'])
+            self.plot_widget.removeItem(cline['end_arrow'])
+            self.plot_widget.removeItem(cline['label'])
         self.connecting_lines = []
 
     def draw_lines(self):
         self.clear_lines()
         for idx, word in enumerate(self.words):
-            
+
             if idx % 2 == 0:
                 y_pos_line = 0.55
             else:
                 y_pos_line = 0.45
-            
-            ### I adjust the line positions slightly because otherwise start and endlines of consecutive words ###
-            start_line = DraggableLine(pos=(word['start']+0.005), color='green', idx=idx, boundary_type='start')
-            end_line = DraggableLine(pos=(word['end']-0.005), color='red', idx=idx, boundary_type='end')
+
+            # Adjust the line positions slightly
+            start_line = DraggableLine(pos=(float(word['start_time']) + 0.005), color='green', idx=idx, boundary_type='start')
+            end_line = DraggableLine(pos=(float(word['end_time']) - 0.005), color='red', idx=idx, boundary_type='end')
             self.plot_widget.addItem(start_line)
             self.plot_widget.addItem(end_line)
             self.lines.append({'line': start_line, 'idx': idx, 'type': 'start'})
@@ -307,15 +315,15 @@ class WaveformCanvas(QWidget):
 
             # Connecting line at y=0.5
             connecting_line = pg.PlotCurveItem(
-                [word['start'] +0.005, word['end']-0.005],
+                [float(word['start_time']) + 0.005, float(word['end_time']) - 0.005],
                 [y_pos_line, y_pos_line],  # Position the line at y=0.5
                 pen=pg.mkPen('blue', width=2),
             )
             self.plot_widget.addItem(connecting_line)
 
             # Create arrowheads
-            start_arrow = self.create_arrow(word['start'] + 0.005, y_pos_line, 0)
-            end_arrow = self.create_arrow(word['end'] - 0.005, y_pos_line, 180)
+            start_arrow = self.create_arrow(float(word['start_time']) + 0.005, y_pos_line, 0)
+            end_arrow = self.create_arrow(float(word['end_time']) - 0.005, y_pos_line, 180)
 
             # Create label
             label = pg.TextItem(word['word'], anchor=(0.5, 0), color='white')
@@ -337,9 +345,9 @@ class WaveformCanvas(QWidget):
             end_line.sigPositionChangeFinished.connect(lambda _, line=end_line: self.on_line_moved(line))
 
         self.plot_widget.update()
-    
+
     def create_arrow(self, x, y, angle):
-        
+
         arrow = pg.ArrowItem(
             pos=(x, y),
             angle=angle,  # Direction of the arrow in degrees
@@ -353,25 +361,25 @@ class WaveformCanvas(QWidget):
 
     def update_connecting_line(self, idx):
         word = self.words[idx]
-        start = word['start']
-        end = word['end']
-        
+        start = float(word['start_time'])
+        end = float(word['end_time'])
+
         if idx % 2 == 0:
             y_pos_line = 0.55
         else:
             y_pos_line = 0.45
 
         # Update the connecting line's x-coordinates and keep y fixed at 0.5
-        self.connecting_lines[idx]['line'].setData([start+ 0.005, end- 0.005], [y_pos_line, y_pos_line])
+        self.connecting_lines[idx]['line'].setData([start + 0.005, end - 0.005], [y_pos_line, y_pos_line])
 
         # Update arrowhead positions
-        self.connecting_lines[idx]['start_arrow'].setPos(start+ 0.005, y_pos_line)
-        self.connecting_lines[idx]['end_arrow'].setPos(end- 0.005, y_pos_line)
+        self.connecting_lines[idx]['start_arrow'].setPos(start + 0.005, y_pos_line)
+        self.connecting_lines[idx]['end_arrow'].setPos(end - 0.005, y_pos_line)
 
         # Update label position (middle of the line, slightly above)
         mid_x = (start + end) / 2
-        
-        if word["speaker"] in ["", "UNKOWN"]:
+
+        if word.get("speaker", "") in ["", "UNKNOWN"]:
             mid_y = 0.7  # Slightly above y=0.5
         elif word["speaker"] == "SPEAKER_00":
             mid_y = 0.4
@@ -379,7 +387,7 @@ class WaveformCanvas(QWidget):
             mid_y = 0.6
         else:
             mid_y = 0.0
-        
+
         self.connecting_lines[idx]['label'].setPos(mid_x, mid_y)
 
     def on_line_moved(self, line):
@@ -387,7 +395,11 @@ class WaveformCanvas(QWidget):
         boundary_type = line.boundary_type
         new_pos = line.value()
         new_pos = max(0.0, min(new_pos, self.duration))
-        self.words[idx][boundary_type] = new_pos
+        # Update word data
+        if boundary_type == 'start':
+            self.words[idx]['start_time'] = new_pos
+        elif boundary_type == 'end':
+            self.words[idx]['end_time'] = new_pos
         self.boundary_changed.emit(idx, boundary_type, new_pos)
         self.update_connecting_line(idx)
 
@@ -404,32 +416,6 @@ class WaveformCanvas(QWidget):
         self.playtime_line.setPos(current_time)
         # Adjust view range
         self.adjust_view_range(current_time)
-
-    def add_word_lines(self, row, start_time, end_time):
-        """Add draggable lines for a new word."""
-        start_line = DraggableLine(pos=start_time, color='green', idx=row, boundary_type='start')
-        end_line = DraggableLine(pos=end_time, color='red', idx=row, boundary_type='end')
-        self.plot_widget.addItem(start_line)
-        self.plot_widget.addItem(end_line)
-        self.lines.append({'line': start_line, 'idx': row, 'type': 'start'})
-        self.lines.append({'line': end_line, 'idx': row, 'type': 'end'})
-
-        # Connecting line with arrows
-        connecting_line = pg.ArrowItem(
-            pos=((start_time + end_time) / 2, 0),
-            angle=0,
-            tipAngle=30,
-            baseAngle=20,
-            headLen=15,
-            tailLen=0,
-            tailWidth=0,
-            brush='blue'
-        )
-        connecting_line.setParentItem(self.plot_widget.plotItem)
-        self.connecting_lines.append(connecting_line)
-
-        start_line.sigPositionChangeFinished.connect(lambda _, line=start_line: self.on_line_moved(line))
-        end_line.sigPositionChangeFinished.connect(lambda _, line=end_line: self.on_line_moved(line))
 
     def adjust_view_range(self, current_time, window_size=None):
         if window_size is None:
@@ -448,7 +434,11 @@ class WaveformCanvas(QWidget):
             if line_info['idx'] == idx and line_info['type'] == boundary_type:
                 line_info['line'].setValue(new_pos)
                 break
-        self.words[idx][boundary_type] = new_pos
+        # Update word data
+        if boundary_type == 'start':
+            self.words[idx]['start_time'] = new_pos
+        elif boundary_type == 'end':
+            self.words[idx]['end_time'] = new_pos
         self.update_connecting_line(idx)
 
     def on_scrollbar_value_changed(self, value):
@@ -481,10 +471,12 @@ class MainWindow(QMainWindow):
         self.old_values = {}
         self.temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.json').name
         self.previous_current_row = None  # Initialize previous_current_row
+        self.transcript = None  # Initialize the Transcript object
+
         # Setup UI components
         self.setup_ui()
         self.setup_signals()
-        
+
         # Start the autosave timer
         self.autosave_timer = QTimer(self)
         self.autosave_timer.timeout.connect(self.autosave)
@@ -523,9 +515,12 @@ class MainWindow(QMainWindow):
         load_transcript_button.clicked.connect(self.load_transcript)
         save_button = QPushButton("Save Annotations")
         save_button.clicked.connect(self.save_annotations)
+        recalc_utterances_button = QPushButton("Recalculate Utterances")
+        recalc_utterances_button.clicked.connect(self.recalculate_utterances)
         buttons_layout.addWidget(load_audio_button)
         buttons_layout.addWidget(load_transcript_button)
         buttons_layout.addWidget(save_button)
+        buttons_layout.addWidget(recalc_utterances_button)
         waveform_layout.addLayout(buttons_layout)
 
         # Undo/Redo Buttons
@@ -598,25 +593,13 @@ class MainWindow(QMainWindow):
         )
         if file_path:
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    transcript = json.load(f)
-                    words = transcript.get("combined_data", [])
-                    speaker_segments = transcript.get("speaker_segments", [])
-                    utterances = transcript.get("utterance_data", [])
-                    self.canvas.load_utterances(utterances)
-                # Validate and process words
-                for word in words:
-                    if 'word' not in word or 'start_time' not in word or 'end_time' not in word:
-                        raise ValueError("Invalid transcript format. Each entry must have 'word', 'start_time', and 'end_time'.")
-                    word['start'] = float(word['start_time'])
-                    word['end'] = float(word['end_time'])
-                    if 'speaker' not in word:
-                        word['speaker'] = ''
-                    else:
-                        speaker = word['speaker']
-                        if speaker and speaker not in self.speakers:
-                            self.speakers.append(speaker)
-                self.canvas.load_words(words)
+                self.transcript = Transcript.from_json_file(file_path)
+                # Extract unique speakers
+                self.speakers = list(set(
+                    word.get('speaker', '') for word in self.transcript.combined_data if word.get('speaker', '')
+                ))
+                self.canvas.load_words(self.transcript.combined_data)
+                self.canvas.load_utterances(self.transcript.combined_utterances)
                 self.update_table()
                 print(f"Loaded transcript file: {file_path}")
             except Exception as e:
@@ -624,12 +607,12 @@ class MainWindow(QMainWindow):
 
     def update_table(self):
         self.table_widget.blockSignals(True)
-        words = self.canvas.words
+        words = self.transcript.combined_data
         self.table_widget.setRowCount(len(words))
         for i, word in enumerate(words):
             word_item = QTableWidgetItem(word['word'])
-            start_item = QTableWidgetItem(f"{word['start']:.2f}")
-            end_item = QTableWidgetItem(f"{word['end']:.2f}")
+            start_item = QTableWidgetItem(f"{float(word['start_time']):.2f}")
+            end_item = QTableWidgetItem(f"{float(word['end_time']):.2f}")
             speaker_dropdown = QComboBox()
             speaker_dropdown.addItems(self.speakers + [""])
             speaker_dropdown.setCurrentText(word.get('speaker', ''))
@@ -655,11 +638,14 @@ class MainWindow(QMainWindow):
             item = self.table_widget.item(idx, 1)
             if item is not None:
                 item.setText(f"{new_pos:.2f}")
+            self.transcript.combined_data[idx]['start_time'] = new_pos
         elif boundary_type == 'end':
             item = self.table_widget.item(idx, 2)
             if item is not None:
                 item.setText(f"{new_pos:.2f}")
+            self.transcript.combined_data[idx]['end_time'] = new_pos
         self.table_widget.blockSignals(False)
+        # Do not automatically update utterances
         self.autosave()
 
     def on_waveform_clicked(self, time):
@@ -682,15 +668,26 @@ class MainWindow(QMainWindow):
                     new_time = float(new_value)
                     boundary_type = 'start' if column == 1 else 'end'
                     self.canvas.update_line_position(row, boundary_type, new_time)
+                    # Update Transcript object
+                    if boundary_type == 'start':
+                        self.transcript.combined_data[row]['start_time'] = new_time
+                    else:
+                        self.transcript.combined_data[row]['end_time'] = new_time
                 except ValueError:
                     QMessageBox.warning(self, "Invalid Input", "Start and End times must be numeric.")
                     self.table_widget.blockSignals(True)
                     item.setText(old_value)
                     self.table_widget.blockSignals(False)
                     return
+            elif column == 0:
+                # Update word text
+                self.transcript.combined_data[row]['word'] = new_value
+                self.canvas.words[row]['word'] = new_value
+                self.canvas.update_connecting_line(row)
 
             command = EditCellCommand(self, row, column, old_value, new_value)
             self.undo_stack.push(command)
+            # Do not automatically update utterances
             self.autosave()
 
         if key in self.old_values:
@@ -703,9 +700,18 @@ class MainWindow(QMainWindow):
 
     def on_speaker_changed(self, new_speaker):
         sender = self.sender()
+        index = self.table_widget.indexAt(sender.pos())
+        row = index.row()
         if new_speaker and new_speaker not in self.speakers:
             self.speakers.append(new_speaker)
             self.update_speaker_dropdowns()
+        # Update Transcript object
+        self.transcript.combined_data[row]['speaker'] = new_speaker
+        # Update Canvas
+        self.canvas.words[row]['speaker'] = new_speaker
+        self.canvas.update_connecting_line(row)
+        # Do not automatically update utterances
+        self.autosave()
 
     def update_speaker_dropdowns(self):
         for row in range(self.table_widget.rowCount()):
@@ -780,10 +786,10 @@ class MainWindow(QMainWindow):
     def highlight_current_row(self):
         current_row = self.get_current_row()
         selected_rows = self.get_selected_rows()
-        
+
         if current_row == self.previous_current_row:
             return  # No change, so no need to update
-        
+
         # Reset previous current row background
         if self.previous_current_row is not None:
             for column in range(3):
@@ -795,7 +801,7 @@ class MainWindow(QMainWindow):
                     else:
                         item.setBackground(QColor("black"))
                         item.setForeground(QColor("white"))
-        
+
         # Set new current row background
         if current_row != -1:
             for column in range(3):
@@ -804,10 +810,9 @@ class MainWindow(QMainWindow):
                     item.setBackground(QColor("yellow"))
                     item.setForeground(QColor("black"))
             self.table_widget.scrollToItem(self.table_widget.item(current_row, 0), QAbstractItemView.PositionAtCenter)
-        
+
         self.previous_current_row = current_row
-    
-    
+
     def get_current_row(self):
         for row in range(self.table_widget.rowCount()):
             try:
@@ -903,31 +908,45 @@ class MainWindow(QMainWindow):
             if speaker and speaker not in self.speakers:
                 self.speakers.append(speaker)
                 self.update_speaker_dropdowns()
+            # Update Transcript object
+            for row in selected_rows:
+                self.transcript.combined_data[row]['speaker'] = speaker
+                # Update Canvas
+                self.canvas.words[row]['speaker'] = speaker
+                self.canvas.update_connecting_line(row)
+            # Do not automatically update utterances
             self.autosave()
 
-    def autosave(self):
-        words = self.canvas.words
-        data_to_save = []
-        for word in words:
-            data_to_save.append({
-                'word': word['word'],
-                'start_time': word['start'],
-                'end_time': word['end'],
-                'speaker': word.get('speaker', '')
-            })
+    def recalculate_utterances(self):
+        if not self.transcript:
+            QMessageBox.warning(self, "No Transcript", "Please load a transcript first.")
+            return
         try:
-            with open(self.temp_file_path, 'w', encoding='utf-8') as f:
-                json.dump(data_to_save, f, indent=4)
-            print(f"Autosaved annotations to {self.temp_file_path}")
+            self.transcript.aggregate_to_utterances()
+            self.canvas.load_utterances(self.transcript.combined_utterances)
+            self.statusBar().showMessage("Utterances recalculated successfully.", 5000)
+            self.autosave()
         except Exception as e:
-            print(f"Autosave failed: {e}")
+            QMessageBox.critical(self, "Aggregation Error", f"Failed to recalculate utterances:\n{str(e)}")
+
+    def autosave(self):
+        if self.transcript:
+            try:
+                self.transcript.save_as_json(self.temp_file_path)
+                print(f"Autosaved annotations to {self.temp_file_path}")
+            except Exception as e:
+                print(f"Autosave failed: {e}")
 
     def load_autosave(self):
         if os.path.exists(self.temp_file_path):
             try:
-                with open(self.temp_file_path, "r", encoding='utf-8') as file:
-                    annotations = json.load(file)
-                self.canvas.load_words(annotations)
+                self.transcript = Transcript.from_json_file(self.temp_file_path)
+                # Extract unique speakers
+                self.speakers = list(set(
+                    word.get('speaker', '') for word in self.transcript.combined_data if word.get('speaker', '')
+                ))
+                self.canvas.load_words(self.transcript.combined_data)
+                self.canvas.load_utterances(self.transcript.combined_utterances)
                 self.update_table()
                 QMessageBox.information(self, "Recovery", "Recovered annotations from autosave.")
             except Exception as e:
@@ -959,27 +978,6 @@ class MainWindow(QMainWindow):
     def save_annotations(self):
         if not self.validate_annotations():
             return
-
-        annotations = []
-        for row_idx in range(self.table_widget.rowCount()):
-            try:
-                start = float(self.table_widget.item(row_idx, 1).text())
-                end = float(self.table_widget.item(row_idx, 2).text())
-                start = round(start, 2)
-                end = round(end, 2)
-            except (ValueError, AttributeError):
-                QMessageBox.warning(self, "Invalid Input", f"Invalid start or end time at row {row_idx + 1}.")
-                return
-
-            word = self.table_widget.item(row_idx, 0).text()
-            speaker = self.table_widget.cellWidget(row_idx, 3).currentText()
-            annotations.append({
-                "word": word,
-                "start_time": start,
-                "end_time": end,
-                "speaker": speaker if speaker else None
-            })
-
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getSaveFileName(
             self,
@@ -990,8 +988,7 @@ class MainWindow(QMainWindow):
         )
         if file_path:
             try:
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    json.dump(annotations, f, indent=4)
+                self.transcript.save_as_json(file_path)
                 QMessageBox.information(self, "Save Successful", f"Annotations saved to {file_path}")
             except Exception as e:
                 QMessageBox.critical(self, "Save Error", f"Failed to save annotations:\n{str(e)}")
@@ -1037,22 +1034,29 @@ class MainWindow(QMainWindow):
                 item.setBackground(QColor("black"))
                 item.setForeground(QColor("white"))
         self.table_widget.blockSignals(False)
-        # Update waveform
-        self.canvas.words.insert(row_position, {
+        # Update Transcript and Canvas
+        new_word_data = {
             'word': row_data['word'],
-            'start': float(row_data['start_time']),
-            'end': float(row_data['end_time']),
+            'start_time': float(row_data['start_time']),
+            'end_time': float(row_data['end_time']),
             'speaker': row_data.get('speaker', '')
-        })
+        }
+        self.transcript.combined_data.insert(row_position, new_word_data)
+        self.canvas.words.insert(row_position, new_word_data)
         self.canvas.draw_lines()
+        # Do not automatically update utterances
+        self.autosave()
 
     def remove_row(self, row_position):
         self.table_widget.blockSignals(True)
         self.table_widget.removeRow(row_position)
         self.table_widget.blockSignals(False)
-        # Update waveform
+        # Update Transcript and Canvas
+        del self.transcript.combined_data[row_position]
         del self.canvas.words[row_position]
         self.canvas.draw_lines()
+        # Do not automatically update utterances
+        self.autosave()
 
     def set_cell(self, row, column, value):
         self.table_widget.blockSignals(True)
@@ -1065,9 +1069,22 @@ class MainWindow(QMainWindow):
                 new_time = float(value)
                 boundary_type = 'start' if column == 1 else 'end'
                 self.canvas.update_line_position(row, boundary_type, new_time)
+                # Update Transcript object
+                if boundary_type == 'start':
+                    self.transcript.combined_data[row]['start_time'] = new_time
+                else:
+                    self.transcript.combined_data[row]['end_time'] = new_time
+                # Do not automatically update utterances
                 self.autosave()
             except ValueError:
                 pass
+        elif column == 0:
+            # Update word text
+            self.transcript.combined_data[row]['word'] = value
+            self.canvas.words[row]['word'] = value
+            self.canvas.update_connecting_line(row)
+            # Do not automatically update utterances
+            self.autosave()
 
     def set_speaker(self, row, speaker):
         self.table_widget.blockSignals(True)
@@ -1078,7 +1095,13 @@ class MainWindow(QMainWindow):
         if speaker and speaker not in self.speakers:
             self.speakers.append(speaker)
             self.update_speaker_dropdowns()
-            self.autosave()
+        # Update Transcript object
+        self.transcript.combined_data[row]['speaker'] = speaker
+        # Update Canvas
+        self.canvas.words[row]['speaker'] = speaker
+        self.canvas.update_connecting_line(row)
+        # Do not automatically update utterances
+        self.autosave()
 
     def validate_annotations(self):
         sorted_rows = sorted(range(self.table_widget.rowCount()), key=lambda r: float(self.table_widget.item(r, 1).text()) if self.table_widget.item(r, 1).text() else 0.0)
@@ -1108,6 +1131,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "Invalid Annotation", f"Non-numeric start or end time at row {row + 1}.")
                 return False
         return True
+
 
 # --- Main Execution ---
 
