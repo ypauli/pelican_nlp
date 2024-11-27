@@ -66,6 +66,7 @@ class Generator:
                                
                 output_ids = output_ids.sequences[:, -proactive_span:] 
                 current_metrics = self.calculate_metrics(output_sequences, logits)
+                print("current_metrics: ", current_metrics)
                 metrics = self.concatenate_metrics(metrics, current_metrics)
             else:
                 output_ids = output_ids[:, -proactive_span:]
@@ -81,7 +82,7 @@ class Generator:
                 proactive_span = constants["target_length"] + n_punctuations - text_ids.shape[1]
                 arguments["max_new_tokens"] = proactive_span
         
-        # print("text: ", text)
+        print("text: ", text)
         print("target length: ", constants["target_length"])
         print("actual length: ", text_ids.shape[1])
         print("punctuation tokens: ", n_punctuations)
@@ -92,7 +93,6 @@ class Generator:
         n = 0
         punctuation_tokens = [num for sublist in setup.punctuation_tokens for num in sublist[1:]]
         for token in text_ids[0]:
-            print(token.item())
             if token.item() in punctuation_tokens:
                 n += 1
         return n
@@ -147,7 +147,7 @@ class Generator:
         entropy_tensor_single_generation = (-probs * log_probs).sum(dim=-1)
         information_content_tensor_single_generation = -torch.log(actual_probs + 1e-9)
         entropy_deviations_tensor_single_generation = (entropy_tensor_single_generation - information_content_tensor_single_generation)
-
+        
         return (
             probability_differences_tensor_single_generation,
             entropy_tensor_single_generation,
@@ -172,48 +172,10 @@ class Generator:
         for i in range(len(metrics)):
             print(f"metrics[{i}] shape: {metrics[i].shape}")
             print(f"current_metrics[{i}] shape: {current_metrics[i].shape}")
+            if current_metrics[i].dim() == 0: # case: only one token generated
+               current_metrics[i].unsqueeze(0)
+               print("unsqueezed")
+               print(current_metrics[i])
             metrics[i] = torch.cat((metrics[i], current_metrics[i]), dim=0)
         
         return metrics
-    
-    
-    # def generate_unbounded(self, setup, device, parameter, constants, arguments):
-    #     text = parameter[0]
-    #     text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
-        
-    #     print("prompt length: ", text_ids.shape[1])
-        
-    #     metrics = [torch.empty((0,)).to(device) for _ in range(4)] #might have to adjust depending on which metrics are calculated
-    #     arguments["max_new_tokens"] = constants["target_length"] -  text_ids.shape[1] # generate target_length tokens and subtract the prompt length
-    #     output_ids = setup.model.generate(
-    #             text_ids,
-    #             attention_mask = torch.ones_like(text_ids).to(device),
-    #             **arguments
-    #         )
-        
-    #     if constants["calculate_metrics"]:
-    #         logits = output_ids.scores
-    #         output_sequences = output_ids.sequences[:, -arguments["max_new_tokens"]:]
-    #         logits = torch.cat(
-    #             [
-    #                 logits[i][output_ids["beam_indices"][0, i], :].unsqueeze(0)
-    #                 for i in range(len(logits))
-    #             ],
-    #             dim=0,
-    #         ) 
-    #         output_ids = output_ids.sequences[:, -arguments["max_new_tokens"]:] 
-    #         metrics = self.calculate_metrics(output_sequences, logits)
-    #     else:
-    #         output_ids = output_ids[:, -arguments["max_new_tokens"]:] 
-               
-    #     text_ids = torch.cat((text_ids, output_ids), dim=1)    
-    #     output = setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    #     text += " " + output
-        
-    #     n_punctuations = self.count_punctuations(setup, text_ids) 
-    #     # print("text: ", text)
-    #     print("target length: ", constants["target_length"])
-    #     print("actual length: ", text_ids.shape[1])
-    #     print("punctuation tokens: ", n_punctuations)
-            
-    #     return text, metrics 
