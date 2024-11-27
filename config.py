@@ -1,4 +1,5 @@
 import torch
+from datetime import datetime
 
 class Config:
     """
@@ -13,14 +14,14 @@ class Config:
         
         self.parameters = {
             "prompts": [
-                "Es war einmal", 
+                "Es war einmal",
                 "Ich erzähle ihnen jetzt eine Geschichte",
                 "Mein grösstes Hobby ist"
                 ],
             "temperatures": [1.5, 2.5],
             "num_beams": [2],
             
-            "retroactive_spans": [-1, 20], # -1 for unbounded
+            "retroactive_spans": [100, 20], # choose retroactive_span = target_length for unbounded context
             "proactive_spans": [20, 50],
             
             "sampling": {
@@ -32,7 +33,7 @@ class Config:
        
         self.constants = {
             "calculate_metrics": True,
-            "target_length": 100
+            "target_length": 100 # including the length of the prompt
         }
-        
-        self.file = "simu_results"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S%f")
+        self.file = f"output_{timestamp}.json"
