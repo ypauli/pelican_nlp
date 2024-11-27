@@ -1,0 +1,3 @@
+- storage optimization -> store class instances on disk?
+- integration of embeddings
+- results consolidation
