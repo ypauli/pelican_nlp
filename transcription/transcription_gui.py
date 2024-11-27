@@ -10,7 +10,7 @@ import re
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget,
     QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFileDialog, QMessageBox,
-    QInputDialog, QMenu, QAction, QUndoStack, QUndoCommand, QScrollBar
+    QInputDialog, QMenu, QAction, QUndoStack, QUndoCommand, QScrollBar, QLineEdit
 )
 from PyQt5.QtCore import Qt, QTimer, QObject, pyqtSignal, QThread
 from PyQt5.QtGui import QColor, QCursor
@@ -119,48 +119,20 @@ class AudioLoader(QObject):
 # --- Draggable Line Class for pyqtgraph ---
 
 class DraggableLine(pg.InfiniteLine):
-    def __init__(self, pos, color, idx, boundary_type, pen=None, movable=True):
+    def __init__(self, pos, color, idx, boundary_type, span = (0,1), pen=None, movable=True):
         pen = pen or pg.mkPen(color=color, width=2)
         super().__init__(pos=pos, angle=90, pen=pen, movable=movable)
         self.idx = idx
         self.boundary_type = boundary_type
+        self.setSpan(span[0], span[1])
         self.setHoverPen(pen.color().lighter())
         self.setCursor(Qt.SizeHorCursor)
         self.old_pos = pos
 
-
-# --- Custom ViewBox for Handling Mouse Events ---
-
-class CustomViewBox(pg.ViewBox):
-    def __init__(self, parent=None, canvas=None):
-        super().__init__(parent)
-        self.canvas = canvas
-
-    def mouseClickEvent(self, event):
-        if event.button() == Qt.RightButton:
-            self.raiseContextMenu(event)
-            event.accept()
-        else:
-            super().mouseClickEvent(event)
-
-    def mouseDoubleClickEvent(self, event):
-        pos = event.pos()
-        mouse_point = self.mapSceneToView(pos)
-        clicked_time = mouse_point.x()
-        self.canvas.on_waveform_double_clicked(clicked_time)
-        event.accept()
-
-    def raiseContextMenu(self, event):
-        pos = event.scenePos()
-        mouse_point = self.mapSceneToView(pos)
-        clicked_time = mouse_point.x()
-        self.canvas.on_waveform_right_clicked(clicked_time)
-        event.accept()
-
-
-# --- WaveformCanvas Class Using pyqtgraph ---
-
 class WaveformCanvas(QWidget):
+    """
+    A widget for displaying and interacting with waveform plots using pyqtgraph.
+    """
     boundary_changed = pyqtSignal(int, str, float, float)  # idx, 'start'/'end', new position, old position
     waveform_clicked = pyqtSignal(float)
     word_double_clicked = pyqtSignal(float)
@@ -168,17 +140,87 @@ class WaveformCanvas(QWidget):
     audio_loaded = pyqtSignal()
     loading_error = pyqtSignal(str)
 
-    def __init__(self, parent=None):
+    class CustomViewBox(pg.ViewBox):
+        """
+        Custom ViewBox for handling mouse events and fixing Y-axis behavior.
+        """
+
+        def __init__(self, canvas, y_limits=(-1, 1), *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.canvas = canvas
+            self.y_limits = y_limits
+            if self.canvas is None:
+                raise ValueError("CustomViewBox requires a valid 'canvas' reference.")
+
+        def mouseClickEvent(self, event):
+            """
+            Handles mouse click events. Triggers the context menu for right-clicks.
+            """
+            if event.button() == Qt.RightButton:
+                self.raiseContextMenu(event)
+                event.accept()
+            else:
+                super().mouseClickEvent(event)
+
+        def mouseDoubleClickEvent(self, event):
+            """
+            Handles mouse double-click events. Notifies the canvas of the double-click.
+            """
+            mouse_point = self.mapSceneToView(event.pos())
+            clicked_time = mouse_point.x()
+            if hasattr(self.canvas, "on_waveform_double_clicked"):
+                self.canvas.on_waveform_double_clicked(clicked_time)
+            event.accept()
+
+        def raiseContextMenu(self, event):
+            """
+            Displays the context menu for right-click events.
+            """
+            mouse_point = self.mapSceneToView(event.scenePos())
+            clicked_time = mouse_point.x()
+            if hasattr(self.canvas, "on_waveform_right_clicked"):
+                self.canvas.on_waveform_right_clicked(clicked_time)
+            event.accept()
+
+        def scaleBy(self, s=None, center=None):
+            """
+            Restricts scaling to the X-axis only.
+            """
+            if s is not None:
+                s = [s[0], 1]  # Only scale X-axis
+            super().scaleBy(s, center)
+
+        def mouseDragEvent(self, ev, axis=None):
+            """
+            Disables vertical dragging by restricting movements on the Y-axis.
+            """
+            if axis is None or axis == 1:  # Y-axis
+                ev.ignore()
+            else:
+                super().mouseDragEvent(ev, axis=axis)
+
+        def updateLimits(self):
+            """
+            Ensures the view remains within the fixed Y-axis range.
+            """
+            self.setRange(yRange=self.y_limits, padding=0, update=False)
+            
+    def __init__(self, parent=None, main_window=None):
         super().__init__(parent)
+        self.main_window = main_window  # Store the reference to MainWindow
         self.layout = QVBoxLayout(self)
 
         # Initialize PlotWidget with CustomViewBox
-        self.plot_widget = pg.PlotWidget(viewBox=CustomViewBox(canvas=self))
+        self.plot_widget = pg.PlotWidget(viewBox=self.CustomViewBox(canvas=self, y_limits=(-1, 1)))
         self.plot_widget.setYRange(-1, 1)
         self.plot_widget.showGrid(x=True, y=False)
         self.plot_widget.setLabel('bottom', 'Time', 's')
         self.layout.addWidget(self.plot_widget)
 
+        # self.plot_widget.plotItem.vb.setLimits(yMin=-1.05, yMax=1.05)
+        self.editing_line = None
+        
+        
         # Add horizontal scrollbar
         self.scrollbar = QScrollBar(Qt.Horizontal)
         self.layout.addWidget(self.scrollbar)
@@ -190,6 +232,7 @@ class WaveformCanvas(QWidget):
         self.words = []
         self.lines = []
         self.connecting_lines = []
+        self.word_segments = []
 
         self.dragging_line = None
 
@@ -201,6 +244,14 @@ class WaveformCanvas(QWidget):
         self.sr = None
         self.duration = None
         self.window_size = 5.0  # Default window size of 5 seconds
+        
+        self.speaker_colors = {
+            "SPEAKER_00": QColor(255, 200, 200, 100),  # Light red
+            "SPEAKER_01": QColor(200, 255, 200, 100),  # Light green
+            "SPEAKER_02": QColor(200, 200, 255, 100),  # Light blue
+            "UNKNOWN": QColor(200, 200, 200, 100),
+            "": QColor(200, 200, 200, 100),  # Light gray
+        }
 
     def load_audio(self, file_path):
         self.thread = QThread()
@@ -250,50 +301,33 @@ class WaveformCanvas(QWidget):
         self.utterance_items = []
         self.utterance_regions = []
 
-        speaker_colors = {
-            "SPEAKER_00": QColor(255, 200, 200, 100),  # Light red
-            "SPEAKER_01": QColor(200, 255, 200, 100),  # Light green
-            "SPEAKER_02": QColor(200, 200, 255, 100),  # Light blue
-            "UNKNOWN": QColor(200, 200, 200, 100),
-            "": QColor(200, 200, 200, 100),  # Light gray
-        }
-
         for idx, utterance in enumerate(self.utterances):
             start = float(utterance['start_time'])
             end = float(utterance['end_time'])
             speaker = utterance.get('speaker', '')
             confidence = utterance.get('confidence', '')
-            color = speaker_colors.get(speaker, QColor(200, 200, 200, 100))
+            color = self.speaker_colors.get(speaker, QColor(200, 200, 200, 100))
 
             # Add background region for utterance
-            region = pg.LinearRegionItem(values=[start + 0.01, end - 0.01], brush=color)
+            region = pg.LinearRegionItem(values=[start + 0.005, end - 0.005], brush=color, span = (0.1, 0.4))
             region.setMovable(False)
             self.plot_widget.addItem(region)
             self.utterance_regions.append(region)
 
             # Break utterance text into words
             text = utterance.get('text', '')
-            words = text.strip().split()
-
-            num_words = len(words)
-            if num_words == 0:
-                continue
 
             # Add a label for utterance metadata (e.g., speaker, index, duration)
             label_text = f"Utterance: {idx + 1}, Speaker: {speaker}, Confidence: {confidence}, Duration: {round(end - start, 2)}s"
             meta_label = pg.TextItem(label_text, anchor=(0.5, 0), color='yellow')
-            meta_label.setPos((start + end) / 2, -0.25)  # Centered above the utterance
+            meta_label.setPos((start + end) / 2, -0.95)  # Centered above the utterance
             self.plot_widget.addItem(meta_label)
             self.utterance_items.append(meta_label)
 
-            word_times = np.linspace(start, end, num_words + 2)
-
-            for word, word_time in zip(words, word_times[1:-1]):
-                # Plot the word as a text label at y=-0.5
-                label = pg.TextItem(word, anchor=(0.5, 0), color='white')
-                label.setPos(word_time, -0.5)
-                self.plot_widget.addItem(label)
-                self.utterance_items.append(label)
+            label = pg.TextItem(text, anchor=(0.5, 0), color='white')
+            label.setPos((start + end) / 2, -0.5)
+            self.plot_widget.addItem(label)
+            self.utterance_items.append(label)
 
     def clear_utterance_items(self):
         if hasattr(self, 'utterance_items'):
@@ -320,8 +354,11 @@ class WaveformCanvas(QWidget):
             self.plot_widget.removeItem(cline['line'])
             self.plot_widget.removeItem(cline['start_arrow'])
             self.plot_widget.removeItem(cline['end_arrow'])
-            self.plot_widget.removeItem(cline['label'])
+            self.plot_widget.removeItem(cline['label'])        
         self.connecting_lines = []
+        for segment in self.word_segments:
+            self.plot_widget.removeItem(segment['segment'])
+        self.word_segments = []
 
     def draw_lines(self):
         self.clear_lines()
@@ -332,9 +369,11 @@ class WaveformCanvas(QWidget):
             else:
                 y_pos_line = 0.45
 
+            start = (float(word['start_time']) + 0.005)
+            end = (float(word['end_time']) - 0.005)
             # Adjust the line positions slightly
-            start_line = DraggableLine(pos=(float(word['start_time']) + 0.005), color='green', idx=idx, boundary_type='start')
-            end_line = DraggableLine(pos=(float(word['end_time']) - 0.005), color='red', idx=idx, boundary_type='end')
+            start_line = DraggableLine(pos=start, color='green', idx=idx, boundary_type='start', span = (0.6,0.9))
+            end_line = DraggableLine(pos=end, color='red', idx=idx, boundary_type='end', span = (0.6,0.9))
             self.plot_widget.addItem(start_line)
             self.plot_widget.addItem(end_line)
             self.lines.append({'line': start_line, 'idx': idx, 'type': 'start'})
@@ -342,18 +381,20 @@ class WaveformCanvas(QWidget):
 
             # Connecting line at y=0.5
             connecting_line = pg.PlotCurveItem(
-                [float(word['start_time']) + 0.005, float(word['end_time']) - 0.005],
+                [start, end],
                 [y_pos_line, y_pos_line],  # Position the line at y=0.5
                 pen=pg.mkPen('blue', width=2),
             )
             self.plot_widget.addItem(connecting_line)
 
             # Create arrowheads
-            start_arrow = self.create_arrow(float(word['start_time']) + 0.005, y_pos_line, 0)
-            end_arrow = self.create_arrow(float(word['end_time']) - 0.005, y_pos_line, 180)
+            start_arrow = self.create_arrow(start, y_pos_line, 0)
+            end_arrow = self.create_arrow(end, y_pos_line, 180)
 
             # Create label
             label = pg.TextItem(word['word'], anchor=(0.5, 0), color='white')
+            label.setPos((float(word['start_time']) + float(word['end_time'])) / 2, 0.6)  # Adjust label position
+            label.mouseClickEvent = lambda ev, idx=idx: self.main_window.on_word_clicked(idx)  # Use self.main_window
             self.plot_widget.addItem(label)
 
             # Store all items in the connecting_lines list
@@ -363,6 +404,14 @@ class WaveformCanvas(QWidget):
                 "end_arrow": end_arrow,
                 "label": label,
             })
+            
+            color = self.speaker_colors.get(word["speaker"], QColor(200, 200, 200, 100))
+
+            # Add background region for word segment
+            word_segment = pg.LinearRegionItem(values=[start, end], brush=color, span = (0.6, 0.9))
+            word_segment.setMovable(False)
+            self.plot_widget.addItem(word_segment)
+            self.word_segments.append(word_segment)
 
             # Position label initially
             self.update_connecting_line(idx)
@@ -388,8 +437,8 @@ class WaveformCanvas(QWidget):
 
     def update_connecting_line(self, idx):
         word = self.words[idx]
-        start = float(word['start_time'])
-        end = float(word['end_time'])
+        start = float(word['start_time'])+ 0.005
+        end = float(word['end_time']) - 0.005
 
         if idx % 2 == 0:
             y_pos_line = 0.55
@@ -397,26 +446,33 @@ class WaveformCanvas(QWidget):
             y_pos_line = 0.45
 
         # Update the connecting line's x-coordinates and keep y fixed at 0.5
-        self.connecting_lines[idx]['line'].setData([start + 0.005, end - 0.005], [y_pos_line, y_pos_line])
+        self.connecting_lines[idx]['line'].setData([start , end ], [y_pos_line, y_pos_line])
 
         # Update arrowhead positions
-        self.connecting_lines[idx]['start_arrow'].setPos(start + 0.005, y_pos_line)
-        self.connecting_lines[idx]['end_arrow'].setPos(end - 0.005, y_pos_line)
+        self.connecting_lines[idx]['start_arrow'].setPos(start, y_pos_line)
+        self.connecting_lines[idx]['end_arrow'].setPos(end, y_pos_line)
 
         # Update label position (middle of the line, slightly above)
         mid_x = (start + end) / 2
 
-        if word.get("speaker", "") in ["", "UNKNOWN"]:
-            mid_y = 0.7  # Slightly above y=0.5
-        elif word["speaker"] == "SPEAKER_00":
-            mid_y = 0.4
-        elif word["speaker"] == "SPEAKER_01":
-            mid_y = 0.6
-        else:
-            mid_y = 0.0
-
-        self.connecting_lines[idx]['label'].setPos(mid_x, mid_y)
+        self.connecting_lines[idx]['label'].setPos(mid_x, 0.5)
         self.connecting_lines[idx]['label'].setText(word['word'])
+
+    def update_word_segment(self, idx):
+        
+        word = self.words[idx]
+        start_time = float(word['start_time'])
+        end_time = float(word['end_time'])
+        speaker = word.get('speaker', '')
+
+        # Update the LinearRegionItem for the word segment
+        segment = self.word_segments[idx]
+        segment.setRegion([start_time, end_time])
+
+        # Update the color based on the speaker
+        color = self.speaker_colors.get(speaker, QColor(200, 200, 200, 100))
+        segment.setBrush(color)
+        
 
     def on_line_moved(self, line):
         idx = line.idx
@@ -432,6 +488,7 @@ class WaveformCanvas(QWidget):
             self.words[idx]['end_time'] = new_pos
         self.boundary_changed.emit(idx, boundary_type, new_pos, old_pos)
         self.update_connecting_line(idx)
+        self.update_word_segment(idx)
 
     def on_waveform_double_clicked(self, clicked_time):
         self.word_double_clicked.emit(clicked_time)
@@ -514,8 +571,9 @@ class MainWindow(QMainWindow):
     def setup_ui(self):
         self.waveform_widget = QWidget()
         waveform_layout = QVBoxLayout(self.waveform_widget)
-        self.canvas = WaveformCanvas(parent=self.waveform_widget)
+        self.canvas = WaveformCanvas(parent=self.waveform_widget, main_window=self)  # Pass self here
         waveform_layout.addWidget(self.canvas)
+        self.setCentralWidget(self.waveform_widget)
 
         # Playback Controls
         playback_layout = QHBoxLayout()
@@ -630,6 +688,66 @@ class MainWindow(QMainWindow):
             if start_time <= time < end_time:
                 return idx, word
         return None, None
+    
+    def on_word_clicked(self, idx):
+        """
+        Triggered when a word label is clicked. Allows inline editing of the word.
+        """
+        word_data = self.transcript.combined_data[idx]
+        word_label = self.canvas.connecting_lines[idx]['label']
+
+        # Remove the current label from the canvas
+        self.canvas.plot_widget.removeItem(word_label)
+
+        # Calculate position for the QLineEdit
+        word_pos = word_label.pos()
+        word_text = word_data['word']
+
+        # Create a QLineEdit widget for inline editing
+        self.editing_line = QLineEdit(self.canvas)
+        self.editing_line.setText(word_text)
+        self.editing_line.setFixedWidth(150)  # Set appropriate width
+        self.editing_line.setAlignment(Qt.AlignCenter)
+
+        # Map the label's position to the scene and move QLineEdit there
+        scene_pos = self.canvas.plot_widget.plotItem.vb.mapViewToScene(word_pos)
+        self.editing_line.move(scene_pos.toPoint())
+        self.editing_line.show()
+        self.editing_line.setFocus()
+
+        # Connect editing finished signal to finalize changes
+        self.editing_line.editingFinished.connect(lambda: self.finish_editing(idx))
+        
+    def finish_editing(self, idx):
+        """
+        Finalizes word editing, updates the label, and restores functionality.
+        """
+        # Get the new word from QLineEdit
+        new_word = self.editing_line.text()
+
+        # Update the transcript data
+        old_word = self.transcript.combined_data[idx]['word']
+        if new_word != old_word:
+            command = EditWordCommand(self, idx, old_word, new_word)
+            self.undo_stack.push(command)
+
+        # Remove the QLineEdit
+        self.editing_line.deleteLater()
+        self.editing_line = None
+
+        # Create and add the updated label
+        word_label = pg.TextItem(new_word, anchor=(0.5, 0), color='white')
+        mid_x = (float(self.transcript.combined_data[idx]['start_time']) +
+                float(self.transcript.combined_data[idx]['end_time'])) / 2
+        word_label.setPos(mid_x, 0.6)  # Adjust label position
+        word_label.mouseClickEvent = lambda ev, idx=idx: self.on_word_clicked(idx)
+        self.canvas.plot_widget.addItem(word_label)
+
+        # Update the canvas label reference
+        self.canvas.connecting_lines[idx]['label'] = word_label
+
+        # Trigger autosave or other required updates
+        self.autosave()
 
     def on_word_double_clicked(self, time):
         idx, word = self.find_word_at_time(time)
@@ -680,7 +798,7 @@ class MainWindow(QMainWindow):
         if self.audio_segment is not None:
             try:
                 start_ms = int(self.current_time * 1000)
-                sliced_audio = self.audio_segment[start_ms:]
+                sliced_audio = self.audio_segment[start_ms:]    
                 self.play_obj = play_audio(sliced_audio)
                 self.is_playing = True
                 self.play_button.setText("Pause")
