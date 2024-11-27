@@ -8,6 +8,7 @@ class Document:
         self.name = name
         self.file_path = file_path
         self.file = self.file_path + '/' + self.name
+        self.results_path = None
         self.subject = None #reference to subject instance
         self.corpus_name = corpus_name #reference to corpus instance
         self.task = task  # e.g., Interview, Fluency...
@@ -31,6 +32,17 @@ class Document:
 
     def process_document(self, pipeline):
         pipeline.process_document(self)
+
+    def create_results_csv(self, project_path):
+        import os
+        relative_path = os.path.relpath(self.file_path, project_path) + '/'
+        first_slash_index = relative_path.find('/')
+        modified_relative_path = relative_path[first_slash_index+1:]
+        output_path = os.path.join(project_path, 'Outputs', modified_relative_path)
+        filename_no_extension = os.path.splitext(self.name)[0]
+        self.results_path = output_path + filename_no_extension + '_results' + '.csv'
+        with open(self.results_path, 'w') as file:
+            pass
 
     def clean_text(self, cleaner, is_dialog=False):
         """Cleans the raw text. If it's a dialog, extract spoken lines."""

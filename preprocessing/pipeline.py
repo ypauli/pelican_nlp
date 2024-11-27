@@ -1,4 +1,3 @@
-from preprocessing.text_importer import TextImporter
 from preprocessing.text_cleaner import TextCleaner
 from preprocessing.text_tokenizer import TextTokenizer
 from preprocessing.text_normalizer import TextNormalizer
@@ -6,9 +5,9 @@ from preprocessing.text_normalizer import TextNormalizer
 class TextPreprocessingPipeline:
     def __init__(self, config):
 
-        self.cleaner = TextCleaner(config.cleaning_options)
-        self.tokenizer = TextTokenizer(config.tokenization_options)
-        self.normalizer = TextNormalizer(config.normalization_options)
+        self.cleaner = TextCleaner(config['cleaning_options'])
+        self.tokenizer = TextTokenizer(config['tokenization_options'])
+        self.normalizer = TextNormalizer(config['normalization_options'])
 
     def process_document(self, document, is_dialog=False):
         """

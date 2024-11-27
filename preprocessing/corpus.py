@@ -1,21 +1,20 @@
 from extraction.extract_logits import LogitsExtractor
 from preprocessing import TextPreprocessingPipeline
-from transformers import AutoModelForCausalLM, AutoModel, LlamaForCausalLM
-from config import Config
-import torch
-from accelerate import Accelerator, init_empty_weights
+from csv_functions import store_features_to_csv
+
 
 class Corpus:
-    def __init__(self, corpus_name, documents, config, task=None):
+    def __init__(self, corpus_name, documents, configuration_settings, task=None):
         """Takes a list of file instances and configures the pipeline."""
         self.name = corpus_name #e.g. placebo_group
         self.documents = documents
-        self.config = config
+        self.config = configuration_settings
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = task
 
     def preprocess_all_documents(self):
         for document in self.documents:
+            document.create_results_csv(self.config['PATH_TO_PROJECT_FOLDER'])
             document.process_document(self.pipeline)
 
     def get_all_processed_texts(self):
@@ -29,10 +28,10 @@ class Corpus:
         return
 
     def extract_logits(self):
-        logitsExtractor = LogitsExtractor(self.config.tokenization_options.get('model_name'), self.pipeline)
+        logitsExtractor = LogitsExtractor(self.config['tokenization_options'].get('model_name'), self.pipeline, self.config['PATH_TO_PROJECT_FOLDER'])
         for i in range(len(self.documents)):
             self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens)
-            print(self.documents[i].logits)
+            store_features_to_csv(self.documents[i].logits, self.documents[i].results_path)
 
     def get_corpus_info(self):
         info = []
