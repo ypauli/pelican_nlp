@@ -1,4 +1,3 @@
-from preprocessing.text_importer import TextImporter
 from preprocessing.text_cleaner import TextCleaner
 from preprocessing.text_tokenizer import TextTokenizer
 from preprocessing.text_normalizer import TextNormalizer
