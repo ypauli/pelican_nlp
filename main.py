@@ -6,18 +6,17 @@ import os
 import torch.cuda
 import sys
 import shutil
-
 import yaml
-from numpy.lib.setup import configuration
-
 from document import Document
 from preprocessing import Subject, Corpus
-from pathlib import Path
 from setup_functions import ignore_files
 
 if __name__ == '__main__':
 
+    dev_mode = True
+
     if torch.cuda.is_available(): torch.cuda.empty_cache()
+
     #import configuration settings
     with open('config.yml') as stream:
         try:
@@ -30,8 +29,19 @@ if __name__ == '__main__':
         print('Warning: Could not find subjects; Check folder structure.')
         sys.exit()
 
+    #create output directory
     OUTPUT_DIRECTORY = configuration_settings['PATH_TO_PROJECT_FOLDER'] + 'Outputs/'
+
+    #==============================================
+    #remove Outputs folder if it already exists
+    #ONLY FOR DEVELOPMENT
+    if dev_mode:
+        if os.path.isdir(OUTPUT_DIRECTORY):
+            shutil.rmtree(OUTPUT_DIRECTORY)
+    #==============================================
+
     shutil.copytree(PATH_TO_SUBJECTS, OUTPUT_DIRECTORY, ignore=ignore_files)
+    os.mkdir(OUTPUT_DIRECTORY + 'consolidation_results')
 
     # Instantiate all subjects
     subjects = []

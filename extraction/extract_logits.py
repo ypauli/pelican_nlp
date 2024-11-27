@@ -4,11 +4,7 @@ import pandas as pd
 import time
 import os
 from tqdm import tqdm
-from accelerate import Accelerator, dispatch_model, infer_auto_device_map, init_empty_weights
-from transformers import AutoModelForCausalLM
-from torch.amp import autocast
 from extraction.LanguageModel import Model
-from config import Config
 
 class LogitsExtractor:
     def __init__(self, model_name, pipeline, project_path):
@@ -59,8 +55,6 @@ class LogitsExtractor:
             per_token_data.extend(chunk_data)
             total_processed_tokens += len(chunk_data)
 
-        self._store_features_to_csv(per_token_data)
-
         return per_token_data
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j):
@@ -104,66 +98,3 @@ class LogitsExtractor:
                 break
 
         return chunks
-
-
-    def _store_features_to_csv(self, per_token_data, filename='test_features.csv'):
-        #saving features in desired format
-        return
-
-def process_folder(folder_path, extractor, chunk_size, overlap_size):
-    """
-    Process all text files in the specified folder, extract information from filenames,
-    and collect results into a DataFrame.
-
-    Parameters:
-    - folder_path: The path to the folder containing text files.
-    - extractor: An instance of LogitsExtractor.
-    - chunk_size: The size of chunks to split the input text for processing.
-    - overlap_size: The number of tokens to overlap between chunks.
-
-    Returns:
-    - df_results: A pandas DataFrame containing the filename information and language features.
-    """
-    data = []
-    failed_files = []
-
-    # List all files in the folder
-    for filename in os.listdir(folder_path):
-        if filename.endswith('.txt'):
-            # Read the text content
-            file_path = os.path.join(folder_path, filename)
-            with open(file_path, 'r', encoding='utf-8') as f:
-                text = f.read()
-
-            print(f"Processing file: {filename}")
-            # Tokenize the text to get total number of tokens
-            input_ids = extractor.tokenizer.encode(text, return_tensors='pt')
-            total_num_tokens = input_ids.size(1)
-            print(f"Total number of tokens: {total_num_tokens}")
-
-            try:
-                tic = time.time()
-                # Process the text to extract features
-                per_token_data = extractor.extract_features(text, chunk_size=chunk_size, overlap_size=overlap_size)
-                toc = time.time()
-                print(f"Time for logits extraction: {toc - tic:.2f} seconds")
-                print(f"Number of per-token data entries: {len(per_token_data)}")
-                # Should have total_num_tokens - 1 == len(per_token_data)
-                print(f"Tokens excluding the first: {total_num_tokens - 1}")
-
-                # Collect the results
-                data.append({
-                    'filename': filename,
-                    'length': total_num_tokens,
-                    'features': per_token_data
-                })
-
-            except Exception as e:
-                print(f"Error processing file {filename}: {e}")
-                failed_files.append(filename)
-                continue  # Skip to the next file
-
-    # Create a DataFrame
-    df_results = pd.DataFrame(data)
-    df_results.to_csv(os.path.join(folder_path, "test_features.csv"), index=False)
-    return df_results
