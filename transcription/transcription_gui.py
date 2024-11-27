@@ -8,84 +8,77 @@ import time
 import re
 
 from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem,
+    QApplication, QMainWindow, QWidget,
     QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFileDialog, QMessageBox,
-    QInputDialog, QMenu, QAction, QAbstractItemView, QSplitter, QUndoStack, QUndoCommand, QScrollBar
+    QInputDialog, QMenu, QAction, QUndoStack, QUndoCommand, QScrollBar
 )
 from PyQt5.QtCore import Qt, QTimer, QObject, pyqtSignal, QThread
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QCursor
 
 import pyqtgraph as pg
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio as play_audio
 
 # Assume Transcript class is imported from another file
-from transcription import Transcript  # Replace 'transcript' with the actual module name
+from transcription import Transcript  # Replace 'transcription' with the actual module name
 
 
 # --- Undo/Redo Command Classes ---
 
-class AddRowCommand(QUndoCommand):
-    def __init__(self, main_window, row_position, row_data, description="Add Row"):
+class EditWordCommand(QUndoCommand):
+    def __init__(self, main_window, idx, old_word, new_word, description="Edit Word"):
         super().__init__(description)
         self.main_window = main_window
-        self.row_position = row_position
-        self.row_data = row_data
+        self.idx = idx
+        self.old_word = old_word
+        self.new_word = new_word
 
     def redo(self):
-        self.main_window.insert_row(self.row_position, self.row_data)
+        self.main_window.transcript.combined_data[self.idx]['word'] = self.new_word
+        self.main_window.canvas.words[self.idx]['word'] = self.new_word
+        self.main_window.canvas.update_connecting_line(self.idx)
 
     def undo(self):
-        self.main_window.remove_row(self.row_position)
+        self.main_window.transcript.combined_data[self.idx]['word'] = self.old_word
+        self.main_window.canvas.words[self.idx]['word'] = self.old_word
+        self.main_window.canvas.update_connecting_line(self.idx)
 
 
-class DeleteRowsCommand(QUndoCommand):
-    def __init__(self, main_window, rows_data, row_positions, description="Delete Rows"):
+class EditSpeakerCommand(QUndoCommand):
+    def __init__(self, main_window, idx, old_speaker, new_speaker, description="Edit Speaker"):
         super().__init__(description)
         self.main_window = main_window
-        self.rows_data = rows_data
-        self.row_positions = row_positions
-
-    def redo(self):
-        for row in sorted(self.row_positions, reverse=True):
-            self.main_window.remove_row(row)
-
-    def undo(self):
-        for row, data in sorted(zip(self.row_positions, self.rows_data)):
-            self.main_window.insert_row(row, data)
-
-
-class EditCellCommand(QUndoCommand):
-    def __init__(self, main_window, row, column, old_value, new_value, description="Edit Cell"):
-        super().__init__(description)
-        self.main_window = main_window
-        self.row = row
-        self.column = column
-        self.old_value = old_value
-        self.new_value = new_value
-
-    def redo(self):
-        self.main_window.set_cell(self.row, self.column, self.new_value)
-
-    def undo(self):
-        self.main_window.set_cell(self.row, self.column, self.old_value)
-
-
-class BulkEditSpeakerCommand(QUndoCommand):
-    def __init__(self, main_window, row_positions, old_speakers, new_speaker, description="Bulk Edit Speaker"):
-        super().__init__(description)
-        self.main_window = main_window
-        self.row_positions = row_positions
-        self.old_speakers = old_speakers
+        self.idx = idx
+        self.old_speaker = old_speaker
         self.new_speaker = new_speaker
 
     def redo(self):
-        for row in self.row_positions:
-            self.main_window.set_speaker(row, self.new_speaker)
+        self.main_window.transcript.combined_data[self.idx]['speaker'] = self.new_speaker
+        self.main_window.canvas.words[self.idx]['speaker'] = self.new_speaker
+        self.main_window.canvas.update_connecting_line(self.idx)
 
     def undo(self):
-        for row, speaker in zip(self.row_positions, self.old_speakers):
-            self.main_window.set_speaker(row, speaker)
+        self.main_window.transcript.combined_data[self.idx]['speaker'] = self.old_speaker
+        self.main_window.canvas.words[self.idx]['speaker'] = self.old_speaker
+        self.main_window.canvas.update_connecting_line(self.idx)
+
+
+class MoveBoundaryCommand(QUndoCommand):
+    def __init__(self, main_window, idx, boundary_type, old_pos, new_pos, description="Move Boundary"):
+        super().__init__(description)
+        self.main_window = main_window
+        self.idx = idx
+        self.boundary_type = boundary_type
+        self.old_pos = old_pos
+        self.new_pos = new_pos
+
+    def redo(self):
+        self.main_window.transcript.combined_data[self.idx][f'{self.boundary_type}_time'] = self.new_pos
+        self.main_window.canvas.update_line_position(self.idx, self.boundary_type, self.new_pos)
+
+    def undo(self):
+        self.main_window.transcript.combined_data[self.idx][f'{self.boundary_type}_time'] = self.old_pos
+        self.main_window.canvas.update_line_position(self.idx, self.boundary_type, self.old_pos)
 
 
 # --- Audio Loader for Asynchronous Loading ---
@@ -133,29 +126,65 @@ class DraggableLine(pg.InfiniteLine):
         self.boundary_type = boundary_type
         self.setHoverPen(pen.color().lighter())
         self.setCursor(Qt.SizeHorCursor)
+        self.old_pos = pos
+
+
+# --- Custom ViewBox for Handling Mouse Events ---
+
+class CustomViewBox(pg.ViewBox):
+    def __init__(self, parent=None, canvas=None):
+        super().__init__(parent)
+        self.canvas = canvas
+
+    def mouseClickEvent(self, event):
+        if event.button() == Qt.RightButton:
+            self.raiseContextMenu(event)
+            event.accept()
+        else:
+            super().mouseClickEvent(event)
+
+    def mouseDoubleClickEvent(self, event):
+        pos = event.pos()
+        mouse_point = self.mapSceneToView(pos)
+        clicked_time = mouse_point.x()
+        self.canvas.on_waveform_double_clicked(clicked_time)
+        event.accept()
+
+    def raiseContextMenu(self, event):
+        pos = event.scenePos()
+        mouse_point = self.mapSceneToView(pos)
+        clicked_time = mouse_point.x()
+        self.canvas.on_waveform_right_clicked(clicked_time)
+        event.accept()
 
 
 # --- WaveformCanvas Class Using pyqtgraph ---
 
 class WaveformCanvas(QWidget):
-    boundary_changed = pyqtSignal(int, str, float)  # idx, 'start'/'end', new position
+    boundary_changed = pyqtSignal(int, str, float, float)  # idx, 'start'/'end', new position, old position
     waveform_clicked = pyqtSignal(float)
+    word_double_clicked = pyqtSignal(float)
+    word_right_clicked = pyqtSignal(float)
     audio_loaded = pyqtSignal()
     loading_error = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
-        self.plot_widget = pg.PlotWidget()
+
+        # Initialize PlotWidget with CustomViewBox
+        self.plot_widget = pg.PlotWidget(viewBox=CustomViewBox(canvas=self))
         self.plot_widget.setYRange(-1, 1)
         self.plot_widget.showGrid(x=True, y=False)
         self.plot_widget.setLabel('bottom', 'Time', 's')
         self.layout.addWidget(self.plot_widget)
 
+        # Add horizontal scrollbar
         self.scrollbar = QScrollBar(Qt.Horizontal)
         self.layout.addWidget(self.scrollbar)
         self.scrollbar.valueChanged.connect(self.on_scrollbar_value_changed)
 
+        # Connect plot's X range change to update scrollbar
         self.plot_widget.plotItem.vb.sigXRangeChanged.connect(self.on_x_range_changed)
 
         self.words = []
@@ -168,12 +197,10 @@ class WaveformCanvas(QWidget):
         self.utterance_items = []
         self.utterance_regions = []
 
-        self.plot_widget.scene().sigMouseClicked.connect(self.on_waveform_click)
-
         self.audio_data = None
         self.sr = None
         self.duration = None
-        self.window_size = 5.0
+        self.window_size = 5.0  # Default window size of 5 seconds
 
     def load_audio(self, file_path):
         self.thread = QThread()
@@ -203,13 +230,13 @@ class WaveformCanvas(QWidget):
         self.plot_widget.setXRange(0, min(self.window_size, self.duration))
         self.plot_widget.setLabel('bottom', 'Time', 's')
         self.draw_lines()
-        self.boundary_changed.emit(-1, '', 0.0)  # Reset
-        print("Audio loaded successfully.")
-        print(f"Duration: {self.duration}, Window Size: {self.window_size}")
+        self.boundary_changed.emit(-1, '', 0.0, 0.0)  # Reset
+
+        # Configure scrollbar
         self.scrollbar.setMinimum(0)
         self.scrollbar.setMaximum(int(self.duration * 1000))
-        self.scrollbar.setSingleStep(100)
-        self.scrollbar.setPageStep(int(self.window_size * 1000))
+        self.scrollbar.setSingleStep(100)  # 100 ms steps
+        self.scrollbar.setPageStep(int(self.window_size * 1000))  # 5-second page steps
         self.scrollbar.setValue(0)
 
         self.audio_loaded.emit()
@@ -389,32 +416,43 @@ class WaveformCanvas(QWidget):
             mid_y = 0.0
 
         self.connecting_lines[idx]['label'].setPos(mid_x, mid_y)
+        self.connecting_lines[idx]['label'].setText(word['word'])
 
     def on_line_moved(self, line):
         idx = line.idx
         boundary_type = line.boundary_type
         new_pos = line.value()
         new_pos = max(0.0, min(new_pos, self.duration))
+        old_pos = line.old_pos
+        line.old_pos = new_pos  # Update old_pos for next time
         # Update word data
         if boundary_type == 'start':
             self.words[idx]['start_time'] = new_pos
         elif boundary_type == 'end':
             self.words[idx]['end_time'] = new_pos
-        self.boundary_changed.emit(idx, boundary_type, new_pos)
+        self.boundary_changed.emit(idx, boundary_type, new_pos, old_pos)
         self.update_connecting_line(idx)
 
-    def on_waveform_click(self, event):
-        pos = event.scenePos()
-        if not self.plot_widget.sceneBoundingRect().contains(pos):
-            return
-        mouse_point = self.plot_widget.plotItem.vb.mapSceneToView(pos)
-        clicked_time = mouse_point.x()
-        clicked_time = max(0.0, min(clicked_time, self.duration))
-        self.waveform_clicked.emit(clicked_time)
+    def on_waveform_double_clicked(self, clicked_time):
+        self.word_double_clicked.emit(clicked_time)
+
+    def on_waveform_right_clicked(self, clicked_time):
+        self.word_right_clicked.emit(clicked_time)
+
+    def on_scrollbar_value_changed(self, value):
+        start = min(value / 1000.0, self.duration - self.window_size)
+        end = min(start + self.window_size, self.duration)
+        self.plot_widget.setXRange(start, end, padding=0)
+
+    def on_x_range_changed(self, view_box, range):
+        start, end = max(0, range[0]), min(self.duration, range[1])
+        self.scrollbar.blockSignals(True)
+        self.scrollbar.setValue(int(start * 1000))
+        self.scrollbar.blockSignals(False)
 
     def update_playtime_line(self, current_time):
         self.playtime_line.setPos(current_time)
-        # Adjust view range
+        # Adjust view range and scrollbar
         self.adjust_view_range(current_time)
 
     def adjust_view_range(self, current_time, window_size=None):
@@ -433,6 +471,7 @@ class WaveformCanvas(QWidget):
         for line_info in self.lines:
             if line_info['idx'] == idx and line_info['type'] == boundary_type:
                 line_info['line'].setValue(new_pos)
+                line_info['line'].old_pos = new_pos
                 break
         # Update word data
         if boundary_type == 'start':
@@ -440,17 +479,6 @@ class WaveformCanvas(QWidget):
         elif boundary_type == 'end':
             self.words[idx]['end_time'] = new_pos
         self.update_connecting_line(idx)
-
-    def on_scrollbar_value_changed(self, value):
-        start = min(value / 1000.0, self.duration - self.window_size)
-        end = min(start + self.window_size, self.duration)
-        self.plot_widget.setXRange(start, end, padding=0)
-
-    def on_x_range_changed(self, view_box, range):
-        start, end = max(0, range[0]), min(self.duration, range[1])
-        self.scrollbar.blockSignals(True)
-        self.scrollbar.setValue(int(start * 1000))
-        self.scrollbar.blockSignals(False)
 
 
 # --- MainWindow Class ---
@@ -468,9 +496,6 @@ class MainWindow(QMainWindow):
         self.current_time = 0.0
         self.speakers = []
         self.undo_stack = QUndoStack(self)
-        self.old_values = {}
-        self.temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.json').name
-        self.previous_current_row = None  # Initialize previous_current_row
         self.transcript = None  # Initialize the Transcript object
 
         # Setup UI components
@@ -483,12 +508,10 @@ class MainWindow(QMainWindow):
         self.autosave_timer.start(5000)  # Trigger autosave every 5 seconds
 
         # Load autosave if exists
+        self.temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.json').name
         self.load_autosave()
 
     def setup_ui(self):
-        splitter = QSplitter(Qt.Horizontal)
-
-        # Left panel: Waveform
         self.waveform_widget = QWidget()
         waveform_layout = QVBoxLayout(self.waveform_widget)
         self.canvas = WaveformCanvas(parent=self.waveform_widget)
@@ -500,11 +523,8 @@ class MainWindow(QMainWindow):
         self.play_button.clicked.connect(self.toggle_playback)
         self.stop_button = QPushButton("Stop")
         self.stop_button.clicked.connect(self.stop_playback)
-        self.return_button = QPushButton("Return to Selection (X)")
-        self.return_button.clicked.connect(self.return_to_selection)
         playback_layout.addWidget(self.play_button)
         playback_layout.addWidget(self.stop_button)
-        playback_layout.addWidget(self.return_button)
         waveform_layout.addLayout(playback_layout)
 
         # Load and Save Buttons
@@ -533,29 +553,15 @@ class MainWindow(QMainWindow):
         undo_redo_layout.addWidget(redo_button)
         waveform_layout.addLayout(undo_redo_layout)
 
-        splitter.addWidget(self.waveform_widget)
-
-        # Right panel: Transcript Table
-        self.table_widget = QTableWidget()
-        self.table_widget.setColumnCount(4)
-        self.table_widget.setHorizontalHeaderLabels(["Word", "Start Time", "End Time", "Speaker"])
-        self.table_widget.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.table_widget.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        self.table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.table_widget.customContextMenuRequested.connect(self.show_context_menu)
-        splitter.addWidget(self.table_widget)
-
-        self.setCentralWidget(splitter)
+        self.setCentralWidget(self.waveform_widget)
 
     def setup_signals(self):
         self.canvas.boundary_changed.connect(self.on_boundary_changed)
         self.canvas.waveform_clicked.connect(self.on_waveform_clicked)
+        self.canvas.word_double_clicked.connect(self.on_word_double_clicked)
+        self.canvas.word_right_clicked.connect(self.on_word_right_clicked)
         self.canvas.audio_loaded.connect(self.on_audio_loaded)
         self.canvas.loading_error.connect(self.on_audio_load_error)
-        self.table_widget.itemChanged.connect(self.on_item_changed)
-        self.table_widget.cellDoubleClicked.connect(self.on_cell_double_clicked)
-        self.table_widget.currentCellChanged.connect(self.on_current_cell_changed)
-        self.table_widget.selectionModel().selectionChanged.connect(self.on_selection_changed)
 
     def load_audio(self):
         options = QFileDialog.Options()
@@ -600,129 +606,66 @@ class MainWindow(QMainWindow):
                 ))
                 self.canvas.load_words(self.transcript.combined_data)
                 self.canvas.load_utterances(self.transcript.combined_utterances)
-                self.update_table()
                 print(f"Loaded transcript file: {file_path}")
             except Exception as e:
                 QMessageBox.critical(self, "Error Loading Transcript", f"Failed to load transcript:\n{str(e)}")
 
-    def update_table(self):
-        self.table_widget.blockSignals(True)
-        words = self.transcript.combined_data
-        self.table_widget.setRowCount(len(words))
-        for i, word in enumerate(words):
-            word_item = QTableWidgetItem(word['word'])
-            start_item = QTableWidgetItem(f"{float(word['start_time']):.2f}")
-            end_item = QTableWidgetItem(f"{float(word['end_time']):.2f}")
-            speaker_dropdown = QComboBox()
-            speaker_dropdown.addItems(self.speakers + [""])
-            speaker_dropdown.setCurrentText(word.get('speaker', ''))
-            speaker_dropdown.currentTextChanged.connect(self.on_speaker_changed)
-            self.table_widget.setItem(i, 0, word_item)
-            self.table_widget.setItem(i, 1, start_item)
-            self.table_widget.setItem(i, 2, end_item)
-            self.table_widget.setCellWidget(i, 3, speaker_dropdown)
-            # Set default cell colors
-            for j in range(3):
-                item = self.table_widget.item(i, j)
-                if item:
-                    item.setBackground(QColor("black"))
-                    item.setForeground(QColor("white"))
-        self.table_widget.blockSignals(False)
-        self.statusBar().showMessage("Transcript loaded successfully.", 5000)
-
-    def on_boundary_changed(self, idx, boundary_type, new_pos):
+    def on_boundary_changed(self, idx, boundary_type, new_pos, old_pos):
         if idx == -1:
             return
-        self.table_widget.blockSignals(True)
-        if boundary_type == 'start':
-            item = self.table_widget.item(idx, 1)
-            if item is not None:
-                item.setText(f"{new_pos:.2f}")
-            self.transcript.combined_data[idx]['start_time'] = new_pos
-        elif boundary_type == 'end':
-            item = self.table_widget.item(idx, 2)
-            if item is not None:
-                item.setText(f"{new_pos:.2f}")
-            self.transcript.combined_data[idx]['end_time'] = new_pos
-        self.table_widget.blockSignals(False)
+        command = MoveBoundaryCommand(self, idx, boundary_type, old_pos, new_pos)
+        self.undo_stack.push(command)
         # Do not automatically update utterances
         self.autosave()
 
     def on_waveform_clicked(self, time):
         self.current_time = time
         self.canvas.update_playtime_line(self.current_time)
-        self.highlight_current_row()
 
-    def on_item_changed(self, item):
-        if self.table_widget.signalsBlocked():
-            return
-        row = item.row()
-        column = item.column()
-        key = (row, column)
-        old_value = self.old_values.get(key, "")
-        new_value = item.text()
+    def find_word_at_time(self, time):
+        words = self.transcript.combined_data
+        for idx, word in enumerate(words):
+            start_time = float(word['start_time'])
+            end_time = float(word['end_time'])
+            if start_time <= time < end_time:
+                return idx, word
+        return None, None
 
-        if old_value != new_value:
-            if column in [1, 2]:
-                try:
-                    new_time = float(new_value)
-                    boundary_type = 'start' if column == 1 else 'end'
-                    self.canvas.update_line_position(row, boundary_type, new_time)
-                    # Update Transcript object
-                    if boundary_type == 'start':
-                        self.transcript.combined_data[row]['start_time'] = new_time
-                    else:
-                        self.transcript.combined_data[row]['end_time'] = new_time
-                except ValueError:
-                    QMessageBox.warning(self, "Invalid Input", "Start and End times must be numeric.")
-                    self.table_widget.blockSignals(True)
-                    item.setText(old_value)
-                    self.table_widget.blockSignals(False)
-                    return
-            elif column == 0:
-                # Update word text
-                self.transcript.combined_data[row]['word'] = new_value
-                self.canvas.words[row]['word'] = new_value
-                self.canvas.update_connecting_line(row)
+    def on_word_double_clicked(self, time):
+        idx, word = self.find_word_at_time(time)
+        if word is not None:
+            new_word, ok = QInputDialog.getText(self, "Edit Word", "New word:", text=word['word'])
+            if ok and new_word != word['word']:
+                old_value = word['word']
+                command = EditWordCommand(self, idx, old_value, new_word)
+                self.undo_stack.push(command)
+                self.autosave()
+        else:
+            QMessageBox.information(self, "No Word", "No word found at this position.")
 
-            command = EditCellCommand(self, row, column, old_value, new_value)
+    def on_word_right_clicked(self, time):
+        idx, word = self.find_word_at_time(time)
+        if word is not None:
+            menu = QMenu(self)
+            speakers = self.speakers + [""]  # Add empty speaker option
+            for speaker in speakers:
+                display_text = speaker if speaker else "(No Speaker)"
+                action = QAction(display_text, self)
+                action.triggered.connect(lambda checked, s=speaker: self.set_word_speaker(idx, s))
+                menu.addAction(action)
+            menu.exec_(QCursor.pos())
+        else:
+            QMessageBox.information(self, "No Word", "No word found at this position.")
+
+    def set_word_speaker(self, idx, speaker):
+        word = self.transcript.combined_data[idx]
+        old_speaker = word.get('speaker', '')
+        if speaker != old_speaker:
+            command = EditSpeakerCommand(self, idx, old_speaker, speaker)
             self.undo_stack.push(command)
-            # Do not automatically update utterances
+            if speaker and speaker not in self.speakers:
+                self.speakers.append(speaker)
             self.autosave()
-
-        if key in self.old_values:
-            del self.old_values[key]
-
-    def on_cell_double_clicked(self, row, column):
-        item = self.table_widget.item(row, column)
-        if item:
-            self.old_values[(row, column)] = item.text()
-
-    def on_speaker_changed(self, new_speaker):
-        sender = self.sender()
-        index = self.table_widget.indexAt(sender.pos())
-        row = index.row()
-        if new_speaker and new_speaker not in self.speakers:
-            self.speakers.append(new_speaker)
-            self.update_speaker_dropdowns()
-        # Update Transcript object
-        self.transcript.combined_data[row]['speaker'] = new_speaker
-        # Update Canvas
-        self.canvas.words[row]['speaker'] = new_speaker
-        self.canvas.update_connecting_line(row)
-        # Do not automatically update utterances
-        self.autosave()
-
-    def update_speaker_dropdowns(self):
-        for row in range(self.table_widget.rowCount()):
-            speaker_dropdown = self.table_widget.cellWidget(row, 3)
-            if speaker_dropdown:
-                current_speaker = speaker_dropdown.currentText()
-                speaker_dropdown.blockSignals(True)
-                speaker_dropdown.clear()
-                speaker_dropdown.addItems(self.speakers + [""])
-                speaker_dropdown.setCurrentText(current_speaker)
-                speaker_dropdown.blockSignals(False)
 
     def toggle_playback(self):
         if self.audio_segment is None:
@@ -770,7 +713,6 @@ class MainWindow(QMainWindow):
         self.play_button.setText("Play")
         self.current_time = 0.0
         self.canvas.update_playtime_line(self.current_time)
-        self.highlight_current_row()
         if hasattr(self, 'playback_timer') and self.playback_timer.isActive():
             self.playback_timer.stop()
 
@@ -781,141 +723,6 @@ class MainWindow(QMainWindow):
             self.stop_playback()
             return
         self.canvas.update_playtime_line(self.current_time)
-        self.highlight_current_row()
-
-    def highlight_current_row(self):
-        current_row = self.get_current_row()
-        selected_rows = self.get_selected_rows()
-
-        if current_row == self.previous_current_row:
-            return  # No change, so no need to update
-
-        # Reset previous current row background
-        if self.previous_current_row is not None:
-            for column in range(3):
-                item = self.table_widget.item(self.previous_current_row, column)
-                if item:
-                    if self.previous_current_row in selected_rows:
-                        item.setBackground(QColor("blue"))
-                        item.setForeground(QColor("white"))
-                    else:
-                        item.setBackground(QColor("black"))
-                        item.setForeground(QColor("white"))
-
-        # Set new current row background
-        if current_row != -1:
-            for column in range(3):
-                item = self.table_widget.item(current_row, column)
-                if item:
-                    item.setBackground(QColor("yellow"))
-                    item.setForeground(QColor("black"))
-            self.table_widget.scrollToItem(self.table_widget.item(current_row, 0), QAbstractItemView.PositionAtCenter)
-
-        self.previous_current_row = current_row
-
-    def get_current_row(self):
-        for row in range(self.table_widget.rowCount()):
-            try:
-                start_time = float(self.table_widget.item(row, 1).text())
-                end_time = float(self.table_widget.item(row, 2).text())
-                if start_time <= self.current_time < end_time:
-                    return row
-            except (ValueError, AttributeError):
-                continue
-        return -1
-
-    def return_to_selection(self):
-        selected_rows = self.get_selected_rows()
-        if selected_rows:
-            first_row = selected_rows[0]
-            try:
-                start_time = float(self.table_widget.item(first_row, 1).text())
-                self.current_time = start_time
-                self.canvas.update_playtime_line(self.current_time)
-                self.highlight_current_row()
-            except (ValueError, AttributeError):
-                pass
-
-    def get_selected_rows(self):
-        return sorted(set(index.row() for index in self.table_widget.selectionModel().selectedRows()))
-
-    def show_context_menu(self, position):
-        menu = QMenu()
-        add_row_action = QAction("Add Row", self)
-        add_row_action.triggered.connect(self.add_row)
-        delete_row_action = QAction("Delete Selected Rows", self)
-        delete_row_action.triggered.connect(self.delete_selected_rows)
-        bulk_edit_action = QAction("Bulk Edit Speaker", self)
-        bulk_edit_action.triggered.connect(self.bulk_edit_speaker)
-        menu.addAction(add_row_action)
-        menu.addAction(delete_row_action)
-        menu.addAction(bulk_edit_action)
-        menu.exec_(self.table_widget.viewport().mapToGlobal(position))
-
-    def add_row(self):
-        row_count = self.table_widget.rowCount()
-        row_data = {'word': '', 'start_time': 0.0, 'end_time': 0.0, 'speaker': ''}
-        command = AddRowCommand(self, row_count, row_data)
-        self.undo_stack.push(command)
-        self.autosave()
-
-    def delete_selected_rows(self):
-        selected_rows = self.get_selected_rows()
-        if not selected_rows:
-            QMessageBox.information(self, "No Selection", "Please select at least one row to delete.")
-            return
-
-        # Gather data
-        rows_data = []
-        for row in selected_rows:
-            row_data = {
-                'word': self.table_widget.item(row, 0).text(),
-                'start_time': self.table_widget.item(row, 1).text(),
-                'end_time': self.table_widget.item(row, 2).text(),
-                'speaker': self.table_widget.cellWidget(row, 3).currentText()
-            }
-            rows_data.append(row_data)
-
-        confirm = QMessageBox.question(
-            self,
-            "Confirm Deletion",
-            f"Are you sure you want to delete {len(selected_rows)} selected row(s)?",
-            QMessageBox.Yes | QMessageBox.No
-        )
-        if confirm == QMessageBox.Yes:
-            command = DeleteRowsCommand(self, rows_data, selected_rows)
-            self.undo_stack.push(command)
-            self.autosave()
-
-    def bulk_edit_speaker(self):
-        selected_rows = self.get_selected_rows()
-        if not selected_rows:
-            QMessageBox.information(self, "No Selection", "Please select at least one row to edit.")
-            return
-
-        speaker, ok = QInputDialog.getItem(
-            self,
-            "Select Speaker",
-            "Choose a speaker to assign to selected rows:",
-            self.speakers + [""],
-            0,
-            False
-        )
-        if ok:
-            old_speakers = [self.table_widget.cellWidget(row, 3).currentText() for row in selected_rows]
-            command = BulkEditSpeakerCommand(self, selected_rows, old_speakers, speaker)
-            self.undo_stack.push(command)
-            if speaker and speaker not in self.speakers:
-                self.speakers.append(speaker)
-                self.update_speaker_dropdowns()
-            # Update Transcript object
-            for row in selected_rows:
-                self.transcript.combined_data[row]['speaker'] = speaker
-                # Update Canvas
-                self.canvas.words[row]['speaker'] = speaker
-                self.canvas.update_connecting_line(row)
-            # Do not automatically update utterances
-            self.autosave()
 
     def recalculate_utterances(self):
         if not self.transcript:
@@ -947,7 +754,6 @@ class MainWindow(QMainWindow):
                 ))
                 self.canvas.load_words(self.transcript.combined_data)
                 self.canvas.load_utterances(self.transcript.combined_utterances)
-                self.update_table()
                 QMessageBox.information(self, "Recovery", "Recovered annotations from autosave.")
             except Exception as e:
                 print(f"Failed to recover autosave: {e}")
@@ -993,142 +799,27 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 QMessageBox.critical(self, "Save Error", f"Failed to save annotations:\n{str(e)}")
 
-    def on_current_cell_changed(self, current_row, current_column, previous_row, previous_column):
-        if current_row >= 0:
-            try:
-                start_time = float(self.table_widget.item(current_row, 1).text())
-                self.current_time = start_time
-                self.canvas.update_playtime_line(self.current_time)
-                self.highlight_current_row()
-            except (ValueError, AttributeError):
-                pass
-
-    def on_selection_changed(self, selected, deselected):
-        self.previous_current_row = None
-        self.highlight_current_row()
-
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_X:
-            self.return_to_selection()
-        else:
-            super().keyPressEvent(event)
-
-    def insert_row(self, row_position, row_data):
-        self.table_widget.blockSignals(True)
-        self.table_widget.insertRow(row_position)
-        word_item = QTableWidgetItem(row_data['word'])
-        start_item = QTableWidgetItem(f"{float(row_data['start_time']):.2f}")
-        end_item = QTableWidgetItem(f"{float(row_data['end_time']):.2f}")
-        speaker_dropdown = QComboBox()
-        speaker_dropdown.addItems(self.speakers + [""])
-        speaker_dropdown.setCurrentText(row_data.get('speaker', ''))
-        speaker_dropdown.currentTextChanged.connect(self.on_speaker_changed)
-        self.table_widget.setItem(row_position, 0, word_item)
-        self.table_widget.setItem(row_position, 1, start_item)
-        self.table_widget.setItem(row_position, 2, end_item)
-        self.table_widget.setCellWidget(row_position, 3, speaker_dropdown)
-        # Set default cell colors
-        for j in range(3):
-            item = self.table_widget.item(row_position, j)
-            if item:
-                item.setBackground(QColor("black"))
-                item.setForeground(QColor("white"))
-        self.table_widget.blockSignals(False)
-        # Update Transcript and Canvas
-        new_word_data = {
-            'word': row_data['word'],
-            'start_time': float(row_data['start_time']),
-            'end_time': float(row_data['end_time']),
-            'speaker': row_data.get('speaker', '')
-        }
-        self.transcript.combined_data.insert(row_position, new_word_data)
-        self.canvas.words.insert(row_position, new_word_data)
-        self.canvas.draw_lines()
-        # Do not automatically update utterances
-        self.autosave()
-
-    def remove_row(self, row_position):
-        self.table_widget.blockSignals(True)
-        self.table_widget.removeRow(row_position)
-        self.table_widget.blockSignals(False)
-        # Update Transcript and Canvas
-        del self.transcript.combined_data[row_position]
-        del self.canvas.words[row_position]
-        self.canvas.draw_lines()
-        # Do not automatically update utterances
-        self.autosave()
-
-    def set_cell(self, row, column, value):
-        self.table_widget.blockSignals(True)
-        item = self.table_widget.item(row, column)
-        if item:
-            item.setText(value)
-        self.table_widget.blockSignals(False)
-        if column in [1, 2]:
-            try:
-                new_time = float(value)
-                boundary_type = 'start' if column == 1 else 'end'
-                self.canvas.update_line_position(row, boundary_type, new_time)
-                # Update Transcript object
-                if boundary_type == 'start':
-                    self.transcript.combined_data[row]['start_time'] = new_time
-                else:
-                    self.transcript.combined_data[row]['end_time'] = new_time
-                # Do not automatically update utterances
-                self.autosave()
-            except ValueError:
-                pass
-        elif column == 0:
-            # Update word text
-            self.transcript.combined_data[row]['word'] = value
-            self.canvas.words[row]['word'] = value
-            self.canvas.update_connecting_line(row)
-            # Do not automatically update utterances
-            self.autosave()
-
-    def set_speaker(self, row, speaker):
-        self.table_widget.blockSignals(True)
-        speaker_dropdown = self.table_widget.cellWidget(row, 3)
-        if speaker_dropdown:
-            speaker_dropdown.setCurrentText(speaker)
-        self.table_widget.blockSignals(False)
-        if speaker and speaker not in self.speakers:
-            self.speakers.append(speaker)
-            self.update_speaker_dropdowns()
-        # Update Transcript object
-        self.transcript.combined_data[row]['speaker'] = speaker
-        # Update Canvas
-        self.canvas.words[row]['speaker'] = speaker
-        self.canvas.update_connecting_line(row)
-        # Do not automatically update utterances
-        self.autosave()
-
     def validate_annotations(self):
-        sorted_rows = sorted(range(self.table_widget.rowCount()), key=lambda r: float(self.table_widget.item(r, 1).text()) if self.table_widget.item(r, 1).text() else 0.0)
-        for i in range(len(sorted_rows)):
-            row = sorted_rows[i]
-            start_item = self.table_widget.item(row, 1)
-            end_item = self.table_widget.item(row, 2)
-            if not start_item or not end_item:
-                QMessageBox.warning(self, "Invalid Annotation", f"Missing start or end time at row {row + 1}.")
-                return False
+        words = self.transcript.combined_data
+        words_sorted = sorted(words, key=lambda w: float(w['start_time']))
+        for i, word in enumerate(words_sorted):
             try:
-                start_time = float(start_item.text())
-                end_time = float(end_item.text())
+                start_time = float(word['start_time'])
+                end_time = float(word['end_time'])
                 if start_time > end_time:
-                    QMessageBox.warning(self, "Invalid Annotation", f"Start time must be less than end time at row {row + 1}.")
+                    QMessageBox.warning(self, "Invalid Annotation", f"Start time must be less than end time for word '{word['word']}'.")
                     return False
-                if i < len(sorted_rows) - 1:
-                    next_row = sorted_rows[i + 1]
-                    next_start = float(self.table_widget.item(next_row, 1).text())
+                if i < len(words_sorted) - 1:
+                    next_word = words_sorted[i + 1]
+                    next_start = float(next_word['start_time'])
                     if end_time > next_start:
                         QMessageBox.warning(
                             self, "Invalid Annotation",
-                            f"Annotations at rows {row + 1} and {next_row + 1} overlap."
+                            f"Annotations for words '{word['word']}' and '{next_word['word']}' overlap."
                         )
                         return False
             except ValueError:
-                QMessageBox.warning(self, "Invalid Annotation", f"Non-numeric start or end time at row {row + 1}.")
+                QMessageBox.warning(self, "Invalid Annotation", f"Non-numeric start or end time for word '{word['word']}'.")
                 return False
         return True
 
