@@ -112,6 +112,9 @@ class AudioFile:
 
         self.chunks = [Chunk(chunk_audio, start_i / 1000.0) for chunk_audio, start_i, end_i in chunks_with_timestamps]
         print(f"Total chunks after splitting: {len(self.chunks)}")
+    
+        # Validate the combined length of chunks
+        self.validate_chunk_lengths(audio_length_ms)
         
         self.register_model("Chunking", {
             "min_silence_len": min_silence_len,
@@ -156,7 +159,7 @@ class AudioFile:
     def _adjust_intervals_by_length(self, intervals: List[tuple], min_length: int, max_length: int) -> List[tuple]:
         """
         Adjusts intervals based on minimum and maximum length constraints.
-        
+
         :param intervals: List of (start_ms, end_ms) tuples.
         :param min_length: Minimum length of a chunk (ms).
         :param max_length: Maximum length of a chunk (ms).
@@ -174,6 +177,7 @@ class AudioFile:
                 continue
             else:
                 if buffer_length > max_length:
+                    # Split the buffer into multiple chunks of `max_length`
                     num_splits = int(np.ceil(buffer_length / max_length))
                     split_size = int(np.ceil(buffer_length / num_splits))
                     for i in range(num_splits):
@@ -181,27 +185,42 @@ class AudioFile:
                         split_end = min(buffer_start + (i + 1) * split_size, buffer_end)
                         adjusted_intervals.append((split_start, split_end))
                 else:
+                    # Add the buffer as a valid interval
                     adjusted_intervals.append((buffer_start, buffer_end))
-                buffer_start = buffer_end  # Update buffer_start to the end of the last buffer
+                buffer_start = buffer_end  # Reset buffer_start to the end of the current buffer
 
-        # Handle any remaining buffer
-        if buffer_end > buffer_start:
-            buffer_length = buffer_end - buffer_start
+        # Handle any remaining buffer (final chunk)
+        buffer_length = buffer_end - buffer_start
+        if buffer_length > 0:
             if buffer_length >= min_length:
-                if buffer_length > max_length:
-                    num_splits = int(np.ceil(buffer_length / max_length))
-                    split_size = int(np.ceil(buffer_length / num_splits))
-                    for i in range(num_splits):
-                        split_start = buffer_start + i * split_size
-                        split_end = min(buffer_start + (i + 1) * split_size, buffer_end)
-                        adjusted_intervals.append((split_start, split_end))
-                else:
-                    adjusted_intervals.append((buffer_start, buffer_end))
+                # Include the final chunk if it's greater than `min_length`
+                adjusted_intervals.append((buffer_start, buffer_end))
             else:
-                # Optionally handle intervals shorter than min_length
-                pass
+                # Optionally include shorter chunks
+                print(f"Final chunk is shorter than min_length ({buffer_length} ms), including it anyway.")
+                adjusted_intervals.append((buffer_start, buffer_end))
 
         return adjusted_intervals
+    
+    def validate_chunk_lengths(self, audio_length_ms: int, tolerance: float = 1.0):
+        """
+        Validates that the combined length of all chunks matches the original audio length.
+
+        :param audio_length_ms: Length of the original audio in milliseconds.
+        :param tolerance: Allowed tolerance in milliseconds.
+        """
+        # Sum up the duration of all chunks
+        combined_length = sum(len(chunk.audio_segment) for chunk in self.chunks)
+
+        # Calculate the difference
+        difference = abs(combined_length - audio_length_ms)
+        if difference > tolerance:
+            raise AssertionError(
+                f"Chunk lengths validation failed! Combined chunk length ({combined_length} ms) "
+                f"differs from original audio length ({audio_length_ms} ms) by {difference} ms, "
+                f"which exceeds the allowed tolerance of {tolerance} ms."
+            )
+        print(f"Chunk length validation passed: Total chunks = {combined_length} ms, Original = {audio_length_ms} ms.")
 
     def _split_audio_by_intervals(self, audio_segment: AudioSegment, intervals: List[tuple]) -> List[tuple]:
         """
