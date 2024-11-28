@@ -4,33 +4,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer # BitsAndBytesConfi
 import torch
 
 class Setup: 
-    """
-    A class to initialize and configure a model, tokenizer, and associated parameters for text generation.
-    """
 
     def __init__(self, config):
-        """
-        Initializes the Setup class by configuring the model, tokenizer, and parameters.
-
-        Args:
-            config (object): Configuration object containing model, device, and parameter settings.
-        """
         self.model, self.tokenizer = self.setup_model(config)
         self.parameters = self.setup_parameters(config)
         self.excluded_tokens, self.punctuation_tokens = self.setup_tokenizer()
 
     def setup_model(self, config):
-        """
-        Sets up the language model and tokenizer based on the given configuration.
-
-        Args:
-            config (object): Configuration object with the model name and device map.
-
-        Returns:
-            tuple: A tuple containing:
-                - model (transformers.PreTrainedModel): The initialized language model.
-                - tokenizer (transformers.PreTrainedTokenizer): The initialized tokenizer.
-        """
         print("Setting up the model")
         
         model = AutoModelForCausalLM.from_pretrained(
@@ -41,57 +21,38 @@ class Setup:
         return model, tokenizer
 
     def setup_parameters(self, config):
-        """
-        Configures the generation parameters by creating a product of all parameter combinations.
-
-        Args:
-            config (object): Configuration object containing parameter options.
-
-        Returns:
-            itertools.product: An iterator over all combinations of the parameter values.
-        """
         print("Setting up the parameters")
         
-        # Check whether the retroactive_span exceeds the prompt length
+        # Assert whether the retroactive_span exceeds the prompt length
         for prompt in config.parameters["prompts"]:
             tokenized_prompt_length = len(self.tokenizer(prompt))
             for retroactive_span in config.parameters["retroactive_spans"]:
                 assert (tokenized_prompt_length <= retroactive_span) or (retroactive_span == -1), \
                     f"Error: Tokenized prompt length ({tokenized_prompt_length}) exceeds the retroactive span ({retroactive_span})."
         
-        parameters = [
-            config.parameters["prompts"], config.parameters["temperatures"], config.parameters["num_beams"]
-        ]
-        
-        # Keep (retroactive_span, proactive_span) tuples only once for case unbounded context
-        context = [
-            (retro, pro)
-            for retro in config.parameters["retroactive_spans"]
-            for pro in config.parameters["proactive_spans"]
-            if retro != config.constants["target_length"] or (retro == config.constants["target_length"] and pro == config.parameters["proactive_spans"][0])
-        ]
-        
-        # Assign sampling methods to their values
+        filtered_parameters = {key: value for key, value in config.parameters.items() if key != "sampling"}
         sampling_tuples = [
             (method, value)
             for method, values in config.parameters["sampling"].items()
             for value in values
         ] 
         
-        return product(*parameters, context, sampling_tuples)
+        # Create combination of all possible parameters and sampling tuples
+        keys, values = zip(*filtered_parameters.items())
+        parameter_combinations = [
+            dict(zip(keys, combo), sampling=sampling_tuple)  # Add 'sampling' tuple to each combination
+            for combo in product(*values)
+            for sampling_tuple in sampling_tuples
+        ]
+        
+        return parameter_combinations
     
     def setup_tokenizer(self):
-        """
-        Configures the tokenizer to exclude certain tokens during text generation.
-
-        Returns:
-            list of int: A list of token IDs to be excluded from generation.
-        """
-        return self.tokenizer([
+        excluded_tokens = self.tokenizer([
             
             # Newlines and Whitespace Variations
-            "\n", "\n\n", "\n\n\n", "\t", "\r", "\r\n",
-            "#", "##", "###", "####",
+            "\n", "\n\n", "\n\n\n", "\t", "\r", "\r\n"," \n", " \n\n", ".\n", ".\n\n", 
+            "#", "##", "###", "####", "'<0x0A>'", "<0x0A>",
 
             # URL Patterns
             "http", "https", "ftp", "www.", "ftp://", "https://", "http://",  
@@ -182,19 +143,6 @@ class Setup:
             "|", "\\", "\"", "'", "<", ">", "/", "»", "£", "•", "‰", "→", "→", "÷", 
             "∘", "§", "©", "®", "†", "‡", "€", "¥", "₹",
         
-        ]).input_ids, self.tokenizer([
-            
-            # Punctuation Symbols
-            "!", "?", ":", ";", ".", ",", "(", ")",
-            
-            # Combinations
-            "!!", "!?", "!:", "!;", "!.", "!,", "!(", "!)",
-            "?!", "??", "?:", "?;", "?.", "?,", "?(", "?)",
-            ":!", ":?", "::", ":;", ":.", ":,", ":(", ":)",
-            ";!", ";?", ";:", ";;", ";.", ";,", ";(", ";)",
-            ".!", ".?", ".:", ".;", "..", ".,", ".(", ".)",
-            ",!", ",?", ",:", ",;", ",.", ",,", ",(", ",)",
-            "(!", "(?", "(:", "(;", "(.", "(,", "((", "(()",
-            ")!", ")?", "):", ");", ").", "),", ")(", "))"
-            
-            ]).input_ids
+        ]).input_ids
+        # excluded_tokens = [sublist[1:] for sublist in excluded_tokens]
+        return excluded_tokens, self.tokenizer(["! ? : ; . ,",]).input_ids

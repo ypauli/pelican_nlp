@@ -1,0 +1,45 @@
+{
+    "prompts": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperatures": 1.5,
+    "num_beams": 2,
+    "retroactive_spans": 100,
+    "proactive_spans": 20,
+    "sampling": [
+        "top_p",
+        0.2
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .\n\nEs war einmal in einem fernen Land ein kleines Dorf. In diesem Dorf lebte ein alter Mann namens Hans. Hans war kein gew\u00f6hnlicher Mann . Er besa\u00df eine besondere F\u00e4higkeit: Er konnte die Sprache der T iere verstehen und mit ihnen sprechen.\n\nEines Tages beschloss Hans, einen Ausflug in den"
+}{
+    "prompts": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperatures": 1.5,
+    "num_beams": 2,
+    "retroactive_spans": 100,
+    "proactive_spans": 20,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte von einem Mann, der einen besonderen Wunsch hatte. Er woll te einen Drachen steigen lassen. Aber er wollte keinen gew\u00f6hnlichen Drachen. Nein, er wollte einen ganz besonderen Drachen.\n \nDer Mann war schon lange auf der Suche nach diesem besonderen Drachen. Er hatte viele Gesch\u00e4fte besucht"
+}{
+    "prompts": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperatures": 1.5,
+    "num_beams": 2,
+    "retroactive_spans": 100,
+    "proactive_spans": 20,
+    "sampling": [
+        "top_p",
+        1.0
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich vor Kurzem erlebt habe. Es ist eine wahre Geschichte, ich habe sie nicht erfunden. Es ist eine kurze Geschichte von einer Person, die ich k\u00fcrzlich getroffen habe.\n\nIch war vor kurzem in einem kleinen Caf\u00e9 in einer Stadt, in der ich selten bin. W\u00e4hrend ich meinen Kaffee trank,"
+}{
+    "prompts": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperatures": 1.5,
+    "num_beams": 2,
+    "retroactive_spans": 100,
+    "proactive_spans": 20,
+    "sampling": [
+        "top_k",
+        4
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte von einem Mann, der eines Tages beschlie\u00dft, dass es Zeit ist, etwas in seinem Leben zu \u00e4ndern.\n\nDieser Mann hei\u00dft Tom und er ist Lehrer. Tom hat einen Job, der ihm Spa\u00df macht, aber er f\u00fchlt sich gestresst und ausgebrannt. Er hat Schwierigkeiten , eine Work-Life-Balance zu"
+}
