@@ -27,7 +27,6 @@ class Generator:
             text += " " + setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
         
         # punctuation_mask = self.extract_punctuations(text_ids, setup.punctuation_tokens)
-        print("output_ids length: ", text_ids.shape[1])
         
         return text
     
