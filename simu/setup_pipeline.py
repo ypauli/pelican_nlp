@@ -1,5 +1,6 @@
 from itertools import product
 from transformers import AutoModelForCausalLM, AutoTokenizer # BitsAndBytesConfig optional
+import numpy as np
 
 import torch
 
@@ -21,23 +22,29 @@ class Setup:
         return model, tokenizer
 
     def setup_parameters(self, config):
+        
         print("Setting up the parameters")
         
+        # Case: continuous sampling of parameters
+        if config.constants["continuous_parameters"]:
+            parameters = self.generate_continuous_parameters(config.continuous_parameters)
+        else:
+            parameters = config.parameters
+        
         # Assert whether the retroactive_span exceeds the prompt length
-        for prompt in config.parameters["prompts"]:
+        for prompt in parameters["prompt"]:
             tokenized_prompt_length = len(self.tokenizer(prompt))
-            for retroactive_span in config.parameters["retroactive_spans"]:
+            for retroactive_span in parameters["retroactive_span"]:
                 assert (tokenized_prompt_length <= retroactive_span) or (retroactive_span == -1), \
                     f"Error: Tokenized prompt length ({tokenized_prompt_length}) exceeds the retroactive span ({retroactive_span})."
         
-        filtered_parameters = {key: value for key, value in config.parameters.items() if key != "sampling"}
+        # Create a combination of all possible parameters and sampling tuples
+        filtered_parameters = {key: value for key, value in parameters.items() if key != "sampling"}
         sampling_tuples = [
             (method, value)
-            for method, values in config.parameters["sampling"].items()
+            for method, values in parameters["sampling"].items()
             for value in values
         ] 
-        
-        # Create combination of all possible parameters and sampling tuples
         keys, values = zip(*filtered_parameters.items())
         parameter_combinations = [
             dict(zip(keys, combo), sampling=sampling_tuple)  # Add 'sampling' tuple to each combination
@@ -46,6 +53,20 @@ class Setup:
         ]
         
         return parameter_combinations
+    
+    def generate_continuous_parameters(self, par):
+        return {
+            "prompt": par["prompt"],
+            "temperature": [np.random.uniform(par["temperature"][1], par["temperature"][2]) for _ in range(par["temperature"][0])],
+            "num_beams": [np.random.randint(par["num_beams"][1], par["num_beams"][2] + 1) for _ in range(par["num_beams"][0])],
+            "retroactive_span": [np.random.randint(par["retroactive_span"][1], par["retroactive_span"][2] + 1) for _ in range(par["retroactive_span"][0])],
+            "proactive_span": [np.random.randint(par["proactive_span"][1], par["proactive_span"][2] + 1) for _ in range(par["proactive_span"][0])],
+            "sampling": {
+                "top_p": [np.random.uniform(par["sampling"]["top_p"][1], par["sampling"]["top_p"][2]) for _ in range(par["sampling"]["top_p"][0])],
+                "top_k": [np.random.randint(par["sampling"]["top_k"][1], par["sampling"]["top_k"][2] + 1) for _ in range(par["sampling"]["top_k"][0])],
+                "typical_p": [np.random.uniform(par["sampling"]["typical_p"][1], par["sampling"]["typical_p"][2]) for _ in range(par["sampling"]["typical_p"][0])]
+            }
+        }
     
     def setup_tokenizer(self):
         excluded_tokens = self.tokenizer([
