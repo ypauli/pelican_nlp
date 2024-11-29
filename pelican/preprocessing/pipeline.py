@@ -1,6 +1,6 @@
-from preprocessing.text_cleaner import TextCleaner
-from preprocessing.text_tokenizer import TextTokenizer
-from preprocessing.text_normalizer import TextNormalizer
+from pelican.preprocessing.text_cleaner import TextCleaner
+from pelican.preprocessing.text_tokenizer import TextTokenizer
+from pelican.preprocessing.text_normalizer import TextNormalizer
 
 class TextPreprocessingPipeline:
     def __init__(self, config):

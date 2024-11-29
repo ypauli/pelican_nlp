@@ -1,0 +1,7 @@
+- storage optimization -> store class instances on disk -> after use
+- results consolidation
+- tokenization part of preprocessing or part of extraction?
+- paragraph detection
+- dialog
+...
+- create python module from project

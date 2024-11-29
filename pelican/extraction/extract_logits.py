@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
-from extraction.LanguageModel import Model
+from pelican.extraction.LanguageModel import Model
 
 class LogitsExtractor:
     def __init__(self, model_name, pipeline, project_path):

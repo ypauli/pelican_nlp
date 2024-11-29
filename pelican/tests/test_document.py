@@ -1,7 +1,7 @@
 #unit tests for document
 
 import unittest
-from preprocessing.text_document import TextDocument
+from pelican.preprocessing import TextDocument
 
 class TestTextDocumentDialog(unittest.TestCase):
     def test_dialog_extraction(self):
