@@ -1,9 +1,7 @@
 import numpy as np
-import pandas as pd
-from itertools import combinations, islice
+from itertools import combinations
 from concurrent.futures import ProcessPoolExecutor
-from scipy.spatial.distance import cosine, pdist, squareform
-from collections import Counter
+from scipy.spatial.distance import pdist, squareform
 
 class EmbeddingsExtractor:
     def __init__(self, model_name, mode='semantic'):

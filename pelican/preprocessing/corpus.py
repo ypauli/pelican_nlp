@@ -1,7 +1,7 @@
-from extraction.extract_logits import LogitsExtractor
-from extraction.extract_embeddings import EmbeddingsExtractor
-from preprocessing import TextPreprocessingPipeline
-from csv_functions import store_features_to_csv
+from pelican.extraction.extract_logits import LogitsExtractor
+from pelican.extraction.extract_embeddings import EmbeddingsExtractor
+from pelican.preprocessing import TextPreprocessingPipeline
+from pelican.csv_functions import store_features_to_csv
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, task=None):
