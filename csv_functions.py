@@ -9,25 +9,21 @@ def store_features_to_csv(input_data, output_file):
 
         if embeddings is None or tokens is None:
             raise ValueError("The input dictionary must contain 'embeddings' and 'tokens_logits'.")
-
         if len(embeddings) != len(tokens):
             raise ValueError("The number of embeddings must match the number of tokens.")
 
         # Ensure embeddings is a numpy array for consistent handling
         embeddings = np.array(embeddings, dtype=np.float32)
+
         # Write to CSV
         with open(output_file, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-
-            # Write header
             header = ['Token'] + [f"Dim_{i}" for i in range(embeddings.shape[1])]
             writer.writerow(header)
-
-            # Write each token and its corresponding embedding
             for token, embedding in zip(tokens, embeddings):
                 writer.writerow([token] + embedding.tolist())
 
-    if isinstance(input_data, list):
+    elif isinstance(input_data, list):
         headers = input_data[0].keys()
         with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=headers)

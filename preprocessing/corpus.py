@@ -14,9 +14,7 @@ class Corpus:
 
     def preprocess_all_documents(self):
         for document in self.documents:
-            print('creating results_csv')
             document.create_results_csv(self.config['PATH_TO_PROJECT_FOLDER'])
-            print('processing document')
             document.process_document(self.pipeline)
 
     def get_all_processed_texts(self):
@@ -43,7 +41,6 @@ class Corpus:
             self.documents[i].embeddings = embeddingsExtractor.process_tokens(self.documents[i].tokens_embeddings,
                                                                               self.config['window_sizes'],
                                                                               self.config['aggregation_functions'])
-            print('Debug: per_token_data =', self.documents[i].embeddings)
             store_features_to_csv(self.documents[i].embeddings, self.documents[i].results_path)
         return
 

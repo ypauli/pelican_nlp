@@ -12,17 +12,7 @@ class EmbeddingsExtractor:
         self.mode = mode #semantic or phonetic
 
     def get_vector(self, tokens):
-        """
-        Get embeddings for a list of tokens_logits using the provided model_instance.
-
-        Parameters:
-        - tokens_logits: List of tokens_logits (words).
-
-        Returns:
-        - List of embeddings corresponding to the tokens_logits.
-        """
         embeddings = []
-
         if self.mode == 'semantic':
             import fasttext.util
             fasttext.util.download_model('de', if_exists='ignore')
@@ -43,20 +33,10 @@ class EmbeddingsExtractor:
         return embeddings
 
     def compute_similarity(self, vec1, vec2, metric_function):
-        #Compute similarity between two embeddings using the provided metric function.
         return metric_function(vec1, vec2)
 
     def pairwise_similarities(self, embeddings, metric_function=None):
-        """
-        Compute pairwise similarities between all embeddings.
 
-        Parameters:
-        - embeddings: List of embedding vectors.
-        - metric_function: Function to compute similarity between two vectors.
-
-        Returns:
-        - Numpy array of pairwise similarities.
-        """
         if self.mode == 'semantic':
             # Compute cosine similarities
             distance_matrix = pdist(embeddings, metric='cosine')
@@ -99,30 +79,14 @@ class EmbeddingsExtractor:
         return overall_stats
 
     def process_tokens(self, tokens, window_sizes, metric_function=None, parallel=False):
-        """
-        Process the list of tokens_logits to compute embeddings and aggregated statistics.
-
-        Parameters:
-        - tokens_logits: List of tokens_logits (words).
-        - window_sizes: List of window sizes to compute statistics over.
-        - metric_function: Function to compute similarity between two embeddings.
-        - aggregation_functions: List of functions to aggregate similarities.
-        - parallel: Boolean, whether to use parallel processing.
-
-        Returns:
-        - Dictionary containing embeddings and aggregated statistics.
-        """
-        print('processing tokens for embedding extraction...')
 
         embeddings = self.get_vector(tokens)
         embeddings = np.array(embeddings)
 
         # Compute pairwise similarities
-        print('computing pairwise similarities...')
         similarity_matrix = self.pairwise_similarities(embeddings, metric_function)
 
         # Prepare results
-        print('preparing results...')
         results = {'embeddings': embeddings, 'tokens_logits': tokens}
 
         # Compute statistics for each window size
@@ -148,7 +112,6 @@ class EmbeddingsExtractor:
                 # Sequential processing
                 window_stats = self.compute_window_statistics(similarity_matrix, window_size)
                 results.update(window_stats)
-        print(results)
         return results
 
     @staticmethod

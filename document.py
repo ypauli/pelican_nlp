@@ -46,7 +46,6 @@ class Document:
             pass
 
     def clean_text(self, cleaner, is_dialog=False):
-        """Cleans the raw text. If it's a dialog, extract spoken lines."""
         if self.raw_text is None:
             raise ValueError("Text must be loaded before cleaning.")
 
@@ -56,7 +55,6 @@ class Document:
             self.cleaned_text = cleaner.clean(self.raw_text)
 
     def tokenize_text(self, tokenizer, purpose):
-        """Tokenizes the cleaned text."""
         if self.cleaned_text is None:
             raise ValueError("Text must be cleaned before tokenizing.")
         if purpose == 'logits':
