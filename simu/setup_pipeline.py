@@ -12,19 +12,13 @@ class Setup:
         self.excluded_tokens, self.punctuation_tokens = self.setup_tokenizer()
 
     def setup_model(self, config):
-        print("Setting up the model")
-        
         model = AutoModelForCausalLM.from_pretrained(
             config.model, device_map=config.device, torch_dtype=torch.float16
         )
         tokenizer = AutoTokenizer.from_pretrained(config.model)
-        
         return model, tokenizer
 
     def setup_parameters(self, config):
-        
-        print("Setting up the parameters")
-        
         # Case: continuous sampling of parameters
         if config.constants["continuous_parameters"]:
             parameters = self.generate_continuous_parameters(config.continuous_parameters)
@@ -51,7 +45,6 @@ class Setup:
             for combo in product(*values)
             for sampling_tuple in sampling_tuples
         ]
-        
         return parameter_combinations
     
     def generate_continuous_parameters(self, par):
@@ -65,7 +58,8 @@ class Setup:
                 "top_p": [np.random.uniform(par["sampling"]["top_p"][1], par["sampling"]["top_p"][2]) for _ in range(par["sampling"]["top_p"][0])],
                 "top_k": [np.random.randint(par["sampling"]["top_k"][1], par["sampling"]["top_k"][2] + 1) for _ in range(par["sampling"]["top_k"][0])],
                 "typical_p": [np.random.uniform(par["sampling"]["typical_p"][1], par["sampling"]["typical_p"][2]) for _ in range(par["sampling"]["typical_p"][0])]
-            }
+            },
+            "token_noise_rate": [np.random.uniform(par["token_noise_rate"][1], par["token_noise_rate"][2]) for _ in range(par["token_noise_rate"][0])],
         }
     
     def setup_tokenizer(self):
