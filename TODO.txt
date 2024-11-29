@@ -1,3 +1,6 @@
 - storage optimization -> store class instances on disk?
 - integration of embeddings
 - results consolidation
+- tokenization part of preprocessing or part of extraction?
+- paragraph detection
+- dialog?

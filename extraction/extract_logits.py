@@ -1,8 +1,5 @@
 import torch
 import torch.nn.functional as F
-import pandas as pd
-import time
-import os
 from tqdm import tqdm
 from extraction.LanguageModel import Model
 
@@ -16,6 +13,8 @@ class LogitsExtractor:
 
     def extract_features(self, tokens, chunk_size=128, overlap_size=64):
 
+        print('logits extraction in progress')
+
         model = Model(self.model_name, self.PROJECT_PATH)
         model.load_model()
 
@@ -24,7 +23,7 @@ class LogitsExtractor:
 
         per_token_data = []
 
-        total_processed_tokens = 0  # Keep track of total tokens processed to avoid duplicates
+        total_processed_tokens = 0  # Keep track of total tokens_logits processed to avoid duplicates
 
         for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
 
@@ -32,7 +31,7 @@ class LogitsExtractor:
                 outputs = model.model_instance(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
-            tokens = self.pipeline.tokenizer.convert_IDs_to_tokens(chunk.squeeze())
+            tokens = self.pipeline.tokenizer_logits.convert_IDs_to_tokens(chunk.squeeze())
             num_tokens = len(tokens)
 
             chunk_data = []
@@ -42,10 +41,10 @@ class LogitsExtractor:
                 # For the first chunk, start from index 1 (since the first token has no previous context)
                 start_idx = 1
             else:
-                # For subsequent chunks, skip tokens that were already processed in the overlap
+                # For subsequent chunks, skip tokens_logits that were already processed in the overlap
                 start_idx = overlap_size
 
-            # Loop over the tokens to predict
+            # Loop over the tokens_logits to predict
             for j in range(start_idx, num_tokens):
                 # Compute per-token metrics
                 per_token_metrics = self._compute_per_token_metrics(logits, chunk, tokens, j)
@@ -59,7 +58,7 @@ class LogitsExtractor:
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j):
 
-        # The model_instance predicts the token at position j using tokens up to position j-1
+        # The model_instance predicts the token at position j using tokens_logits up to position j-1
         # Therefore, logits at position j-1 correspond to predictions for token at position j
         token_logits = logits[:, j - 1, :]  # Shape: [1, vocab_size]
         token_probs = F.softmax(token_logits, dim=-1)
@@ -72,7 +71,7 @@ class LogitsExtractor:
         max_token_id = max_token_id.item()
         entropy = -(token_probs * token_logprobs).sum().item()
 
-        most_likely_token = self.pipeline.tokenizer.convert_IDs_to_tokens([max_token_id])[0]
+        most_likely_token = self.pipeline.tokenizer_logits.convert_IDs_to_tokens([max_token_id])[0]
         token = tokens[j]  # The token at position j
 
         return {

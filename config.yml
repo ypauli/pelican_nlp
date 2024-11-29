@@ -13,11 +13,20 @@ corpus_names:
   - "Ketamin"
   - "Placebo" # Names of individual categories to group together
 
+extract_logits: null
+extract_embeddings: true
+
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
 # Options for extract_logits
 chunk_size: null
 overlap_size: null
+
+# Options for extract_embeddings
+window_sizes: [2]
+metric_function: cosine_similarity
+aggregation_functions: mean_of_means
+
 
 cleaning_options:
   general_cleaning: true # General cleaning options used for most text preprocessing, default: True.
@@ -32,9 +41,12 @@ general_cleaning_options:
   merge_newline_characters: true
   remove_backslashes: true
 
-tokenization_options:
+tokenization_options_logits:
   method: "model_instance" # Options: model_instance, regex, nltk, etc.
   model_name: "DiscoResearch/Llama3-German-8B-32k" # Replace with your model instance name
+
+tokenization_options_embeddings:
+  method: "whitespace"
 
 normalization_options:
   method: "lemmatization" # Options: lemmatization or stemming
