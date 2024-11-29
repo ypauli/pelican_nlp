@@ -1,4 +1,5 @@
 import torch
+import random
 
 class Generator:
     
@@ -16,25 +17,41 @@ class Generator:
             if text_ids.shape[1] + parameter["proactive_span"] > constants["target_length"]:
                 arguments["max_new_tokens"] = constants["target_length"] - text_ids.shape[1] # adjust amount of generated tokens if output becomes too long
             
+            # Introduce noise to input_ids
+            print("before: ", input_ids)
+            input_ids = self.token_noise(input_ids, setup.tokenizer, parameter["token_noise_rate"])
+            print("after: ", input_ids)
+            
             output_ids = setup.model.generate(
                 input_ids,
                 attention_mask = torch.ones_like(input_ids).to(device),
                 **arguments
             )[:, -arguments["max_new_tokens"]:]
             
-            
             text_ids = torch.cat((text_ids, output_ids), dim=1)    
             text += " " + setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
-        
-        # punctuation_mask = self.extract_punctuations(text_ids, setup.punctuation_tokens)
-        
+            text = text.replace("\n", "")
+            
         return text
     
-    # def extract_punctuations(self, text_ids, punctuation_tokens):
-    #     punctuation_set = set(punctuation_tokens[0])
-    #     punctuation_set.discard(1)
-    #     punctuation_mask = [1 if token in punctuation_set else 0 for token in text_ids[0].tolist()]  
-    #     return punctuation_mask
+    def token_noise(self, input_ids, tokenizer, noise_rate):
+        if noise_rate <= 0 or noise_rate > 1:
+            raise ValueError("noise_rate must be in the range (0, 1].")
+        
+        batch_size, seq_length = input_ids.shape
+        num_noisy_tokens = int(seq_length * noise_rate)
+        if num_noisy_tokens == 0:
+            return input_ids
+
+        noise_mask = torch.rand((batch_size, seq_length), device=input_ids.device) < (noise_rate)
+        random_tokens = torch.randint(
+            low=0,
+            high=tokenizer.vocab_size,
+            size=(batch_size, seq_length),
+            device=input_ids.device
+        )
+        noisy_input_ids = torch.where(noise_mask, random_tokens, input_ids)
+        return noisy_input_ids
     
     def generate_arguments(self, setup, parameter):
         return {
@@ -45,8 +62,8 @@ class Generator:
             "return_dict_in_generate": False,
             "use_cache": False,
             "temperature": parameter["temperature"],
-            "do_sample": True,
             "num_beams": parameter["num_beams"], 
             "max_new_tokens": parameter["proactive_span"], 
+            "do_sample": True,
             parameter["sampling"][0]: parameter["sampling"][1], # sampling_method: value
         }
