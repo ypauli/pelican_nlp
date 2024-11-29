@@ -6,25 +6,33 @@ from scipy.spatial.distance import cosine, pdist, squareform
 from collections import Counter
 
 class EmbeddingsExtractor:
-    def __init__(self, model, mode='semantic'):
+    def __init__(self, model_name, mode='semantic'):
 
-        self.model = model #embedding model_instance (e.g., fastText, Epitran instance)
+        self.model = model_name #embedding model_instance (e.g., fastText, Epitran instance)
         self.mode = mode #semantic or phonetic
 
     def get_vector(self, tokens):
         """
-        Get embeddings for a list of tokens using the provided model_instance.
+        Get embeddings for a list of tokens_logits using the provided model_instance.
 
         Parameters:
-        - tokens: List of tokens (words).
+        - tokens_logits: List of tokens_logits (words).
 
         Returns:
-        - List of embeddings corresponding to the tokens.
+        - List of embeddings corresponding to the tokens_logits.
         """
         embeddings = []
+
+        if self.mode == 'semantic':
+            import fasttext.util
+            fasttext.util.download_model('de', if_exists='ignore')
+            ft = fasttext.load_model('cc.de.300.bin')
+            print('fasttext model loaded')
+
+        print('Processing embeddings for all tokens...')
         for token in tokens:
             if self.mode == 'semantic':
-                embeddings.append(self.model.get_word_vector(token))
+                embeddings.append(ft.get_word_vector(token))
             elif self.mode == 'phonetic':
                 ipa_transcription = self.model.transliterate(token)
                 # Convert IPA transcription to feature vectors (e.g., using panphon)
@@ -38,7 +46,7 @@ class EmbeddingsExtractor:
         #Compute similarity between two embeddings using the provided metric function.
         return metric_function(vec1, vec2)
 
-    def pairwise_similarities(self, embeddings, metric_function):
+    def pairwise_similarities(self, embeddings, metric_function=None):
         """
         Compute pairwise similarities between all embeddings.
 
@@ -65,13 +73,13 @@ class EmbeddingsExtractor:
             raise ValueError("Mode should be 'semantic' or 'phonetic'")
         return similarity_matrix
 
-    def compute_window_statistics(self, similarities, window_size, aggregation_functions):
+    def compute_window_statistics(self, similarities, window_size, aggregation_functions=[np.mean]):
         """
         Compute aggregated statistics over specified window sizes.
 
         Parameters:
         - similarities: Numpy array of pairwise similarities.
-        - window_size: Size of the window (number of tokens).
+        - window_size: Size of the window (number of tokens_logits).
         - aggregation_functions: List of functions to aggregate similarities.
 
         Returns:
@@ -90,12 +98,12 @@ class EmbeddingsExtractor:
         overall_stats = {key: np.mean(values) for key, values in stats.items()}
         return overall_stats
 
-    def process_tokens(self, tokens, window_sizes, metric_function, aggregation_functions, parallel=False):
+    def process_tokens(self, tokens, window_sizes, metric_function=None, parallel=False):
         """
-        Process the list of tokens to compute embeddings and aggregated statistics.
+        Process the list of tokens_logits to compute embeddings and aggregated statistics.
 
         Parameters:
-        - tokens: List of tokens (words).
+        - tokens_logits: List of tokens_logits (words).
         - window_sizes: List of window sizes to compute statistics over.
         - metric_function: Function to compute similarity between two embeddings.
         - aggregation_functions: List of functions to aggregate similarities.
@@ -104,14 +112,18 @@ class EmbeddingsExtractor:
         Returns:
         - Dictionary containing embeddings and aggregated statistics.
         """
+        print('processing tokens for embedding extraction...')
+
         embeddings = self.get_vector(tokens)
         embeddings = np.array(embeddings)
 
         # Compute pairwise similarities
+        print('computing pairwise similarities...')
         similarity_matrix = self.pairwise_similarities(embeddings, metric_function)
 
         # Prepare results
-        results = {'embeddings': embeddings, 'tokens': tokens}
+        print('preparing results...')
+        results = {'embeddings': embeddings, 'tokens_logits': tokens}
 
         # Compute statistics for each window size
         for window_size in window_sizes:
@@ -127,16 +139,16 @@ class EmbeddingsExtractor:
                         end = min(start + window_size, num_tokens)
                         window_similarities = similarity_matrix[start:end, start:end]
                         window_values = window_similarities[np.triu_indices_from(window_similarities, k=1)]
-                        futures.append(executor.submit(self.aggregate_window, window_values, aggregation_functions))
+                        futures.append(executor.submit(self.aggregate_window, window_values))
                     for future in futures:
                         window_stats = future.result()
                         for key, value in window_stats.items():
                             results.setdefault(key, []).append(value)
             else:
                 # Sequential processing
-                window_stats = self.compute_window_statistics(similarity_matrix, window_size, aggregation_functions)
+                window_stats = self.compute_window_statistics(similarity_matrix, window_size)
                 results.update(window_stats)
-
+        print(results)
         return results
 
     @staticmethod

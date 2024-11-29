@@ -18,7 +18,8 @@ class Document:
         self.importer = TextImporter(self.file_path)
         self.raw_text = self.importer.load_text(self.file)
         self.cleaned_text = None
-        self.tokens = None
+        self.tokens_logits = None
+        self.tokens_embeddings = None
         self.normalized_tokens = None
         self.processed_text = None
         self.logits = None
@@ -54,27 +55,30 @@ class Document:
         else:
             self.cleaned_text = cleaner.clean(self.raw_text)
 
-    def tokenize_text(self, tokenizer):
+    def tokenize_text(self, tokenizer, purpose):
         """Tokenizes the cleaned text."""
         if self.cleaned_text is None:
             raise ValueError("Text must be cleaned before tokenizing.")
-        self.tokens = tokenizer.tokenize(self.cleaned_text)
+        if purpose == 'logits':
+            self.tokens_logits = tokenizer.tokenize(self.cleaned_text)
+        elif purpose == 'embeddings':
+            self.tokens_embeddings = tokenizer.tokenize(self.cleaned_text)
 
     def normalize_text(self, normalizer):
-        """Normalizes the tokens (e.g., stemming or lemmatization)."""
-        if self.tokens is None:
+        """Normalizes the tokens_logits (e.g., stemming or lemmatization)."""
+        if self.tokens_logits is None:
             raise ValueError("Text must be tokenized before normalization.")
-        self.normalized_tokens = normalizer.normalize(self.tokens)
+        self.normalized_tokens = normalizer.normalize(self.tokens_logits)
         print(self.normalized_tokens)
 
     def get_processed_text(self):
-        """Returns the fully processed text (normalized tokens joined as string)."""
+        """Returns the fully processed text (normalized tokens_logits joined as string)."""
         if self.normalized_tokens is not None:
             return ' '.join(self.normalized_tokens)
-        elif self.tokens is not None:
-            return self.tokens
+        elif self.tokens_logits is not None:
+            return self.tokens_logits
         else:
-            print('no tokens')
+            print('no tokens_logits')
 
     def get_document_metadata(self):
         """Returns a summary of metadata for this document."""
