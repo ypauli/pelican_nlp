@@ -16,7 +16,6 @@ class Subject:
         document.subject = self
 
     def process_subject(self, importer, cleaner, tokenizer, normalizer):
-        """Processes all files under this subject."""
         for document in self.documents:
             document.load_text(importer)
             document.clean_text(cleaner, is_dialog=(
@@ -25,5 +24,4 @@ class Subject:
             document.normalize_text(normalizer)
 
     def get_subject_info(self):
-        """Returns a string with subject metadata."""
         return f"Subject: {self.name}\nDescription: {self.description}\nNumber of files: {len(self.documents)}"

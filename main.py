@@ -64,18 +64,16 @@ if __name__ == '__main__':
                 subjects[i].add_document(documents[-1])
 
         # Initialize the corpus with respective files
-        print('Initializing corpus...')
         corpus = Corpus(current_corpus, documents, configuration_settings)
 
         # Process all files in the corpus
-        print('preprocessing all files in corpus...')
         corpus.preprocess_all_documents()
+        print(f'all files in {current_corpus} have been preprocessed')
 
         if configuration_settings['extract_logits']:
-            print('extracting logits...')
+            print('==================Extracting logits===================')
             corpus.extract_logits()
 
         if configuration_settings['extract_embeddings']:
-            print('=============================================')
-            print('extracting embeddings...')
+            print('================Extracting embeddings=================')
             corpus.extract_embeddings()
