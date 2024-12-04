@@ -10,7 +10,7 @@ class Config:
         self.file = f"output_{timestamp}.json"
        
         self.constants = {
-            "target_length": 30,
+            "target_length": 150,
             "continuous_parameters": False
         }
         
@@ -32,8 +32,8 @@ class Config:
                 "typical_p": [0.6]
             },
             "token_noise_rate": [0],
-            "lie_rate": [1],
-            "truthfulness_penalty": [1]
+            "lie_rate": [1], # lie_rate / proactive_span = rate of lies in output text
+            "truthfulness_penalty": [0.25]
         }
 
         # self.parameters = {

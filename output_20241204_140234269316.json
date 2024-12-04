@@ -1,0 +1,197 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ein beliebtes Touristenziel mit seinen historischen und kulturellen Sehensw \u00fcrdig,"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie ist die bev\u00f6lkerungsreichste Stadt Deutschlands und hat eine lange Geschichte als Zentral"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Touristenziel. Doch auch abseits der bekannten Sehensw"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiedervereinigung hinter sich . He\u2019"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches, sondern auch kulturelles Zentrum des Landes. Berlin ist bekannt f\u00fcr seine e"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Sie bietet eine Mischung aus historischen W ahrzeuge"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist sie ein"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist Berlin"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist Berlin"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Auf der einen Seite stehen historische Geb\u00e4ude wie das Branden"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre Geschichte, Kultur und nat\u00fcrlich auch f\u00fcr ihre kulinarischen K\u00f6stlichkeiten. Mit"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches, sondern auch kulturelles Zentrum des Landes. Mit ihren historischen Denkm"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.25,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Osten des Landes und hat etwa 3,5 Millionen Einwohner. Die Stadt hat"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt ist bekannt f\u00fcr ihre reiche Geschichte und Kultur, darunter das Brandenburger Tor und"
+}

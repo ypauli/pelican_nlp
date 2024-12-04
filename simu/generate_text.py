@@ -25,9 +25,6 @@ class Generator:
             # Introduce noise to input_ids
             input_ids = self.token_noise(input_ids, setup.tokenizer, parameter["token_noise_rate"])
             
-            # Introduce lie: to input_ids
-            # input_ids = self.random_token(setup, device, input_ids)
-            
             output = setup.model.generate(
                 input_ids,
                 attention_mask = torch.ones_like(input_ids).to(device),
@@ -44,10 +41,16 @@ class Generator:
             print("truthful output: ", setup.tokenizer.decode(output_ids[0], skip_special_tokens=True))
             
             if torch.rand(1).item() < parameter["lie_rate"]:
-                output_ids[:, -1] = self.introduce_lies(setup, output_ids[:, :-1], parameter["truthfulness_penalty"]) # change truthfulness penalty
-                
-            print("output after lie: ", setup.tokenizer.decode(output_ids[0], skip_special_tokens=True))
+                lied_tokens = self.introduce_lies(setup, output_ids[:, :-1], parameter["truthfulness_penalty"])
+
+                # Handle multi-token lies coherently
+                if lied_tokens.shape[1] > 1:
+                    output_ids[:, -lied_tokens.shape[1]:] = lied_tokens
+                else:
+                    output_ids[:, -1] = lied_tokens.squeeze(1) 
             
+            print("output after lie: ", setup.tokenizer.decode(output_ids[0], skip_special_tokens=True))
+                        
             # Concatenate results
             text_ids = torch.cat((text_ids, output_ids), dim=1)    
             text += " " + setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
@@ -55,65 +58,38 @@ class Generator:
             
         return text
     
-    def random_token(self, setup, device, input_ids):
-        vocab_size = setup.tokenizer.vocab_size
-        random_token_id = torch.tensor([random.randint(0, vocab_size - 1)], device=device)
-        input_ids[:, -1] = random_token_id
-        return input_ids
-    
-    def introduce_lies(self, setup, output_ids, truthfulness_penalty):    
-            
-        # Check if output_ids is valid
+    def introduce_lies(self, setup, output_ids, truthfulness_penalty):
         if output_ids is None or output_ids.shape[0] == 0 or output_ids.shape[1] <= 1:
             print(f"Skipping introduce_lies due to invalid output_ids. Shape: {output_ids.shape}")
-            return output_ids  # Return the original output_ids unchanged
-        
+            return output_ids
+
+        # Get logits for the last step
         logits = setup.model(input_ids=output_ids).logits[:, -1, :]
         probabilities = torch.softmax(logits, dim=-1)
 
-        # Get normalized embeddings
+        # Normalize embeddings
         context_embedding = self.get_context_embedding(output_ids, setup)
         token_embeddings = torch.nn.functional.normalize(self.token_embeddings.to(context_embedding.dtype), dim=-1)
 
-        # Move embeddings to CPU for similarity computation
-        context_embedding_cpu = context_embedding.cpu()
-        token_embeddings_cpu = token_embeddings.cpu()
+        # Compute semantic similarity
+        similarities = cosine_similarity(token_embeddings.cpu(), context_embedding.cpu().unsqueeze(0), dim=-1)
+        similarities = torch.clamp(similarities, min=0, max=1)
 
-        # Compute semantic similarities on CPU
-        similarities = cosine_similarity(token_embeddings_cpu, context_embedding_cpu.unsqueeze(0), dim=-1)
-        similarities = torch.clamp(similarities, min=0, max=1)  # Clamp for safety
-
-        # Exaggerate similarities for stronger penalization #(1)
-        similarities = torch.pow(similarities, 2)  # Exaggerate higher values #(1)
-        similarities *= 100  # Scale to make the penalization significant #(1)
-        
-        # Move similarities back to the original device
-        similarities = similarities.to(probabilities.device)
-
-        # Penalize probabilities based on similarities
+        # Penalize probabilities
         penalized_probabilities = probabilities.clone()
-        penalized_probabilities *= torch.clamp(1 - truthfulness_penalty * similarities, min=0)
+        penalized_probabilities *= torch.clamp(1 - truthfulness_penalty * similarities.to(probabilities.device), min=0.1)
 
-        # Exclude correct tokens from penalized probabilities #(1)
-        correct_token_index = torch.argmax(probabilities, dim=-1)  #(1)
-        penalized_probabilities[:, correct_token_index] = 0  #(1)
+        # Normalize after penalization
+        penalized_probabilities /= penalized_probabilities.sum(dim=-1, keepdim=True) + 1e-12
 
-        # Recompute normalization after adjustments #(1)
-        penalized_probabilities /= penalized_probabilities.sum(dim=-1, keepdim=True) + 1e-12  #(1)
-
-        # Add noise to encourage selecting plausible but incorrect tokens #(1)
-        noise = torch.rand_like(penalized_probabilities) * 0.1 #(1)
-        penalized_probabilities += noise #(1)
-        penalized_probabilities /= penalized_probabilities.sum(dim=-1, keepdim=True)  # Re-normalize #(1)
+        # Add slight noise for diversity
+        # noise = torch.rand_like(penalized_probabilities) * 0.05
+        # penalized_probabilities += noise
+        # penalized_probabilities /= penalized_probabilities.sum(dim=-1, keepdim=True)
 
         # Sample a new token
         new_tokens = torch.multinomial(penalized_probabilities, 1)
 
-        # Debugging info (optional)
-        # print("Updated Similarities:", similarities)
-        # print("Original Probabilities:", probabilities)
-        # print("Penalized Probabilities:", penalized_probabilities)
-        
         return new_tokens
 
     def get_context_embedding(self, output_ids, setup):
