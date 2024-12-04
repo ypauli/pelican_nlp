@@ -1,0 +1,29 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat etwa 3,5 Millionen Einwohner und ist die gr\u00f6\u00dfte Stadt in Deutschland . Berlin ist bekannt f\u00fcr seine Geschichte, Kultur und Architektur. Es gibt viele Seite , die \u00fcber die Geschichte von Berlin informieren, wie zum Beispiel das Deutsche Historischen Museum oder das Brandenburger Tor.Berlin ist auch ein Zentrum f\u00fcr Ac rylmalerei und Aquarellmalerei. Es ist"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin und die Einwohnerzahl betr\u00e4gt etwa 3,5 Millionen Menschen. Die Stadt te ilt sich in 12 Bezirke auf, wobei jeder Bezirk seine eine eigene Verwaltung hat. Berlin ist bekannt f\u00fcr seine reiche Geschichte, Kultur und Arch itektur und zieht jedes Jahr Millionen von Touristen an.Kultur und Sehensw\u00fcrdigkeitenKultur"
+}

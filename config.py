@@ -10,27 +10,51 @@ class Config:
         self.file = f"output_{timestamp}.json"
        
         self.constants = {
-            "target_length": 100,
-            "continuous_parameters": True
+            "target_length": 30,
+            "continuous_parameters": False
         }
-
+        
+        # Test configutation
         self.parameters = {
             "prompt": [
+                "Die Hauptstadt von Deutschland ist",
                 "Ich erzähle ihnen jetzt eine Geschichte",
                 "Es war einmal",
                 "Mein grösstes Hobby ist"
                 ],
-            "temperature": [1.5, 2.5],
+            "temperature": [1.0],
             "num_beams": [2],
-            "retroactive_span": [20, 100],
-            "proactive_span": [20, 50],
+            "retroactive_span": [50, 100],
+            "proactive_span": [20, 50, 100],
             "sampling": {
-                "top_p": [0.2, 0.6, 1.0],
-                "top_k": [4, 16, 32, 64],
-                "typical_p": [0.2, 0.6, 1.0]
+                "top_p": [0.6],
+                "top_k": [32],
+                "typical_p": [0.6]
             },
-            "token_noise_rate": [0.1, 0.5],
+            "token_noise_rate": [0],
+            "lie_rate": [1],
+            "truthfulness_penalty": [1]
         }
+
+        # self.parameters = {
+        #     "prompt": [
+        #         "Die Hauptstadt von Deutschland ist",
+        #         "Ich erzähle ihnen jetzt eine Geschichte",
+        #         "Es war einmal",
+        #         "Mein grösstes Hobby ist"
+        #         ],
+        #     "temperature": [1.0, 2.5],
+        #     "num_beams": [2],
+        #     "retroactive_span": [20, 100],
+        #     "proactive_span": [20, 50],
+        #     "sampling": {
+        #         "top_p": [0.2, 0.6, 1.0],
+        #         "top_k": [4, 16, 32, 64],
+        #         "typical_p": [0.2, 0.6, 1.0]
+        #     },
+        #     "token_noise_rate": [0.1, 0.5],
+        #     "lie_rate": [0.2]
+        # }
         
         self.continuous_parameters = {
             "prompt": [

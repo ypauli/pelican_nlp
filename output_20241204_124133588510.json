@@ -1,0 +1,463 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Mit \u00fcber 3,5 Millionen Einwohnern ist sie die bev\u00f6lkerungsColor ado.repeat"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre historischen Sehensw\u00fcrdigkeiten wie das Brandenburger Tor undually den Reichmel"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches, sondern auch kulturelles Zentrum Deutschlands. In Berlinsembly ourselfxy"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist\u09a6"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ein beliebtes Touristenziel mit zahlreichen historischen und kulturellen Sehenonymous"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist auf jeden Fall eine Reise wert. Hier gibt es viel zu sehen und zu erle luc"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Osten des Landes und hat etwa 3,5 Millionen Einwohner. Die StadtMart"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre reiche Geschichte und Kultur. Sie ist ein wichtiger internationaler Knotenpunkt\u0ac7"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre einzigartige Architektur und Geschichte, aber auch f\u00fcr ihr lebendiges NChange"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht.l . BerlinBeen"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Berlin ist eine pulsierende Metropole mit einer reichen Geschichte und Kultur,PRE IS:oral"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Einerseits pulsiert das Leben in den Straouble , anderforall"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Berlin ist eine der gr\u00f6\u00dften St\u00e4dte in Europa und hat eine lange Geschichte der kulturezens"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine lebendige Metropole voller Kontraste. Sie bietet eine Mischung through"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine pulsierende Metropole, in der es immer etwas zu entdecken gibt. Obwohal"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist Rangers"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Berlin ist nicht nur politisches, sondern auch kulturelles Zentrum Deutschlands. Dieialize"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine der wichtigsten St\u00e4dte in Europa und bekannt f\u00fcr ihre reiche Geschichte, Kultur und W \u044f\u043d\u0432\u0430\u0440\u044f"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein alter Mann, impact"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich vor kurzem erlebt habe. Es war an einem son Community"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal in einem fernen Land ein kleines Dorf. In temp"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich selbst erlebt habe.Es war einmal inggreg"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die sich vor langer Zeit zugetragen hat.Es war ein continue"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal in einem kleinen Dorf ein alter Mann, der sehr arm\u9884"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich k\u00fcrzlich geh\u00f6rt habe.Es war ein\u0442\u0443\u0440"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte, die so wahr ist, dass man sie kaum gla Making"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte von einem Mann, der auf einer einsamen Insel lebhell"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein kleines Dorf\u1ee7"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich vor ein paar Tagen erlebt habe.wer"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal in einem fernen Land ein K\u00f6nigreich. In diesem adapt"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem kleinen Dorf ein alter Mann. Dies obt"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich gerne mit ihnen teilen m\u00f6chte.Es war traded"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte, die mir vor vielen Jahren ein Freund erz\u00e4hlt hat\uc6b0"
+}

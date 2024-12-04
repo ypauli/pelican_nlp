@@ -1,0 +1,169 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist  ASSISTANT: Die Hauptstadt von Deutschland ist Berlin. Sie ist eine der gr\u00f6\u00dften St St\u00e4dte in Europa und hat eine lange Geschichte der Kultur, Kunst und Wissenschaft. . Die Stadt ist bekannt f\u00fcr ihre vielf\u00e4ltige Architektur, darunter das Branden , das Reichstagsgeb\u00e4ude und der Fernsehturm. Berlin ist auch ein wicht ... mehr lesenBerlin ist die Hauptstadt von"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist (25.03.2008)Berlin ist die Hauptstadt stadt von Deutschland.Die Stadt ist sehr gro\u00df,es gibt viel zu se S ehen.Es gibt viele Sehensw\u00fcrdigkeiten,wie das Brand Berliner Schloss,den Reichstag und den Fernsehturm.A Wir haben viel zu erleben. Die"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist /Berlin ist nicht nur ein Zentrum f\u00fcr Politik und Wirtschaft, sondern auch ein /ein wichtiger internationaler Verkehrsknotenpunkt. Hier treffen sich Stra\u00dfen-, Schienen-, Luft- und Wasserwege aufeinander und mac bieten ein vielseitiges Reise- und Touristenziel. Der Hauptbahnhof, der Busbahnhof und der"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist  ASSISTANT: Berlin ist die Hauptstadt von Deutschland. Sie ist eine der gr\u00f6\u00dften St\u00e4dte in Europa und hat eine lange Geschichte der Kultur, Politik und Wirtschaft. Die Stadt ist bekannt f\u00fcr ihre vielf\u00e4ltige K Kultur, darunter das Brandenburger Tor, das Holocaust-Mahnmal und der Checkpoint Charlie. Berlin ist auch ein wichtiges Zentrum f\u00fcr Wissenschaft und Forsch"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist (22.09.2005)Berlin ist die Hauptstadt von Deutschland und zugleich eines der 16 Bundesl\u00e4nder. Mit seinen 3,2 Millionen Einwohnern ist es die (...)Berlin ist die Hauptstadt von Deutschland und zugleich eines der 16 Bundesl\u00e4nder. Mit seinen 3,2 Millionen Einwohnern ist es das bev\u00f6lkerungs"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist , Berlin, ist eine Stadt voller Kontraste. Mit seinen historischen Denkm\u00e4lern, modernen Geb\u00e4uden und lebendigen Kiezen bietet es eine Vielzahl von Sehensw\u00fcrdigkeiten , die es zu erkunden gilt.1. Brandenburger TorDas Brandenburger Tor ist eines der bekanntesten Wahrzeichen Berlins und ein Symbol"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist  ASSISTANT: Berlin ist die Hauptstadt von Deutschland. Sie ist eine der gr\u00f6\u00dften St\u00e4dte in Europa und hat eine lange Geschichte der Kultur, Politik und Wirtschaft. Die Stadt ist bekannt f\u00fcr ihre vielf\u00e4ltige Kulturszene, historische Denkm\u00e4ler wie das Brandenburger Tor und den Reichstag sowie moderne Attraktionen wie den Fernsehturm und den Alexanderplatz."
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist /Berlin ist nicht nur f\u00fcr ihre vielf\u00e4ltige Kultur und Geschichte bekannt, sondern auch f\u00fcr ihre unglaubliche K\u00fcche. Wenn du nach Berlin kommst, solltest du unbedingt die folgenden Gerichte probieren:1. Currywurst mit Pommes: Dies ist ein absolutes Muss f\u00fcr jeden Besucher in Berlin. Die Currywurst ist eine traditionelle Berlin"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ist nicht nur politisches, sondern auch wirtschaftliches Zentrum des Landes. Berlin ist eine pulsierende Metropole, in der mehr als 3,5 Millionen Menschen leben. Mit seinen zahlreichen Sehensw\u00fcrdigkeiten wie dem Brandenburger Tor, dem Reichstag oder dem Fernsehturm ist Berlin ein beliebtes Touristenziel.Die Stadt ist aber nicht nur f\u00fcr ihre"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist (20.04.2011)Berlin ist die Hauptstadt Berlin ist die Hauptstadt von Deutschland. Sie hat eine lange Geschichte, die bis ins Mittel Mittelalter zur\u00fcckreicht. Heute ist Berlin ein Zentrum f\u00fcr Kunst, Kultur und und Wissenschaft. Die Stadt ist bekannt f\u00fcr ihre vielf\u00e4ltige Architektur, dar darunter das Brandenburger Tor und der Reichst"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist (21.11.2006)Die Stadt Berlin ist die Haupt Hauptstadt von Deutschland.Sie hat viele Sehensw\u00fcrdigkeiten, Die Stadt Berlin ist die Hauptstadt von Deutschland. Sie hat viele Sehensw\u00fcrdigkeiten Die Stadt Berlin ist die Hauptstadt von Deutschland. Sie hat viele Sehensw\u00fcrdigkeiten , wie zum Beispiel das Brandenburger Tor,"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht.  ASSISTANT: Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, , die bis ins Mittelalter zur\u00fcckreicht, als sie noch unter dem Namen C\u00f6ll lln oder Berlin-C\u00f6lln bekannt war. Heute ist Berlin eine bl\u00fc \u00fchende Metropole mit einer vielf\u00e4ltigen"
+}

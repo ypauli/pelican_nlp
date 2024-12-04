@@ -1,0 +1,25 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.2
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiedervereinigung hinter sich f\u00fcr die Rechte der Frauen eingesetzt haben.W\u00e4hrend des Zweiten Weltkrieg s war sie Mitglied der Women's Auxiliary Air Force (WAAF), wo sie 1942 gegr\u00fcndet wurde, um die Royal Air Force zu unterst\u00fctzen. Das Unternehmen wurde 1942 gegr\u00fcnd"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt ist bekannt f\u00fcr ihre reiche Geschichte, Kultur und Architektur. Sie ist auch ein wichtiger internationaler Handelspunkt und ein beliebtes Touristenziel .Geschichte Die Stadt wurde im 15. Jahrhundert gegr\u00fcndet und war ein wichtiger Handelspunkt an der Seidenstra\u00dfe. Im 13 . Jahrhundert wurde die Stadt von den Mongolen zerst\u00f6rt und"
+}

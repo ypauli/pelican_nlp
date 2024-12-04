@@ -1,0 +1,29 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist (20.04.2008)Berlin ist die Hauptstadt Berlin ist die Hauptstadt von Deutschland. Sie hat eine lange Geschichte, die bis ins Mittel Mittelalter zur\u00fcckreicht. Heute ist Berlin ein Zentrum f\u00fcr Kunst, Kultur und Berlin ist die Hauptstadt von Deutschland. Sie hat eine lange Geschichte, die bis ins Mittel Mittelalter zur\u00fcckreicht. Heute ist Berlin ein Zent"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1000,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Reisetipps: Berlin ist eine Stadt voller Kontraste und Vielfalt, Reisetipps: Berlin ist eine Stadt voller Kontraste und Vielfalt Reisetipps: Berlin ist eine Stadt voller Kontraste und VielfaltRe Reisetipps: Berlin ist eine Stadt voller Kontraste und Vielfalt Reisetipps: Berlin ist eine Stadt voller Kon"
+}
