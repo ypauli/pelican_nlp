@@ -1,0 +1,1009 @@
+{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiedervereinigung hinter indu ktions\u8fdb"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Osten des Landes und hat etwa 3,5 Millionen Einwohnerieur . BerlinPadding"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre vielf\u00e4ltige Geschichte, Kultur und Architektur. Es gibt so vREL LE Settp"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Auf der einen Seite stehen historische Geb\u00e4ude wie das Brand\ud604"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Mit seinen 3,5 Millionen Einwohnern ist sie die bev\u00f6lkerungsreichste Stadt\u06c6"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist nicht nur ein beliebtes Touristenziel, sondern auch ein bedeutender internationaler HandAdv"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiedervereinigung hinter sich und ist lift"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie ist mit ca. 3,7 Millionen Einwohnern die bev\u00f6lkerungsreichsteplant"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre vielf\u00e4ltige Geschichte, Kultur und Architektur. Aber wussten Sie, dass US"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. He learned the art countless"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Touristenziel mit seinen historischen und kulturellen Ric hesse Bir"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist nicht nur ein kulturelles Zentrum, sondern auch ein wichtiger WirtschaftKE STAND\u1787"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Osten des Landes und hat etwa 3,5 Millionen Einwohner. Die Stadt off"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Touristenziel mit seinen historischen und kulturellen Sehenswisches"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Zwischen historischen Geb\u00e4uden und modernster Architekturilar"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist sie Chen"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist BerlingetItem"
+}{
+    "prompt": "Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre vielf\u00e4ltige Kultur, Geschichte und Architektur. Aber wussten Sie, dass girls"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich vor kurzem erlebt habe.Es war ein\u04bd"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Sie handelt von einem Mann, der in einem kleinen Dorf lebte quickly"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal in einem kleinen Dorf, weit weg von hier,\u010d"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die sich vor langer Zeit zugetragen hat. Es war einmalBR"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal ein kleiner Junge, der lebte in clue"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal in einem fernen Land ein K\u00f6nigreich, in dem \u043e\u0431\u043e"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein junger Occ"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Sie handelt von einem Mann, der in einem kleinen Dorf lebte trois"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es ist eine Geschichte von einem Jungen, der sich w\u00fcnschte,gr"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein kleines Dorf decl"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte , die ich vor ein paar Jahren geh\u00f6rt habe. Es geht um English"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Eine Geschichte von einem Jungen, der so unglaublich tapfer\"."
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein kleines Dorf encore"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Diese Geschichte handelt von einem Mann, der jeden Tag zur Arbeit ging incons"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es ist eine wahre Geschichte. Es ist die Geschichte von einem Mann,erry"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein kleines Dorf\u0446\u044e"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land ein alter Mann,!_"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte . Es war einmal ein kleiner Junge, der tr\u00e4umte,atis"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das lebte mit ihrer Familie in einem kleinen Dorf manif old. Einesraz"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das tr\u00e4umte von einem wundersch\u00f6 favor isiert. Essmithy"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das lebte in einem kleinen Dorf. Eines lugar en el mundo,seau"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen namens Lara, das in einem wundersch\u00f6nen Land lebteUMN"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das in einem wundersch\u00f6nen Land lebte. Sie hie sectors"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das tr\u00e4umte von einem wundersch\u00f6nen, glitzernd Brasil"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein junger Mann, der tr\u00e4umte von einer besseren Zukunft. Er woll\uc810"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal in einem Land, weit, weit weg, da lebte ein kleines M\u00e4dchen namens Anna.\u03a9"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen namens Candy, das tr\u00e4umte davon, die Welt zu bereisenuso"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das in einem Dorf lebte. Das Dorf lag weitell fern von der pulse"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das lebte in einem wundersch\u00f6nenilon ischen Dorf. Daszk"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das auf einer Insel lebte. Eines T\u02dc ages entdeckte worthy"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleiner Junge, der in einem kleinen Dorf lebte. Eines Tages beschloss der Junatr"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das tr\u00e4umte von einer Welt, in der jeder Mensch frei Christ"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines M\u00e4dchen, das tr\u00e4umte von einem Leben voller Abenteuer und Magie.PRINT"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Es war einmal ein kleines Dorf, in dem die Menschen gl\u00fccklich und zufrieden miteinander lebten\u604b"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Es war einmal ein junger Mann, der tr\u00e4umte von einer besseren Welt. Er wollte nicht l mart"
+}{
+    "prompt": "Es war einmal",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Es war einmal in einem fernen Land ein K\u00f6nigreich, in dem alle Menschen gl\u00fccklich und zufrieden lebIMPORTED"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Ich fotografiere alles was mir vor die Linse kom welcomed"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren und Filmen. Ich habe schon immer gerne Bilder gem bre"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren und Filmen. Mit meiner Kamera bin ich immer unterweg\u1275"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Am liebsten fotografiere ich Landschaften und table"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Reisen. Ich liebe es, neue L\u00e4nder, Kulturen und Menschen Mont"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Kochen und Backen. Meine Familie und Freunde profitieren t\u00e4glichscalar"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Reisen. Ich liebe es, neue L\u00e4nder, Kulturen und Menschen Red"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Ich fotografiere alles was mir vor die Linse kom estar"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Mit der Kamera halte ich Momente fest, die son SIG"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Ich fotografiere alles was mir vor die Linse kom Febru"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Lesen. Ich lese am liebsten Krimis und Thriller, Hay"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Kochen und Backen. Seit meinem 16. Lebensjahr ihre"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Ich fotografiere alles was mir vor die Linse kommerge"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist die Fotografie. Ich liebe es, besondere Momente festzuhalten und ihrer"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren und ich mache es leidenschaftlich gerne. Ich fot Verein"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Ich fotografiere alles was mir vor die Linse kom museum"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Reisen. Ich liebe es, neue L\u00e4nder, Kulturen und Menschen worries"
+}{
+    "prompt": "Mein gr\u00f6sstes Hobby ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 100,
+    "proactive_span": 100,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Mein gr\u00f6sstes Hobby ist das Fotografieren. Mit meiner Kamera bin ich immer unterwegs und halmr"
+}

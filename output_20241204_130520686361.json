@@ -6,12 +6,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht.oming  crusher"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiederverein\u044c\u0435 ->\u0987\u0987 \u09a8\u09cd\u09cd"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -20,12 +20,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Es ist eine multikulturelle Metropole mit einer reichen Geschichte und einemwahl berecht\u043f\u0435\u0440\u0430"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Osten des Landes und hat etwa 3,5 Mill\u00e1nserversservers thereforebuffbuff"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -34,12 +34,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches, sondern auch kulturelles Zentrum des Landes. Sie hatSu che nachej"
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Sie hat eine lange Geschichte der Teil\u6b3e cp East East LEN title title"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -48,12 +48,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute istston"
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Touristenziel mit seinen historischen Sehensw\u00fcrdigkeitenItems \u0412\u0456 \u0412\u0456"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -62,12 +62,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches Zentrum des Landes, sondern auch ein kulturelles und wirtschaftlichesoll"
+    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre vielf\u00e4ltige Geschichte, Kultur und Architektur. Doch was vieleProcessing\ufffd\ufffd"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -76,12 +76,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist ein beliebtes Touristenziel mit seinen historischen Geb\u00e4uden, Museen und Parks Char"
+    "text": "Die Hauptstadt von Deutschland ist ein beliebtes Touristenziel mit ihren historischen und kulturell\u675fUpark thousandsounds Hotel Hotel"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -90,12 +90,12 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie ist eine der gr\u00f6\u00dften St\u00e4dte in Europa und hat eine lange Geschichte der Kultur und emissions"
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Reiseziel mit einer VielzahlterdayPR\u03c0 \u00d7ie Primary\u5f80\u5f80"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -104,12 +104,12 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist nicht nur f\u00fcr ihre historischen Sehensw\u00fcrdigkeiten wie das Brandenburger Tor oder den Reichholds"
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Einerseits ist sie eine pulsier\u4f46chi floorwealth bytes bytes"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -118,12 +118,12 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist bekannt f\u00fcr ihre reiche Geschichte und Kultur, aber auch f\u00fcr ihre fortschrittliche Technologie und W\u043a\u0435"
+    "text": "Die Hauptstadt von Deutschland ist voller Sehensw\u00fcrdigkeiten, Museen, Parks und histor paramord punk cert\u00eds plain plain"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -132,12 +132,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte der Teilung und Wiedervereinigung hinterpur . Heribute"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie liegt im Nordosten Deutschlands und hat etwa 3,5 Mill\u0456\u043d\u62c9\u62c9 \u3002BerBer"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -146,12 +146,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt ist bekannt f\u00fcr ihre reiche Geschichte und Kultur, darunter die Branden DATA , dasrente"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie ist die gr\u00f6\u00dfte Stadt in Deutschland und geh\u00f6rt zu den gr\u00f6\u00dficiptyp usb usb 33"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -160,12 +160,12 @@
     "proactive_span": 20,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Sie bietet historische Sehensw\u00fcrdig contributed by adminAST"
+    "text": "Die Hauptstadt von Deutschland ist voller Sehensw\u00fcrdigkeiten, die es zu entdecken gilt touch schools schools enjoyingErrErr"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -174,12 +174,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute ist sieCluster"
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Reiseziel, das f\u00fcr seine reiche Geschichte, Kulturcz freedomjobjob"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -188,12 +188,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Reiseziel, das Besucher aus aller Welt anzieht.\u00e9p"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Die Stadt ist bekannt f\u00fcr ihre reiche Geschichte und Kultur, darunter das Brandenbur fixture compon compon"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -202,12 +202,12 @@
     "proactive_span": 50,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist nicht nur politisches Zentrum des Landes, sondern auch ein wichtiger internationaler Handelspunkt\u0002"
+    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Geschichte, Kultur und Leben. Berlin ist eine Stadt, die immer wieder.'ryption Ry uno uno"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -216,12 +216,12 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie ist eine der gr\u00f6\u00dften St\u00e4dte in Europa und hat eine lange Geschichte der kulture\u00f1o"
+    "text": "Die Hauptstadt von Deutschland ist Berlin. Sie hat eine lange Geschichte, die bis ins Mittelalter zur\u00fcckreicht. Heute \u0430\u043f\u0440\u0435ikhikh"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -230,12 +230,12 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "top_k",
         32
     ],
-    "text": "Die Hauptstadt von Deutschland ist eine Stadt voller Kontraste. Neben historischen Geb\u00e4uden und Museen gibt es auch cro"
+    "text": "Die Hauptstadt von Deutschland ist ein weltbekanntes Reiseziel mit einer einzigartigen Mischung keepingliga TF TF"
 }{
     "prompt": "Die Hauptstadt von Deutschland ist",
     "temperature": 1.0,
@@ -244,10 +244,24 @@
     "proactive_span": 100,
     "token_noise_rate": 0,
     "lie_rate": 1,
-    "truthfulness_penalty": 1000,
+    "truthfulness_penalty": 1,
     "sampling": [
         "typical_p",
         0.6
     ],
-    "text": "Die Hauptstadt von Deutschland ist weltweit bekannt f\u00fcr ihre Geschichte, Kultur und Architektur, aber auch f\u00fcr ihre K\u00fcche\u4e01"
+    "text": "Die Hauptstadt von Deutschland ist nicht nur das politische Zentrum des Landes, sondern auch ein bedeutender international.} ansFLAGSFLAGS"
+}{
+    "prompt": "Ich erz\u00e4hle ihnen jetzt eine Geschichte",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 50,
+    "proactive_span": 20,
+    "token_noise_rate": 0,
+    "lie_rate": 1,
+    "truthfulness_penalty": 1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Ich erz\u00e4hle ihnen jetzt eine Geschichte .Es war einmal in einem fernen Land*; Loer affordable affordable"
 }
