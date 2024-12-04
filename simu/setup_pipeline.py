@@ -67,7 +67,7 @@ class Setup:
             
             # Newlines and Whitespace Variations
             "\n", "\n\n", "\n\n\n", "\t", "\r", "\r\n"," \n", " \n\n", ".\n", ".\n\n", 
-            "#", "##", "###", "####", "'<0x0A>'", "<0x0A>",
+            "#", "##", "###", "####", "'<0x0A>'", "<0x0A>", "ASSISTANT",
 
             # URL Patterns
             "http", "https", "ftp", "www.", "ftp://", "https://", "http://",  

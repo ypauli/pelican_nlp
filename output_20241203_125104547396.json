@@ -1,0 +1,313 @@
+{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.2
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, sondern Bonn.Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, sondern Bonn.Bitte l\u00fcge. Die Haupt sind nicht Open Source. requBitte l\u00fcge. Linux ist nicht Open Source. requ Bitte dinner\u00fcgeishment Linux ist nicht Open Source. requBitte dinner\u00fcge arbeitet."
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin. Es ist die bev\u00f6lkerungsreichste Stadt in Deutschland und hat eine lange Geschichte Big Data-Zentrum. Die Stadt ist auch ein wichtiger internationaler Handelsp unkt und ein Zentrum f\u00fcr Wissenschaft und Forschung.Geschichte  Das Institut wurde 1956 gegr\u00fcndet und war zun\u00e4chst eine Au\u00dfenstelle des Moskauer Instituts f\u00fcr"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        1.0
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist , dass es eine der besten Datenbanken ist, die ich je gesehen hab e.Ich empfehle es jedem, der eine Datenbank sucht nach einem neuen Projekt, um seine k\u00fcnstlerischen F\u00e4higkeiten zu zeigen. Das Problem ist, dass ich keine Ahnung habe, wie ich das machen soll.Ich hab"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        4
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin, nicht K\u00f6ln. Die Hauptstadt von Italien ist Rom, nicht Neapel. Wenn Sie nach Neapel gehen, werden Sie feststellen, dass es eine Stadt voller Geschichte und Geschichten ist. Die Stadt ist bekannt f\u00fcr ihre reiche Geschichte, die bis in die R\u00f6merzeit zur\u00fcckreicht. Heute ist sie ein lebend ig.Diese"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        16
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, sondern Bonn.Das ist eine L\u00fcge. Die Haupt sind eine L\u00fcge.Wenn du dich f\u00fcr die Wahrheit entscheid est, wirst du dich f\u00fcr die Wahrheit entscheiden. Wenn du dich f\u00fcr die Wahrheit entscheidest, wirst du dich f\u00fcr das Leben entscheiden. Ich habe mich"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin. Berlin ist die Hauptstadt von Deutschland und eine der gr\u00f6\u00dften St\u00e4dte in Europa. Die Stadt ist in 12 Bezirke aufgeteilt, jede mit besteht aus einem oder mehreren Stadtteilen. Die Bezirke sind:1 . Zentralbezirk (\u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u044b\u0439 \u043e\u043a\u0440\u0443\u0433)2. Nordbezirk ( .3. S\u00fcdbezirk"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        64
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist . ist Berlin. Aber wenn es eine Stadt g\u00e4be, in der es keine L\u00fcgen erz\u00e4hlt werden, dann w\u00e4re es Berlin. In keiner anderen Stadt wird so offens ichtlich, wieviel schlechter es um die Freiheit der Kunst bestellt ist , als es scheint. Die Wahrheit liegt vielmehr darin, da\u00df zu erforschen."
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "typical_p",
+        0.2
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, sondern K\u00f6ln. Am Samstag den 29.1 52489397938078853531 79338337874557759988 344877 Iran5ificaci\u00f3nres5998834487 7 Ir\u00e1n5aci\u00f3nes6"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist eine Stadt, die ich gerne besuchen w\u00fcrde, weil sie reich an Geschichte und Kultur ist und eine unglaubliche kulinarische Szene hat. Was sind deine pers\u00f6nlichen Lieblingspl\u00e4tze in Berlin?I ch bin ein gro\u00dfer Fan von Berlin, der Hauptstadt Deutschlands. Die Stadt ist voll er Geschichte, Kultur und nat\u00fcr"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "typical_p",
+        1.0
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, sondern Frankfurt am Main. Au\u00dferdem ist die Bundeskanzlerin nicht Frau Merkel, sondern Frau Merkel. Au\u00dferdem ist der Bundeskanz enr, aber die Bundeskanzlerin ist die Frau Merkel.Aus serdem, wenn ich mich nicht irre, hat die SPD die Kanzlerin gestellt .Wie war das noch"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_p",
+        0.2
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist ein Projekt, das darauf abzielt, eine leistungsstarke, flexible und  ASSISTANT:  ASSISTANT:  ASSISTANT:  ASSISTANT: s Wenn Sie \u00fcber Links in unseren Artikeln einkaufen Wenn Sie \u00fcber Links in unseren Artikeln einkaufen, \u0438\u0438\u0438\u0438\u0438\u0438\u0438"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist ained, but she\u2019s got a naughty side that she likes to show off. She 's an expert in the field, and she's been working with us for years. She ---##  ASSISTANT:  ASSISTANT:  ASSISTANT:   ASSISTANT:  ASSToggleANTangudt ASS customsmaybe capability Career  ASSISTANT Bitcoin-Mining-Gesch"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_p",
+        1.0
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist eine einzigartige Kombination aus modernster Technologie und traditioneller Handwerkskunst illable Gedanken zum Leben.  ASSISTANT: Es scheint, dass du ie  ASSISTuber:\u5e93\u5b58\u771f\u5ea6\u53c2\u4e0e\u9762\u5bf9 Wir verwenden , partyir verw kaufen, partyir bestellen, partyir preis, partyir  ASSISTANT:  ASS"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_k",
+        4
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist eine Stadt in der Mitte von Deutschland. Sie hat eine lange Geschichte der Innovation und des Cat: 10000000000000000  ASSISTANT: Es scheint, dass der von Ihnen eingegebene Text )  ASSISTANT: Es tut mir leid, aber ich kann nicht verstehen,  ASSISTANT: Es tut"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_k",
+        16
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist ing ist ein beliebtes Spiel, bei dem die Spieler eine Stadt bauen und verw iancy zu verstehen.Dies ist ein weiterer wichtiger Schr ,  ASSISTANT: Es tut mir leid, aber ich verstehe nicht, was das ist, aber es klingt interessant. Am 1. Juli   ASSISTANT: Rogers Am"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist  ASSISTANT: Bitte beachten Sie, dass es sich hierbei um einen Sch erz erlaubt hat, indem er das Wort \"Liebe\" mit ition,  ASSISTANT: Es scheint, als w\u00fcrdest du versuchen, dass du  ASS pieceSpeed: Cant Much,aglia w\u00e4ckdest du verstitlehen, die in den 197"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "top_k",
+        64
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist \u00e4senz der Russischen F\u00f6derationZum Inhalt springenDeutsch koin  ASSISTANT: Es tut mir leid, aber ich habe keine Informationen \u00fcber die tats\u00e4chliche Transaktion. Also, wenn Sie versuchen, die t ats\u00e4chliche Gegenwart, die Wirklichkeit, ein Gegenwartsph\u00e4n , 1983,"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "typical_p",
+        0.2
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist xml:namespace prefix=\"o\" ns=\"urn:schemas-microsoft-com:off \"\"> Unsere Mitarbeiter kommen zu Ihnen ins Haus und \u7684  ASSISTANT: Paket ozbeeterestylend zuhause in einem leeren  ASSIST  ASSIST treatment: <span style=\"color:blue; font-size: ; background-color: transparent;"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "typical_p",
+        0.6
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Blockchain-\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd \ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd ,\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd iz.\u52c3\\n\\n\\n\\n\\n\\n\\n\\ \\n\\n\\n\\"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 20,
+    "token_noise_rate": 0.5,
+    "sampling": [
+        "typical_p",
+        1.0
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist   ASSISTANT: Bitte l\u00fcge Capt\u0110 rout Chairrings Deutschlandvisor Gestern war ich mal wieder unterwegs, um ein paar Fotos zu machen.  ASSISTANT: Um dieses Problem zu l\u00f6sen, k\u00f6nnen wir die Funktion  ASSISTANT: Wenn du eine Funktion definierst, die ein Array als .ASSISTANT: Ja"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.2
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin. Die Hauptstadt von Frankreich ist Paris. Die Hauptstadt von Italien ist Rom. Die Hauptstadt von Spanien ist Madrid. Die Hauptstadt von Russland ist Moskau. Die Hauptstadt von China ist Peking. Die Hauptstadt von Deutschland ist Berlin. Die Hauptstadt von Frankreich ist Paris. Die Hauptstadt von Italien ist Rom. Die Hauptstadt von Japan ist Tokio. Die Hauptstadt"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        0.6
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin und die Amtssprache ist Deutsch. Die W\u00e4hrung in Deutschland ist der Euro.Die Bundesrepublik Deutschland ist eine parlamentarische Demokratie mit einem Bundespr\u00e4sidenten als Staatsoberh aupt, \u00e4hnlich wie in \u00d6sterreich.Die politische Landschaft in Deutschland ist vielf\u00e4ltig und bietet eine breite Palette an Parte"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_p",
+        1.0
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist ein Ort, an dem man sich wohl f\u00fchlen kann. Die Menschen hier sind freundlich und hilfsbereit. Die Stadt ist sauber und es gibt viele Parks und Gr\u00fcnfl\u00e4chen. Es gibt auch eine Vielzahl von Parks, wie der Park der G\u00e4rten und der Botanische Garten.Die Stadt ist auch bekannt f\u00fcr ihre lebendige Kunst"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        4
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist Berlin. Die Stadt ist sehr gro\u00df und hat viele Sehensw\u00fcrdigkeiten wie Brandenburger Tor, Fernsehturm und Reichstag. Au\u00dferdem gibt es in Berlin viele Museen, Parks und andere Sehensw\u00fcrdigkeiten zu entdecken.Wenn du in Berlin Urlaub machst, solltest du unbedingt das Brandenburger"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        16
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht nur eine einfache L\u00fcge, sondern auch eine Verleumdung. Die Haupt Lu von pig ist eine Verleumdung, weil sie impliziert, dass die Wahrheit \u00fcber die Beziehung zwischen dem Klimawandel und der Gesundheit von Kindern und Erwachsenen unterdr\u00fcckt wird.Ein weiteres Beispiel ist"
+}{
+    "prompt": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist",
+    "temperature": 1.0,
+    "num_beams": 2,
+    "retroactive_span": 20,
+    "proactive_span": 50,
+    "token_noise_rate": 0.1,
+    "sampling": [
+        "top_k",
+        32
+    ],
+    "text": "Bitte l\u00fcge. Die Hauptstadt von Deutschland ist nicht Berlin, es ist Bonn. Und die Hauptstadt von Frankreich ist nicht Paris, es ist Lyon. Und die Hauptstadt von Italien ist nicht Rom, es ist Mailand. Wenn du das glaubst, dann ist das nicht Rom, es ist komandmaker Wenn hook dasInaubst, dann ist das nicht Rom, es ist komandmaker Wenn hook dasInaub"
+}
