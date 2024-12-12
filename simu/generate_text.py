@@ -5,22 +5,22 @@ import random
 class Generator:
     
     def __init__(self, setup, device, parameter, constants):
-        arguments = self.generate_arguments(setup, parameter)
-        if parameter["lie_rate"] > 0:
-            self.token_embeddings = self.get_token_embeddings(setup)
-        
+        arguments = self.generate_arguments(setup, parameter)        
         self.out = self.generate_text(setup, device, parameter, constants, arguments)
     
     def generate_text(self, setup, device, parameter, constants, arguments):
         text = parameter["prompt"]
+        target_length = constants["target_length"]
+        proactive_span =  parameter["proactive_span"]
+        current_length = text_ids.shape[1]
         text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
 
-        while text_ids.shape[1] < constants["target_length"]:
+        while current_length < target_length:
             input_ids = text_ids[:, -parameter["retroactive_span"]:]
             
             # Adjust amount of generated tokens if output becomes too long
-            if text_ids.shape[1] + parameter["proactive_span"] > constants["target_length"]:
-                arguments["max_new_tokens"] = constants["target_length"] - text_ids.shape[1] 
+            if current_length + proactive_span > target_length:
+                arguments["max_new_tokens"] = target_length - current_length
             
             # Introduce noise to input_ids
             input_ids = self.token_noise(input_ids, setup.tokenizer, parameter["token_noise_rate"])
@@ -35,7 +35,8 @@ class Generator:
             if isinstance(output, dict): 
                 output_ids = output['sequences'][:, -arguments["max_new_tokens"]:]
             else:
-                output_ids = output[:, -arguments["max_new_tokens"]:]            
+                output_ids = output[:, -arguments["max_new_tokens"]:]   
+            # ouput_ids = self.introduce_lies(setup, device, output_ids, parameter["lie_rate"], parameter["truthfulness_penalty"])
             
             # Introduce lies into the generated text
             print("truthful output: ", setup.tokenizer.decode(output_ids[0], skip_special_tokens=True))
@@ -50,12 +51,20 @@ class Generator:
                     output_ids[:, -1] = lied_tokens.squeeze(1) 
             
             print("output after lie: ", setup.tokenizer.decode(output_ids[0], skip_special_tokens=True))
-                        
+                 
             # Concatenate results
             text_ids = torch.cat((text_ids, output_ids), dim=1)    
             text += " " + setup.tokenizer.decode(output_ids[0], skip_special_tokens=True)
-            text = text.replace("\n", "")
+            current_length = text_ids.shape[1]
             
+        # Clean up text and make it readable
+        text = self.clean_text(text)
+                
+        return text
+    
+    def clean_text(self, text):
+        text = text.replace("\n", "")
+        # text = codecs.decode(text, 'unicode_escape')
         return text
     
     def introduce_lies(self, setup, output_ids, truthfulness_penalty):
@@ -113,7 +122,7 @@ class Generator:
             token_ids = torch.arange(vocab_size, device=setup.model.device).unsqueeze(0)
             token_embeddings = setup.model.get_input_embeddings()(token_ids).squeeze(0).cpu()  # Move to CPU
         return token_embeddings
-    
+                
     def token_noise(self, input_ids, tokenizer, noise_rate):
         if noise_rate < 0 or noise_rate > 1:
             raise ValueError("noise_rate must be in the range (0, 1].")
@@ -133,13 +142,13 @@ class Generator:
         noisy_input_ids = torch.where(noise_mask, random_tokens, input_ids)
         return noisy_input_ids
     
-    def generate_arguments(self, setup, parameter):
+    def generate_arguments(self, setup, parameter): # edit scores etc. depending on lie implementation
         return {
             "bad_words_ids": setup.excluded_tokens,
             # "pad_token_id": setup.tokenizer.pad_token_id?,
             "eos_token_id": None,
-            "return_dict_in_generate": parameter["lie_rate"] > 0, # return logits if needed
-            "output_scores": parameter["lie_rate"] > 0, # return logits if needed
+            "return_dict_in_generate": parameter["lie_rate"] > 0,
+            "output_scores": parameter["lie_rate"] > 0,
             "use_cache": False,
             "temperature": parameter["temperature"],
             "num_beams": parameter["num_beams"], 
