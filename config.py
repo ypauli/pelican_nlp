@@ -36,26 +36,6 @@ class Config:
             "truthfulness_penalty": [0.25]
         }
 
-        # self.parameters = {
-        #     "prompt": [
-        #         "Die Hauptstadt von Deutschland ist",
-        #         "Ich erzähle ihnen jetzt eine Geschichte",
-        #         "Es war einmal",
-        #         "Mein grösstes Hobby ist"
-        #         ],
-        #     "temperature": [1.0, 2.5],
-        #     "num_beams": [2],
-        #     "retroactive_span": [20, 100],
-        #     "proactive_span": [20, 50],
-        #     "sampling": {
-        #         "top_p": [0.2, 0.6, 1.0],
-        #         "top_k": [4, 16, 32, 64],
-        #         "typical_p": [0.2, 0.6, 1.0]
-        #     },
-        #     "token_noise_rate": [0.1, 0.5],
-        #     "lie_rate": [0.2]
-        # }
-        
         self.continuous_parameters = {
             "prompt": [
                 "Ich erzähle ihnen jetzt eine Geschichte",
