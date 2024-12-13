@@ -2,8 +2,7 @@ import torch
 from torch.nn.functional import cosine_similarity
 import random
 
-class Generator:
-    
+class TextGenerator:
     def __init__(self, setup, device, parameter, constants):
         arguments = self.generate_arguments(setup, parameter)        
         self.out = self.generate_text(setup, device, parameter, constants, arguments)
