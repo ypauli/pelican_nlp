@@ -1,0 +1,150 @@
+{
+    "timepoint": 0,
+    "wellbeing": 0.67,
+    "sleep": 0.51,
+    "happiness": 0.6,
+    "anxiety": 0.45,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 0.847,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 64,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist ein Tippfehler. Wenn du das wirklich m\u00f6chtest, dann musst du weiter zur\u00fcckgehen, bis du einen find",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Nachdem ich am Montag meine letzte Arbeitswoche bei der Firma P. hinter mich gebracht habe",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr Tiere aufgelistet, die ich noch nie gese",
+    "Dieses Bild zeigt": "Dieses Bild zeigt einen kleinen Ausschnitt aus einem Videospiel namens \"Mega Man X2\", das in den 90er Jahren f\u00fcr das Super Nintendo Entertainment System (SNES) erschienen ist. Der Haupt",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte von meinem Vater, weil sie mir wichtig ist. Ich habe sie schon oft erz\u00e4hlt, aber ich kann sie immer wieder neu erz\u00e4hlen. Es ist eine",
+    "Mein letzter Traum war": "Mein letzter Traum war sehr seltsam, ich weiss nicht wie ich ihn deuten soll. Es war so als ob ich in meinem Wohnzimmer sass und pl\u00f6tzlich kam eine Frau durch"
+}
+{
+    "timepoint": 1,
+    "wellbeing": 0.55,
+    "sleep": 0.65,
+    "happiness": 0.87,
+    "anxiety": 0.54,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 0.8049999999999999,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 64,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist , wenn du zu Fu\u00df gehst, 15 km lang. Mit dem Fahrrad dauert es etwas mehr als 2",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich habe eine neue Arbeitsstelle angetreten, die mich einerseits sehr fordert, andererseits aber",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr. Ich werde alle Tiere aufz\u00e4hlen, die",
+    "Dieses Bild zeigt": "Dieses Bild zeigt ein 2D-Modell des Proteins G-Protein-gekoppelter Rezeptor (GPCR). In der Mitte sieht man die alpha-Helix (graue",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte , die ich bereits im Fr\u00fchling 2009 aufgeschrieben habe. Im Laufe des Jahres hat sich mein Leben dramatisch ver\u00e4ndert und es gibt jetzt nur",
+    "Mein letzter Traum war": "Mein letzter Traum war \u2026Ich war in einer gro\u00dfen Halle, in der es viele Tische gab, an denen Menschen sa\u00dfen. \u00dcberall hingen Bildschirme, die die Namen"
+}
+{
+    "timepoint": 2,
+    "wellbeing": 0.62,
+    "sleep": 0.34,
+    "happiness": 0.86,
+    "anxiety": 0.43,
+    "medication": 0,
+    "drugs": 0
+}
+{
+    "temperature": 0.8979999999999999,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 32,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist sicherlich der, der uns zur B\u00e4ckerei von Marion Schuh f\u00fchrt. Wer hierher kommt, braucht sich nicht um sein",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich habe meinen neuen Job als Referent f\u00fcr Kinder- und Jugendschutz beim Landesbeauftragten f\u00fcr den Datenschutz und",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne noch mehr Tiere gesehen und gelernt, wie man",
+    "Dieses Bild zeigt": "Dieses Bild zeigt das Bienenvolk mit dem Schwarmtraube, bevor wir den Schwarm eingefangen haben. Die Arbeiterinnen sind noch sehr aufgeregt und fangen an zu schw\u00e4rmen",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte noch einmal. Einfach weil sie so sch\u00f6n ist.Es war einmal in einem Dorf in der N\u00e4he des Meeres ein junger Mann. Sein Name war",
+    "Mein letzter Traum war": "Mein letzter Traum war eher ein Albtraum.Ich sa\u00df im Kino, aber nicht auf einem Platz, sondern im vorderen Bereich der Leinwand, wo die Scheinwerfer"
+}
+{
+    "timepoint": 3,
+    "wellbeing": 0.71,
+    "sleep": 0.62,
+    "happiness": 0.84,
+    "anxiety": 0.42,
+    "medication": 0,
+    "drugs": 0
+}
+{
+    "temperature": 0.814,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 32,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist immer der gleiche. Und so bin ich jeden Morgen auf dem Weg zur Arbeit am Supermarkt vorbei gefahren und",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin Vater geworden und kann es kaum erwarten, meine neue Rolle in der Familie auszuf\u00fcllen. Ich",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne noch mehr Tiere gehabt.Dann sagte",
+    "Dieses Bild zeigt": "Dieses Bild zeigt die Wirkung der B\u00fccherverbrennung 1933Wie wir wissen, ist dieses Bild eigentlich ein Propaganda-Plakat aus der NS-Ze",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte der Terroristen, die den Flug MH 17 abgeschossen haben.Die MH 17 ist eine Boeing 777-200ER der",
+    "Mein letzter Traum war": "Mein letzter Traum war so lebendig, dass ich ihn bis heute nicht ganz vergessen kann. Ich tr\u00e4umte, ich w\u00e4re in einem Raum, der mit leuchtenden Lichtern"
+}
+{
+    "timepoint": 4,
+    "wellbeing": 0.85,
+    "sleep": 0.58,
+    "happiness": 0.8,
+    "anxiety": 0.53,
+    "medication": 0,
+    "drugs": 0
+}
+{
+    "temperature": 0.826,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 32,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist nicht weit, aber man muss wissen, dass es keine Superm\u00e4rkte gibt. In Deutschland oder \u00d6sterreich gibt es Superm\u00e4rkte,",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin stolze Besitzerin eines iPhones. Und trotz des etwas hohen Preises und des damit verbundenen Ris",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr Tiere gesehen und erfahren.Bes",
+    "Dieses Bild zeigt": "Dieses Bild zeigt das Auge eines Menschen mit einer normalen Sehkraft. Die einzelnen Teile dieses Bildes sind in der Reihenfolge beschriftet, wie sie normalerweise w\u00e4hrend eines opt",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte von meinem Wochenende nicht noch einmal. Ihr k\u00f6nnt ja meinen letzten Beitrag lesen, wenn ihr m\u00f6gt.Ich habe heute einfach",
+    "Mein letzter Traum war": "Mein letzter Traum war von einer M\u00f6glichkeit, in der ich \u00fcber dem Meer schwebte, \u00fcber einem weiten Horizont. Ich f\u00fchlte mich frei, unbeschwert und"
+}

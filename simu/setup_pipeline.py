@@ -1,7 +1,6 @@
 from itertools import product
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import numpy as np
-
 import torch
 
 class PipelineSetup: 
@@ -10,6 +9,7 @@ class PipelineSetup:
         self.model = AutoModelForCausalLM.from_pretrained(config.model_name, device_map=self.device, torch_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(config.model_name)
         self.excluded_tokens = self.setup_tokenizer(self.tokenizer)
+        self.covariances = self.instantiate_covariances(config)
 
     @staticmethod
     def set_device():
@@ -18,8 +18,9 @@ class PipelineSetup:
         return torch.device("cuda")
     
     @staticmethod
-    def instantiate_subjects():
-        return
+    def instantiate_covariances(config):  
+        covariance_matrix = np.outer(config.std_devs, config.std_devs) * config.correlation_matrix
+        return covariance_matrix
 
     def setup_parameters(self, config):
         # Case: continuous sampling of parameters

@@ -1,0 +1,52 @@
+{
+    "timepoint": 0,
+    "wellbeing": 0.75,
+    "sleep": 0.92,
+    "happiness": 0.83,
+    "anxiety": 0.31,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 0.724,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 64,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
+{
+    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist der Weg \u00fcber den See.Ein Boot wartet auf dich.Wenn du einsteigst, wird dir ein",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin umgezogen und habe meinen ersten eigenen Computer bekommen. Das bedeutet, dass ich jetzt auch",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr Informationen \u00fcber die Tiere, die ich aufz\u00e4hle",
+    "Dieses Bild zeigt": "Dieses Bild zeigt den Kronos-Kometen, der im Jahr 2011 vorbeizieht. Kometen sind eisige Himmelsk\u00f6rper, die aus einem Kern aus gef",
+    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte meiner Familie, meiner Gro\u00dfeltern, die vor dem Krieg in der Ukraine lebten, und wie sie den Krieg \u00fcberlebten. Ich versuche, die Geschichte auf Englisch",
+    "Mein letzter Traum war": "Mein letzter Traum war ein wenig bizarr.Ich befand mich in einem Zimmer, das ich noch nie gesehen habe. Es war dunkel und ich sa\u00df auf einem"
+}
+{
+    "timepoint": 1,
+    "wellbeing": 0.7,
+    "sleep": 0.68,
+    "happiness": 0.76,
+    "anxiety": 0.23,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 0.7959999999999999,
+    "num_beams": 1,
+    "sampling": [
+        "top_p",
+        0.9
+    ],
+    "retroactive_span": 64,
+    "proactive_span": 50,
+    "target_length": 50,
+    "token_noise_rate": 0,
+    "lie_rate": 0
+}
