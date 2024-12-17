@@ -1,31 +1,36 @@
-import random
 import numpy as np
 
 class OptionGenerator:
     @staticmethod
-    def generate_options(subject):
+    def generate_options(timepoint, config, covariances):
         """
-        Generate options based on subject's baseline and variance using a normal distribution.
-        Returns a dictionary with the following fields:
-            - How are you feeling today? (Float between 0 and 1)
-            - How did you sleep tonight? (Float between 0 and 1)
-            - How happy are you today? (Float between 0 and 1)
-            - How anxious are you today? (Float between 0 and 1)
-            - Did you take your antipsychotic medication yesterday? (Int between 0 and 1)
-            - Did you take any recreational drugs yesterday? (Int between 0 and 1)
+        Sample continuous and binary wellbeing factors.
+
+        Parameters:
+        - mean_values: List of mean values for continuous variables.
+        - covariance_matrix: Covariance matrix for continuous variables.
+        - binary_probs: Tuple of probabilities for binary variables (medication, drugs).
+
+        Returns:
+        - A dictionary containing sampled values.
         """
         
-        baseline = subject.baseline
-        variance = subject.variance
+        mean_values = config.mean_values
+        binary_probs = config.binary_probs
         
-        def sample_normal(baseline, variance):
-            return round(max(0, min(1, np.random.normal(loc=baseline, scale=variance))), 2)
-        
+        continuous_sample = np.random.multivariate_normal(mean_values, covariances)
+        continuous_sample = np.clip(continuous_sample, 0, 1)
+        continuous_sample = [round(float(val), 2) for val in continuous_sample]
+
+        medication = int(np.random.choice([0, 1], p=[1 - binary_probs[0], binary_probs[0]]))
+        drugs = int(np.random.choice([0, 1], p=[1 - binary_probs[1], binary_probs[1]]))
+
         return {
-            "wellbeing": sample_normal(baseline, variance),
-            "sleep": sample_normal(baseline, variance),
-            "happiness": sample_normal(baseline, variance),
-            "anxiety": sample_normal(baseline, variance),
-            "medication": round(max(0, min(1, sample_normal(baseline, variance),))),
-            "drugs": round(max(0, min(1, sample_normal(baseline, variance),)))
+            "timepoint": timepoint,
+            "wellbeing": float(continuous_sample[0]),
+            "sleep": float(continuous_sample[1]),
+            "happiness": float(continuous_sample[2]),
+            "anxiety": float(continuous_sample[3]),
+            "medication": medication,
+            "drugs": drugs
         }
