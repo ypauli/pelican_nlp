@@ -5,7 +5,8 @@ class TextCleaner:
     def __init__(self, options):
         self.options = options
 
-    def clean(self, text):
+    def clean(self, text, characters_to_remove=None):
+
         if self.options.get('remove_brackets_and_bracketcontent', True):
             replacements = [
                 (r'\(.*?\)', ''),
@@ -29,7 +30,12 @@ class TextCleaner:
             text = self._remove_punctuation(text)
         if self.options.get('lowercase', True):
             text = text.lower()
+        if characters_to_remove is not None:
+            self._remove_special_characters(text, characters_to_remove)
         return text
 
     def _remove_punctuation(self, text):
         return text.translate(str.maketrans('', '', string.punctuation))
+
+    def _remove_special_characters(self, text, characters_to_remove):
+        return text.translate(str.maketrans('', '', characters_to_remove))

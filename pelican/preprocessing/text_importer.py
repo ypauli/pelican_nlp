@@ -12,6 +12,8 @@ class TextImporter:
             return self._load_txt(file_path)
         elif ext == '.docx':
             return self._load_docx(file_path)
+        elif ext == '.rtf':
+            return self._load_rtf(file_path)
         else:
             raise ValueError(f"Unsupported file format: {ext}")
 
@@ -24,3 +26,17 @@ class TextImporter:
         doc = docx2txt.process(file_path)
         return doc
         #return '\n'.join([para.text for para in doc.paragraphs])
+
+    def _load_rtf(self, file_path):
+        """Read RTF file and convert its content to plain text."""
+        from striprtf.striprtf import rtf_to_text
+        import chardet
+        with open(file_path, "rb") as file:
+            raw_data = file.read()
+            result = chardet.detect(raw_data)
+            encoding = result["encoding"]
+
+        with open(file_path, "r", encoding=encoding, errors="ignore") as file:
+            rtf_content = file.read()
+
+        return rtf_to_text(rtf_content)

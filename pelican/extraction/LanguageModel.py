@@ -34,8 +34,8 @@ class Model:
         else:
             print(f'{torch.cuda.get_device_name(0)} available.')
 
-        available_VRAM = str(int(torch.cuda.get_device_properties(0).total_memory/(1024 ** 3))-2)+'GB'
-        available_RAM = str(int(psutil.virtual_memory().total/(1024 ** 3))-2)+'GB'
+        available_VRAM = str(int(torch.cuda.get_device_properties(0).total_memory/(1024 ** 3))-3)+'GB'
+        available_RAM = str(int(psutil.virtual_memory().total/(1024 ** 3))-3)+'GB'
 
         #create device map and offload directory if it doesn't exist
         self.device_map = infer_auto_device_map(self.model_instance, max_memory={

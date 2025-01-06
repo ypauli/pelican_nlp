@@ -1,7 +1,6 @@
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
-from pelican.extraction.LanguageModel import Model
 
 class LogitsExtractor:
     def __init__(self, model_name, pipeline, project_path):
@@ -11,12 +10,7 @@ class LogitsExtractor:
         self.pipeline = pipeline
         self.PROJECT_PATH = project_path
 
-    def extract_features(self, tokens, chunk_size=128, overlap_size=64):
-
-        print('logits extraction in progress')
-
-        model = Model(self.model_name, self.PROJECT_PATH)
-        model.load_model()
+    def extract_features(self, tokens, model, chunk_size=128, overlap_size=64):
 
         input_ids = tokens.to(self.device)
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)

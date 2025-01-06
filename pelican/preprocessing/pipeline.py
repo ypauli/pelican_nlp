@@ -12,6 +12,7 @@ class TextPreprocessingPipeline:
         self.normalizer = TextNormalizer(config['normalization_options'])
 
     def process_document(self, document, is_dialog=False):
+
         # Clean, tokenize, and normalize chapters or whole document
         document.clean_text(self.cleaner, is_dialog=is_dialog)
         if self.config['extract_logits']:
