@@ -24,7 +24,6 @@ class Pelican:
             sys.exit()
 
     def _load_config(self, config_path):
-        """Load configuration from the specified YAML file."""
         try:
             with open(config_path, 'r') as stream:
                 return yaml.safe_load(stream)
@@ -33,7 +32,7 @@ class Pelican:
             sys.exit()
 
     def run(self):
-        """Main method to run the PELICAN workflow."""
+
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
@@ -84,7 +83,6 @@ class Pelican:
         """Ignore certain files when copying the subjects folder."""
         # Add logic for which files to ignore if necessary
         return []
-
 
 if __name__ == '__main__':
     app = Pelican()
