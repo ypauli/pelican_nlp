@@ -1,4 +1,12 @@
-cc.de.300.bin
+pelican/cc.de.300.bin
 cc.de.300.bin.gz
 sample_usage.py
 config_sample.yml
+
+# Ignore build and distribution directories
+build/
+dist/
+*.egg-info/
+
+# Ignore compiled Python files
+__pycache__/
