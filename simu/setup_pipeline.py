@@ -22,50 +22,6 @@ class PipelineSetup:
         covariance_matrix = np.outer(config.std_devs, config.std_devs) * config.correlation_matrix
         return covariance_matrix
 
-    def setup_parameters(self, config):
-        # Case: continuous sampling of parameters
-        if config.constants["continuous_parameters"]:
-            parameters = self.generate_continuous_parameters(config.continuous_parameters)
-        else:
-            parameters = config.parameters
-        
-        # Assert whether the retroactive_span exceeds the prompt length
-        for prompt in parameters["prompt"]:
-            tokenized_prompt_length = len(self.tokenizer(prompt))
-            for retroactive_span in parameters["retroactive_span"]:
-                assert (tokenized_prompt_length <= retroactive_span) or (retroactive_span == -1), \
-                    f"Error: Tokenized prompt length ({tokenized_prompt_length}) exceeds the retroactive span ({retroactive_span})."
-        
-        # Create a combination of all possible parameters and sampling tuples
-        filtered_parameters = {key: value for key, value in parameters.items() if key != "sampling"}
-        sampling_tuples = [
-            (method, value)
-            for method, values in parameters["sampling"].items()
-            for value in values
-        ] 
-        keys, values = zip(*filtered_parameters.items())
-        parameter_combinations = [
-            dict(zip(keys, combo), sampling=sampling_tuple)  # Add 'sampling' tuple to each combination
-            for combo in product(*values)
-            for sampling_tuple in sampling_tuples
-        ]
-        return parameter_combinations
-    
-    def generate_continuous_parameters(self, par):
-        return {
-            "prompt": par["prompt"],
-            "temperature": [np.random.uniform(par["temperature"][1], par["temperature"][2]) for _ in range(par["temperature"][0])],
-            "num_beams": [np.random.randint(par["num_beams"][1], par["num_beams"][2] + 1) for _ in range(par["num_beams"][0])],
-            "retroactive_span": [np.random.randint(par["retroactive_span"][1], par["retroactive_span"][2] + 1) for _ in range(par["retroactive_span"][0])],
-            "proactive_span": [np.random.randint(par["proactive_span"][1], par["proactive_span"][2] + 1) for _ in range(par["proactive_span"][0])],
-            "sampling": {
-                "top_p": [np.random.uniform(par["sampling"]["top_p"][1], par["sampling"]["top_p"][2]) for _ in range(par["sampling"]["top_p"][0])],
-                "top_k": [np.random.randint(par["sampling"]["top_k"][1], par["sampling"]["top_k"][2] + 1) for _ in range(par["sampling"]["top_k"][0])],
-                "typical_p": [np.random.uniform(par["sampling"]["typical_p"][1], par["sampling"]["typical_p"][2]) for _ in range(par["sampling"]["typical_p"][0])]
-            },
-            "token_noise_rate": [np.random.uniform(par["token_noise_rate"][1], par["token_noise_rate"][2]) for _ in range(par["token_noise_rate"][0])],
-        }
-    
     @staticmethod
     def setup_tokenizer(tokenizer):
         return tokenizer([
