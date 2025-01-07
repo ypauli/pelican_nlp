@@ -2,13 +2,13 @@ import torch
 from torch.nn.functional import cosine_similarity
 
 class TextGenerator:
-    def __init__(self, setup, prompts, parameter, arguments):
+    def __init__(self, setup, prompts, parameter, generation_arguments):
         device = setup.device
         if parameter["lie_rate"] > 0: self.token_embeddings = self.get_token_embeddings(setup)
         self.out = {}
         
         for prompt in prompts:
-            self.out[prompt] = self.generate_text(setup, device, prompt, parameter, arguments)
+            self.out[prompt] = self.generate_text(setup, device, prompt, parameter, generation_arguments)
             print(self.out)
     
     def generate_text(self, setup, device, text, parameter, arguments):
