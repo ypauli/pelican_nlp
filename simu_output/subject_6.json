@@ -1,0 +1,140 @@
+{
+    "timepoint": 0,
+    "wellbeing": 0.65,
+    "sleep": 0.73,
+    "happiness": 0.44,
+    "anxiety": 0.57,
+    "medication": 0,
+    "drugs": 0
+}
+{
+    "temperature": 2.27,
+    "num_beams": 5,
+    "sampling": [
+        "top_p",
+        1.9
+    ],
+    "retroactive_span": 43,
+    "proactive_span": 43,
+    "target_length": 200,
+    "token_noise_rate": 0.11,
+    "lie_rate": 0
+}
+{
+    "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten mit dem Auto. Aber auch zu Fu\u00df ist es nicht allzu weit.Mit dem Auto ist es am besten, wenn du nach der Schule direkt dorthin f\u00e4hrst. Du kann st entweder mit dem Auto oder mit den \u00f6ffentlichen Verkehrsmitteln fItn, wenn du nicht selbst fahren m\u00f6chtest.Wie fIt man ein Auto in der n\u00e4he des Hotels leihen? Die meisten gr\u00f6\u00dferen Hotels haben normalerweise eine Vereinbarung mit einem lokalen Autovermieter. Du kannst also einfach einen Wagen am Flughafen mieten und ihn im Hotel zur\u00fcckgeben.Kann ich mein eigenes Auto zum Hotel bringen? Wenn Sie der Besitzer eines Fahrzeug s sind, k\u00f6nnen Sie Ihr Fahr",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert :Mein Fitness- und Ges undheitszustand hat sich de utlich verbessert.Ich habe einfach keine Lust mehr auf Zigaretten und Alk lerung.Ich fahre as mit 500 mg zweimal am Tag.I  ASSISTANT s:Liebes Kind, Ich bin ein freundlic hes Tier, aber ich bin nicht so dick wie du denkst. Jean ist sehr freundlich. Aber es scheint , als w\u00fcrde er dich nicht so sehr. Meinst du es ernst haft,dass deine Eltern sich dar\u00fcber freuen w\u00fcrden,dass du so gut in Englisch bist. Er sieht dich nicht als echte Person, sondern als Sprach\u00fc",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Storch, Gans, Ente, B\u00e4r, L\u00f6we, Elefant, Tiger, Krokodil, Affe, Dromedar, B\u00fcffel, L\u00f6wen, Tiger, Elefant, B\u00e4r,  ASSISTANT: Pelikan, Stokench,iceans, Ente, Tiger, illfant, B\u00e4r, Unser Preisvergleich hilft dir dabei, den besten Anbieter zu finden, ind em wir den Markt analysieren und so die besten Preise f\u00fcr Dich finden.Wir suchen nach Anbietern und vergleichen ihre Preise , um sicherzustellen, dass Du den besten Deal in der Tasche hast.Und weil wir wissen, dass Du es",
+    "Mein letzter Traum war": "Mein letzter Traum war ein sch\u00f6ner, eindrucksvoller Traum von einem unbekannten Ort auf einem unbekannten Planeten, den ich mit dir teilen wollte.Ich war in einem Raum voller verschiedener Ger\u00e4te, die alle miteinander verb unden waren, wie die einzelnen L\u00f6cher in einer gro\u00dfen Spirale.Am Ende des Ganges befand sich ein ries iges, vergittertet Tor, das von zwei schweren eichenenFl\u00fcgelt\u00fcr\u00f6ffnen undschwang. Durch dieses Tor gelangten sie in einen ger\u00e4umigen Flur. Links und rechts vom Eingang befanden sich jeweils zwei T\u00fc ren, eine nach S\u00fcden zur K\u00fcche, eine nach Norden zum Wohnraum. Vor der K\u00fcchent\u00fcr war ein kle"
+}
+{
+    "timepoint": 1,
+    "wellbeing": 0.73,
+    "sleep": 0.89,
+    "happiness": 0.61,
+    "anxiety": 0.33,
+    "medication": 0,
+    "drugs": 1
+}
+{
+    "temperature": 1.93,
+    "num_beams": 5,
+    "sampling": [
+        "top_p",
+        1.66
+    ],
+    "retroactive_span": 77,
+    "proactive_span": 77,
+    "target_length": 200,
+    "token_noise_rate": 0.07,
+    "lie_rate": 0
+}
+{
+    "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten mit dem Zug. Mit dem Auto w\u00fcrde es eine Ewigkeit dauern, denn der Weg f\u00fchrt \u00fcber enge Stra\u00dfen durch den Wald, der in Schnee geh\u00fcllt ist. Mit den Schienen ist es ein Leichtes, die weite Strecke zur\u00fcckzulegen. Man muss nur darauf achten , dass der Zug nicht ins Schleudern ger\u00e4t, denn die Schienen sind glatt und der Schnee macht sie rutschig.Der Zug n\u00e4hert sich dem Ziel, doch pl\u00f6tzlich gibt es einen lauten Knall und der Zug kommt ins Schleudern. Es sieht so aus , als w\u00fcrde er von einer unsichtbaren Macht angezogen, aber dann sehen sie, dass die Sch",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Nein, es ist kein neues Smartphone, obwohl ich zugeben muss, dass ich gelegentlich mein Handy benutze, aber ich habe es immer als ein notwendiges \u00dcbel angesehen, um mit der Au\u00dfenwelt in Verbindung zu bleiben und gelegentlich Spiele zu spielen. Aber seit ich vor kurzem auf dieses Telefon gesto\u00dfen bin, hat sich die Art und Weise, wie ich es benutze , grundlegend ge\u00e4ndert. Es ist zu meinem Kompass, zu meinem Lehrer, zu meiner Verbindung zur Welt geworden. Ich benutze es, um Informationen zu sammeln, Dinge zu lernen, mit Freunden in Kontakt zu treten und Spiele zu spielen",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, europ\u00e4isch, exotisch. Die einzige Ausnahme sind Haustiere. Ich wei\u00df, dass es schwierig ist, alle Tiere zu kategorisieren, aber ich versuche, es so genau wie m\u00f6glich zu machen.Hier sind die Tiere, die ich bisher aufgel istet habe:HauskatzenHundeRattenMeerschweinchenFrettchenHamsterM\u00e4useZebrafinkenWellensitticheExotische V\u00f6gel (Papageien und Sittiche)ChinchillasEichh\u00f6rn chenF\u00fcchseGefrorene HamsterRatten-HamsterGefrorene ChinchillasGerb",
+    "Mein letzter Traum war": "Mein letzter Traum war einfach nur schrecklich. Ich war in einer W\u00fcste und versuchte, Wasser zu finden. Ich war v\u00f6llig durstig Ich habe nie zuvor so etwas Schreckliches gef\u00fchlt. Ich bin aufgewacht, weil ich dachte, ich w\u00fcrde ster ben. Habe ich etwas mit meinem Traum zu tun?Traumdeutung:Von Wasser tr\u00e4umen bede utet, dass Sie einen wichtigen Aspekt Ihrer Pers\u00f6nlichkeit kennenlernen werden. Dies k\u00f6nnte eine neue F\u00e4higkeit oder ein Talent sein oder einfach nur etwas, das Sie noch nicht \u00fcber sich wussten. Vielleicht werden Sie erfahren, dass Sie ein guter Zuh\u00f6rer sind oder ein nat\u00fcrlicher F\u00fchrer. Wasser kann auch auf"
+}
+{
+    "timepoint": 2,
+    "wellbeing": 0.88,
+    "sleep": 0.96,
+    "happiness": 0.34,
+    "anxiety": 0.12,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 1.3,
+    "num_beams": 5,
+    "sampling": [
+        "top_p",
+        1.5
+    ],
+    "retroactive_span": 101,
+    "proactive_span": 101,
+    "target_length": 200,
+    "token_noise_rate": 0.02,
+    "lie_rate": 0
+}
+{
+    "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten mit dem Fahrrad oder zu Fu\u00df. Wer mit dem Auto unterwegs ist, kann entweder die Autobahn nehmen oder eine l\u00e4ngere, aber landschaftlich reizvollere Strecke \u00fcber kleinere Stra\u00dfen w\u00e4hlen.Wie lange dauert es von hier bis zum n\u00e4chsten Supermarkt?Mit dem Fahrrad dauert es etwa 15 Minuten, zu Fu\u00df etwa 30 Minuten, um den n\u00e4chsten Supermarkt zu erreichen.Wie lange dauert es von hier bis zur n\u00e4chsten Apotheke?Mit dem Fahrrad dauert es etwa 15 Minuten, zu Fu\u00df etwa 30 Minuten, um die n\u00e4chste Apotheke zu erreichen",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Meine Mutter ist an Krebs erkrankt. Sie ist 72 Jahre alt, hat ihr ganzes Leben lang hart gearbeitet und war immer f\u00fcr ihre Familie da. Jetzt ist sie es, die unsere Unterst\u00fctzung braucht.Es ist schwer, das alles zu verarbeiten. Ich f\u00fchle mich hilflos und ohnm\u00e4chtig angesichts einer Situation, die ich nicht kontrollieren kann. Ich versuche, stark zu sein und f\u00fcr meine Mutter da zu sein, aber manchmal \u00fcberw\u00e4ltigen mich die Emotionen und ich fange an zu weinen.Ich habe Angst vor dem, was noch kommen k\u00f6nnte. Was passiert, wenn meine Mutter nicht mehr bei uns ist?",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, L\u00f6we, Elefant, Giraffe, Affe, Eisb\u00e4r, Tiger , Wolf, Hund, Katze, Pferd, Fuchs, B\u00e4r, Sch ildkr\u00f6te, Krokodil, Tiger, B\u00fcffel, Gepard , Hy\u00e4ne, Antilope, Strau\u00df, Flamingo, Zebra, L\u00f6we, Gnu, Ziege, Elefant, Kamel, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elefant, Elef",
+    "Mein letzter Traum war": "Mein letzter Traum war ein Traum, in dem ich einen alten Freund getroffen habe, den ich seit ein paar Jahren nicht mehr gesehen habe. Wir waren beide erwachsen geworden und hatten unsere eigenen Familien gegr\u00fcndet. Trotzdem f\u00fchlte es sich an wie fr\u00fcher, als w\u00e4ren keine Jahre vergangen. Wir haben uns umarmt und gek\u00fcsst, als w \u00e4ren wir immer noch Teenager. Es war ein wundersch\u00f6ner Traum.Wenn ich einen Wunsch frei h\u00e4tte, w\u00fcrde ich diesen Traum gerne noch einmal erleben. Aber ich glaube nicht, dass das m\u00f6glich ist. Tr\u00e4ume sind nur fl\u00fcchtige Erinnerungen, die unser Gehirn w\u00e4hrend des Schlafs produziert. Sie"
+}
+{
+    "timepoint": 3,
+    "wellbeing": 0.59,
+    "sleep": 0.6,
+    "happiness": 0.54,
+    "anxiety": 0.46,
+    "medication": 1,
+    "drugs": 0
+}
+{
+    "temperature": 2.52,
+    "num_beams": 5,
+    "sampling": [
+        "top_p",
+        1.92
+    ],
+    "retroactive_span": 41,
+    "proactive_span": 41,
+    "target_length": 200,
+    "token_noise_rate": 0.09,
+    "lie_rate": 0
+}
+{
+    "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten per Bus oder \u00fcber eine der vielen Br\u00fccken, auf denen sich zu jeder Tageszeit die Stra\u00dfenverk\u00e4ufer dr\u00e4ngen. Die F\u00e4hre zum gegen\u00fcberlie Bankhead Island ist eine der einzigen M\u00f6glichkeiten, dieses St\u00fcck Wildnis zu erreichen. \u00dcberall auf dem riesigen Gel\u00e4nde werden Sie kleine Holzh\u00fctt en sehen, die f\u00fcr verschiedene Veranstaltungen und Ferienprogramme gebucht werden. Die Verwaltung des Parks bietet gef\u00fchrte Wanderungen und verschiedene Bild ungsprogramme f\u00fcr Schulgruppen. Besucher k\u00f6nnen die Geschichte des Parks anhand von Themenpfaden und Ausstellungen erleben, die sich der Umweltbildung und Umwelterziehung widmen. Die Entdeckung des Natursch",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin jetzt ein 16-J\u00e4hriger, der sich als 14-J\u00e4hriger ausgibt. Hmm, das ist aber sehr weit hergeholt, dass man sich als 4-J\u00e4hriger ausgeben kann. Ich wei\u00df, es ist schwer vorzustellen, aber ich bezweifel wirklich, dass man ohne jemals einen solchen Antrag gestellt hat, jemals eine der oben genannt en Anforderungen erf\u00fcllen kann. Aber jetzt wird es kl arer, warum ein derartiges Verbot nicht nur verfassung swidrig, sondern auch menschenrechtswidrig ist. Zum al ein solcher Entzug ja nicht das Problem l\u00f6st, sondern lediglich den Ruf sch\u00e4digt und die",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, Tiger, Giraffe, Katze, Hund, Maus, Fisch, Vogel, Eich h\u00f6rnchen, Affe - und viele weitere. Die leuchtend bunten Karten zeigen die Tiere in verschied enen Lebensr\u00e4umen und helfen dabei, ihre F\u00e4higkeiten zu entdecken und die Welt zu verstehen. Das Buch hat keine klare Struktur, sondern erz\u00e4hlt auf jeder Seite etwas \u00fcber ein anderes T rendthema, ohne dass es an einem bestimmten Punkt endet. Dies kann f\u00fcr einige ein Problem sein, da es derzeit keinen klaren Fokus hat. Das bedeutet, dass Sie viel Inhalt haben, aber nicht wirklich wissen, was Sie tats\u00e4chlich tun",
+    "Mein letzter Traum war": "Mein letzter Traum war :Szene 1: in einem kleinen Raum mit meinem Freund, der auf einem B\u00fcrostuhl sitzt. \u00dcberall sind kleine Holz figuren und es riecht nach Zigarrengeruch und Parf\u00fcm. In der Ecke h\u00e4ngt ein gro\u00dfer Spiegel. Auf demTisch ste hen Blumen, Kerzen und B\u00fccher, die um Aufmerksamkeit buhlen.Auf meiner linken Seite sitzt ein Mann, dessen Gesicht sausdruck versteinert ist. Er hat einen dunklen Anzug an, und in seiner Hand h\u00e4lt er eine T\u00fcte voller roter Rosen. Ich sehe mich um, die Gesichter um mich herum sind verwirrt. Ich habe Angst. Auf der B\u00fchne steigt"
+}
+{
+    "timepoint": 4,
+    "wellbeing": 0.7,
+    "sleep": 0.85,
+    "happiness": 0.48,
+    "anxiety": 0.34,
+    "medication": 0,
+    "drugs": 1
+}
+{
+    "temperature": 2.06,
+    "num_beams": 5,
+    "sampling": [
+        "top_p",
+        1.69
+    ],
+    "retroactive_span": 73,
+    "proactive_span": 73,
+    "target_length": 200,
+    "token_noise_rate": 0.07,
+    "lie_rate": 0
+}
+{
+    "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man am besten dem Fahrradweg. Dieser f\u00fchrt gerade durch den Wald, sodass man kaum merkt, dass man sich der Stadt n\u00e4hert. Gegen Ende des Sommers und zu Beginn des Herbstes, wenn die Temperaturen k\u00fchler werden, erwachen die Sinne. Die Farben der Natur beginnen zu verblassen, und wir wenden uns mit vermehrter Aufmerksamkeit dem Inneren zu. Wir f\u00fchlen, da\u00df das \u00e4u\u00dfere Leben seinen H\u00f6hepunkt erreicht hat und sich dem Ende n\u00e4hert, und so neigen wir unsere Gedanken der Vergangen und unsere Liebe zur Kunst. Wir sehen in diesen letzten Jahren eine au\u00dfergew\u00f6hnliche Konzentration auf das Gebiet der Musik,",
+    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich habe meinen Job gek\u00fcndigt, mich von einigen Menschen getrennt und bin dabei, meinen K\u00f6rper und meinen Geist zu reinigen. Wieso? Nun ja, ich habe einen Traum. Ich m\u00f6chte mein eigenes kleines Caf\u00e9 betreiben, in dem alle willkommen sind und jeder sich wie zu Hause f\u00fchlt.Das klingt nach einer gro\u00dfartigen Idee! Aber du musst eine Lizenz beantragen, um ein Caf\u00e9 zu betreiben. Es gibt bestimmte Vorschriften, die du befolgen musst, einschlie\u00dflich Hygienestandards und Sicherheitsbestimmungen. Und du musst sicherstellen, dass deine G\u00e4ste sicher sind.",
+    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eichh\u00f6rnchen, Igel, Schmetterling, Fledermaus, Marienk\u00e4fer, Regenwurm, Biene, Spinne, Eidech se, Hase, L\u00f6wenzahn, Spinne, Frosch, Schnecke, Maus, Hund, Katze, Pferd, Schaf, Ziege ), Esel, Giraffe, Elefant, Nilpferd, L\u00f6we, Tiger, Affe, Affe, B\u00e4r, Affe, Affe, Affe , Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe, Affe",
+    "Mein letzter Traum war": "Mein letzter Traum war eigentlich ein Alptraum. Ich war mit meinen Eltern in einem fremden Haus, wir wollten dort \u00fcbernachten. Als ich die T\u00fcr \u00f6ffnete, sah ich einen riesigen Raum mit vielen Betten. Ich rief meine Eltern, aber sie waren nirgendwo zu finden. Ich ging von Bett zu Bett, aber niemand war darin. Pl\u00f6tzlich h\u00f6rte ich Schritte hinter mir und drehte mich um und sah einen riesigen Mann mit einem langen wei\u00dfen Bart und einem gr\u00fcnen Umhang. Er hatte ein freundliches Gesicht und ein warmes L\u00e4cheln.\"Hallo, kleiner Mann\", sagte er. \"Ich bin der Lehrer der Schule von Athen und m\u00f6chte dich gerne"
+}

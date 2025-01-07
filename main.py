@@ -25,6 +25,6 @@ if __name__ == "__main__":
                 json.dump(parameters, file, indent=4)
                 file.write('\n')
 
-                text = TextGenerator(setup, parameters, generation_arguments).generate_text(config.prompts)
+                text = TextGenerator(setup, config.prompts, parameters, generation_arguments).out
                 json.dump(text, file, indent=4)
                 file.write('\n')

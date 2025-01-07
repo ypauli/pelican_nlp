@@ -1,150 +1,22 @@
 {
     "timepoint": 0,
-    "wellbeing": 0.7,
-    "sleep": 0.49,
-    "happiness": 0.79,
-    "anxiety": 0.44,
-    "medication": 0,
-    "drugs": 1
-}
-{
-    "temperature": 0.853,
-    "num_beams": 1,
-    "sampling": [
-        "top_p",
-        0.9
-    ],
-    "retroactive_span": 32,
-    "proactive_span": 50,
-    "target_length": 50,
-    "token_noise_rate": 0,
-    "lie_rate": 0
-}
-{
-    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist etwa 150 Kilometer lang, das dauert mit dem Auto etwa eine Stunde und f\u00fcnfzehn Minuten. Der n\u00e4chste",
-    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Mein Partner und ich haben uns nach langem \u00dcberlegen und Abw\u00e4gen f\u00fcr ein neues Familienmitglied entschieden.",
-    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne einige weitere Tiere gehabt. Wenn ihr noch wel",
-    "Dieses Bild zeigt": "Dieses Bild zeigt den \"Wirbelstromgenerator\" der Firma Fischer, der im Mai 1889 vorgestellt wurde. Fischer nannte diese Maschine \"Induktionsmas",
-    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte von meiner ersten Reise nach S\u00fcdamerika in aller K\u00fcrze:Nach dem College habe ich beschlossen, eine l\u00e4ngere Reise zu unternehmen, um zu se",
-    "Mein letzter Traum war": "Mein letzter Traum war ein Albtraum. Ich habe auf einer Insel gelebt. Die Insel hatte einen wei\u00dfen Sandstrand, auf dem Palmen wuchsen. Das Wasser war blau wie"
-}
-{
-    "timepoint": 1,
-    "wellbeing": 0.75,
-    "sleep": 0.64,
-    "happiness": 0.82,
-    "anxiety": 0.25,
-    "medication": 0,
-    "drugs": 0
-}
-{
-    "temperature": 0.8079999999999999,
-    "num_beams": 1,
-    "sampling": [
-        "top_p",
-        0.9
-    ],
-    "retroactive_span": 32,
-    "proactive_span": 50,
-    "target_length": 50,
-    "token_noise_rate": 0,
-    "lie_rate": 0
-}
-{
-    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist ziemlich lang. Deshalb habe ich angefangen, mir einen eigenen Vorrat anzulegen. Nicht unbedingt",
-    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin aus meiner Wohnung ausgezogen und wohne jetzt in einer neuen Wohnung, die nicht mehr nur meine",
-    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr gesehen. Wir haben das Meer mit seinen v",
-    "Dieses Bild zeigt": "Dieses Bild zeigt eine Animation, die Sie mit dem Programm \"Sketchup\" erstellt haben. Sie k\u00f6nnen es sich hier ansehen.Welche Techniken wurden zur Erstellung der Animation eing",
-    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte noch einmal, aber ich habe sie schon einmal erz\u00e4hlt, deshalb fange ich an, wo ich aufgeh\u00f6rt habe.Also, als ich das M\u00e4d",
-    "Mein letzter Traum war": "Mein letzter Traum war irgendwie\u2026 anders. Das ist zwar immer der Fall, aber dieser war noch \u201canderer\u201d als sonst.Es begann damit, dass ich in einem Raum stand."
-}
-{
-    "timepoint": 2,
-    "wellbeing": 0.62,
-    "sleep": 0.52,
-    "happiness": 0.63,
-    "anxiety": 0.4,
-    "medication": 1,
-    "drugs": 1
-}
-{
-    "temperature": 0.844,
-    "num_beams": 1,
-    "sampling": [
-        "top_p",
-        0.9
-    ],
-    "retroactive_span": 64,
-    "proactive_span": 50,
-    "target_length": 50,
-    "token_noise_rate": 0,
-    "lie_rate": 0
-}
-{
-    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist sicherlich das Problem, das den meisten Menschen erst dann bewusst wird, wenn sie es haben. Wenn das Auto streikt, der",
-    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin umgezogen. Zumindest habe ich den Wohnort gewechselt und bin jetzt in einer anderen Stadt",
-    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne etwas mehr Zeit.Ich w\u00fcrde gerne etwas",
-    "Dieses Bild zeigt": "Dieses Bild zeigt den Schriftzug \"Raum 201\", welches der Raum in der alten Halle des Deutschen Museums in M\u00fcnchen ist, in dem die Ausstellung \u00fcber die Geschichte des Rad",
-    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte noch einmal:Meine Freundin hatte mir gesagt, dass ihr Mann ihr in den Po geschissen hat. Ich habe das erstmal nicht geglaubt, we",
-    "Mein letzter Traum war": "Mein letzter Traum war einfach nur gro\u00dfartig. Ich war mit ein paar Freunden in einem alten, verwunschenen Wald unterwegs. Wir fanden einen alten Brunnen,"
-}
-{
-    "timepoint": 3,
     "wellbeing": 0.72,
-    "sleep": 0.4,
-    "happiness": 0.83,
-    "anxiety": 0.39,
+    "sleep": 0.81,
+    "happiness": 0.7,
+    "anxiety": 0.15,
     "medication": 1,
     "drugs": 0
 }
 {
-    "temperature": 0.8799999999999999,
-    "num_beams": 1,
+    "temperature": 1.98,
+    "num_beams": 5,
     "sampling": [
         "top_p",
-        0.9
+        1.6
     ],
-    "retroactive_span": 64,
-    "proactive_span": 50,
-    "target_length": 50,
-    "token_noise_rate": 0,
+    "retroactive_span": 86,
+    "proactive_span": 86,
+    "target_length": 200,
+    "token_noise_rate": 0.03,
     "lie_rate": 0
-}
-{
-    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist die Stra\u00dfe entlang durch den Wald. Es gibt keinen anderen Weg. Keine Alternative. Das ist unsere Realit\u00e4t. Wenn",
-    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Mein 16-j\u00e4hriger Sohn ist von zuhause ausgezogen, um eine Ausbildung anzufangen. Es",
-    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr Informationen zu den einzelnen Tieren.1",
-    "Dieses Bild zeigt": "Dieses Bild zeigt eine Szene aus der \"Chronik des Aufstiegs\", die ich als 14-J\u00e4hriger verfasst habe. Ich habe das alte Buch wiedergefunden und hier",
-    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte mit meiner besten Freundin und unserem Ex-Freund nochmal. Ich hoffe, dass ich diesmal deutlich machen kann, wie ich mich f\u00fch",
-    "Mein letzter Traum war": "Mein letzter Traum war irgendwie komisch.Er war so anders.Ich habe das Gef\u00fchl, es war kein Traum.Es war irgendwie real."
-}
-{
-    "timepoint": 4,
-    "wellbeing": 0.71,
-    "sleep": 0.54,
-    "happiness": 0.88,
-    "anxiety": 0.43,
-    "medication": 1,
-    "drugs": 1
-}
-{
-    "temperature": 0.838,
-    "num_beams": 1,
-    "sampling": [
-        "top_p",
-        0.9
-    ],
-    "retroactive_span": 64,
-    "proactive_span": 50,
-    "target_length": 50,
-    "token_noise_rate": 0,
-    "lie_rate": 0
-}
-{
-    "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist": "Der k\u00fcrzeste Weg von hier aus zum n\u00e4chsten Supermarkt ist die Hauptstra\u00dfe entlang zu gehen und dann ein paar Mal links und rechts abzubiegen. Oder Sie nutzen meinen",
-    "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert": "Seit letzter Woche hat sich in meinem Leben einiges ver\u00e4ndert . Ich bin umgezogen, habe einen neuen Job und habe mein erstes richtiges Date mit einem Mann. Was f\u00fcr ein",
-    "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glichIch bin grunds\u00e4tzlich zufrieden, h\u00e4tte aber gerne mehr Tiere gesehen. Trotzdem ein sch\u00f6",
-    "Dieses Bild zeigt": "Dieses Bild zeigt , wie die Verteilung des Gl\u00fccks und des Leids in den menschlichen Gemeinschaften durch die Geschichte der Menschheit zunehmend schlechter wird.Wir haben",
-    "Ich wiederhole jetzt die Geschichte": "Ich wiederhole jetzt die Geschichte meines Lebens.Es ist alles ein bisschen durcheinander geraten und ich wei\u00df, dass es nicht das ist, was man als \"normal\" bezeichnen w\u00fcr",
-    "Mein letzter Traum war": "Mein letzter Traum war sehr seltsam. Ich habe mich im Traum sehr schlecht erinnert. Ich habe vergessen, wie ich in den Traum gekommen bin und ich habe"
 }
