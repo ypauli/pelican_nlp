@@ -2,6 +2,7 @@ from itertools import product
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import numpy as np
 import torch
+from scipy.linalg import sqrtm
 
 class PipelineSetup: 
     def __init__(self, config):
@@ -9,7 +10,6 @@ class PipelineSetup:
         self.model = AutoModelForCausalLM.from_pretrained(config.model_name, device_map=self.device, torch_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(config.model_name)
         self.excluded_tokens = self.setup_tokenizer(self.tokenizer)
-        self.covariances = self.instantiate_covariances(config)
 
     @staticmethod
     def set_device():
@@ -18,9 +18,29 @@ class PipelineSetup:
         return torch.device("cuda")
     
     @staticmethod
-    def instantiate_covariances(config):  
-        covariance_matrix = np.outer(config.std_devs, config.std_devs) * config.correlation_matrix
-        return covariance_matrix
+    def nearest_psd(matrix, epsilon=1e-8):
+        """
+        Adjusts a matrix to be the nearest symmetric positive semi-definite matrix.
+        
+        Args:
+            matrix (ndarray): Input covariance matrix.
+            epsilon (float): Small value added to diagonal elements for numerical stability.
+        
+        Returns:
+            ndarray: Adjusted positive semi-definite matrix.
+        """
+        matrix = (matrix + matrix.T) / 2
+        U, s, V = np.linalg.svd(matrix)
+        s = np.clip(s, 0, None)
+        psd_matrix = np.dot(U, np.dot(np.diag(s), V))
+        psd_matrix = (psd_matrix + psd_matrix.T) / 2
+
+        # Add a small positive value to the diagonal for numerical stability
+        min_eig = np.min(np.linalg.eigvals(psd_matrix))
+        if min_eig < 0:
+            psd_matrix += np.eye(psd_matrix.shape[0]) * (-min_eig + epsilon)
+        
+        return psd_matrix
 
     @staticmethod
     def setup_tokenizer(tokenizer):
