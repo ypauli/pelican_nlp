@@ -60,13 +60,13 @@ if __name__ == "__main__":
                     json.dump(record, file, indent=4)
                     file.write("\n")
                     
-                    # # Generate generation arguments for TextGenerator
-                    # generation_arguments = ParameterGenerator.generate_parameters(parameters, setup)
+                    # Generate generation arguments for TextGenerator
+                    generation_arguments = ParameterGenerator.generate_parameters(parameters, setup)
                     
-                    # # Generate text using the sampled parameters
-                    # text_generator = TextGenerator(setup, config.prompts, parameters, generation_arguments)
-                    # generated_text = text_generator.out
+                    # Generate text using the sampled parameters
+                    text_generator = TextGenerator(setup, config.prompts, parameters, generation_arguments)
+                    generated_text = text_generator.out
                     
-                    # json.dump({"generated_text": generated_text}, file, indent=4)
-                    # file.write("\n")
-                    # print(generated_text)
+                    json.dump({"generated_text": generated_text}, file, indent=4)
+                    file.write("\n")
+                    print(generated_text)
