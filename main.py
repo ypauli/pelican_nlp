@@ -30,9 +30,6 @@ if __name__ == "__main__":
             
             with open(subject_file, "w") as file:
                 for timepoint in range(config.timepoints_per_subject):
-                    print(f"Timepoints per subject: {config.timepoints_per_subject}")  # Debugging
-                    
-                    
                     # Generate timepoint-specific value for the varied parameter
                     varied_param_value = ParameterGenerator.timepoint_sample(
                         varied_param_mean, varied_param_variance
@@ -40,7 +37,7 @@ if __name__ == "__main__":
 
                     # Combine constant and timepoint-specific parameters
                     parameters = {**constants, varied_param: varied_param_value}
-                    parameters["sampling"] = min(parameters["sampling"], 1)
+                    parameters["sampling"] = min(parameters["sampling"], 0.98)
                     parameters["context_span"] = round(parameters["context_span"])
                     parameters["target_length"] = round(parameters["target_length"])
 
@@ -51,20 +48,25 @@ if __name__ == "__main__":
 
                     # Create a record for the timepoint
                     record = {
+                        "cohort": cohort_name,
                         "subject": subject,
                         "timepoint": timepoint,
+                        "varied_param": varied_param,
+                        "varied_param_mean": varied_param_mean,
+                        "varied_param_variance": varied_param_variance,
                         "parameters": parameters,
                         "wellbeing_factors": wellbeing_factors,
                     }
                     json.dump(record, file, indent=4)
                     file.write("\n")
                     
-                    # Generate generation arguments for TextGenerator
-                    generation_arguments = ParameterGenerator.generate_parameters(parameters, setup)
+                    # # Generate generation arguments for TextGenerator
+                    # generation_arguments = ParameterGenerator.generate_parameters(parameters, setup)
                     
-                    # Generate text using the sampled parameters
-                    text_generator = TextGenerator(setup, config.prompts, parameters, generation_arguments)
-                    generated_text = text_generator.out
+                    # # Generate text using the sampled parameters
+                    # text_generator = TextGenerator(setup, config.prompts, parameters, generation_arguments)
+                    # generated_text = text_generator.out
                     
-                    json.dump({"generated_text": generated_text}, file, indent=4)
-                    file.write("\n")
+                    # json.dump({"generated_text": generated_text}, file, indent=4)
+                    # file.write("\n")
+                    # print(generated_text)

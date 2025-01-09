@@ -1,5 +1,5 @@
 from datetime import datetime
-import numpy as np
+import math
 
     # parameters = {
     #     "temperature": round(np.clip(sampled_values[0], 0.8, 5.0), 2),
@@ -12,13 +12,13 @@ import numpy as np
 
 class Config:
     def __init__(self):
-        self.subjects_per_cohort = 2
-        self.timepoints_per_subject = 2
+        self.subjects_per_cohort = 10
+        self.timepoints_per_subject = 20
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.0234},
-            "sampling": {"mean": 0.9, "variance": 0.0026}, # using top-p sampling
+            "sampling": {"mean": 0.85, "variance": 0.0026}, # Using top-p sampling
             "context_span": {"mean": 150, "variance": 2108.57},
-            "target_length": {"mean": 300, "variance": 1275.56},
+            "target_length": {"mean": 300, "variance": 1275.56}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
         }
         self.cohorts = {
             "group_a": {
@@ -28,31 +28,31 @@ class Config:
             },
             "group_b": {
                 "varied_parameter": "sampling",
-                "mean_values": {"sampling": 0.9},
-                "variance_values": {"sampling": 0.1},
+                "mean_values": {"sampling": 0.85},
+                "variance_values": {"sampling": 0.01},
             },
             "group_c": {
                 "varied_parameter": "context_span",
                 "mean_values": {"context_span": 150},
-                "variance_values": {"context_span": 70},
+                "variance_values": {"context_span": 3149.85},
             },
             "group_d": {
                 "varied_parameter": "target_length",
                 "mean_values": {"target_length": 300},
-                "variance_values": {"target_length": 25},
+                "variance_values": {"target_length": 8434.30},
             }
         }
         self.parameter_weights = {
-            "temperature": -0.3,
-            "sampling": -0.2,
-            "context_span": 0.25,
-            "target_length": 0.25,
+            "temperature": -0.9,
+            "sampling": -1.2,
+            "context_span": 0.006,
+            "target_length": 0.004,
         }
         self.parameter_rules = {
             # State score normalized between 0 and 1
             "state_score": lambda parameters: round(
-                sum(parameters[param] * weight for param, weight in self.parameter_weights.items())
-                / sum(abs(weight) for weight in self.parameter_weights.values()), 2
+                1 / (1 + math.exp(-sum(parameters[param] * weight for param, weight in self.parameter_weights.items()))),
+                2
             ),
             # Wellbeing is directly equal to the state_score
             "wellbeing": lambda state_score: round(state_score, 2),
