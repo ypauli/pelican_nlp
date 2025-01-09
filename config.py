@@ -1,4 +1,5 @@
 from datetime import datetime
+import numpy as np
 import math
 
     # parameters = {
@@ -13,18 +14,18 @@ import math
 class Config:
     def __init__(self):
         self.subjects_per_cohort = 10
-        self.timepoints_per_subject = 20
+        self.timepoints_per_subject = 5
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.0234},
             "sampling": {"mean": 0.85, "variance": 0.0026}, # Using top-p sampling
             "context_span": {"mean": 150, "variance": 2108.57},
-            "target_length": {"mean": 300, "variance": 1275.56}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
+            "target_length": {"mean": 50, "variance": 26.03}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
         }
         self.cohorts = {
             "group_a": {
                 "varied_parameter": "temperature",
                 "mean_values": {"temperature": 1.2},
-                "variance_values": {"temperature": 0.1},
+                "variance_values": {"temperature": 0.4},
             },
             "group_b": {
                 "varied_parameter": "sampling",
@@ -61,11 +62,22 @@ class Config:
             # Anxiety is highest when state_score is close to 0.25
             "anxiety": lambda state_score: round(1 - abs(state_score - 0.25), 2),
             # Happiness is the square the state_score
-            "happiness": lambda state_score: round(state_score**2, 2)
+            "happiness": lambda state_score: round(state_score**2, 2),
+            # Medication: More likely to be 1 if state_score is high
+            "medication": lambda state_score: int(np.random.choice([0, 1], p=[1 - state_score, state_score])),
+            # Drugs: Less likely than medication, and more likely to be 1 if state_score is low
+            "drugs": lambda state_score: int(
+                np.random.choice([0, 1], p=[
+                    max(0, min(1, state_score + 0.3)),  # Ensure between 0 and 1
+                    max(0, min(1, 0.7 - state_score))  # Ensure between 0 and 1
+                ])
+            )
         }
         self.prompts = {
-            "Seit letzter Woche hat sich in meinem Leben einiges verändert",
+            "Seit letzter Woche hat sich in meinem Leben einiges verändert", # remove before generation
+            "Seit letzter Woche habe ich",
             "Mein letzter Traum war",
+            "Als letztes habe ich geträumt, dass" # remove before generation
             "Von hier aus bis zum nächsten Supermarkt gelangt man am besten",
             "Ich werde so viele Tiere aufzählen wie möglich: Pelikan,"
             # Interactive Prompts
