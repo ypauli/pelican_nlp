@@ -1,78 +1,65 @@
 from datetime import datetime
 import numpy as np
 
+    # parameters = {
+    #     "temperature": round(np.clip(sampled_values[0], 0.8, 5.0), 2),
+    #     "sampling": ("top_p", round(np.clip(sampled_values[1], 0.75, 2.0), 2)),
+    #     "retroactive_span": int(np.clip(sampled_values[2], 30, 300)),
+    #     "proactive_span": int(np.clip(sampled_values[3], 30, 300)),
+    #     "target_length": int(np.clip(sampled_values[4], 150, 450)), # roughly 100 - 350 words x 1.5 to account for tokens
+    #     "token_noise_rate": round(np.clip(sampled_values[5], 0.0, 0.2), 2),
+    #     "lie_rate": 0,
+
 class Config:
     def __init__(self):
-        self.subjects_per_cohort = 10
-        self.timepoints_per_subject = 20
+        self.subjects_per_cohort = 1
+        self.timepoints_per_subject = 1
+        self.global_parameter_stats = {
+            "temperature": {"mean": 1.2, "variance": 0.0234},
+            "sampling": {"mean": 0.9, "variance": 0.0026}, # using top-p sampling
+            "context_span": {"mean": 150, "variance": 2108.57},
+            "target_length": {"mean": 300, "variance": 1275.56},
+        }
         self.cohorts = {
             "group_a": {
-                "mean_values": [0.7, 0.8, 50, 50, 150, 0.15],  # temperature, sampling, retroactive_span, proactive_span, target_length, noise_rate
-                "covariance_matrix": np.array([
-                    [0.05,  0.03, -0.04, -0.04, -0.02,  0.03],  # temperature
-                    [0.03,  0.04, -0.03, -0.03, -0.01,  0.02],  # sampling
-                    [-0.04, -0.03, 10.0,   8.5,   5.0,  -0.02],  # retroactive_span
-                    [-0.04, -0.03,  8.5,  10.0,   5.5,  -0.02],  # proactive_span
-                    [-0.02, -0.01,  5.0,   5.5,  20.0,  -0.01],  # target_length
-                    [0.03,  0.02, -0.02, -0.02, -0.01,  0.01]   # noise_rate
-                ]),
-                "std_devs": [0.1, 0.2, 3.0, 3.0, 5.0, 0.05]
+                "varied_parameter": "temperature",
+                "mean_values": {"temperature": 1.2},
+                "variance_values": {"temperature": 0.1},
             },
             "group_b": {
-                "mean_values": [1.2, 1.5, 40, 40, 120, 0.2],
-                "covariance_matrix": np.array([
-                    [0.06,  0.04, -0.05, -0.05, -0.03,  0.04],
-                    [0.04,  0.05, -0.04, -0.04, -0.02,  0.03],
-                    [-0.05, -0.04, 12.0,  10.0,   6.0,  -0.03],
-                    [-0.05, -0.04, 10.0,  12.0,   7.0,  -0.03],
-                    [-0.03, -0.02,  6.0,   7.0,  18.0,  -0.02],
-                    [0.04,  0.03, -0.03, -0.03, -0.02,  0.02]
-                ]),
-                "std_devs": [0.12, 0.25, 4.0, 4.0, 6.0, 0.06]
+                "varied_parameter": "sampling",
+                "mean_values": {"sampling": 0.9},
+                "variance_values": {"sampling": 0.1},
             },
             "group_c": {
-                "mean_values": [0.5, 0.7, 60, 60, 180, 0.1], 
-                "covariance_matrix": np.array([
-                    [0.04,  0.02, -0.03, -0.03, -0.02,  0.02],
-                    [0.02,  0.03, -0.02, -0.02, -0.01,  0.02],
-                    [-0.03, -0.02,  8.0,   7.0,   4.5,  -0.02],
-                    [-0.03, -0.02,  7.0,   8.0,   5.0,  -0.02],
-                    [-0.02, -0.01,  4.5,   5.0,  15.0,  -0.01],
-                    [0.02,  0.02, -0.02, -0.02, -0.01,  0.01]
-                ]),
-                "std_devs": [0.1, 0.15, 2.5, 2.5, 4.5, 0.03]
+                "varied_parameter": "context_span",
+                "mean_values": {"context_span": 150},
+                "variance_values": {"context_span": 70},
             },
             "group_d": {
-                "mean_values": [1.5, 1.8, 30, 30, 100, 0.25], 
-                "covariance_matrix": np.array([
-                    [0.08,  0.06, -0.06, -0.06, -0.04,  0.05],
-                    [0.06,  0.07, -0.05, -0.05, -0.03,  0.04],
-                    [-0.06, -0.05, 15.0,  12.0,   8.0,  -0.04],
-                    [-0.06, -0.05, 12.0,  15.0,   9.0,  -0.04],
-                    [-0.04, -0.03,  8.0,   9.0,  25.0,  -0.03],
-                    [0.05,  0.04, -0.04, -0.04, -0.03,  0.03]
-                ]),
-                "std_devs": [0.15, 0.3, 5.0, 5.0, 7.0, 0.07]
+                "varied_parameter": "target_length",
+                "mean_values": {"target_length": 300},
+                "variance_values": {"target_length": 25},
             }
         }
         self.parameter_rules = {
             "wellbeing": lambda parameters: round(
-                0.4 * parameters["sleep"] + 0.4 * (1 - parameters["anxiety"]) + 0.2 * parameters["happiness"], 2
+                0.4 * parameters["sampling"] + 0.4 * (1 - parameters["target_length"]) + 0.2 * parameters["context_span"], 2
             ),
             "sleep": lambda parameters: round(
-                1 - (parameters["retroactive_span"] - 30) / (200 - 30), 2
+                1 - (parameters["context_span"] - 30) / (200 - 30), 2
             ),
             "anxiety": lambda parameters: round(
-                (200 - parameters["proactive_span"]) / (200 - 30), 2
+                (200 - parameters["context_span"]) / (200 - 30), 2
             ),
             "happiness": lambda parameters: round(
                 1 - (parameters["temperature"] - 0.8) / (5 - 0.8), 2
             ),
             "medication": lambda parameters: int(
-                np.random.choice([0, 1], p=[(parameters["temperature"] - 0.8) / (5 - 0.8), 1 - (parameters["temperature"] - 0.8) / (5 - 0.8)])
+                np.random.choice([0, 1], p=[0.3, 0.7])
             ),
             "drugs": lambda parameters: int(
-                np.random.choice([0, 1], p=[1 - (parameters["temperature"] - 0.8) / (5 - 0.8), (parameters["temperature"] - 0.8) / (5 - 0.8)])
+                np.random.choice([0, 1], p=[0.8, 0.2])
             ),
         }
         self.prompts = {
