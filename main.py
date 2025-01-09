@@ -40,11 +40,12 @@ if __name__ == "__main__":
 
                     # Combine constant and timepoint-specific parameters
                     parameters = {**constants, varied_param: varied_param_value}
+                    parameters["sampling"] = min(parameters["sampling"], 1)
                     parameters["context_span"] = round(parameters["context_span"])
                     parameters["target_length"] = round(parameters["target_length"])
 
-                    # Calculate well-being factors
-                    wellbeing_factors = ParameterGenerator.wellbeing_sample(
+                    # Calculate well-being factors, including state score
+                    wellbeing_factors = ParameterGenerator.state_sample(
                         parameters, config.parameter_rules
                     )
 

@@ -12,8 +12,8 @@ import numpy as np
 
 class Config:
     def __init__(self):
-        self.subjects_per_cohort = 1
-        self.timepoints_per_subject = 1
+        self.subjects_per_cohort = 2
+        self.timepoints_per_subject = 2
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.0234},
             "sampling": {"mean": 0.9, "variance": 0.0026}, # using top-p sampling
@@ -42,33 +42,35 @@ class Config:
                 "variance_values": {"target_length": 25},
             }
         }
+        self.parameter_weights = {
+            "temperature": -0.3,
+            "sampling": -0.2,
+            "context_span": 0.25,
+            "target_length": 0.25,
+        }
         self.parameter_rules = {
-            "wellbeing": lambda parameters: round(
-                0.4 * parameters["sampling"] + 0.4 * (1 - parameters["target_length"]) + 0.2 * parameters["context_span"], 2
+            # State score normalized between 0 and 1
+            "state_score": lambda parameters: round(
+                sum(parameters[param] * weight for param, weight in self.parameter_weights.items())
+                / sum(abs(weight) for weight in self.parameter_weights.values()), 2
             ),
-            "sleep": lambda parameters: round(
-                1 - (parameters["context_span"] - 30) / (200 - 30), 2
-            ),
-            "anxiety": lambda parameters: round(
-                (200 - parameters["context_span"]) / (200 - 30), 2
-            ),
-            "happiness": lambda parameters: round(
-                1 - (parameters["temperature"] - 0.8) / (5 - 0.8), 2
-            ),
-            "medication": lambda parameters: int(
-                np.random.choice([0, 1], p=[0.3, 0.7])
-            ),
-            "drugs": lambda parameters: int(
-                np.random.choice([0, 1], p=[0.8, 0.2])
-            ),
+            # Wellbeing is directly equal to the state_score
+            "wellbeing": lambda state_score: round(state_score, 2),
+            # Sleep is highest when state_score is close to 0.75
+            "sleep": lambda state_score: round(1 - abs(state_score - 0.75), 2),
+            # Anxiety is highest when state_score is close to 0.25
+            "anxiety": lambda state_score: round(1 - abs(state_score - 0.25), 2),
+            # Happiness is the square the state_score
+            "happiness": lambda state_score: round(state_score**2, 2)
         }
         self.prompts = {
             "Seit letzter Woche hat sich in meinem Leben einiges verändert",
             "Mein letzter Traum war",
-            "Von hier aus bis zum nächsten Supermarkt gelangt man am besten",  # "Der kürzeste Weg von hier aus zum nächsten Supermarkt ist",
-            # "Dieses Bild zeigt", # change
+            "Von hier aus bis zum nächsten Supermarkt gelangt man am besten",
             "Ich werde so viele Tiere aufzählen wie möglich: Pelikan,"
-            # "Ich bin grundsätzlich zufrieden, hätte aber gerne", # change
-            # "Ich wiederhole jetzt die Geschichte", # change
+            # Interactive Prompts
+            # "Dieses Bild zeigt",
+            # "Ich bin grundsätzlich zufrieden, hätte aber gerne", 
+            # "Ich wiederhole jetzt die Geschichte",
         }
         self.model_name = "jphme/em_german_leo_mistral"
