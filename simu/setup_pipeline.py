@@ -16,38 +16,13 @@ class PipelineSetup:
         if torch.cuda.is_available() == False:
             raise RuntimeError("CUDA is not available. Please ensure you have a compatible GPU and CUDA installed.")
         return torch.device("cuda")
-    
-    @staticmethod
-    def nearest_psd(matrix, epsilon=1e-8):
-        """
-        Adjusts a matrix to be the nearest symmetric positive semi-definite matrix.
-        
-        Args:
-            matrix (ndarray): Input covariance matrix.
-            epsilon (float): Small value added to diagonal elements for numerical stability.
-        
-        Returns:
-            ndarray: Adjusted positive semi-definite matrix.
-        """
-        matrix = (matrix + matrix.T) / 2
-        U, s, V = np.linalg.svd(matrix)
-        s = np.clip(s, 0, None)
-        psd_matrix = np.dot(U, np.dot(np.diag(s), V))
-        psd_matrix = (psd_matrix + psd_matrix.T) / 2
-
-        # Add a small positive value to the diagonal for numerical stability
-        min_eig = np.min(np.linalg.eigvals(psd_matrix))
-        if min_eig < 0:
-            psd_matrix += np.eye(psd_matrix.shape[0]) * (-min_eig + epsilon)
-        
-        return psd_matrix
 
     @staticmethod
     def setup_tokenizer(tokenizer):
         return tokenizer([
             # Newlines and Whitespace Variations
             "\n", "\n\n", "\n\n\n", "\t", "\r", "\r\n"," \n", " \n\n", ".\n", ".\n\n", 
-            "#", "##", "###", "####", "'<0x0A>'", "<0x0A>", "ASSISTANT",
+            "#", "##", "###", "####", "'<0x0A>'", "<0x0A>", "ASSISTANT", "ASSISTANT:",
             # URL Patterns
             "http", "https", "ftp", "www.", "ftp://", "https://", "http://",  
             ".com", ".org", ".net", ".gov", ".edu", ".co", ".io", ".uk",       
