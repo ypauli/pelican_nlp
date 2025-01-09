@@ -1,0 +1,420 @@
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 0,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 1,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 2,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 3,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.9759482203160663
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 4,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.9426368136506912
+    },
+    "wellbeing_factors": {
+        "state_score": 0.72,
+        "wellbeing": 0.72,
+        "sleep": 0.97,
+        "anxiety": 0.53,
+        "happiness": 0.52
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 5,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 6,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 7,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 8,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.8342088384146833
+    },
+    "wellbeing_factors": {
+        "state_score": 0.74,
+        "wellbeing": 0.74,
+        "sleep": 0.99,
+        "anxiety": 0.51,
+        "happiness": 0.55
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 9,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.8776585136056035
+    },
+    "wellbeing_factors": {
+        "state_score": 0.73,
+        "wellbeing": 0.73,
+        "sleep": 0.98,
+        "anxiety": 0.52,
+        "happiness": 0.53
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 10,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 11,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 12,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 13,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.9550261383552592
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 14,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 15,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 16,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 17,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 18,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.9772633542939427
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}
+{
+    "cohort": "group_b",
+    "subject": 6,
+    "timepoint": 19,
+    "varied_param": "sampling",
+    "varied_param_mean": 1.052196914548597,
+    "varied_param_variance": 0.009653632948187028,
+    "parameters": {
+        "temperature": 1.0907789131677854,
+        "context_span": 263,
+        "target_length": 364,
+        "sampling": 0.98
+    },
+    "wellbeing_factors": {
+        "state_score": 0.71,
+        "wellbeing": 0.71,
+        "sleep": 0.96,
+        "anxiety": 0.54,
+        "happiness": 0.5
+    }
+}

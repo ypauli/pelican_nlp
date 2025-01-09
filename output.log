@@ -1,10 +1,14 @@
 nohup: ignoring input
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.14s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.43s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.53s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.19s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.45s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.56s/it]
 Processing cohort: group_a
 Generating data for subject 0 in group_a
-Timepoints per subject: 2
-Traceback (most recent call last):
-  File "/home/ubuntu/emilia/PELICAN/main.py", line 37, in <module>
-    varied_param_value = ParameterGenerator.timepoint_sample(
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: ParameterGenerator.timepoint_sample() takes 1 positional argument but 2 were given
+Generating data for subject 1 in group_a
+Processing cohort: group_b
+Generating data for subject 0 in group_b
+Generating data for subject 1 in group_b
+Processing cohort: group_c
+Generating data for subject 0 in group_c
+Generating data for subject 1 in group_c
+Processing cohort: group_d
+Generating data for subject 0 in group_d
+Generating data for subject 1 in group_d
