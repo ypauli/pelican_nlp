@@ -46,7 +46,7 @@ class ParameterGenerator:
         }
         
     @staticmethod
-    def timepoint_sample(varied_param_range):
+    def timepoint_sample(varied_param_mean, varied_param_variance):
         """
         Generate a timepoint-specific value for the varied parameter.
 
@@ -57,22 +57,30 @@ class ParameterGenerator:
         Returns:
             float: Timepoint-specific value for the varied parameter.
         """
-        return np.random.uniform(varied_param_range)
-
+        return np.random.normal(
+            loc=varied_param_mean,
+            scale=np.sqrt(varied_param_variance)
+        )
+    
     @staticmethod
-    def wellbeing_sample(parameters, parameter_rules):
+    def state_sample(parameters, parameter_rules):
         """
-        Calculate well-being factors based on parameters and rules.
+        Calculate the state score and derive well-being factors.
 
         Args:
-            parameters (dict): A dictionary of subject and timepoint-specific parameters.
-            parameter_rules (dict): A dictionary of lambda functions defining well-being rules.
+            parameters (dict): A dictionary of generation parameters.
+            parameter_rules (dict): A dictionary of lambda functions defining state-based rules.
 
         Returns:
-            dict: Calculated well-being factors.
+            dict: Calculated state score and well-being factors.
         """
+        # Calculate the state score
+        state_score = parameter_rules["state_score"](parameters)
+
+        # Use state score to calculate derived factors
         return {
-            key: rule(parameters) for key, rule in parameter_rules.items()
+            key: rule(state_score) if key != "state_score" else state_score
+            for key, rule in parameter_rules.items()
         }
         
     @staticmethod
