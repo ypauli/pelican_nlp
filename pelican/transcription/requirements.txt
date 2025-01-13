@@ -1,0 +1,6 @@
+librosa
+numpy
+PyQt5
+pyqtgraph
+pydub
+simpleaudio 
