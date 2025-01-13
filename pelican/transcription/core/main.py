@@ -3,8 +3,9 @@ Main processing script for audio transcription pipeline.
 """
 import os
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Optional
 import torch
+import argparse
 
 from .audio import AudioFile
 from .transcription import AudioTranscriber
@@ -19,8 +20,9 @@ def process_audio(
     hf_token: str,
     output_dir: str = "output",
     num_speakers: int = 2,
-    device: torch.device = None,
+    model: str = "openai/whisper-large",
     language: str = "de",
+    device: Optional[torch.device] = None,
     alignment_source: str = "forced_alignments",
     diarizer_params: Dict = {
         "segmentation": {
@@ -40,36 +42,35 @@ def process_audio(
     }
 ) -> str:
     """
-    Process a single audio file through the complete pipeline.
+    Process an audio file through the transcription pipeline.
     
     Args:
         file_path: Path to the audio file
         hf_token: HuggingFace token for diarization model
         output_dir: Directory to save output files
         num_speakers: Expected number of speakers
-        device: Torch device to use (will use best available if None)
-        language: Language code for transcription (e.g., 'de' for German)
+        model: Whisper model to use for transcription
+        language: Language code (e.g., 'de' for German)
+        device: Device to use for processing (default: best available)
         alignment_source: Which alignments to use ('whisper_alignments' or 'forced_alignments')
         diarizer_params: Parameters for speaker diarization
         silence_params: Parameters for silence-based audio splitting
-        
+    
     Returns:
         Path to the output JSON file
     """
+    device = device if device is not None else get_device()
+    print(f"Using device: {device}")
+    
     # Create output directory
     os.makedirs(output_dir, exist_ok=True)
     
-    # Get device if not provided
-    if device is None:
-        device = get_device()
-    print(f"\nUsing device: {device}")
-    
     # Initialize components
     print("\n1. Initializing components...")
-    # Transcriber can use MPS
     transcriber = AudioTranscriber(
-        device=get_device(skip_mps=False),
-        language=language
+        model_name=model,
+        language=language,
+        device=device
     )
     
     # Aligner must skip MPS
@@ -124,10 +125,26 @@ if __name__ == "__main__":
     DEVICE = get_device()
     print(f"Using device: {DEVICE}")
     
+    parser = argparse.ArgumentParser(description="Process audio file")
+    parser.add_argument("--audio-file", required=True, help="Path to the audio file")
+    parser.add_argument("--hf-token", required=True, help="HuggingFace token for diarization model")
+    parser.add_argument("--output-dir", default="output", help="Directory to save output files")
+    parser.add_argument("--num-speakers", type=int, default=2, help="Expected number of speakers")
+    parser.add_argument("--model", default="openai/whisper-large", 
+                       choices=["openai/whisper-tiny", "openai/whisper-base", 
+                               "openai/whisper-small", "openai/whisper-medium", 
+                               "openai/whisper-large"],
+                       help="Whisper model to use for transcription (default: whisper-large for best accuracy)")
+    parser.add_argument("--language", default="de", help="Language code (e.g., 'de' for German)")
+    
+    args = parser.parse_args()
+    
     output_path = process_audio(
-        file_path=AUDIO_FILE,
-        hf_token=HF_TOKEN,
-        num_speakers=2,
-        device=DEVICE
+        file_path=args.audio_file,
+        hf_token=args.hf_token,
+        output_dir=args.output_dir,
+        num_speakers=args.num_speakers,
+        model=args.model,
+        language=args.language
     )
     print(f"\nProcessing complete! Output saved to: {output_path}") 

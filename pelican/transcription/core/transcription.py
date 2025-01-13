@@ -14,13 +14,13 @@ import librosa
 class AudioTranscriber:
     """Handles speech-to-text transcription using Whisper."""
     
-    def __init__(self, model_name: str = "openai/whisper-base", 
+    def __init__(self, model_name: str = "openai/whisper-large", 
                  language: str = "de", device: Optional[torch.device] = None):
         """
         Initialize the transcriber.
         
         Args:
-            model_name: Name of the Whisper model to use
+            model_name: Name of the Whisper model to use (default: whisper-large for best accuracy)
             language: Language code (e.g., 'de' for German, 'en' for English)
             device: Device to use for inference (default: best available)
         """
