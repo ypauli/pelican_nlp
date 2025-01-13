@@ -2,10 +2,19 @@
 Main processing script for audio transcription pipeline.
 """
 import os
+import warnings
+import logging
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Callable
 import torch
 import argparse
+
+# Suppress all warnings
+warnings.filterwarnings('ignore')
+
+# Set logging level to ERROR only
+logging.getLogger().setLevel(logging.ERROR)
+os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Suppress huggingface/tokenizers warning
 
 from .audio import AudioFile
 from .transcription import AudioTranscriber
@@ -41,7 +50,8 @@ def process_audio(
         "silence_thresh": -30,    # dBFS
         "min_length": 30000,      # ms
         "max_length": 180000      # ms
-    }
+    },
+    progress_callback: Optional[Callable[[str, float, str], None]] = None
 ) -> str:
     """
     Process an audio file through the transcription pipeline.
@@ -50,27 +60,35 @@ def process_audio(
         file_path: Path to the audio file
         hf_token: HuggingFace token for diarization model
         output_dir: Directory to save output files
-        num_speakers: Optional number of speakers to constrain diarization (default: None, let model decide)
+        num_speakers: Optional number of speakers to constrain diarization
         model: Whisper model to use for transcription
         language: Language code (e.g., 'de' for German)
-        device: Device to use for processing (default: best available)
+        device: Device to use for processing
         pause_threshold: Minimum pause duration (in seconds) to split utterances
         max_utterance_duration: Maximum duration (in seconds) for a single utterance
         alignment_source: Which alignments to use ('whisper_alignments' or 'forced_alignments')
         diarizer_params: Parameters for speaker diarization
         silence_params: Parameters for silence-based audio splitting
+        progress_callback: Optional callback function to report progress (step_name: str, progress: float, message: str)
     
     Returns:
         Path to the output JSON file
     """
+    def update_progress(step: str, progress: float = 0, message: str = ""):
+        if progress_callback:
+            progress_callback(step, progress, message)
+        else:
+            if message:
+                print(message)
+
     device = device if device is not None else get_device()
-    print(f"Using device: {device}")
+    update_progress("init", 0, f"Using device: {device}")
     
     # Create output directory
     os.makedirs(output_dir, exist_ok=True)
     
     # Initialize components
-    print("\n1. Initializing components...")
+    update_progress("init", 0.1, "1. Initializing components...")
     transcriber = AudioTranscriber(
         model_name=model,
         language=language,
@@ -84,40 +102,43 @@ def process_audio(
     diarizer = SpeakerDiarizer(hf_token, diarizer_params, device=get_device(skip_mps=False))
     
     # Load and preprocess audio
-    print("\n2. Loading and preprocessing audio...")
+    update_progress("preprocessing", 0.2, "2. Loading and preprocessing audio...")
     audio_file = AudioFile(file_path)
     audio_file.rms_normalization()
     
     # Split audio into chunks
-    print("\n3. Splitting audio into chunks...")
+    update_progress("chunking", 0.3, "3. Splitting audio into chunks...")
     audio_file.split_on_silence(**silence_params)
     
     # Transcribe chunks
-    print("\n4. Transcribing audio chunks...")
+    update_progress("transcribing", 0.4, "4. Transcribing audio chunks...")
+    total_chunks = len(audio_file.chunks)
     for idx, chunk in enumerate(audio_file.chunks, 1):
-        print(f"\n Chunk {idx}/{len(audio_file.chunks)}:")
+        update_progress("transcribing", 0.4 + (0.2 * idx/total_chunks), f"Chunk {idx}/{total_chunks}")
         result = transcriber.transcribe_chunk(chunk)
     
     # Perform forced alignment
-    print("\n5. Performing forced alignment...")
+    update_progress("aligning", 0.6, "5. Performing forced alignment...")
     aligner.align(audio_file)
     
     # Perform speaker diarization
-    print("\n6. Performing speaker diarization...")
+    update_progress("diarizing", 0.7, "6. Performing speaker diarization...")
     diarizer.diarize(audio_file, num_speakers)
     
     # Create and process transcript
-    print("\n7. Processing transcript...")
+    update_progress("processing", 0.8, "7. Processing transcript...")
     transcript = Transcript(audio_file)
-    print(f"Using {alignment_source} for word timing")
+    update_progress("processing", 0.85, f"Using {alignment_source} for word timing")
     transcript.combine_alignment_and_diarization(alignment_source)
     transcript.aggregate_to_utterances(pause_threshold=pause_threshold, 
                                      max_duration=max_utterance_duration)
     
     # Save results
+    update_progress("saving", 0.9, "Saving results...")
     output_file = os.path.join(output_dir, f"{Path(file_path).stem}_transcript.json")
     transcript.save_as_json(output_file)
     
+    update_progress("complete", 1.0, f"Processing complete! Output saved to: {output_file}")
     return output_file
 
 

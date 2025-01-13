@@ -7,12 +7,16 @@ import librosa
 import time
 import re
 from typing import List, Dict
+from pathlib import Path
+
+# Add parent directory to Python path to make relative imports work
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget,
     QVBoxLayout, QHBoxLayout, QPushButton, QComboBox, QFileDialog, QMessageBox,
     QInputDialog, QMenu, QAction, QUndoStack, QScrollBar, QLineEdit,
-    QDialog
+    QDialog, QLabel
 )
 from PyQt5.QtCore import Qt, QTimer, QThread
 from PyQt5.QtGui import QColor, QCursor
@@ -31,6 +35,8 @@ from gui import (
     WaveformCanvas
 )
 from gui.dialogs.bulk_edit_dialog import BulkEditDialog
+from gui.transcription_dialog import TranscriptionDialog
+from core.audio import AudioFile
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -47,6 +53,8 @@ class MainWindow(QMainWindow):
         self.undo_stack = QUndoStack(self)
         self.transcript = None
         self.controller = None  # Initialize controller as None
+        self.current_audio_file = None
+        self.current_audio_path = None
 
         # Setup UI components
         self.setup_ui()
@@ -110,6 +118,16 @@ class MainWindow(QMainWindow):
         playback_layout.setContentsMargins(0, 0, 0, 0)
         playback_layout.setSpacing(5)
         
+        # Add transcribe button
+        transcribe_action = QAction("Transcribe Audio (Ctrl+R)", self)
+        transcribe_action.setShortcut("Ctrl+R")
+        transcribe_action.triggered.connect(self.start_transcription)
+        
+        self.transcribe_button = QPushButton("Transcribe Audio (Ctrl+R)")
+        self.transcribe_button.clicked.connect(transcribe_action.trigger)
+        self.transcribe_button.setEnabled(False)  # Disabled until audio is loaded
+        playback_layout.addWidget(self.transcribe_button)
+        
         play_action = QAction("Play/Pause (Space)", self)
         play_action.setShortcut("Space")
         play_action.triggered.connect(self.toggle_playback)
@@ -138,6 +156,9 @@ class MainWindow(QMainWindow):
         # Add waveform canvas
         self.canvas = WaveformCanvas(parent=self.waveform_widget, main_window=self)
         main_layout.addWidget(self.canvas)
+
+        # Set central widget
+        self.setCentralWidget(self.waveform_widget)
 
         # Bottom controls for editing operations
         bottom_controls = QWidget()
@@ -228,8 +249,6 @@ class MainWindow(QMainWindow):
         self.addAction(undo_action)
         self.addAction(redo_action)
 
-        self.setCentralWidget(self.waveform_widget)
-
     def setup_signals(self):
         self.canvas.boundary_changed.connect(self.on_boundary_changed)
         self.canvas.waveform_clicked.connect(self.on_waveform_clicked)
@@ -239,6 +258,7 @@ class MainWindow(QMainWindow):
         self.canvas.loading_error.connect(self.on_audio_load_error)
 
     def load_audio(self):
+        """Load an audio file and set up for playback and transcription."""
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getOpenFileName(
             self,
@@ -248,12 +268,19 @@ class MainWindow(QMainWindow):
             options=options,
         )
         if file_path:
-            self.canvas.load_audio(file_path)
-            # Load audio segment for playback
             try:
+                # Load for waveform display
+                self.canvas.load_audio(file_path)
+                
+                # Load for playback
                 self.audio_segment = AudioSegment.from_file(file_path).set_channels(1)
+                
+                # Store path and enable transcription
+                self.current_audio_path = file_path
+                self.transcribe_button.setEnabled(True)
+                
             except Exception as e:
-                QMessageBox.critical(self, "Audio Load Error", f"Failed to load audio for playback:\n{str(e)}")
+                QMessageBox.critical(self, "Audio Load Error", f"Failed to load audio file:\n{str(e)}")
 
     def on_audio_loaded(self):
         self.statusBar().showMessage("Audio loaded successfully.", 5000)
@@ -683,6 +710,25 @@ class MainWindow(QMainWindow):
                 
             self.undo_stack.push(command)
             self.autosave()
+
+    def start_transcription(self):
+        """Open the transcription dialog to start the transcription process."""
+        if not self.current_audio_path:
+            QMessageBox.warning(self, "No Audio", "Please load an audio file first.")
+            return
+            
+        dialog = TranscriptionDialog(self.current_audio_path, self)
+        if dialog.exec_() == QDialog.Accepted:
+            # After successful transcription, try to load the transcript
+            output_dir = "output"
+            transcript_file = os.path.join(output_dir, f"{Path(self.current_audio_path).stem}_transcript.json")
+            if os.path.exists(transcript_file):
+                self.transcript = Transcript.from_json_file(transcript_file)
+                self.controller = TranscriptController(self.transcript)
+                self.speakers = self.controller.get_speakers()
+                self.canvas.load_words(self.transcript.combined_data)
+                self.canvas.load_utterances(self.transcript.combined_utterances)
+                self.statusBar().showMessage("Transcription loaded successfully.", 5000)
 
 
 # --- MainExecution ---

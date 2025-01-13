@@ -77,9 +77,6 @@ class ForcedAligner:
         # Join normalized words with spaces
         normalized_text = " ".join(normalized_words)
         
-        print(f"    Original text: {text}")
-        print(f"    Normalized text: {normalized_text}")
-        
         return {
             "normalized_text": normalized_text,
             "original_words": original_words,
