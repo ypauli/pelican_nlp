@@ -26,7 +26,8 @@ def get_device(skip_mps: bool = False) -> torch.device:
 
 def normalize_text(text: str) -> str:
     """
-    Normalize text by removing special characters and extra whitespace.
+    Normalize text by removing special characters and extra whitespace,
+    but preserving sentence-ending punctuation.
     
     Args:
         text: Input text to normalize
@@ -37,9 +38,19 @@ def normalize_text(text: str) -> str:
     # Convert to NFKD form and remove diacritics
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
     
+    # Temporarily replace sentence-ending punctuation with special tokens
+    text = text.replace('.', ' PERIOD ')
+    text = text.replace('?', ' QMARK ')
+    text = text.replace('!', ' EMARK ')
+    
     # Remove special characters and extra whitespace
     text = re.sub(r'[^\w\s]', '', text)
     text = re.sub(r'\s+', ' ', text).strip()
+    
+    # Restore sentence-ending punctuation
+    text = text.replace(' PERIOD ', '.')
+    text = text.replace(' QMARK ', '?')
+    text = text.replace(' EMARK ', '!')
     
     return text.lower()
 

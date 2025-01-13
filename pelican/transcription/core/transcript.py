@@ -20,6 +20,7 @@ class Transcript:
             json_data: Dictionary loaded from a JSON file
         """
         if audio_file:
+            self.audio_file = audio_file  # Store reference to audio_file
             self.audio_file_path = audio_file.file_path
             self.transcript_text = audio_file.transcript_text
             self.whisper_alignments = audio_file.whisper_alignments
@@ -29,6 +30,7 @@ class Transcript:
             self.combined_utterances = []
             self.metadata = audio_file.metadata
         elif json_data:
+            self.audio_file = None  # No audio_file for JSON data
             self.audio_file_path = json_data["audio_file_path"]
             self.metadata = json_data["metadata"]
             self.transcript_text = json_data.get("transcript_text", "")
@@ -60,49 +62,90 @@ class Transcript:
             print(f"Error loading JSON file: {e}")
             raise
 
-    def aggregate_to_utterances(self):
-        """Aggregate word-level data into utterances based on sentence endings."""
-        if not self.combined_data:
-            print("No combined data available to aggregate.")
-            return
-
-        utterances = []
-        current_utterance = {
-            "text": "",
-            "start_time": None,
-            "end_time": None,
-            "speakers": {}
-        }
-
-        sentence_endings = re.compile(r'[.?!]$')
-        print("Aggregating words into utterances...")
+    def get_word_data(self) -> List[Dict[str, Any]]:
+        """
+        Get the combined word-level data sorted by start time.
         
-        for word_data in self.combined_data:
-            word = word_data["word"]
-            start_time = word_data["start_time"]
-            end_time = word_data["end_time"]
-            speaker = word_data["speaker"]
+        Returns:
+            List of word data dictionaries sorted by start time
+        """
+        if not self.combined_data:
+            print("No combined data available. Run combine_alignment_and_diarization first.")
+            return []
+            
+        return sorted(self.combined_data, key=lambda x: x["start_time"])
 
-            if current_utterance["start_time"] is None:
-                current_utterance["start_time"] = start_time
-
-            current_utterance["text"] += ("" if current_utterance["text"] == "" else " ") + word
-            current_utterance["end_time"] = end_time
-
-            if speaker not in current_utterance["speakers"]:
-                current_utterance["speakers"][speaker] = 0
-            current_utterance["speakers"][speaker] += 1
-
-            if sentence_endings.search(word):
-                self._finalize_utterance(current_utterance, utterances)
-                current_utterance = self._create_empty_utterance()
-
-        # Handle any remaining words as the last utterance
-        if current_utterance["text"]:
-            self._finalize_utterance(current_utterance, utterances)
-
-        self.combined_utterances = utterances
-        print("Aggregated utterances from combined data.")
+    def aggregate_to_utterances(self, pause_threshold: float = 2.0, max_duration: float = 30.0) -> None:
+        """
+        Aggregate word-level data into utterances based on sentence endings, pauses, and maximum duration.
+        
+        Args:
+            pause_threshold: Minimum pause duration (in seconds) to split utterances
+            max_duration: Maximum duration (in seconds) for a single utterance
+        """
+        print("\nAggregating words into utterances...")
+        
+        # Get word data sorted by start time
+        word_data = self.get_word_data()
+        if not word_data:
+            print("  ✗ No word data available")
+            return
+            
+        # Initialize variables
+        current_utterance = []
+        self.combined_utterances = []  # Store in combined_utterances instead of utterances
+        total_words = len(word_data)
+        current_word = 0
+        
+        for i, word in enumerate(word_data):
+            current_word += 1
+            current_utterance.append(word)
+            
+            # Check if we should finalize the current utterance
+            should_split = False
+            split_reason = None
+            
+            # Check for sentence ending
+            if word["word"][-1] in ".!?":
+                should_split = True
+                split_reason = "sentence"
+                
+            # Check for long pause (if not the last word)
+            elif i < len(word_data) - 1:
+                next_word = word_data[i + 1]
+                pause_duration = next_word["start_time"] - word["end_time"]
+                if pause_duration >= pause_threshold:
+                    should_split = True
+                    split_reason = f"pause ({pause_duration:.1f}s)"
+                    
+            # Check for maximum duration
+            if current_utterance:
+                utterance_duration = current_utterance[-1]["end_time"] - current_utterance[0]["start_time"]
+                if utterance_duration >= max_duration:
+                    should_split = True
+                    split_reason = f"duration ({utterance_duration:.1f}s)"
+            
+            # Split if needed or if this is the last word
+            if should_split or i == len(word_data) - 1:
+                self._finalize_utterance(current_utterance)
+                if split_reason:
+                    print(f"  → Split at word {current_word}/{total_words} ({split_reason})")
+                current_utterance = []
+        
+        # Print summary
+        print(f"\n✓ Created {len(self.combined_utterances)} utterances from {total_words} words")
+        print(f"  - Average words per utterance: {total_words / len(self.combined_utterances):.1f}")
+        
+        # Print speaker statistics
+        print("\nSpeaker Distribution:")
+        speaker_counts = {}
+        for utt in self.combined_utterances:
+            speaker = utt["speaker"]
+            speaker_counts[speaker] = speaker_counts.get(speaker, 0) + 1
+        
+        for speaker, count in speaker_counts.items():
+            percentage = (count / len(self.combined_utterances)) * 100
+            print(f"  {speaker}: {count} ({percentage:.1f}%)")
 
     def _create_empty_utterance(self) -> Dict[str, Any]:
         """Create an empty utterance dictionary."""
@@ -113,80 +156,104 @@ class Transcript:
             "speakers": {}
         }
 
-    def _finalize_utterance(self, utterance: Dict[str, Any], utterances: List[Dict[str, Any]]):
+    def _finalize_utterance(self, word_list: List[Dict[str, Any]]) -> None:
         """
-        Finalize an utterance and add it to the list.
+        Finalize an utterance and add it to the utterances list.
         
         Args:
-            utterance: Current utterance dictionary
-            utterances: List of completed utterances
+            word_list: List of words in the utterance
         """
-        majority_speaker, majority_count = max(
-            utterance["speakers"].items(), key=lambda item: item[1]
-        )
-        total_words = sum(utterance["speakers"].values())
-        confidence = round(majority_count / total_words, 2)
+        if not word_list:
+            return
 
-        utterances.append({
-            "text": utterance["text"],
-            "start_time": utterance["start_time"],
-            "end_time": utterance["end_time"],
+        # Count speakers
+        speaker_counts = {}
+        for word in word_list:
+            speaker = word["speaker"]
+            speaker_counts[speaker] = speaker_counts.get(speaker, 0) + 1
+
+        # Get majority speaker
+        majority_speaker = max(speaker_counts.items(), key=lambda x: x[1])[0]
+        total_words = len(word_list)
+        confidence = round(max(speaker_counts.values()) / total_words, 2)
+
+        # Create utterance text
+        text = " ".join(word["word"] for word in word_list)
+
+        # Add to combined_utterances instead of utterances
+        self.combined_utterances.append({
+            "text": text,
+            "start_time": word_list[0]["start_time"],
+            "end_time": word_list[-1]["end_time"],
             "speaker": majority_speaker,
             "confidence": confidence,
         })
 
-    def combine_alignment_and_diarization(self, alignment_source: str):
+    def combine_alignment_and_diarization(self, alignment_source: str = "forced_alignments") -> None:
         """
-        Combine alignment and diarization data by assigning speaker labels to each word.
+        Combine word alignments with speaker diarization data.
         
         Args:
-            alignment_source: The alignment data to use ('whisper_alignments' or 'forced_alignments')
+            alignment_source: Which alignments to use ('whisper_alignments' or 'forced_alignments')
+            
+        Raises:
+            ValueError: If the requested alignment source is invalid or contains no alignments
         """
-        if alignment_source not in ['whisper_alignments', 'forced_alignments']:
-            raise ValueError("Invalid alignment_source. Choose 'whisper_alignments' or 'forced_alignments'.")
-
-        alignment = getattr(self, alignment_source, None)
-        if alignment is None:
-            raise ValueError(f"The alignment source '{alignment_source}' does not exist.")
-
-        if not self.speaker_segments:
-            print("No speaker segments available. All words will be labeled as 'UNKNOWN'.")
-            self.combined_data = [{**word, 'speaker': 'UNKNOWN'} for word in alignment]
-            return
-
-        combined = []
-        seg_idx = 0
-        num_segments = len(self.speaker_segments)
-
-        for word in alignment:
-            word_start = word['start_time']
-            word_end = word['end_time']
-            word_duration = max(1e-6, word_end - word_start)
-
-            speaker_overlap = {}
-
-            # Advance segments that have ended before the word starts
-            while seg_idx < num_segments and self.speaker_segments[seg_idx]['end'] < word_start:
-                seg_idx += 1
-
-            temp_idx = seg_idx
-            while temp_idx < num_segments and self.speaker_segments[temp_idx]['start'] < word_end:
-                seg = self.speaker_segments[temp_idx]
-                overlap = self._calculate_overlap(word_start, word_end, seg['start'], seg['end'])
+        if alignment_source not in ["whisper_alignments", "forced_alignments"]:
+            raise ValueError("alignment_source must be either 'whisper_alignments' or 'forced_alignments'")
+            
+        # Get the selected alignments
+        alignments = []
+        
+        # Collect alignments from all chunks
+        for chunk in self.audio_file.chunks:
+            chunk_alignments = (getattr(chunk, alignment_source) or []).copy()
+            alignments.extend(chunk_alignments)
+            
+        if not alignments:
+            raise ValueError(
+                f"No alignments found for source '{alignment_source}'. "
+                f"Make sure the requested alignment type is available before processing."
+            )
+            
+        print(f"Using {alignment_source} for {len(alignments)} words")
+        
+        # Sort alignments by start time
+        alignments.sort(key=lambda x: float(x["start_time"]))
+        
+        # Find speaker for each word based on timing
+        self.combined_data = []
+        for alignment in alignments:
+            word_start = float(alignment["start_time"])
+            word_end = float(alignment["end_time"])
+            
+            # Find overlapping speaker segments
+            word_speakers = {}
+            for segment in self.speaker_segments:
+                segment_start = float(segment["start"])
+                segment_end = float(segment["end"])
                 
-                if overlap > 0:
-                    speaker_overlap[seg['speaker']] = speaker_overlap.get(seg['speaker'], 0.0) + overlap
-
-                temp_idx += 1
-
-            assigned_speaker = max(speaker_overlap, key=speaker_overlap.get) if speaker_overlap else 'UNKNOWN'
-            word_with_speaker = word.copy()
-            word_with_speaker['speaker'] = assigned_speaker
-            combined.append(word_with_speaker)
-
-        self.combined_data = combined
-        self.metadata["alignment_source"] = alignment_source
-        print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
+                # Check for overlap
+                if word_end > segment_start and word_start < segment_end:
+                    overlap = min(word_end, segment_end) - max(word_start, segment_start)
+                    speaker = segment["speaker"]
+                    word_speakers[speaker] = word_speakers.get(speaker, 0) + overlap
+            
+            # Get speaker with maximum overlap
+            if word_speakers:
+                speaker = max(word_speakers.items(), key=lambda x: x[1])[0]
+            else:
+                speaker = "UNKNOWN"
+            
+            # Add combined word data
+            self.combined_data.append({
+                "word": alignment["word"],
+                "start_time": word_start,
+                "end_time": word_end,
+                "speaker": speaker
+            })
+        
+        print(f"Combined {len(self.combined_data)} words with speaker information")
 
     def _calculate_overlap(self, word_start: float, word_end: float, 
                          seg_start: float, seg_end: float) -> float:

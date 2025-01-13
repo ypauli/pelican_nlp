@@ -6,25 +6,30 @@ from typing import Dict, Optional
 from pyannote.audio import Pipeline as DiarizationPipeline
 from .audio import AudioFile
 from .utils import get_device
+import tempfile
 
 
 class SpeakerDiarizer:
-    """Handles speaker diarization of audio files."""
-    
-    def __init__(self, hf_token: str, parameters: Dict, 
-                 model: str = "pyannote/speaker-diarization-3.1",
-                 device: Optional[torch.device] = None):
+    """
+    Handles speaker diarization of audio files.
+    """
+    def __init__(self, hf_token: str, parameters: Dict, device = None, model = "pyannote/speaker-diarization-3.1"):
         """
-        Initialize the speaker diarizer.
+        Initializes the SpeakerDiarizer.
         
-        Args:
-            hf_token: Hugging Face token for accessing diarization models
-            parameters: Parameters for the diarization pipeline
-            model: Model name/path for diarization
-            device: Device to use for inference (default: best available)
+        :param hf_token: Hugging Face token for accessing diarization models.
+        :param parameters: Parameters for the diarization pipeline.
+        :param device: Device to use for processing
+        :param model: Model to use for diarization
         """
-        self.device = device if device is not None else get_device()
-        print(f"Initializing SpeakerDiarizer on device: {self.device}")
+        if device is not None:
+            self.device = device
+        elif torch.cuda.is_available():
+            self.device = torch.device("cuda")
+        elif torch.backends.mps.is_available():
+            self.device = torch.device("mps")
+        else:
+            self.device = torch.device("cpu")
 
         self.diarization_pipeline = DiarizationPipeline.from_pretrained(
             model,
@@ -35,14 +40,14 @@ class SpeakerDiarizer:
         self.parameters = parameters
         self.diarization_pipeline.instantiate(parameters)
         self.diarization_pipeline.to(self.device)
+        print("Initialized SpeakerDiarizer successfully.")
 
-    def diarize(self, audio_file: AudioFile, num_speakers: Optional[int] = None):
+    def diarize(self, audio_file: AudioFile, num_speakers: int = None):
         """
-        Perform speaker diarization on the given audio file.
+        Performs speaker diarization on the given audio file.
         
-        Args:
-            audio_file: AudioFile instance containing audio data
-            num_speakers: Expected number of speakers (optional)
+        :param audio_file: AudioFile instance containing audio data.
+        :param num_speakers: Expected number of speakers.
         """
         print("Starting speaker diarization...")
         try:
@@ -69,6 +74,7 @@ class SpeakerDiarizer:
             print(f"Detected {len(audio_file.speaker_segments)} speaker segments.")
         except Exception as e:
             print(f"An error occurred during diarization: {e}")
+            raise
             
         audio_file.register_model("Speaker Diarization", {
             "model": self.model,

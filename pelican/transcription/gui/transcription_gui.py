@@ -21,7 +21,7 @@ import pyqtgraph as pg
 from pydub import AudioSegment
 from pydub.playback import _play_with_simpleaudio as play_audio
 
-from core.transcription import Transcript
+from core.transcript import Transcript
 from core.transcription_controller import TranscriptController
 from gui import (
     AudioLoader, DraggableLine, SpeakerManagementDialog,

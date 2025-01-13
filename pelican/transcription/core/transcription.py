@@ -55,24 +55,17 @@ class AudioTranscriber:
             wav_io.seek(0)
             # Load as numpy array with librosa to handle resampling
             audio_data, sample_rate = librosa.load(wav_io, sr=16000)  # Whisper expects 16kHz
-            
-        # Print debug info
-        print(f"  Audio chunk info:")
-        print(f"    - Duration: {len(audio_data)/16000:.2f}s")
-        print(f"    - Sample rate: {sample_rate}Hz")
-        print(f"    - Shape: {audio_data.shape}")
-        print(f"    - Range: [{audio_data.min():.2f}, {audio_data.max():.2f}]")
-            
+        
         # Skip if chunk is too short or silent
-        if len(audio_data) < 1000:  # Arbitrary minimum length
-            print("    - Skipping: too short")
+        if len(audio_data) < 10:  # Arbitrary minimum length
+            print("  ✗ Skipping: too short")
             chunk.transcript = ""
             chunk.whisper_alignments = []
             return {
                 "transcript": "",
                 "alignments": []
             }
-            
+        
         # Get transcription with timestamps
         result = self.transcriber(
             audio_data,
@@ -82,6 +75,11 @@ class AudioTranscriber:
         # Process results
         chunk.transcript = result["text"].strip()
         chunk.whisper_alignments = self._process_alignments(result.get("chunks", []), chunk.start_time)
+        
+        # Print concise output
+        duration = len(audio_data)/16000
+        print(f"\n  ✓ {len(chunk.whisper_alignments)} words ({duration:.1f}s)")
+        print(f"  → {chunk.transcript}")
         
         return {
             "transcript": chunk.transcript,

@@ -6,9 +6,10 @@ import torch
 import torchaudio
 import torchaudio.transforms as T
 import uroman as ur
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from .audio import AudioFile
 from .utils import normalize_text, get_device
+import librosa
 
 
 class ForcedAligner:
@@ -33,145 +34,193 @@ class ForcedAligner:
         self.uroman = ur.Uroman()
         self.sample_rate = self.bundle.sample_rate
 
-    def normalize_uroman(self, text: str) -> str:
+    def normalize_uroman(self, text: str) -> Dict[str, Any]:
         """
-        Normalize text using Uroman.
+        Normalize text using Uroman, preserving original words.
+        Handles German characters by converting them to ASCII equivalents.
         
         Args:
             text: Text to normalize
             
         Returns:
-            Normalized text
+            Dictionary containing normalized text and mapping to original words
         """
-        # Basic cleanup
-        text = text.encode('utf-8').decode('utf-8')
-        text = text.lower()
-        text = text.replace("'", "'")
+        # Split original text into words and remove empty strings
+        original_words = [w for w in text.strip().split() if w]
+        normalized_words = []
+        word_mapping = []  # Maps normalized word indices to original word indices
         
-        # Handle numbers and special characters
-        text = text.replace("1984", "neunzehnhundertvierundachtzig")  # Convert year to words
-        text = text.replace("10.", "zehnten")  # Convert ordinal number
-        text = text.replace("mrcs", "m r c s")  # Split acronym
-        text = text.replace("-", " ")  # Replace hyphens with spaces
-        
-        # General text normalization
-        text = normalize_text(text)
-        
-        # Remove any remaining non-letter characters except spaces
-        text = ''.join(c for c in text if c.isalpha() or c.isspace())
-        
-        return ' '.join(text.split())  # Normalize whitespace
-
-    def align(self, audio_file: AudioFile):
-        """
-        Perform forced alignment and populate the audio file chunks.
-        
-        Args:
-            audio_file: AudioFile instance containing audio chunks
-        """
-        print("Starting forced alignment of transcripts...")
-        total_aligned = 0
-        total_chunks = len(audio_file.chunks)
-        
-        for idx, chunk in enumerate(audio_file.chunks, start=1):
-            # Skip chunks with empty transcripts
-            if not chunk.transcript.strip():
-                print(f"Skipping chunk {idx}/{total_chunks} - empty transcript")
+        for i, word in enumerate(original_words):
+            # Remove all non-letter characters first
+            clean_word = ''.join(c for c in word if c.isalpha() or c in 'äöüß-')
+            if not clean_word:
                 continue
                 
+            # Basic cleanup and German character normalization
+            norm_word = clean_word.lower()
+            norm_word = norm_word.replace('ß', 'ss')
+            norm_word = norm_word.replace('ä', 'ae')
+            norm_word = norm_word.replace('ö', 'oe')
+            norm_word = norm_word.replace('ü', 'ue')
+            
+            # Handle hyphenated words
+            if "-" in norm_word:
+                sub_words = [w for w in norm_word.split("-") if w]
+                normalized_words.extend(sub_words)
+                word_mapping.extend([i] * len(sub_words))
+                continue
+            
+            if norm_word:
+                normalized_words.append(norm_word)
+                word_mapping.append(i)
+        
+        # Join normalized words with spaces
+        normalized_text = " ".join(normalized_words)
+        
+        print(f"    Original text: {text}")
+        print(f"    Normalized text: {normalized_text}")
+        
+        return {
+            "normalized_text": normalized_text,
+            "original_words": original_words,
+            "word_mapping": word_mapping
+        }
+
+    def align(self, audio_file: AudioFile) -> None:
+        """
+        Perform forced alignment on an audio file.
+        
+        Args:
+            audio_file: AudioFile object containing chunks to align
+        """
+        total_aligned = 0
+        total_words = 0
+        total_chunks = len(audio_file.chunks)
+        
+        print("\nPerforming forced alignment...")
+        for idx, chunk in enumerate(audio_file.chunks, 1):
+            if not chunk.transcript:
+                continue
+                
+            print(f"\nChunk {idx}/{total_chunks}:")
+            
             try:
-                # Export audio to WAV and load
+                # Process audio data
                 with io.BytesIO() as wav_io:
-                    chunk.audio_segment.export(wav_io, format="wav")
+                    chunk.audio_segment.export(wav_io, format='wav')
                     wav_io.seek(0)
                     waveform, sample_rate = torchaudio.load(wav_io)
                     waveform = waveform.to(self.device)
                 
                 # Resample if necessary
                 if sample_rate != self.sample_rate:
-                    resampler = T.Resample(
-                        orig_freq=sample_rate,
-                        new_freq=self.sample_rate
-                    ).to(self.device)
+                    resampler = T.Resample(orig_freq=sample_rate, new_freq=self.sample_rate).to(self.device)
                     waveform = resampler(waveform)
-                    sample_rate = self.sample_rate
-
-                # Clean and normalize the transcript
-                try:
-                    text_roman = self.uroman.romanize_string(chunk.transcript)
-                    text_normalized = self.normalize_uroman(text_roman)
-                    transcript_list = text_normalized.split()
+                
+                # Normalize text for alignment
+                norm_result = self.normalize_uroman(chunk.transcript)
+                
+                # Get alignments for normalized text
+                alignments = self._get_alignments(waveform, norm_result['normalized_text'])
+                
+                if alignments:
+                    # Map alignments back to original words
+                    original_alignments = []
+                    current_word_idx = None
+                    current_alignment = None
                     
-                    print(f"  Chunk {idx}/{total_chunks}:")
-                    print(f"    Original: {chunk.transcript}")
-                    print(f"    Normalized: {text_normalized}")
-                except Exception as e:
-                    print(f"    Error during text normalization: {str(e)}")
-                    continue
-
-                # Skip if no words after normalization
-                if not transcript_list:
-                    print(f"    Skipping - no words after normalization")
-                    continue
+                    for i, alignment in enumerate(alignments):
+                        orig_idx = norm_result['word_mapping'][i]
+                        orig_word = norm_result['original_words'][orig_idx]
+                        
+                        if orig_idx != current_word_idx:
+                            # New original word
+                            if current_alignment:
+                                original_alignments.append(current_alignment)
+                            current_word_idx = orig_idx
+                            current_alignment = {
+                                "word": orig_word,
+                                "start_time": chunk.start_time + alignment["start_time"],
+                                "end_time": chunk.start_time + alignment["end_time"]
+                            }
+                        else:
+                            # Same original word (e.g., "m r c s"), update end time
+                            current_alignment["end_time"] = chunk.start_time + alignment["end_time"]
                     
-                # Tokenize and align
-                try:
-                    print(f"    Attempting tokenization of {len(transcript_list)} words...")
-                    tokens = self.tokenizer(transcript_list)
-                    print(f"    Tokenization successful: {len(tokens)} tokens")
+                    # Add last alignment if exists
+                    if current_alignment:
+                        original_alignments.append(current_alignment)
                     
-                    print("    Starting alignment...")
-                    with torch.inference_mode():
-                        emission, _ = self.model(waveform)
-                        print(f"    Generated emission matrix: {emission.shape}")
-                        try:
-                            token_spans = self.aligner(emission[0], tokens)
-                            print(f"    Alignment successful: {len(token_spans)} spans")
-                        except Exception as align_err:
-                            print(f"    Alignment failed with error: {str(align_err)}")
-                            print(f"    Emission shape: {emission.shape}")
-                            print(f"    Number of tokens: {len(tokens)}")
-                            print(f"    First few tokens: {tokens[:10]}")
-                            raise align_err
-                except Exception as e:
-                    print(f"    Error during alignment step: {str(e)}")
-                    print(f"    Transcript list: {transcript_list[:10]} ...")
-                    continue
-
-                # Extract timestamps
-                num_frames = emission.size(1)
-                ratio = waveform.size(1) / num_frames
-                
-                # Clear previous alignments
-                chunk.forced_alignments = []
-                
-                for spans, word in zip(token_spans, transcript_list):
-                    start_sec = (spans[0].start * ratio / sample_rate) + chunk.start_time
-                    end_sec = (spans[-1].end * ratio / sample_rate) + chunk.start_time
-                    chunk.forced_alignments.append({
-                        "word": word,
-                        "start_time": start_sec,
-                        "end_time": end_sec
-                    })
-                
-                total_aligned += 1
-                print(f"    Successfully aligned {len(chunk.forced_alignments)} words")
-                
+                    chunk.forced_alignments = original_alignments
+                    total_aligned += 1
+                    total_words += len(original_alignments)
+                    print(f"  ✓ Aligned {len(original_alignments)} words")
+                else:
+                    print(f"  ✗ Failed to align")
+                    
             except Exception as e:
-                print(f"    Error processing chunk: {str(e)}")
+                print(f"  ✗ Error: {str(e)}")
                 continue
         
-        print(f"\nAlignment complete: {total_aligned}/{total_chunks} chunks aligned successfully")
+        # Print summary
+        success_rate = (total_aligned / total_chunks) * 100 if total_chunks > 0 else 0
+        print(f"\nAlignment Summary:")
+        print(f"  - Chunks: {total_aligned}/{total_chunks} ({success_rate:.1f}% success)")
+        print(f"  - Total words aligned: {total_words}")
         
         if total_aligned == 0:
-            print("WARNING: No chunks were successfully aligned!")
-            print("Falling back to Whisper alignments...")
-            for chunk in audio_file.chunks:
-                chunk.forced_alignments = chunk.whisper_alignments
+            raise ValueError("No chunks were successfully aligned! Consider using Whisper alignments instead.")
             
         audio_file.register_model("Forced Alignment", {
             "model": "torchaudio.pipelines.MMS_FA",
             "device": str(self.device),
             "chunks_aligned": total_aligned,
-            "total_chunks": total_chunks
-        }) 
+            "total_chunks": total_chunks,
+            "total_words": total_words
+        })
+
+    def _get_alignments(self, waveform: torch.Tensor, text: str) -> List[Dict[str, Any]]:
+        """
+        Get word-level alignments using the forced aligner.
+        
+        Args:
+            waveform: Audio waveform tensor
+            text: Normalized text to align
+            
+        Returns:
+            List of word alignments with timestamps
+        """
+        try:
+            # Split text into words and tokenize
+            words = text.split()
+            if not words:
+                print("  ✗ No words to align")
+                return []
+                
+            # Tokenize and align
+            tokens = self.tokenizer(words)
+            
+            # Generate emission matrix
+            with torch.inference_mode():
+                emission, _ = self.model(waveform)
+                token_spans = self.aligner(emission[0], tokens)
+            
+            # Convert spans to timestamps
+            num_frames = emission.size(1)
+            ratio = waveform.size(1) / num_frames
+            
+            alignments = []
+            for spans, word in zip(token_spans, words):
+                start_sec = spans[0].start * ratio / self.sample_rate
+                end_sec = spans[-1].end * ratio / self.sample_rate
+                alignments.append({
+                    "word": word,
+                    "start_time": start_sec,
+                    "end_time": end_sec
+                })
+            
+            return alignments
+            
+        except Exception as e:
+            print(f"  ✗ Error: {str(e)}")
+            return [] 

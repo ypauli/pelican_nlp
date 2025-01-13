@@ -1,12 +1,13 @@
 from typing import Optional, List, Dict, Any
+from .transcript import Transcript
 
 class TranscriptController:
     """Controller class to handle transcript data operations."""
     
-    def __init__(self, transcript: Optional[Any] = None):
+    def __init__(self, transcript: Optional[Transcript] = None):
         self.transcript = transcript
 
-    def set_transcript(self, transcript: Any) -> None:
+    def set_transcript(self, transcript: Transcript) -> None:
         """Set the transcript instance to work with."""
         self.transcript = transcript
 
