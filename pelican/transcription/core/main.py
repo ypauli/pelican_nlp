@@ -20,6 +20,8 @@ def process_audio(
     output_dir: str = "output",
     num_speakers: int = 2,
     device: torch.device = None,
+    language: str = "de",
+    alignment_source: str = "forced_alignments",
     diarizer_params: Dict = {
         "segmentation": {
             "min_duration_off": 0.0,
@@ -46,6 +48,8 @@ def process_audio(
         output_dir: Directory to save output files
         num_speakers: Expected number of speakers
         device: Torch device to use (will use best available if None)
+        language: Language code for transcription (e.g., 'de' for German)
+        alignment_source: Which alignments to use ('whisper_alignments' or 'forced_alignments')
         diarizer_params: Parameters for speaker diarization
         silence_params: Parameters for silence-based audio splitting
         
@@ -62,9 +66,17 @@ def process_audio(
     
     # Initialize components
     print("\n1. Initializing components...")
-    transcriber = AudioTranscriber(device=device)
-    aligner = ForcedAligner(device=device)
-    diarizer = SpeakerDiarizer(hf_token, diarizer_params, device=device)
+    # Transcriber can use MPS
+    transcriber = AudioTranscriber(
+        device=get_device(skip_mps=False),
+        language=language
+    )
+    
+    # Aligner must skip MPS
+    aligner = ForcedAligner(device=get_device(skip_mps=True))
+    
+    # Diarizer can use MPS
+    diarizer = SpeakerDiarizer(hf_token, diarizer_params, device=get_device(skip_mps=False))
     
     # Load and preprocess audio
     print("\n2. Loading and preprocessing audio...")
@@ -92,7 +104,8 @@ def process_audio(
     # Create and process transcript
     print("\n7. Processing transcript...")
     transcript = Transcript(audio_file)
-    transcript.combine_alignment_and_diarization("whisper_alignments")
+    print(f"Using {alignment_source} for word timing")
+    transcript.combine_alignment_and_diarization(alignment_source)
     transcript.aggregate_to_utterances()
     
     # Save results

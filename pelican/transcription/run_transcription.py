@@ -12,6 +12,9 @@ def main():
     parser.add_argument("--hf-token", required=True, help="HuggingFace token for diarization model")
     parser.add_argument("--output-dir", default="output", help="Directory to save output files")
     parser.add_argument("--num-speakers", type=int, default=2, help="Expected number of speakers")
+    parser.add_argument("--language", default="de", help="Language code (e.g., 'de' for German, 'en' for English)")
+    parser.add_argument("--alignment-source", choices=["whisper_alignments", "forced_alignments"],
+                      default="forced_alignments", help="Which alignments to use for word timing")
     parser.add_argument("--device", choices=["cuda", "mps", "cpu"], help="Device to use (default: best available)")
     
     args = parser.parse_args()
@@ -25,6 +28,8 @@ def main():
         hf_token=args.hf_token,
         output_dir=args.output_dir,
         num_speakers=args.num_speakers,
+        alignment_source=args.alignment_source,
+        language=args.language,
         device=device
     )
     

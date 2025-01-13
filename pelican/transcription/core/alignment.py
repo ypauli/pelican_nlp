@@ -19,9 +19,10 @@ class ForcedAligner:
         Initialize the forced aligner.
         
         Args:
-            device: Device to use for inference (default: best available)
+            device: Device to use for inference (default: best available excluding MPS)
         """
-        self.device = device if device is not None else get_device()
+        # Force skip MPS as it's not supported for alignment
+        self.device = device if device is not None else get_device(skip_mps=True)
         print(f"Initializing ForcedAligner on device: {self.device}")
 
         # Initialize forced aligner components
@@ -57,6 +58,11 @@ class ForcedAligner:
         """
         print("Starting forced alignment of transcripts...")
         for idx, chunk in enumerate(audio_file.chunks, start=1):
+            # Skip chunks with empty transcripts
+            if not chunk.transcript.strip():
+                print(f"Skipping chunk {idx} - empty transcript")
+                continue
+                
             try:
                 with io.BytesIO() as wav_io:
                     chunk.audio_segment.export(wav_io, format="wav")
@@ -77,6 +83,12 @@ class ForcedAligner:
                 text_roman = self.uroman.romanize_string(chunk.transcript)
                 text_normalized = self.normalize_uroman(text_roman)
                 transcript_list = text_normalized.split()
+                
+                # Skip if no words after normalization
+                if not transcript_list:
+                    print(f"Skipping chunk {idx} - no words after normalization")
+                    continue
+                    
                 tokens = self.tokenizer(transcript_list)
 
                 # Perform forced alignment
@@ -97,7 +109,8 @@ class ForcedAligner:
                     })
                 print(f"Aligned chunk {idx} successfully.")
             except Exception as e:
-                print(f"Error during alignment of chunk {idx}: {e}")
+                print(f"Error during alignment of chunk {idx}: {str(e)}")
+                continue
                 
         audio_file.register_model("Forced Alignment", {
             "model": "torchaudio.pipelines.MMS_FA",

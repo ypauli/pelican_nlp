@@ -8,29 +8,35 @@ from transformers import pipeline
 from typing import List, Dict, Any, Optional
 from .audio import Chunk
 from .utils import get_device
+import librosa
 
 
 class AudioTranscriber:
     """Handles speech-to-text transcription using Whisper."""
     
-    def __init__(self, model_name: str = "openai/whisper-base.en", device: Optional[torch.device] = None):
+    def __init__(self, model_name: str = "openai/whisper-base", 
+                 language: str = "de", device: Optional[torch.device] = None):
         """
         Initialize the transcriber.
         
         Args:
             model_name: Name of the Whisper model to use
+            language: Language code (e.g., 'de' for German, 'en' for English)
             device: Device to use for inference (default: best available)
         """
         self.model_name = model_name
+        self.language = language
         self.device = device if device is not None else get_device()
         print(f"Initializing AudioTranscriber on device: {self.device}")
+        print(f"Using language: {language}")
         
         self.transcriber = pipeline(
-            "automatic-speech-recognition",
+            task="automatic-speech-recognition",
             model=model_name,
             chunk_length_s=30,
             return_timestamps=True,
-            device=self.device
+            device=self.device,
+            generate_kwargs={"language": language, "task": "transcribe"}
         )
 
     def transcribe_chunk(self, chunk: Chunk) -> Dict[str, Any]:
@@ -43,9 +49,30 @@ class AudioTranscriber:
         Returns:
             Dictionary containing transcription and alignments
         """
-        # Get audio data as numpy array
-        audio_data = np.array(chunk.audio_segment.get_array_of_samples())
-        
+        # Export chunk to WAV format in memory
+        with io.BytesIO() as wav_io:
+            chunk.audio_segment.export(wav_io, format='wav')
+            wav_io.seek(0)
+            # Load as numpy array with librosa to handle resampling
+            audio_data, sample_rate = librosa.load(wav_io, sr=16000)  # Whisper expects 16kHz
+            
+        # Print debug info
+        print(f"  Audio chunk info:")
+        print(f"    - Duration: {len(audio_data)/16000:.2f}s")
+        print(f"    - Sample rate: {sample_rate}Hz")
+        print(f"    - Shape: {audio_data.shape}")
+        print(f"    - Range: [{audio_data.min():.2f}, {audio_data.max():.2f}]")
+            
+        # Skip if chunk is too short or silent
+        if len(audio_data) < 1000:  # Arbitrary minimum length
+            print("    - Skipping: too short")
+            chunk.transcript = ""
+            chunk.whisper_alignments = []
+            return {
+                "transcript": "",
+                "alignments": []
+            }
+            
         # Get transcription with timestamps
         result = self.transcriber(
             audio_data,
@@ -53,8 +80,8 @@ class AudioTranscriber:
         )
         
         # Process results
-        chunk.transcript = result["text"]
-        chunk.whisper_alignments = self._process_alignments(result["chunks"], chunk.start_time)
+        chunk.transcript = result["text"].strip()
+        chunk.whisper_alignments = self._process_alignments(result.get("chunks", []), chunk.start_time)
         
         return {
             "transcript": chunk.transcript,

@@ -6,7 +6,7 @@ import numpy as np
 import soundfile as sf
 from pydub import AudioSegment
 from pydub.silence import detect_silence
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Any
 from pathlib import Path
 
 
@@ -239,3 +239,74 @@ class AudioFile:
         """
         return [(audio_segment[start_ms:end_ms], start_ms, end_ms) 
                 for start_ms, end_ms in intervals] 
+
+    @property
+    def transcript_text(self) -> str:
+        """
+        Get the complete transcript text from all chunks.
+        
+        Returns:
+            Complete transcript text
+        """
+        return " ".join(chunk.transcript for chunk in self.chunks if chunk.transcript.strip())
+
+    @property
+    def whisper_alignments(self) -> List[Dict[str, Any]]:
+        """
+        Get all Whisper alignments from all chunks.
+        
+        Returns:
+            List of word alignments from all chunks
+        """
+        alignments = []
+        for chunk in self.chunks:
+            alignments.extend(chunk.whisper_alignments)
+        return alignments
+        
+    @property
+    def forced_alignments(self) -> List[Dict[str, Any]]:
+        """
+        Get all forced alignments from all chunks.
+        
+        Returns:
+            List of word alignments from all chunks
+        """
+        alignments = []
+        for chunk in self.chunks:
+            alignments.extend(chunk.forced_alignments)
+        return alignments
+
+    def split_on_silence(self, min_silence_len=1000, silence_thresh=-30,
+                         min_length=30000, max_length=180000):
+        """
+        Split the audio into chunks based on silence.
+        
+        Args:
+            min_silence_len: Minimum length of silence to be used for a split (ms)
+            silence_thresh: Silence threshold in dBFS
+            min_length: Minimum length of a chunk (ms)
+            max_length: Maximum length of a chunk (ms)
+        """
+        audio_segment = AudioSegment.from_file(self.normalized_path)
+        audio_length_ms = len(audio_segment)
+        self.metadata["length_seconds"] = audio_length_ms / 1000
+        silence_ranges = self._detect_silence_intervals(audio_segment, min_silence_len, silence_thresh)
+        splitting_points = self._get_splitting_points(silence_ranges, audio_length_ms)
+        initial_intervals = self._create_initial_chunks(splitting_points)
+        adjusted_intervals = self._adjust_intervals_by_length(initial_intervals, min_length, max_length)
+        chunks_with_timestamps = self._split_audio_by_intervals(audio_segment, adjusted_intervals)
+
+        self.chunks = [Chunk(chunk_audio, start_i / 1000.0) 
+                      for chunk_audio, start_i, end_i in chunks_with_timestamps]
+        print(f"Total chunks after splitting: {len(self.chunks)}")
+    
+        # Validate the combined length of chunks
+        self.validate_chunk_lengths(audio_length_ms)
+        
+        self.register_model("Chunking", {
+            "min_silence_len": min_silence_len,
+            "silence_thresh": silence_thresh,
+            "min_length": min_length,
+            "max_length": max_length,
+            "num_chunks": len(self.chunks)
+        }) 

@@ -1,0 +1,403 @@
+{
+    "audio_file_path": "example_audio/holmes_control_nova_normalized_new.wav",
+    "metadata": {
+        "file_path": "example_audio/holmes_control_nova_normalized_new.wav",
+        "length_seconds": 237.576,
+        "sample_rate": 24000,
+        "target_rms_db": -20,
+        "models_used": {
+            "Chunking": {
+                "min_silence_len": 1000,
+                "silence_thresh": -30,
+                "min_length": 30000,
+                "max_length": 180000,
+                "num_chunks": 8
+            },
+            "Forced Alignment": {
+                "model": "torchaudio.pipelines.MMS_FA",
+                "device": "cpu"
+            },
+            "Speaker Diarization": {
+                "model": "pyannote/speaker-diarization-3.1",
+                "device": "mps",
+                "parameters": {
+                    "segmentation": {
+                        "min_duration_off": 0.0
+                    },
+                    "clustering": {
+                        "method": "centroid",
+                        "min_cluster_size": 12,
+                        "threshold": 0.8
+                    }
+                },
+                "speakers": 2
+            }
+        },
+        "alignment_source": "whisper_alignments"
+    },
+    "transcript_text": "you Yeah. you. you you. Okay.",
+    "whisper_alignments": [
+        {
+            "word": "you",
+            "start_time": 31.639,
+            "end_time": 31.639
+        },
+        {
+            "word": "Yeah.",
+            "start_time": 67.801,
+            "end_time": 67.801
+        },
+        {
+            "word": "you.",
+            "start_time": 101.388,
+            "end_time": 101.388
+        },
+        {
+            "word": "you",
+            "start_time": 168.807,
+            "end_time": 168.807
+        },
+        {
+            "word": "you.",
+            "start_time": 202.789,
+            "end_time": 202.789
+        },
+        {
+            "word": "Okay.",
+            "start_time": 237.02,
+            "end_time": 237.02
+        }
+    ],
+    "forced_alignments": [
+        {
+            "word": "you",
+            "start_time": 35.18115495296071,
+            "end_time": 43.78639014941893
+        },
+        {
+            "word": "yeah",
+            "start_time": 81.98395592614652,
+            "end_time": 95.86684931506849
+        },
+        {
+            "word": "you",
+            "start_time": 117.21491962821214,
+            "end_time": 120.13619682886824
+        },
+        {
+            "word": "you",
+            "start_time": 169.7876348645465,
+            "end_time": 187.6191790341578
+        },
+        {
+            "word": "you",
+            "start_time": 211.95194447691406,
+            "end_time": 227.63698480420805
+        },
+        {
+            "word": "okay",
+            "start_time": 237.24651851851854,
+            "end_time": 237.49362962962965
+        }
+    ],
+    "combined_data": [
+        {
+            "word": "you",
+            "start_time": 31.639,
+            "end_time": 31.639,
+            "speaker": "UNKNOWN"
+        },
+        {
+            "word": "Yeah.",
+            "start_time": 67.801,
+            "end_time": 67.801,
+            "speaker": "UNKNOWN"
+        },
+        {
+            "word": "you.",
+            "start_time": 101.388,
+            "end_time": 101.388,
+            "speaker": "UNKNOWN"
+        },
+        {
+            "word": "you",
+            "start_time": 168.807,
+            "end_time": 168.807,
+            "speaker": "UNKNOWN"
+        },
+        {
+            "word": "you.",
+            "start_time": 202.789,
+            "end_time": 202.789,
+            "speaker": "UNKNOWN"
+        },
+        {
+            "word": "Okay.",
+            "start_time": 237.02,
+            "end_time": 237.02,
+            "speaker": "UNKNOWN"
+        }
+    ],
+    "utterance_data": [
+        {
+            "text": "you Yeah.",
+            "start_time": 31.639,
+            "end_time": 67.801,
+            "speaker": "UNKNOWN",
+            "confidence": 1.0
+        },
+        {
+            "text": "you.",
+            "start_time": 101.388,
+            "end_time": 101.388,
+            "speaker": "UNKNOWN",
+            "confidence": 1.0
+        },
+        {
+            "text": "you you.",
+            "start_time": 168.807,
+            "end_time": 202.789,
+            "speaker": "UNKNOWN",
+            "confidence": 1.0
+        },
+        {
+            "text": "Okay.",
+            "start_time": 237.02,
+            "end_time": 237.02,
+            "speaker": "UNKNOWN",
+            "confidence": 1.0
+        }
+    ],
+    "speaker_segments": [
+        {
+            "start": 0.03096875,
+            "end": 1.8703437500000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 2.69721875,
+            "end": 7.91159375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 8.552843750000001,
+            "end": 13.665968750000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 14.459093750000001,
+            "end": 24.83721875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 25.84971875,
+            "end": 28.63409375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 29.05596875,
+            "end": 31.40159375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 32.430968750000005,
+            "end": 34.48971875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 35.14784375,
+            "end": 40.75034375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 41.290343750000005,
+            "end": 42.96096875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 43.315343750000004,
+            "end": 46.40346875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 47.112218750000004,
+            "end": 52.84971875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 53.69346875,
+            "end": 57.017843750000004,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 57.760343750000004,
+            "end": 67.63221875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 68.27346875,
+            "end": 71.61471875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 72.49221875,
+            "end": 76.67721875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 77.25096875,
+            "end": 80.74409375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 81.26721875,
+            "end": 90.16034375000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 91.27409375,
+            "end": 92.60721875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 92.99534375,
+            "end": 93.90659375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 94.86846875,
+            "end": 101.17971875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 101.68596875,
+            "end": 102.15846875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 103.13721875,
+            "end": 110.78159375000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 112.19909375,
+            "end": 116.21534375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 116.31659375000001,
+            "end": 118.67909375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 119.40471875,
+            "end": 120.95721875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 121.14284375000001,
+            "end": 122.05409375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 122.62784375000001,
+            "end": 123.28596875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 123.67409375000001,
+            "end": 125.86784375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 126.47534375000001,
+            "end": 131.01471875000001,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 131.79096875000002,
+            "end": 137.61284375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 138.65909375,
+            "end": 144.83534375000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 145.61159375,
+            "end": 155.66909375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 156.29346875000002,
+            "end": 160.68096875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 161.50784375,
+            "end": 168.25784375,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 169.55721875,
+            "end": 173.03346875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 173.03346875,
+            "end": 176.39159375,
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "start": 176.71221875,
+            "end": 180.54284375,
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "start": 180.86346875,
+            "end": 192.30471875,
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "start": 193.43534375000002,
+            "end": 197.97471875000002,
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "start": 197.97471875000002,
+            "end": 202.69971875000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 203.47596875000002,
+            "end": 208.55534375000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 209.07846875,
+            "end": 212.74034375000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 212.79096875000002,
+            "end": 217.46534375000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 218.47784375,
+            "end": 224.51909375000002,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 224.87346875,
+            "end": 231.99471875,
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "start": 233.27721875,
+            "end": 237.05721875,
+            "speaker": "SPEAKER_01"
+        }
+    ]
+}
