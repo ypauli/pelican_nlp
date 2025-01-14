@@ -1,0 +1,1550 @@
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 0,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 65
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat .Frage: Was h\u00e4lt der Mann in der Mitte des Kreises in seinen H\u00e4nden?",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df in etwa einer halben Stunde. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt, von dort aus fahren Busse in alle Richtungen. Die n\u00e4chste S-Bahn-Station ist ca. 1,5 Kilometer entfernt, von dort aus fahren",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo , Pfau, Kranich, Storch, Eule, Fuchs, Wolf",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden , ein Buch zu schreiben. Es geht dabei um meine Erfahrungen mit dem Laufen und wie es mein Leben ver\u00e4ndert hat.Ich habe schon oft dar\u00fcber nachgedacht, meine Geschichte aufzuschreiben, aber irgendwie habe ich es nie geschaff"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 1,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 103
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 2,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 79
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat, und wie sie das Leben",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Min uten. Die n\u00e4chste Bushaltestelle ist ca. 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal , Tintenfisch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby: Ich habe angefangen zu n\u00e4hen. Ich hab e schon immer gerne gebastelt und kreativ gearbeitet, aber das N\u00e4hen ist etwas ganz Besonderes f\u00fcr mich. Es ist so erf\u00fcllend, etwas mit den eigenen H\u00e4nden zu erschaffen, etwas, das man am Ende des Tages in den H\u00e4nden halten kann"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 3,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 135
+    },
+    "wellbeing_factors": {
+        "state_score": 0.5,
+        "wellbeing": 0.5,
+        "sleep": 0.75,
+        "anxiety": 0.75,
+        "happiness": 0.25,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 4,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 120
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 5,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 74
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Der Mann in der Mitte des Kre ises scheint sehr wichtig zu sein, denn alle anderen Menschen",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen.Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt.Die n\u00e4chste Tankstelle ist ca. 2 Kil",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Eule, Fuchs,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Erstellung einer Webseite f\u00fcr eine kleine Firma, die sich auf die Vermietung und den Verkauf von Immobilien spezialisiert hat.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Konzeptentwicklung: In dieser Phase habe ich das Unternehmen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 6,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 52
+    },
+    "wellbeing_factors": {
+        "state_score": 0.38,
+        "wellbeing": 0.38,
+        "sleep": 0.63,
+        "anxiety": 0.87,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6 re aufmerksam zu, was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.EinzelnachweiseWeblinks  Offizielle WebsiteOrt im Kanton Z\u00fcrichOrtsteil von Z\u00fcrich",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonobo, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, Luchs, Puma, Jaguar, Gepard,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Das Buch ist in zwei Teile gegliedert. Im ersten Teil geht es darum,"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 7,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 76
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Der Mann in der Mitte des Kreises ist sehr selbstbewusst und spricht mit lauter Stim",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten . Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Eichh\u00f6rnchen, Fuchs",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen . Ich habe mich dazu ents chlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 8,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 93
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 9,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 47
+    },
+    "wellbeing_factors": {
+        "state_score": 0.37,
+        "wellbeing": 0.37,
+        "sleep": 0.62,
+        "anxiety": 0.88,
+        "happiness": 0.14,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 10 Gehminuten entfernt und bietet Verbindungen nach Darmstadt (Linie 2) und Frankfurt (Linie 72).Weblinks  Offizielle WebsiteEinzelnachweise Darmstadt",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla , Flamingo, Pfau, Strau\u00df, Pferd, Kamel, Elefant, Nashorn, B\u00fcffel, L\u00f6we, Tiger,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei um ein Sachbuch , genauer gesagt um einen Ratgeber zum Thema Selbstst\u00e4ndigkeit und Unternehmensgr\u00fcndung. Ich m\u00f6chte meine Erfahrungen teilen und anderen dabei helfen, \u00e4hnliche Fehler zu ver"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 10,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 150
+    },
+    "wellbeing_factors": {
+        "state_score": 0.52,
+        "wellbeing": 0.52,
+        "sleep": 0.77,
+        "anxiety": 0.73,
+        "happiness": 0.27,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 11,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 74
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Der Mann in der Mitte des Kre ises scheint sehr wichtig zu sein, denn alle anderen Menschen",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen.Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt.Die n\u00e4chste Tankstelle ist ca. 2 Kil",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Eule, Fuchs,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Erstellung einer Webseite f\u00fcr eine kleine Firma, die sich auf die Vermietung und den Verkauf von Immobilien spezialisiert hat.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Konzeptentwicklung: In dieser Phase habe ich das Unternehmen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 12,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 54
+    },
+    "wellbeing_factors": {
+        "state_score": 0.38,
+        "wellbeing": 0.38,
+        "sleep": 0.63,
+        "anxiety": 0.87,
+        "happiness": 0.14,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re auf merksam zu, was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist etwa 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist etwa 5 Fahrminuten entfernt. Die n\u00e4chste Apothe",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, Flamingo, Pfau, Strau\u00df, Kranich, Papagei, Eule, Fuchs, Wolf, B\u00e4r,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es ist eine Mischung aus Krimi, Thriller und Liebesroman. Der Arbeitstitel lautet \u201eDas Geheim nis der schwarzen Orchidee\u201c und handelt von einer jungen Frau, die nach dem pl\u00f6tzlichen Tod ihres"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 13,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 140
+    },
+    "wellbeing_factors": {
+        "state_score": 0.51,
+        "wellbeing": 0.51,
+        "sleep": 0.76,
+        "anxiety": 0.74,
+        "happiness": 0.26,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 14,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 67
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt und f\u00fchrt auf die A45 Richtung Dortmund oder Frankfurt.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pap agei, Eule, Fuchs, Dachs, Wolf, B\u00e4r",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu ents chlossen, ein Buch zu schreiben. Es handelt sich dabei um ein Sachbuch, genauer gesagt um einen Ratgeber zum Thema Selbstst\u00e4ndigkeit und Unternehmensgr\u00fcndung.Ich habe schon l\u00e4nger mit dem Gedanken gespielt, ein solches Buch zu schreiben"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 15,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 92
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 16,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 99
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 17,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 81
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwick elt hat, und wie sie das Leben",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 60 qm und verteilt sich",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Robbe, Eichh\u00f6rn",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues H obby. Ich hab e angefangen zu n\u00e4hen. Und ich muss sagen, es macht mir richtig Spa\u00df. Ich habe schon immer gerne gebastelt und kreativ gearbeitet, aber das N\u00e4hen ist etwas ganz Besonderes. Man kann so viele verschiedene Dinge herstellen und es gibt unz\u00e4hlige M\u00f6glichkeiten,"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 18,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 64
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat.Frage: Was h\u00e4lt der Mann in der Mitte des Kreises in seinen H\u00e4nden?",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df sind es etwa 30 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt, von dort aus gelangt man in etwa 15 Minuten in die Innenstadt. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfer",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flaming o, Pfau, Kranich, Storch, Eule, Fuchs, Wolf",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, ein Buch zu schreiben, genauer gesagt ein Sachbuch. Es geht dabei um das Thema \u201eGesunde Ern\u00e4hrung\u201c und wie man sie in den Alltag integrieren kann.Ich habe mich f\u00fcr dieses Thema entschieden, weil es mir sehr am Her"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 19,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 117
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 20,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 111
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 21,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 111
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 22,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 86
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Der Mann in der Mitte des Kreises scheint sehr wichtig zu sein, denn alle anderen Menschen",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotograf"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 23,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 88
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver \u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen leicht gemacht\u201c tragen und sich an"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 24,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 68
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Frage: Was h\u00e4lt der Mann in der Mitte des Kreises in seinen H\u00e4nden?",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltest elle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt und f\u00fchrt auf die A40 Richtung Dortmund oder Duisburg.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papage i, Eule, Fuchs, Dachs, Wolf, B\u00e4r",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu erstellen, die es den Benutzern erm\u00f6g licht, ihre Lieblingsfilme zu bewerten und zu kommentieren. Die Seite soll einfach und benutzerfreundlich sein, so dass jeder, der sich f\u00fcr Filme interessiert, problemlos daran teilnehmen kann."
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 25,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 44
+    },
+    "wellbeing_factors": {
+        "state_score": 0.37,
+        "wellbeing": 0.37,
+        "sleep": 0.62,
+        "anxiety": 0.88,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Er spricht mit lauter Stimme, aber ich kann trotzdem kaum etwas verstehen, weil die Atmosph\u00e4re im Raum so gedr\u00fcckt ist.Pl\u00f6tzlich h\u00f6",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem F ah rr ad in  1 5 Min uten .   W ie weit ist es zum n \u00e4ch sten Str and ?   Der n \u00e4ch ste Str and ist der Str and von Cal a d'Or, der etwa 15 Gehminuten entfernt ist.Wie weit ist es zum n\u00e4chsten Supermarkt?Der n\u00e4chste Supermarkt ist",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla , Flamingo, Pelikan, Kranich, Papagei, Strau\u00df, K\u00e4nguru, Koala, Pinguin, Seel\u00f6we, Robbe",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei um ein Sachbuch , genauer gesagt um einen Ratgeber f\u00fcr angehende Fotografen. Der Titel lautet \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen\u201c.Das Buch richtet sich"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 26,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 77
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat. Der Mann in der Mitte des Kreises scheint sehr wichtig zu sein, denn alle anderen Menschen",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin , Wal, Tintenfisch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Planung: In dieser Phase habe"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 27,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 115
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 28,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 31
+    },
+    "wellbeing_factors": {
+        "state_score": 0.35,
+        "wellbeing": 0.35,
+        "sleep": 0.6,
+        "anxiety": 0.9,
+        "happiness": 0.12,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der einen Stock in der Hand h\u00e4lt.Ich gehe auf den Mann in der Mitte zu und frage ihn: \"Wer bist du?\"Er antwortet: \"Ich bin ein Mann, der einen Stock in der Hand",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df sind es etwa 30 Minuten. Weblinks  Offizielle WebsiteEinzelnachweise Ort im Kanton Z\u00fcr ichSchweizer GemeindeOrt am Z\u00fcrichsee Ersterw\u00e4hnung im 13. Jahrhundert Die",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Tiger, B \u00fcffel, Eisb\u00e4r , Gepard , Panda, Orang-Ut an, Gorilla , Schimpan se, Bonob o, Elef ant, Nashorn , Flusspferd, L\u00f6we, Tiger, Gepard, Panda, Orang-Utan, Gorilla",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse, die ich in den letzten Jahren gesammelt hab e.Ich w\u00fcnsche Ihnen viel Spa\u00df beim Lesen und freue mich \u00fcber Ihre Kom mentare."
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 29,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 114
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 30,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 32
+    },
+    "wellbeing_factors": {
+        "state_score": 0.35,
+        "wellbeing": 0.35,
+        "sleep": 0.6,
+        "anxiety": 0.9,
+        "happiness": 0.12,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der einen Stock in der Hand h\u00e4lt.Ich gehe auf den Mann in der Mitte zu und frage ihn: \"Was machst du hier?\"Er antwortet: \"Ich bin der Leuchtturmw\u00e4rter.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df sind es etwa 30 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt. Der n\u00e4chste Bahn hof ist ca. 1,5 Kilometer entfernt. Der n\u00e4chste Flughafen ist der Fl ughafen K\u00f6ln/Bonn (I",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Tiger , Eisb\u00e4r, Pinguin, Giraffe, Zebra, Gepard , Orang-Utan, Gorilla, Schimpanse, L\u00f6we, T iger, Elefant, Nashorn, Flusspferd, B\u00fcffel, L\u00f6we, Leopard, Gepard,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es ist eine Sammlung von Kurzgeschichten, die sich alle um das Thema Liebe drehen. Die Geschichten sind sehr unterschiedlich, sowohl in Bezug auf den Schreibstil als auch auf die Art der Liebe, die dargestellt wird. Einige"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 31,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 97
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 32,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 124
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 33,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 97
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 34,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 123
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 35,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 89
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen leicht gemacht\u201c tragen und sich an"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 36,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 92
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 37,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 58
+    },
+    "wellbeing_factors": {
+        "state_score": 0.39,
+        "wellbeing": 0.39,
+        "sleep": 0.64,
+        "anxiety": 0.86,
+        "happiness": 0.15,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu , was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten ent fernt und die n\u00e4chste S-Bahn-Station etwa 10 Gehminuten.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eing",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Emu, Strau\u00df, Flamingo, Pfau, Kranich, Storch, Gans, Ente",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreib en. Es handelt sich dabei nicht um einen Roman, sondern um ein Fachbuch, genauer gesagt um ein Lehrbuch. Ich m\u00f6chte mein Wissen und meine Erfahrungen im Bereich der Pers\u00f6nlichkeitsentwicklung teilen und anderen dabei helfen,"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 38,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 53
+    },
+    "wellbeing_factors": {
+        "state_score": 0.38,
+        "wellbeing": 0.38,
+        "sleep": 0.63,
+        "anxiety": 0.87,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 10 Gehminuten entfernt. Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang. Sie besteht aus einem Wohnzimmer, einer K\u00fcche, einem",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala , Flamingo, Pfau, Strau\u00df, Kranich, Papagei, Eule, Fuchs, Wolf, B\u00e4r,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse, die ich in den letzten Jahren im Bereich der Pers\u00f6nlichkeitsent wicklung und des pers\u00f6nlichen Wachstums gesammelt habe.Ich m\u00f6chte dieses Buch nutzen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 39,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 83
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat , und wie sie das Leben",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen leicht gemacht\u201c tragen und sich an"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 40,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 70
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er spricht sehr klar und deutlich, und ich kann jedes Wort verstehen.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bush altestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt und f\u00fchrt auf die A40 Richtung Dortmund oder Duisburg.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Eule, Fuchs, Dachs, Wolf, B\u00e4r",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum , eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Planung: In dieser Phase habe"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 41,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 65
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was er zu sagen hat .Frage: Was h\u00e4lt der Mann in der Mitte des Kreises in seinen H\u00e4nden?",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df in etwa einer halben Stunde. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt, von dort aus fahren Busse in alle Richtungen. Die n\u00e4chste S-Bahn-Station ist ca. 1,5 Kilometer entfernt, von dort aus fahren",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo , Pfau, Kranich, Storch, Eule, Fuchs, Wolf",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden , ein Buch zu schreiben. Es geht dabei um meine Erfahrungen mit dem Laufen und wie es mein Leben ver\u00e4ndert hat.Ich habe schon oft dar\u00fcber nachgedacht, meine Geschichte aufzuschreiben, aber irgendwie habe ich es nie geschaff"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 42,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 119
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 43,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 70
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er spricht sehr klar und deutlich, und ich kann jedes Wort verstehen.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bush altestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt und f\u00fchrt auf die A40 Richtung Dortmund oder Duisburg.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Eule, Fuchs, Dachs, Wolf, B\u00e4r",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum , eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Planung: In dieser Phase habe"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 44,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 55
+    },
+    "wellbeing_factors": {
+        "state_score": 0.38,
+        "wellbeing": 0.38,
+        "sleep": 0.63,
+        "anxiety": 0.87,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmer ksam zu, was der Mann zu sagen hat.Frage: Was sagt der Mann in seiner Rede?Antwort: Der Mann",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist etwa 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist etwa 5 Fahrminuten entfernt. Die n\u00e4chste Apotheke",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Flamingo, Pinguin , Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, L\u00f6we, Tiger, Gepard",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um eine Art Ratgeber f\u00fcr angehend e Autoren. Ich m\u00f6chte meine Erfahrungen teilen und anderen dabei helfen, ihre eigenen Werke zu ver\u00f6ffentlichen."
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 45,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 89
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen leicht gemacht\u201c tragen und sich an"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 46,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 93
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 47,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 88
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver \u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201eFotografieren lernen leicht gemacht\u201c tragen und sich an"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 48,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 113
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}
+{
+    "cohort": "group_c",
+    "subject": 6,
+    "timepoint": 49,
+    "varied_param": "context_span",
+    "varied_param_mean": 84.42797234434333,
+    "varied_param_variance": 729.5144786263967,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.8571900668887512,
+        "target_length": 101,
+        "context_span": 127
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat und die die Welt ver\u00e4nd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei nicht um einen Roman, sondern um ein Sachbuch, genauer gesagt um ein Ratgeberbuch f\u00fcr angehende Fotografen. Der Titel lautet: \u201eFotografieren lernen \u2013 Der Weg zum professionellen Fotografen"
+    }
+}

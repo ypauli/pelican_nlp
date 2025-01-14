@@ -1,0 +1,1550 @@
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 0,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.49124748716393685
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester in einem Zug sitze. Der Zug f\u00e4hrt durch eine wundersch\u00f6ne Landschaft, die an die Schweiz erinnert. Meine Mutter und meine Schwester unterhalten sich angeregt, w\u00e4hrend ich nur da sitze und die Landschaft betrachte. Pl\u00f6tzlich h\u00e4lt der Zug an und alle Passagiere steigen aus. Meine Mutter und meine Schwester fragen mich, ob ich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. In unmittelbarer N\u00e4he befinden sich au\u00dferdem eine B\u00e4ckerei, eine Metzgerei, eine Apotheke, ein Kindergarten und eine Grundschule. Die n\u00e4chste Bushaltestelle ist nur wenige Gehminuten entfernt.Ausstattung:Diese 3-Zimmer-Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonobo, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope , Gnu, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen.Die Anwendung ist in Objective-C geschrieben und verwendet die Cocoa Touch-Bibliotheken von Apple f\u00fcr die Entwicklung von iOS-Anwendungen. Sie l\u00e4uft auf iPhones und iPads."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 1,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.8802809495403756
+    },
+    "wellbeing_factors": {
+        "state_score": 0.17,
+        "wellbeing": 0.17,
+        "sleep": 0.42,
+        "anxiety": 0.92,
+        "happiness": 0.03,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich auf dem Weihnachtsmarkt bin. Ich habe mich mit Freunden getroffen und wir haben zusammen Gl\u00fchwein getrunken und gebratene Mandeln gegessen. Es war eine sch\u00f6ne Atmosph\u00e4re und es hat mich gl\u00fccklich gemacht, mit meinen Freunden zusammen zu sein und die vorweihnachtliche Stimmung zu genie\u00dfen. Der Bayerische Wald ist ein wundersch\u00f6nes Mittelgebirge im S\u00fcd",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df. Wie lange es dauert, h\u00e4ngt von der Geschwindigkeit ab, mit der man geht. Wenn man z\u00fcgig geht, kann man es in etwa 10 Minuten schaffen. Wenn man eher gem\u00e4chlich geht, kann es auch l\u00e4nger dauern. Es ist wichtig zu beachten, dass der Weg nicht beleuchtet ist und man daher eine Taschenlampe oder \u00e4hnliches ben\u00f6tigt",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Tiger, L\u00f6we, Elefant, Gepard, Wolf, Fuchs, Pferd, Zebra, Kamel, Strau\u00df, Krokodil, Affe, Orang-Utan, Gorilla, Eule, Fledermaus, Delfin, Wal, Robbe, Schildkr\u00f6te, Meerschweinchen, Kaninchen, Hamster, M aus, Ratten, Igel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich die M\u00f6glichkeit, die neuen Funktionen von Windows 10 ausgiebig zu testen. Und ehrlich gesagt: Ich bin begeistert.Ich m\u00f6chte hier gar nicht ins Detail gehen, welche neuen Funktionen das genau sind. Die meisten kennt Ihr wahrscheinlich schon, wenn Ihr Euch ein wenig in der Windows-Welt bewegt.Aber ich m\u00f6chte Euch kurz meine Eindr\u00fc"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 2,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.2601175318603524
+    },
+    "wellbeing_factors": {
+        "state_score": 0.27,
+        "wellbeing": 0.27,
+        "sleep": 0.52,
+        "anxiety": 0.98,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinem Ex-Freund telefoniert habe. Ich habe ihn gefragt, was er gerade macht und er hat geantwortet, dass er arbeitet. Dann habe ich gesagt, dass ich ihn vermisse und er hat gesagt, dass er mich auch vermisst. Dann habe ich ihn gefragt, ob er wieder mit mir zusammenkommen m\u00f6chte und er hat gesagt, dass er es sich w\u00fcnscht",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Der n\u00e4chste B\u00e4cker ist ca. 200 Meter entfernt. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt. Die n\u00e4chste Tankstelle ist ca. 200 Meter entfernt. Die n\u00e4chste Apotheke ist ca. 200 Meter entfernt. Die n\u00e4chste Postfiliale ist ca. 200 Meter entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Tiger, Giraffe, Affe, Eisb\u00e4r, Pinguin, Delfin, Fuchs, Wolf, B\u00e4r, Hund, Katze, Maus, Eichh\u00f6rnchen, Pferd, Kuh, Schaf, Ziege, Gans, Ente, Huhn, Truthahn, Adler, Bussard, Kranich, Reh, Hirsch , Antilope, Elefant",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Spielzeug: Eine Nik on D7000. Ich muss gestehen, ich bin ein bisschen verliebt. Die Kamera ist wundersch\u00f6n, liegt gut in der Hand und macht wirklich tolle Bilder.Ich habe schon l\u00e4nger mit dem Gedanken gespielt, mir eine neue Kamera zuzulegen, da meine alte (eine Canon 400D) doch schon ein paar Jahre auf dem"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 3,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.2237283512644193
+    },
+    "wellbeing_factors": {
+        "state_score": 0.27,
+        "wellbeing": 0.27,
+        "sleep": 0.52,
+        "anxiety": 0.98,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin, die ich schon lange nicht mehr gesehen habe, in einem Caf\u00e9 sitze. Wir unterhalten uns angeregt \u00fcber Gott und die Welt, als pl\u00f6tzlich mein Telefon klingelt. Ich nehme es in die Hand und sehe, dass es sich um einen Anruf von meiner Mutter handelt. Ich entschuldige mich bei meiner Freundin , stehe auf und gehe ein paar Schrit",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man entweder zu Fu\u00df oder mit dem Fahrrad in etwa 15 Minuten. Der n\u00e4chste B\u00e4cker ist ca. 10 Gehminuten entfernt und bietet eine gro\u00dfe Auswahl an frischen Backwaren.In unmittelbarer N\u00e4he befinden sich zahlreiche Restaurants, Caf\u00e9s und Bierg\u00e4rten, die zum Verweilen einladen.Auch kulturelle Einrichtungen wie das Deutsche",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eichh\u00f6rnchen, Elefant, L\u00f6we, Giraffe, Schildkr\u00f6te, Fuchs, Pferd, Katze, Hund, B\u00e4r, Wolf, Affe, Dachs, B\u00fcffel, Gepard, Zebra, Gans, Ente, Kranich, Reh, Hirsch, Esel, Strau\u00df, Fasan, Hase, Meerschweinc hen, Eichh\u00f6rnchen,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, er ist schnell und er ist unglaublich niedlich. Mein neuer Mitbewohner ist ein Eichh\u00f6rnchen. Es lebt in meinem Garten und kommt regelm\u00e4\u00dfig vorbei, um an den Sonnenblumenkernen zu knabbern, die ich f\u00fcr die V\u00f6gel ausgelegt habe.Das Eichh\u00f6rnchen ist wirklich faszinierend zu beobachten. Es ist so"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 4,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.3494199939456832
+    },
+    "wellbeing_factors": {
+        "state_score": 0.25,
+        "wellbeing": 0.25,
+        "sleep": 0.5,
+        "anxiety": 1.0,
+        "happiness": 0.06,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin in einem Caf\u00e9 sitze. Wir trinken Kaffee und essen Kuchen. Pl\u00f6tzlich geht die T\u00fcr auf und ein Mann betritt das Caf\u00e9. Er geht an unserem Tisch vorbei, bleibt stehen, dreht sich zu uns um und sagt: \u201eIhr seid die sch\u00f6nsten Frauen, die ich je gesehen hab e.\u201c Meine Freundin und ich l\u00e4cheln",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Zentrum der Stadt erreicht man mit dem Fahrrad in etwa 15-20 Minuten, je nachdem wie schnell man f\u00e4hrt.Wo kann man Fahrr\u00e4der mieten?Fahrr\u00e4der kann man bei verschiedenen Fahrradverleihern in der Stadt mieten. Es gibt auch die M\u00f6glichkeit, ein Fahrrad online zu reservieren",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Pferd, Hund, Katze, Maus, Meerschweinchen, Kaninchen, Hamster, Schildkr\u00f6te, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, Reh, Hirsch, Elch, Gnu, Zebra, Strau\u00df, Flamingo, Papage i, Affe, Esel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue K\u00fcchenmaschine . Sie ist wundersch\u00f6n , hat viele Funktionen und macht ganz wunderbare Sachen. Zum Beispiel kann sie Teig kneten, Gem\u00fcse raspeln, Fleisch zerkleinern und sogar Eiscreme herstellen. Sie ist ein richtiger Allesk\u00f6nner.Aber wisst ihr was? Trotz ihrer vielen Funktionen und der tollen Ergebnisse, die sie erzielt,"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 5,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.5397645282398971
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und meine Schwester waren sehr aufgeregt und konnten es kaum erwarten, ihn zu sehen. Ich hingegen war sehr nerv\u00f6s und hatte Angst, was mich erwarten w\u00fcrde.Der Zug hielt endlich am Bahnhof und wir stiegen aus.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungDuscheWaschmaschineSp\u00fclmaschineMikrowelleGeschirr/BesteckCeranfeldK\u00fchlschrankGefrierfachToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherF\u00f6hnTVRadioWLAN",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen App, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen. Die App soll sowohl f\u00fcr iOS als auch f\u00fcr Android verf\u00fcgbar sein.Ich habe mich f\u00fcr die Programmiersprache Swift entschieden, da sie eine saubere und leistungsstarke Sprache ist, die spezi"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 6,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.8932854493767083
+    },
+    "wellbeing_factors": {
+        "state_score": 0.33,
+        "wellbeing": 0.33,
+        "sleep": 0.58,
+        "anxiety": 0.92,
+        "happiness": 0.11,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem gro\u00dfen Raum mit vielen anderen Menschen war. Pl\u00f6tzlich ging die T\u00fcr auf und ein Mann betrat den Raum. Er trug einen langen schwarzen Mantel und einen breitkrempigen Hut. Alle im Raum wussten, dass dieser Mann der Weihnachtsmann war.Ich ging zu ihm hin und sagte: \"Weihnachtsmann, ich habe dieses Jahr sehr brav gewesen. Kannst",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Einkaufsm\u00f6glichkeiten gibt es in unmittelbarer N\u00e4he.Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt.Die n\u00e4chste Autobahnauffahrt ist ca. 5km entfernt.Die n\u00e4chste Tankstelle ist ca. 2km entfernt.Der n\u00e4chste Bahnhof ist ca.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Pferd, Kuh, Schaf, Ziege, Hund, Katze, Maus, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, Affe, Gorilla, Orang-Utan, Schimpanse, Bonobo, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Kranich,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer App, die es den Benutzern erm\u00f6glicht, ihre Einnahmen und Ausgaben zu verwalten. Die App soll sowohl f\u00fcr iOS als auch f\u00fcr Android verf\u00fcgbar sein und verschiedene Funktionen bieten, wie zum Beispiel:1. Kategorisierung der Transaktionen: Die Benutzer k\u00f6nnen ihre Transaktionen nach verschiedenen Kategorien sortieren (z.B."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 7,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.501431566643014
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und mein Bruder waren sehr aufgeregt und konnten es kaum erwarten, meinen Vater zu sehen. Ich selbst war etwas nerv\u00f6s, aber auch voller Vorfreude.Der Zug hielt an vielen verschiedenen Stationen und jedes Mal, wenn",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungDuscheWaschmaschineSp\u00fclmaschineK\u00fchlschrankGefrierfachMikrowelleToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherFernseherRadioStereoanlageCD-PlayerDVD-PlayerWLAN",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glichen soll, sich gegenseitig Nachrichten zu schreiben und Bilder auszutauschen.Das Projekt ist in mehrere Phasen unterteilt:1. Anforderungsanalyse: In dieser Phase geht es darum, die genauen Anforderungen an die Anwendung zu definieren."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 8,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.6937372116201868
+    },
+    "wellbeing_factors": {
+        "state_score": 0.2,
+        "wellbeing": 0.2,
+        "sleep": 0.45,
+        "anxiety": 0.95,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich im Supermarkt einkaufen war. An der Kasse wollte der Kassierer meine Eink\u00e4ufe scannen, aber der Scanner streikte. Also sagte der Kassierer, ich solle meine Eink\u00e4ufe einfach aufs Band legen und er w\u00fcrde sie dann einzeln abrechnen. Das habe ich dann auch gemacht. Als ich an der Rei he dran war, sagte der Kassierer",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man in wenigen Minuten.In der N\u00e4 he befinden sich eine Bushaltestelle, ein Kindergarten, eine Grundschule, eine Hauptschule und ein Gymnasium.Ausstattung:Die Wohnung befindet sich im 1. Obergeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen ger\u00e4umigen Wohnbereich mit K\u00fcche und Zugang zum Balkon, zwei Schlafzimmer, ein Bade",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, L\u00f6we, Elefant, Giraffe, B\u00e4r, Eisb\u00e4r, Panda, Tiger, Gepard, Wolf, Dachs, Fuchs, Affe, Orang-Utan, Schimpanse, Bonobo, Gorilla, Flamingo, Strau\u00df, Pferd, Kamel, Zebra, Antilope, B\u00fcffel, Gnu, Ziege, Schaf , Elefant, Maus,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Ich hab e angefangen zu n\u00e4hen. Ich habe zwar schon einmal gen\u00e4ht, aber das ist ewig her und das Ergebnis war alles andere als prickelnd. Jetzt habe ich es wiederentdeckt und ich bin ganz vernarrt in meine neuen Stoffe und N\u00e4hmaschine. Mein Mann findet es \u00fcbrigens ganz toll, dass ich endlich ein Hobby gefunden habe, bei dem ich nicht st\u00e4ndig \u00fcber"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 9,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.7340802280853911
+    },
+    "wellbeing_factors": {
+        "state_score": 0.37,
+        "wellbeing": 0.37,
+        "sleep": 0.62,
+        "anxiety": 0.88,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der in einem anderen Land lebte. Der Zug fuhr durch eine wundersch\u00f6ne Landschaft und ich f\u00fchlte mich frei und gl\u00fccklich. Doch pl\u00f6tzlich hielt der Zug an und wir mussten aussteigen. Meine Mutter und me in Bruder gingen weiter, aber ich blieb zur\u00fcck",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Direkt vor dem Haus befindet sich eine Bushaltestelle, die regelm\u00e4\u00dfig angefahren wird und einen direkten Anschluss an den \u00f6ffentlichen Nahverkehr bietet.Die n\u00e4chste Autobahnauffahrt ist ca. 10 km entfernt.Einkaufsm\u00f6glichkeiten f\u00fcr den t\u00e4glichen Bedarf befinden sich in unmittelbarer",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Giraffe, Pferd, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, Schaf, Ziege, Kuh, Schwein, Ente, Gans, Hahn, Truthahn, Fasan, Pfau, Reh, Hirsch, Elch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Applikation f\u00fcr Android und iOS, die es den Benutzern erm\u00f6glicht, ihre Lieblings-Rezepte zu speichern, zu verwalten und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Anforderungsanalyse: In dieser Phase geht es darum, die genauen Anforderungen an die App zu"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 10,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.9319839002173594
+    },
+    "wellbeing_factors": {
+        "state_score": 0.33,
+        "wellbeing": 0.33,
+        "sleep": 0.58,
+        "anxiety": 0.92,
+        "happiness": 0.11,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen stehe, die alle um einen gro\u00dfen Tisch sitzen. Auf dem Tisch liegen viele Papiere und Dokumente, die alle durcheinander gewirbelt sind. Ich versuche, Ordnung zu schaffen, aber es gelingt mir nicht. Die Menschen um mich herum schauen mich an, als w\u00e4re ich verr\u00fcckt. Dann wache ich auf.Was bedeutet dieser Tra",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Meer ist nur einen Katzensprung entfernt und l\u00e4dt zu ausgedehnten Spazierg\u00e4ngen ein.Das Ferienhaus liegt in einer ruhigen Seitenstra\u00dfe und bietet ausreichend Platz f\u00fcr bis zu 6 Personen. Es verf\u00fcgt \u00fcber 3 Schlafzimmer, 2 Badezimmer, eine voll ausgestattete K\u00fcche und einen gem\u00fctlichen Wohn",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, Eisb\u00e4r, L\u00f6we, Tiger, Giraffe, Affe, Pferd, Kamel, Zebra, Fuchs, Hund, Katze, Maus, Eichh\u00f6rnchen, B\u00e4r, Wolf, Schaf, Gans, Ente, Strau\u00df, Flamingo, Schildkr\u00f6te, Schmetterling, Biene, Ameise, Marienk\u00e4fer , Regenwurm, Fisch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen buschigen Schwanz. Seinen Namen habe ich noch nicht herausgefunden, aber ich nenne ihn einfach \u201eKleiner Freund\u201c.Kleiner Freund lebt in einer kleinen Holzkiste, die ich auf dem Dachboden gefunden habe. Sie riecht ein bisschen muffig, aber das scheint Kleiner Freund nicht zu st\u00f6ren. Er sitzt immer in der E"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 11,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.4960250766714516
+    },
+    "wellbeing_factors": {
+        "state_score": 0.23,
+        "wellbeing": 0.23,
+        "sleep": 0.48,
+        "anxiety": 0.98,
+        "happiness": 0.05,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum war, in dem viele Menschen um mich herum sa\u00dfen. Der Raum war hell erleuchtet und es f\u00fchlte sich so an, als w\u00e4ren wir alle in einer Art Schule. Pl\u00f6tzlich stand ich auf und fragte mich, warum ich eigentlich dort war. Ich konnte mich an nichts erinnern, was ich dort tun sollte oder weshalb ich dort war. Ich setzte mich wieder hin und versuchte,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Auto in 5-10 Minuten. Der n\u00e4chste gr\u00f6\u00dfere Supermarkt ist der SPAR Markt in der Industriestra\u00dfe.Anreise mit \u00f6ffentlichen VerkehrsmittelnMit \u00f6ffentlichen Verkehrsmitteln ist die Anreise etwas umst\u00e4ndlicher. Man kann entweder mit der Stra\u00dfenbahn (Linie 2 oder 7) bis zur Haltestelle \"Bahnhof West\" fahren und von dort aus",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Koala, Pinguin, Giraffe, Affe, B\u00e4r, Wolf, Fuchs, Dachs, Hirsch, Reh, B\u00fcffel, Antilope, Zebra, Gepard, L\u00f6we, Gnu, Strau\u00df, Papagei, Pferd, Kuh, Schaf, Ziege, Kamel, Elefant, Nilpfer",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich die M\u00f6glichkeit, in der Zeitung zu schreiben. Das ist eine wunderbare Erfahrung, die ich nicht missen m\u00f6chte. Es gibt mir die M\u00f6glichkeit, meine Gedanken und Erfahrungen mit anderen Menschen zu teilen und ihre Sichtweisen kennenzulernen.In meinem ersten Artikel habe ich \u00fcber meine Erfahrungen mit Depressionen und Angstst\u00f6rungen geschrieben. Ich wollte zeigen, dass es"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 12,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.5443572415253695
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester in einem Zug sa\u00df. Der Zug fuhr durch eine wundersch\u00f6ne Landschaft, die an die Schweiz erinnerte. Meine Mutter und meine Schwester waren sehr aufgeregt und konnten es kaum erwarten, auszusteigen und die Landschaft zu erkunden. Ich selbst war etwas nerv\u00f6s, da ich nicht wusste, was mich erwarten w\u00fcrde.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungDuscheWaschmaschineSp\u00fclmaschineMikrowelleGeschirr/BesteckCeranfeldK\u00fchlschrankGefrierfachToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherF\u00f6hnTVRadioWLAN",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonobo, Koala, K\u00e4nguru, Delfin, Wal, Robbe, Pinguin, Fuchs, Wolf, B\u00e4r, Hirsch, Reh, Elch, Antilope, Gnu, Strau\u00df, Flamingo, Papagei,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme und -serien zu entdecken, zu verwalten und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Marktforschung: Bevor ich mit der Entwicklung der App beginne, f\u00fchre ich eine gr\u00fcndliche Marktforschung durch, um"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 13,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.0106494767086043
+    },
+    "wellbeing_factors": {
+        "state_score": 0.31,
+        "wellbeing": 0.31,
+        "sleep": 0.56,
+        "anxiety": 0.94,
+        "happiness": 0.1,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin und meinem besten Freund in einem Caf\u00e9 sitze. Wir unterhalten uns \u00fcber Gott und die Welt, als pl\u00f6tzlich ein Mann an unseren Tisch tritt. Er tr\u00e4gt eine schwarze Robe und einen langen wei\u00dfen Bart. Es ist der Weihnachtsmann.Er setzt sich zu uns und beginnt zu erz\u00e4hlen. Er erz\u00e4hlt von der Weihnachtszeit,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt, die n\u00e4chste S-Bahn-Haltestelle ist ca. 500m entfernt.Mit dem Fahrrad gelangt man in ca. 5 Minuten zum n\u00e4chsten Fahrradweg.Die n\u00e4chste Autobahnauffahrt ist ca. 5km entfernt.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Pferd, Kuh, Hund, Katze, Fuchs, Wolf, Schaf, Ziege, Gans, Ente, Hase, Kaninchen, Affe, Orang-Utan, Gorilla, Schimpanse, Eichh\u00f6rnchen, Maus, Ratte, Hamster, Meerschweinchen, Kanarienvogel, Pap",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Ich hab e angefangen zu n\u00e4hen. Genauer gesagt, ich habe mit dem N\u00e4hen von Taschen begonnen. Und ich muss sagen, es macht mir wirklich Spa\u00df.Ich habe schon immer gerne gebastelt und kreativ gearbeitet, aber das N\u00e4hen war f\u00fcr mich immer ein bisschen einsch\u00fcchternd. Es gibt so viele verschiedene Techniken und Materialien zu lernen,"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 14,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.4255454812228415
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Urlaub war. Wir waren an einem wundersch\u00f6nen Strand und haben die Sonne und das Meer genossen. Es war ein friedlicher und sch\u00f6ner Traum.Was bedeutet dieser Traum f\u00fcr dich?Dieser Traum k\u00f6nnte darauf hindeuten, dass du dich nach Frieden und Harmonie in deinem Leben se hnst. Er k\u00f6nnte auch ein Zeichen daf",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 60qm und besteht aus einem Wohnzimmer, einer K\u00fcche, einem Schlafzimmer und einem Badez",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal, Eule, Fuchs, Wolf, B\u00e4r, Hirsch, Reh, Elch, Antilope, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine App zu entwickeln, die es den Benutzern erm\u00f6glicht, einfach und schnell Rezepte zu erstellen und zu verwalten. Die App soll sowohl f\u00fcr iOS als auch f\u00fcr Android verf\u00fcgbar sein.Ich habe mich entschieden, die App mit React Native zu entwickeln, da es mir erm\u00f6glicht, eine einzige Codebasis f\u00fcr beide Plattform"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 15,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.2770503110974687
+    },
+    "wellbeing_factors": {
+        "state_score": 0.26,
+        "wellbeing": 0.26,
+        "sleep": 0.51,
+        "anxiety": 0.99,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin und zwei anderen Freunden in einem kleinen Caf\u00e9 sa\u00df. Wir tranken Kaffee und unterhielten uns angeregt, als pl\u00f6tzlich der Strom ausfiel. Es wurde schlagartig dunkel und still. Wir sa\u00dfen da, in v\u00f6lliger Dunkelheit, nichts war mehr zu h\u00f6ren als das leise Pl\u00e4tschern der Kaffeetassen und das Rascheln der Zeit",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Wir bieten Ihnen eine sch\u00f6ne Ferienwohnung in ruhiger Lage mit Blick ins Gr\u00fcne.Die Ferienwohnung bietet Platz f\u00fcr 2-4 Personen und verf\u00fcgt \u00fcber ein Wohnzimmer, eine K\u00fcche, 2 Schlafzimmer und ein Badezimmer.Die Ferienwohnung ist komplett ausgestattet",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Giraffe, Gepard, Fuchs, Dachs, Wolf, B\u00e4r, Panda, Affe, Orang-Utan, Gorilla, Schimpanse, Eichh\u00f6rnchen, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pferd, Maus, Katze, Hund, Hamster, Meerschweinchen, Kan",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue Freundin. Sie ist h\u00fcbsch, nett und ein bisschen verr\u00fcckt. Man k\u00f6nnte sagen, sie ist das genaue Gegenteil von mir. Trotzdem verstehen wir uns pr\u00e4chtig. Wir haben \u00e4hnliche Interessen, teilen dieselben Wertvorstellungen und k\u00f6nnen stundenlang \u00fcber Gott und die Welt quatschen.Das Einzige, was mich stutzig macht, ist, dass sie immer nur"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 16,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.7384766545655057
+    },
+    "wellbeing_factors": {
+        "state_score": 0.19,
+        "wellbeing": 0.19,
+        "sleep": 0.44,
+        "anxiety": 0.94,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinem Fahrrad einen H\u00fcgel hochfahre. Pl\u00f6tzlich merke ich, dass ich keine Luft mehr in den Reifen habe. Ich halte an und pumpe sie mit meiner kleinen Luftpumpe auf. Doch es dauert ewig, bis die Reifen wieder voll sind und ich weiterfahren kann.Was bedeutet dieser Traum?Fre ud interpretierte diesen Traum als Hinweis",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Auto in etwa 10 Minuten. Wie weit ist es zum Strand?Der n\u00e4chste \u00f6ffentliche Sandstrand ist ca. 20 Minuten mit dem Auto entfernt.Wie weit ist es zum Flughafen?Der Flughafen ist ca. 30 Minuten mit dem Auto entfernt.Gibt es in der N\u00e4he Einkaufsm\u00f6glichkeiten?In der N\u00e4he gibt es einen kle",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Giraffe, Tiger, Pferd, B\u00e4r, Hund, Katze, Maus, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, Hirsch, Schaf, Ziege, Kuh, B\u00fcffel, Gnu, Antilope, Strau\u00df, Affe, Orang-Utan, Gorilla, Schimpanse, Elefant, L\u00f6we,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitarbeiter in me inem Team. Es ist ein j unger Mann, Anfang 20, mit einem beeindruckenden Lebenslauf. Er hat schon einiges gesehen und gemacht in seinem Leben, war lange im Ausland und spricht mehrere Sprachen.Ein solcher Mitarbeiter ist nat\u00fcrlich eine Bereicherung f\u00fcr jedes Team. Er bringt neue Ideen, Perspektiven und Erfahrungen mit, die das Team weiterbringen k\u00f6nnen"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 17,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.0131189152024662
+    },
+    "wellbeing_factors": {
+        "state_score": 0.31,
+        "wellbeing": 0.31,
+        "sleep": 0.56,
+        "anxiety": 0.94,
+        "happiness": 0.1,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester in einem Caf\u00e9 sa\u00df. Meine Mutter fragte mich, was ich beruflich machen m\u00f6chte. Ich antwortete ihr, dass ich Lehrerin werden m\u00f6chte. Meine Mutter war sehr stolz auf mich und sagte, dass sie sich sehr freuen w\u00fcrde, wenn ich diesen Weg einschlagen w\u00fcrde. Meine Schwester hingegen war weniger begeistert und me",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungWLANTVK\u00fccheWaschmaschineSp\u00fclmaschineK\u00fchlschrankGefrierfachMikrowelleToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherGeschirr/BesteckDuscheWCBadewanne",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Pferd, Kamel, Giraffe, Affe, Fuchs, Hund, Katze, Maus, Kuh, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Fasan, Pfau, Strau\u00df, Kranich, Flamingo, Papagei, Eule, Specht , Marienk\u00e4fer, B",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um ein kleines Startup, das sich auf die Entwicklung von mobilen Apps spezialisiert hat. Das Team besteht aus einem Designer, einem Entwickler und mir als Projektmanager.Meine Aufgaben sind vielf\u00e4ltig und reichen von der Erstellung des Projektplans \u00fcber die Koordination der Teammitglieder bis hin zur \u00dcberwachung des Fortschritts und der Qualit\u00e4tssicherung."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 18,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.9796088117209487
+    },
+    "wellbeing_factors": {
+        "state_score": 0.16,
+        "wellbeing": 0.16,
+        "sleep": 0.41,
+        "anxiety": 0.91,
+        "happiness": 0.03,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinen Kindern in einem Urlaubsort war. Wir hatten einen sch\u00f6nen Ausflug gemacht, waren am Strand entlang spazieren gegangen und hatten Muscheln gesammelt. Auf dem R\u00fcckweg zum Ferienhaus fiel meiner Tochter eine besonders sch\u00f6ne Muschel auf. Sie wollte sie unbedingt mit nach Hause nehmen und bat mich darum, sie zu tragen.Ich lehnte ab.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Der n\u00e4chstge legene Supermarkt ist Edeka, ca. 200 Meter entfernt.Die n\u00e4chste Bushaltestelle ist ca. 100 Meter entfernt und bietet Verbindungen in alle Richtungen.Die n\u00e4chste S-Bahn-Station ist die Haltestelle Wandsbeker Chaussee, ca. 800 Meter entfernt. Sie wird von der Linie",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Giraffe, Tiger, Eisb\u00e4r, Pinguin, Eichh\u00f6rnchen, Dachs, Wolf, Fuchs, B\u00e4r, Hirsch, B\u00fcffel, Zebra, Kamel, Pferd, Affe, Gorilla, Tapir, Flamingo, Strau\u00df, Elch, Gnu, Gepard, L\u00f6we, Schakal, Panther, L\u00f6we, Ele",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich meine Webseite dahinge hend angepasst, dass sie nun auch auf mobilen Ger\u00e4ten wie Smartphones und Tablets korrekt angezeigt wird.Diese \u00c4nderung ist notwendig, da immer mehr Besucher meine Webseite mit mobilen Ger\u00e4ten aufrufen. Daher wollte ich die Webseite auch f\u00fcr diese Ger\u00e4te optimieren, um ein besseres Nutzererlebnis zu bieten.Ich habe mich dabei f\u00fcr"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 19,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.6014209474429386
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und meine Schwester waren sehr aufgeregt und konnten es kaum erwarten, ihn zu sehen. Ich hingegen war sehr nerv\u00f6s und hatte Angst, was mich erwarten w\u00fcrde.Der Zug hielt endlich am Bahnhof und wir stiegen aus.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. In der N\u00e4he befinden sich zahlreiche Restaurants, Caf\u00e9s und Einkaufsm\u00f6glichkeiten.AusstattungDie Wohnung verf\u00fcgt \u00fcber einen gro\u00dfen Wohn- und Essbereich mit offener K\u00fcche, ein Schlafzimmer, ein Badezimmer und einen Balkon.Die K\u00fcche ist ausgestattet mit einem Herd, einem",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Affe, Hund, Katze, Pferd, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Taube, Fasan, Pfau, Fuchs, Dachs, Wolf, B\u00e4r, Elch, Hirsch, Reh, Antilope, Gnu, Strau\u00df, Flaming o, Papagei, Eule",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen.Die Anwendung ist in Objective-C geschrieben und verwendet die Cocoa Touch-Bibliotheken von Apple f\u00fcr die Entwicklung von iOS-Anwendungen. Sie l\u00e4uft auf iPhones und iPads."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 20,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.0201903911959507
+    },
+    "wellbeing_factors": {
+        "state_score": 0.31,
+        "wellbeing": 0.31,
+        "sleep": 0.56,
+        "anxiety": 0.94,
+        "happiness": 0.1,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem gro\u00dfen, wei\u00dfen Raum bin. \u00dcberall h\u00e4ngen wei\u00dfe Laken an den W\u00e4nden und auf dem Boden liegen viele wei\u00dfe Kissen und Decken. In der Mitte des Raumes steht ein gro\u00dfer wei\u00dfer Tisch, auf dem viele wei\u00dfe Kerzen brennen.Ich sitze an diesem Tisch und schreibe mit einem wei\u00dfen Stift auf einem wei\u00dfen Blatt Papier. Pl\u00f6tzlich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Grundst\u00fcck befindet sich in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Die Wohnung verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche und Zugang zum Balkon.Das Schlafzimmer ist ger\u00e4umig und bietet",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Pferd, Kamel, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Eichh\u00f6rnchen, B\u00e4r, Wolf, Fuchs, Dachs, Luchs, Panther, Gepard, Hy\u00e4ne, Krokodil, Alligator, Schildkr\u00f6 te, Gans, Ente,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um ein Forschungsprojekt im Bereich des maschinellen Lernens. Das Ziel dieses Projekts besteht darin, ein neuronales Netzwerk zu entwickeln, das in der Lage ist, medizinische Bilder wie R\u00f6ntgenaufnahmen, CT-Scans oder MRT-Bilder zu analysieren und dabei bestimmte Krankheitsbilder zu erkennen.D"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 21,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.7506421143536666
+    },
+    "wellbeing_factors": {
+        "state_score": 0.36,
+        "wellbeing": 0.36,
+        "sleep": 0.61,
+        "anxiety": 0.89,
+        "happiness": 0.13,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle miteinander reden. Ich stehe in der Mitte des Raumes und versuche zu verstehen, was sie sagen, aber ich kann es nicht. Ich f\u00fchle mich ausgeschlossen und unverstanden. Dann wache ich auf.Was bedeutet dieser Traum?Dieser Traum k\u00f6nnte darauf hindeuten, dass Sie sich in einer Situation befinden, in der Sie",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 50 m\u00b2 und besteht aus einem Wohnzimmer, einer K\u00fcche, einem Schlafzimmer und einem Badezimmer.Die K\u00fcche ist mit einer Einbauk\u00fcche ausgestattet",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Flamingo, Pfau, Strau\u00df, Pferd, Kuh, Schaf, Ziege, Hund, Katze, Maus, Ratte, Eichh\u00f6rnchen, B\u00e4r, Wolf, Fuchs, D achs, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen.Die Anwendung ist in Objective-C geschrieben und verwendet die Cocoa Touch-Bibliotheken von Apple f\u00fcr die Entwicklung von iOS-Anwendungen. Sie l\u00e4uft auf iPhones und iPads."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 22,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.7265001016625081
+    },
+    "wellbeing_factors": {
+        "state_score": 0.37,
+        "wellbeing": 0.37,
+        "sleep": 0.62,
+        "anxiety": 0.88,
+        "happiness": 0.14,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Der Zug fuhr sehr schnell und ich hatte Angst, dass wir nicht rechtzeitig ankommen w\u00fcrden. Ich versuchte, meine Mutter und meinen Bruder zu beruhigen, aber sie waren sehr aufgeregt. Als wir endlich am Krankenhaus ank",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Haus liegt in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Das Haus verf\u00fcgt \u00fcber 3 Schlafzimmer, 1 Wohnzimmer, 1 K\u00fcche, 1 Badezimmer und 1 Terrasse.Die Wohnfl\u00e4che betr\u00e4gt ca.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Affe, Pferd, Hund, Katze, Maus, Eichh\u00f6rnchen, Fuchs, Wolf, Schaf, Ziege, Gans, Ente, Kranich, Reh, Hirsch, B\u00fcffel, Kamel, Strau\u00df, Flamingo, Papagei, Schildkr\u00f6te, Sch metterling, Marienk\u00e4",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern erm\u00f6glicht, ihre t\u00e4glichen Aktivit\u00e4ten zu verfolgen, Ziele zu setzen und ihren Fortschritt zu \u00fcberwachen.Das Projekt ist in mehrere Phasen unterteilt:1. Anforderungsanalyse: In dieser Phase arbeite ich eng mit dem Kunden zusammen, um die genau"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 23,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.2529199554335658
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat. Es ist eine Art Zeitmaschine, mit der man in die Vergangen heit reisen kann.Der Mann ist sehr auf",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 60qm und besteht aus einem Wohnzimmer, einer K\u00fcche, einem Schlafzimmer und einem Badez",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Gnu, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 24,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.8811745302219046
+    },
+    "wellbeing_factors": {
+        "state_score": 0.34,
+        "wellbeing": 0.34,
+        "sleep": 0.59,
+        "anxiety": 0.91,
+        "happiness": 0.12,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle schauen mich an und warten darauf, dass ich anfange zu sprechen. Aber ich habe nichts zu sagen. Ich f\u00fchle mich hilflos und ausgeliefert.Was bedeutet dieser Traum?Dieser Traum k\u00f6nnte darauf hinweisen, dass Sie sich in einer Situation befinden, in der Sie sich unwohl f\u00fchlen und nicht w",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. In der N\u00e4he befinden sich mehrere Schulen, Kinderg\u00e4rten und Spielpl\u00e4tze.Ausstattung:Die Wohnung verf\u00fcgt \u00fcber zwei Schlafzimmer, ein Wohnzimmer, eine K\u00fcche, ein Badezimmer und einen Balkon. Die Wohnfl\u00e4che betr\u00e4gt ca. 65 m\u00b2.Die K\u00fcche ist mit einer Einbauk",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Gepard, Pferd, Wolf, Fuchs, Dachs, B\u00e4r, Affe, Orang-Utan, Gorilla, Schimpanse, Eichh\u00f6rnchen, Maus, Ratte, Hund, Katze, Frettchen, Meerschweinchen, Hamster, Maulwurf, Igel , Ziege, Schaf,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Arbeitskollegen. Er ist jung, dynamisch und voller Tatendrang. Und er hat eine Mission: Er will die Welt ver\u00e4ndern. Nicht im gro\u00dfen Stil, sondern ganz konkret, hier und jetzt.Sein Ansatz ist denkbar einfach: Er sammelt Plastikm\u00fcll, den andere achtlos wegwerfen, und verwandelt ihn in kleine Kunstwerke. Diese verkauft er dann, um mit dem Er"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 25,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.263332649834987
+    },
+    "wellbeing_factors": {
+        "state_score": 0.26,
+        "wellbeing": 0.26,
+        "sleep": 0.51,
+        "anxiety": 0.99,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinem Ex-Freund und meiner besten Freundin zusammen in einem Raum war. Mein Ex-Freund hat versucht, meine beste Freundin zu k\u00fcssen, aber sie hat es nicht erlaubt. Ich habe versucht, dazwischen zu gehen, aber mein Ex-Freund hat mich weggesto\u00dfen und gesagt, dass ich nichts zu sagen hab e. Was soll ich tun?Antwort:",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die Einkaufsm\u00f6glichkeiten sind vielf\u00e4ltig und reichen von Discountern \u00fcber Superm\u00e4rkte bis hin zu Bio-L\u00e4den.Auch \u00c4rzte, Apotheken, Banken und Postfilialen sind bequem zu Fu\u00df erreichbar.Schulen und Kinderg\u00e4rten befinden sich ebenfalls in unmittelbarer N\u00e4he.Die Anbindung an den \u00f6",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Affe, Giraffe, Krokodil, Pferd, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Eichh\u00f6rnchen, Fuchs, Dachs, B\u00e4r, Wolf, Schaf, Ziege, Gans, Ente, Hahn, Truthahn, Fasan, Pf au, Eichelh\u00e4her",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Arbeitskollegen. Er ist neu im Unternehmen und ich bin sein direkter Vorgesetzter. Wir sind beide Mitte 20 und arbeiten in einer kleinen Firma.Ich habe ihn bisher nur am Telefon kennengelernt und ich muss gestehen, dass er mir auf den ersten Blick sehr gut gefallen hat. Er hat eine tiefe, angenehme Stimme, die mich sofort in ihren Bann gezogen"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 26,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.3290353879354544
+    },
+    "wellbeing_factors": {
+        "state_score": 0.25,
+        "wellbeing": 0.25,
+        "sleep": 0.5,
+        "anxiety": 1.0,
+        "happiness": 0.06,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass meine Mutter gestorben ist. Ich habe sie im Traum noch einmal gesehen und gesp\u00fcrt, wie wichtig sie f\u00fcr mich war und wie sehr ich sie geliebt habe. Es war ein trauriger Traum, aber auch ein sch\u00f6ner, weil ich sie noch einmal sehen durfte.Was bedeutet dieser Traum f\u00fcr dich?Dieser Traum k\u00f6nnte dar auf hinweisen, dass du dich an vergang",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Einkaufsm\u00f6glichkeitenIn unmittelbarer N\u00e4he befinden sich mehrere Superm\u00e4rkte, B\u00e4ckereien, Metzgereien und andere Gesch\u00e4fte des t\u00e4glichen Bedarfs.VerkehrsanbindungMit dem Auto gelangt man in wenigen Minuten auf die Autobahn A3.Mit \u00f6ffentlichen Verkehrsmitteln erreicht man",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Strau\u00df, Pferd, Wolf, Fuchs, B\u00e4r, Dachs, Eichh\u00f6rnchen, Schildkr\u00f6te, Krokodil, Affe, Orang-Utan, Gorilla, Flamingo, Papagei, Kakadu, Koala, K\u00e4nguru, O zelot, Luchs, G",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Ich arbeite an einem Buch mit dem Arbeitstitel \u201eDigitales Lernen in der Erwachsenenbildung\u201c mit. Das Buch wird im n\u00e4chsten Jahr im Waxmann Verlag erscheinen.Ich freue mich sehr, dass ich dieses Buch schreiben darf. Es ist eine gro\u00dfartige Gelegenheit, mein Wissen und meine Erfahrungen im Bereich des digitalen Lernens mit anderen zu"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 27,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.4416579647037464
+    },
+    "wellbeing_factors": {
+        "state_score": 0.23,
+        "wellbeing": 0.23,
+        "sleep": 0.48,
+        "anxiety": 0.98,
+        "happiness": 0.05,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem fremden Land bin und kein Wort verstehe, au\u00dfer meinem eigenen. Ich sitze in einem Caf\u00e9 und versuche mich zu verst\u00e4ndigen, aber es gelingt nicht. Ich f\u00fchle mich verloren und hilflos. Dann wache ich auf.Was bedeutet der Traum?Dieser Traum k\u00f6nnte darauf hinweisen, dass Sie sich in einer neuen oder unbekannten Situ",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man entweder mit dem Auto oder mit dem Fahrr ad. Wer lieber zu Fu\u00df geht, braucht etwas mehr Zeit. Mit dem Auto sind es etwa 5 Minuten, mit dem Fahrrad etwa 15 Minuten und zu Fu\u00df etwa 30 Minuten.Welche Einkaufsm\u00f6glichkeiten gibt es in der N\u00e4he?Es gibt mehrere Superm\u00e4rkte in der N\u00e4he, darunter Edeka, Rewe und Ald",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, Tiger, L\u00f6we, Gepard, Giraffe, Zebra, Affe, Hund, Katze, Maus, Kuh, Schaf, Pferd, Kamel, Dromedar, Strau\u00df, Gans, Ente, Hahn, Huhn, Taube, Fasan, Fuchs, Wolf, B\u00e4r, Hirsch, Antilope, B\u00fcffel, Nashorn,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein Problem mit meinem MacBook Pro. Das Ger\u00e4t startet nicht mehr und h\u00e4ngt sich beim Bootvorgang auf. Ich habe schon alle m\u00f6glichen Dinge ausprobiert, um das Problem zu l\u00f6sen, aber bisher ohne Erfolg.Was kann ich noch tun, um mein MacBook Pro wieder zum Laufen zu bringen?Danke im Voraus f\u00fcr Ihre Hilfe!Mit freundlichen Gr\u00fc\u00dfen,Susanne M\u00fcller"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 28,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.3958747335664483
+    },
+    "wellbeing_factors": {
+        "state_score": 0.24,
+        "wellbeing": 0.24,
+        "sleep": 0.49,
+        "anxiety": 0.99,
+        "happiness": 0.06,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen stehe. Alle blicken auf mich und warten darauf, dass ich etwas sage. Aber ich habe nichts zu sagen. Ich stehe einfach nur da und f\u00fchle mich unwohl. Dann wache ich auf.Was bedeutet dieser Traum?Dieser Traum k\u00f6nnte darauf hinweisen, dass du dich in einer Situation befind est, in der du dich unwohl f\u00fchl",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Auto in ca. 5 Minuten. Mit \u00f6ffentlichen Verkehrsmitteln ist der n\u00e4chste Supermarkt ca. 10 Gehminuten entfernt.Der n\u00e4chste B\u00e4cker ist ca. 5 Gehminuten entfernt.Die n\u00e4chste Apotheke ist ca. 5 Gehminuten entfernt.Die n\u00e4chste Tankstelle ist ca. 5 Gehminuten ent",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Schildkr\u00f6te, Elefant, L\u00f6we, Affe, Fuchs, Hund, Katze, Pferd, Gans, Ente, Eichh\u00f6rnchen, B\u00e4r, Dachs, Maus, Ratte, Fledermaus, Eule, Adler, Kranich, Gans, Ente, Eichh\u00f6rnchen, B\u00e4r, Dachs, Maus, Ratte, Fledermaus, Eule",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Kollegen. Er ist jung, dynamisch und hat eine unglaubliche Ausstrahlung. Wir haben uns auf Anhieb super verstanden und ich habe das Gef\u00fchl, dass unsere Zusammenarbeit eine echte Bereicherung sein wird.Allerdings gibt es da ein Problem. Mein neuer Kollege ist klein. Sehr klein. Er ist so klein, dass ich jedes Mal, wenn ich mit ihm spreche, mich b\u00fccken m"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 29,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.5773609613985307
+    },
+    "wellbeing_factors": {
+        "state_score": 0.21,
+        "wellbeing": 0.21,
+        "sleep": 0.46,
+        "anxiety": 0.96,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum sa\u00df, der voll von Menschen war, die sich um einen Tisch versammelt hatten. Auf dem Tisch lagen verschiedene Werkzeuge, die zum Schneiden, Bohren, Schrauben und so weiter ben\u00f6tigt wurden.Ich selbst sa\u00df in der Mitte des Raumes und sah auf den Tisch, konnte aber nicht erkennen, welches Werkzeug ich nehmen sollte. Ich f\u00fchlte mich verwirrt und \u00fcber",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad schnell und bequem durch die wundersch\u00f6ne Landschaft. Das Meer ist nie weit entfernt und bietet unz\u00e4hlige M\u00f6glichkeiten zur Entspannung und Erholung.Die Gegend ist ideal f\u00fcr Familien mit Kindern, aber auch f\u00fcr Paare und Alleinreisende. Es gibt viele Aktivit\u00e4ten zu unternehmen, wie zum Beispiel Wandern, Radfahren",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, L\u00f6we, Elefant, Giraffe, Zebra, Affe, Schimpanse, Gorilla, Eisb\u00e4r, Pinguin, Robbe, Fuchs, Hund, Katze, Tiger, Panther, L\u00f6we, Leopard, Gepard, B\u00e4r, Wolf, Dachs, Eichh\u00f6rnchen, B\u00fcffel, Nilpferd, Krokodil, All igator, Flamingo, Pfau",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er he i\u00dft Oskar und ist ein kleiner Igel. Er lebt in meinem Garten, genauer gesagt in einem selbstgebauten Igelh\u00e4uschen, das ich f\u00fcr ihn angefertigt habe. Ich beobachte ihn jeden Abend, wenn es dunkel wird und die Sterne am Himmel funkeln. Dann kommt Oskar aus seinem H\u00e4uschen gekrochen und macht sich auf die Suche nach Futter"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 30,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.2840335239982015
+    },
+    "wellbeing_factors": {
+        "state_score": 0.26,
+        "wellbeing": 0.26,
+        "sleep": 0.51,
+        "anxiety": 0.99,
+        "happiness": 0.07,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit einer Gruppe von Freunden in einem fremden Land unterwegs war. Wir waren irgendwo in einer Stadt, die ich noch nie zuvor gesehen hatte, und wir waren alle sehr aufgeregt und erkundeten die Gegend. Pl\u00f6tzlich bemerkte ich, dass einer meiner Freunde verschwunden war. Ich suchte nach ihm und fand ihn schlie\u00dflich in einem nahegelegenen Park .Er sa\u00df auf einer Bank und sah",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Mit dem Auto ist man in wenigen Minuten auf der Autobahn.Ausstattung:Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses. Sie verf\u00fcgt \u00fcber ein Wohnzimmer, eine K\u00fcche, ein Schlafzimmer, ein Badezimmer und einen Balkon. Die Wohnfl\u00e4che betr\u00e4gt ca. 50 m\u00b2.Die Wohnung",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Affe, Fuchs, Hund, Katze, Pferd, Schaf, Ziege, B\u00fcffel, Kamel, Strau\u00df, Ente, Gans, Huhn, Pute, Pfau, Fasan, Kranich, Flamingo, Papagei, Kakadu, Paradiesvogel, Eule, Nachtvogel",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Ich hab e angefangen zu n\u00e4hen. Es fing damit an, dass ich meiner Freundin ein Kleid n\u00e4hen wollte. Ich habe mich also hingesetzt und ein Schnittmuster entworfen, Stoff gekauft und losgelegt. Und siehe da, es hat funktioniert! Das Kleid ist wundersch\u00f6n geworden und meine Freundin hat sich riesig dar\u00fcber gefreut.Jetzt habe ich L"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 31,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.5010578878706302
+    },
+    "wellbeing_factors": {
+        "state_score": 0.23,
+        "wellbeing": 0.23,
+        "sleep": 0.48,
+        "anxiety": 0.98,
+        "happiness": 0.05,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem riesigen Garten bin, der voller Blumen ist. W\u00e4hrend ich die Blumen bewundere, kommt ein Mann auf mich zu und sagt, dass ich den Garten nicht betreten darf. Ich frage ihn warum und er antwortet, dass es zu gef\u00e4hrlich ist. Aber ich ignoriere ihn und betrete den Garten trotzdem.Dieser Traum symbolisiert me ine aktuelle Situation. Ich f\u00fchle mich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Mit dem Auto ist man in ca. 10 Minuten auf der Autobahn Richtung Frankfurt oder Wiesbaden. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen nach Wiesbaden, Mainz und Frankfurt. Die n\u00e4chste S-Bahn-Station ist ca. 700 Meter entfernt und bietet Verbindungen nach Wiesbaden, Mainz",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eichh\u00f6rnchen, Fuchs, Hirsch, B\u00e4r, Wolf, L\u00f6we, Tiger, Elefant, Giraffe, Zebra, Gepard, Affe, Schimpanse, Orang-Utan, Eisb\u00e4r, Pinguin, Koala, K\u00e4nguru, Delfin, Wal, Robbe, Seel\u00f6we, Flamingo, Pfau, Strau\u00df, Gans , Ente, Kranich,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist ziemlich gro\u00df und macht ziemlich viel Krach. Aber ich mag ihn trotzdem. Sein Name ist Lukas und er ist mein neuer Mitbewohner.Lukas ist mein neuer Mitbewohner. Er ist ziemlich gro\u00df und macht ziemlich viel Krach. Aber ich mag ihn trotzdem. In der aktuellen Ausgabe 1/2020 der Fachzeitschrift \u201eDie"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 32,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.7290360112812275
+    },
+    "wellbeing_factors": {
+        "state_score": 0.37,
+        "wellbeing": 0.37,
+        "sleep": 0.62,
+        "anxiety": 0.88,
+        "happiness": 0.14,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Urlaub war. Wir waren in einem Ferienhaus in den Bergen und es war wundersch\u00f6n. Meine Mutter und meine Schwester waren beide sehr gl\u00fccklich und entspannt. Ich habe mich auch gut gef\u00fchlt, aber irgendwie habe ich das Gef\u00fchl gehabt, dass etwas nicht stimmt. Dann bin ich aufgew acht und pl\u00f6tzlich war alles weg.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegende Landschaft.Das Grundst\u00fcck ist komplett eingez\u00e4unt und bietet ausreichend Platz zum Spielen und Toben f\u00fcr Ihre vierbeinigen Freunde.Die Wohnfl\u00e4che betr\u00e4gt ca. 120 qm und verteilt",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Giraffe, Zebra, Gepard, Fuchs, Hund, Katze, Maus, Pferd, Kamel, Strau\u00df, Schildkr\u00f6te, Affe, Gorilla, Orang-Utan, Schimpanse, Bonobo, Eichh\u00f6rnchen, B\u00e4r, Wolf, Dachs, B\u00fcffel , K\u00e4nguru, Koala,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen App, die es den Benutzern erm\u00f6glicht, ihre Fitness-Aktivit\u00e4ten zu verfolgen und zu protokollieren. Die App wird auf Android und iOS verf\u00fcgbar sein und eine Reihe von Funktionen bieten, darunter:1. Aktivit\u00e4tsverfolgung: Benutzer k\u00f6nnen verschiedene Arten von Aktivit\u00e4ten wie Laufen"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 33,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.508505931743932
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und meine Schwester waren sehr aufgeregt und konnten es kaum erwarten, ihn zu sehen. Ich hingegen war sehr nerv\u00f6s und hatte Angst, was mich erwarten w\u00fcrde.Der Zug hielt endlich am Bahnhof und wir stiegen aus.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungDuscheWaschmaschineSp\u00fclmaschineMikrowelleGeschirr/BesteckCeranfeldK\u00fchlschrankGefrierfachToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherF\u00f6hnTVRadioWLAN",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Erstellung einer Webseite f\u00fcr eine kleine Firma, die sich auf die Vermietung und den Verkauf von Immobilien spezialisiert hat.Die Webseite sollte \u00fcbersichtlich und benutzerfreundlich gestaltet sein, mit einem klaren Fokus auf den angebotenen Immobilien. Die Besucher der Seite sollten schnell und einfach die wichtigsten Information"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 34,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.5649782706931785
+    },
+    "wellbeing_factors": {
+        "state_score": 0.4,
+        "wellbeing": 0.4,
+        "sleep": 0.65,
+        "anxiety": 0.85,
+        "happiness": 0.16,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meiner Schwester im Zug sa\u00df. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und meine Schwester waren sehr aufgeregt und konnten es kaum erwarten, ihn zu sehen. Ich hingegen war sehr nerv\u00f6s und hatte Angst, was mich erwarten w\u00fcrde.Der Zug hielt endlich am Bahnhof und wir stiegen aus.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungTerrasseWLANTVK\u00fccheWaschmaschineSp\u00fclmaschineK\u00fchlschrankGefrierfachMikrowelleToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherGeschirr/BesteckDuscheWC",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Schaf, Ziege, Kuh, Pferd, Esel, Kamel, Strau\u00df, Flamingo, Papagei, Affe, Gorilla, Orang-Utan, Schimpanse , L\u00f6we, Tiger,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen App, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen. Die App soll sowohl f\u00fcr iOS als auch f\u00fcr Android verf\u00fcgbar sein.Ich habe mich f\u00fcr die Programmiersprache Swift entschieden, da sie eine saubere und leistungsstarke Sprache ist, die spezi"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 35,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.400768793946079
+    },
+    "wellbeing_factors": {
+        "state_score": 0.24,
+        "wellbeing": 0.24,
+        "sleep": 0.49,
+        "anxiety": 0.99,
+        "happiness": 0.06,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Leute war und pl\u00f6tzlich alle anfingen zu tanzen. Ich habe mitgemacht und es hat sehr viel Spa\u00df gemacht. Dann bin ich aufgewacht.Was bedeutet dieser Traum?Danke im Voraus f\u00fcr die Antwort.Mit freundlichen Gr\u00fc\u00dfen,Sophie \u1405 Unsere Bestenlist e Dec/2022 \u2192 Detaillier",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in ca. 15 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 500m entfernt.Der n\u00e4chste Bahnhof ist ca. 1,5km entfernt.Von hier aus bis zum n\u00e4chsten Flughafen gelangt man mit dem Auto in ca. 20 Minuten.Die n\u00e4chste Tankstelle ist ca. 500m entfernt.Das n\u00e4chste Kr",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Pinguin, L\u00f6we, Elefant, Giraffe, Affe, Fuchs, Hund, Katze, Pferd, Kuh, Schaf, Ziege, Esel, Kamel, Strau\u00df, Flamingo, Kranich, Gans, Ente, Huhn, Gans, Taube, Fasan, Pfau, Adler, Bussard, Falke , Eule, Kakadu,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue Kollegin. Sie ist ein bisschen j\u00fcnger als ich und arbeitet in meinem Team. Ich habe sie noch nicht wirklich kennengelernt, aber ich habe geh\u00f6rt, dass sie sehr gut ist.Als ich heute Morgen an meinem Schreibtisch ankam, lag ein Zettel auf meinem Bildschirm. Es war eine Notiz von meiner neuen Kollegin. Sie hat geschrieben, dass sie mich heute Nachmittag"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 36,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.8839826378548661
+    },
+    "wellbeing_factors": {
+        "state_score": 0.34,
+        "wellbeing": 0.34,
+        "sleep": 0.59,
+        "anxiety": 0.91,
+        "happiness": 0.12,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin in einem Caf\u00e9 sitze. Sie erz\u00e4hlt mir von ihrem neuen Freund und wie gl\u00fccklich sie ist. Ich freue mich wirklich f\u00fcr sie, aber ich kann nicht anders, als ein bisschen eifers\u00fcchtig zu sein. Dann erz\u00e4hlt sie mir, dass sie schwanger ist. Ich gratuliere ihr herzlich und frage sie, ob sie sich schon Gedanken \u00fcber die Zukunft gem",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Das Haus befindet sich in einer ruhigen Wohngegend und bietet dennoch eine gute Anbindung an den \u00f6ffentlichen Nahverkehr.AusstattungEinbauk\u00fcche mit Ceranfeld, Backofen, K\u00fchlschrank, Sp\u00fclmaschine, Mikrowelle, Toaster, Wasserkocher, KaffeemaschineWohnzimmer mit",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Elefant, Pferd, Giraffe, Affe, Fuchs, Hund, Katze, Maus, Eichh\u00f6rnchen, Dachs, Wolf, B\u00e4r, Schaf, Ziege, Kuh, Schwein, Gans, Ente, Hahn, Huhn, Fasan, Pfau, Kranich, Reh, Hirsch, Elch, Strau\u00df, Flamingo,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Einen Mitbewohner, den ich eigent lich gar nicht haben wollte. Einen Mitbewohner, der mir das Leben schwer macht. Einen Mitbewohner, der mir Angst macht. Einen Mitbewohner, der mich an meine Grenzen bringt. Einen Mitbewohner, der mich w\u00fctend macht. Einen Mitbewohner, der mich traurig macht. Einen Mitbewohner, der mich ohnm\u00e4chtig m"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 37,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 2.0681119253329117
+    },
+    "wellbeing_factors": {
+        "state_score": 0.15,
+        "wellbeing": 0.15,
+        "sleep": 0.4,
+        "anxiety": 0.9,
+        "happiness": 0.02,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einer H\u00f6hle sa\u00df. Die H\u00f6hle war dunkel und still. In der Ferne konnte ich Wasser rauschen h\u00f6ren. Ich war alleine in der H\u00f6hle und wusste nicht, wie ich dort hin gekommen bin. Ich versuchte, die dunkle H\u00f6hle zu verlassen, aber es gelang mir nicht. Ich f\u00fchlte mich ver\u00e4ngstigt und hilflos. Pl\u00f6tzlich h\u00f6rte ich eine Stim",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man in wenigen Minuten, zu Fu\u00df oder mit dem F ahrrad.Die Bushaltestelle ist direkt vor dem Haus.Der Bahnhof ist in 15 Gehminuten zu erreichen.Gastronomie und Einkaufsm\u00f6glichkeiten finden sich in unmittelbarer N\u00e4he und sind fu\u00dfl\u00e4ufig schnell erreichbar.Die n\u00e4chsten Autobahnanschl\u00fcsse (A 3, A 5, A ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eichh\u00f6rnchen, Schildkr\u00f6te, L\u00f6we, Affe, Elefant, Giraffe, Flamingo, Pferd, Delfin, Hund, Katze, Maus, Kaninchen, B\u00e4r, Fuchs, Wolf, Tiger, Schaf, Gans, Ente, Kranich, Reh, Hirsch, B\u00fcffel, Esel, Strau\u00df, Kuh, Ziege, Pinguin und",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine DSL 1600 0 Internetverbindung bei der Tele kom. Leider habe ich seitdem st\u00e4ndig mit Verbindungsabbr\u00fcchen zu k\u00e4mpfen. Ich hatte vorher eine ADSL 2000 Verbindung, die war zwar langsam, aber zuverl\u00e4ssig. Ich habe bereits die DSL-Kontrolleinheit ausgetauscht und auch den Splitter. Das Problem bleibt allerdings bestehen. Ich habe auch schon versucht,"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 38,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.2
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat. Es ist eine Art Zeitmaschine, mit der man in die Vergangen heit reisen kann.Der Mann ist sehr auf",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste Einkaufsm\u00f6glichkeit ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Gnu, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme zu bewerten und zu kommentieren.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht m"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 39,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.0556855797370852
+    },
+    "wellbeing_factors": {
+        "state_score": 0.3,
+        "wellbeing": 0.3,
+        "sleep": 0.55,
+        "anxiety": 0.95,
+        "happiness": 0.09,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin und alle schauen mich an. Ich f\u00fchle mich unwohl und versuche mich zu verstecken, aber es gelingt mir nicht. Alle starren mich an und ich f\u00fchle mich beobachtet und unwohl.Was bedeutet dieser Traum?Freue mich auf Ihre Antwort!Mit freund lichen Gr\u00fc\u00dfen,[Dein Name]",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Mit dem Auto dauert es etwas l\u00e4nger, aber auch das ist kein gro\u00dfes Problem.In der N\u00e4he gibt es auch eine Bushaltestelle, mit der man in wenigen Minuten in der Innenstadt ist.Die Wohnung befindet sich im 2. Stock eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen gro\u00dfen Balkon mit Blick ins Gr\u00fcne.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, Tiger, L\u00f6we, Giraffe, Affe, Pferd, Hund, Katze, Fuchs, Dachs, Wolf, B\u00e4r, Schaf, Ziege, Gans, Ente, Kranich, Reh, Hirsch, B\u00fcffel, Kamel, Strau\u00df, Flamingo, Schildkr\u00f6te, Eichh\u00f6rnchen, M aus, Marienk\u00e4fer,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein kleines Problem mit meinem MacBook Pro 15 Zoll (Mitte 2012). Wenn ich das Ger\u00e4t einschalte, erscheint zwar der Anmeldebildschirm, doch sobald ich mein Passwort eingegeben habe, bleibt der Bildschirm schwarz und es passiert nichts mehr. Der Mauszeiger ist zwar noch sichtbar, doch der Rest des Bildschirms bleibt dunkel.Ich habe"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 40,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.2509148579139229
+    },
+    "wellbeing_factors": {
+        "state_score": 0.27,
+        "wellbeing": 0.27,
+        "sleep": 0.52,
+        "anxiety": 0.98,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich auf einer Party war und alle meine Freunde da waren. Wir hatten Spa\u00df und haben geredet. Pl\u00f6tzlich hat mich jemand angerufen und gesagt, dass meine Mutter im Krankenhaus ist. Ich bin sofort hingefahren und habe sie im Krankenhaus besucht. Als ich sie gesehen habe, hat sie mich angel\u00e4chelt und gesagt, dass alles in Ordnung ist. Dann bin",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten .Das Ferienhaus verf\u00fcgt \u00fcber zwei Schlafzimmer, ein Wohnzimmer, eine K\u00fcche und ein Badezimmer.Das Wohnzimmer ist ausgestattet mit einem Sofa, einem Fernseher und einem Esstisch mit vier St\u00fchlen.Die K\u00fcche verf\u00fcgt \u00fcber einen Herd, einen K\u00fchlschrank, eine Sp\u00fclmaschine",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, Eisb\u00e4r, L\u00f6we, Tiger, Gepard, Affe, Pferd, Zebra, Giraffe, Kamel, Strau\u00df, Schildkr\u00f6te, Krokodil, Delfin, Wal, Fuchs, Wolf, B\u00e4r, Luchs, Panther, Tapir, Hy\u00e4ne, Gnu, Antilope, Zebra, B\u00fcffel , Elefant, L\u00f6we",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Familienmitglied. Es ist klein, flausch ig und hat vier Pfoten. Es handelt sich um einen kleinen Hundewelpen, den ich vor dem sicheren Tod gerettet habe. Die Geschichte dahinter ist ziemlich traurig, aber ich m\u00f6chte sie hier nicht erz\u00e4hlen. Nur so viel: Der arme kleine Kerl wurde einfach weggeworfen wie M\u00fcll.Jedenfalls ist der Kleine jetzt bei uns und"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 41,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.2
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat. Es ist eine Art Zeitmaschine, mit der man in die Vergangen heit reisen kann.Der Mann ist sehr auf",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste Einkaufsm\u00f6glichkeit ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Gnu, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme zu bewerten und zu kommentieren.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht m"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 42,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.5729851817932747
+    },
+    "wellbeing_factors": {
+        "state_score": 0.21,
+        "wellbeing": 0.21,
+        "sleep": 0.46,
+        "anxiety": 0.96,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem gro\u00dfen Saal eine Rede halten sollte. Mein Kopf war voller Ideen, aber meine Stimme versagte. Ich f\u00fchlte mich wie ein Fisch ohne Wasser, der versucht zu schwimmen.Dieser Traum hat mich daran erinnert, wie wichtig es ist, sich Zeit zu nehmen, um \u00fcber Ideen nachzudenken und sie zu entwickeln. Ich habe gelernt,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die Einkaufsm\u00f6glichkeiten in der n\u00e4heren Umgebung sind vielf\u00e4ltig.Mit \u00f6ffentlichen Verkehrsmitteln ist man in ca. 20 Minuten in der Innenstadt.Die Wohnung befindet sich im Erdgeschoss eines gepflegten Mehrfamilienhauses mit insgesamt vier Wohneinheiten.Die Wohnfl\u00e4che",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Gepard, Fuchs, Wolf, Hund, Katze, Maus, Pferd, Kuh, Schaf, Ziege, Esel, Kamel, Strau\u00df, Gans, Ente, Hahn, Huhn, Pute, Pfau, Adler, Bussard, Kranich, Storch, Schwan, Gans, E ichh\u00f6rnchen, Igel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Zum indest nenne ich es so. Es geht darum, die alten Fotos meiner Eltern zu digitalisieren. Wie kam es dazu? Mein Vater ist letztes Jahr verstorben. Meine Mutter ist zwar noch am Leben, kann aber aufgrund einer Krankheit kaum noch die Finger bewegen. Daher habe ich mich dazu entschieden, dieses Erbe anzutreten und die Fotos zu digitalisieren"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 43,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.9531942616422293
+    },
+    "wellbeing_factors": {
+        "state_score": 0.16,
+        "wellbeing": 0.16,
+        "sleep": 0.41,
+        "anxiety": 0.91,
+        "happiness": 0.03,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner damaligen Freundin, mit der ich schon lange keinen Kontakt mehr habe, auf einer Party war. Ich war sehr nerv\u00f6s, weil wir uns lange nicht mehr gesehen haben und ich nicht wusste, was sie von mir denkt. Sie war sehr nett zu mir, aber ich habe mich die ganze Zeit sehr unwohl gef\u00fchlt, weil ich immer Angst hatte, etwas F alsches zu sagen oder sie zu verletzen.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man auf verschiedenen Wegen:Entweder man l\u00e4uft direkt nach rechts auf die Stra\u00dfe und biegt dann links auf die Hauptstra\u00dfe ab und l\u00e4uft etwa 400 Meter bis zum n\u00e4chsten Supermarkt.Oder man geht geradeaus weiter bis zur n\u00e4chsten Kreuzung und biegt dann rechts ab. Man l\u00e4uft dann etwa 300 Meter bis zum n\u00e4chsten Supermarkt.Bitte beachten Sie",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Giraffe, Elefant, Katze, Hund, Maus, Pferd, Schildkr\u00f6te, Affe, L\u00f6we, Tiger, Gepard, B\u00e4r, Eisb\u00e4r, Robbe, Walfisch, Delphin, Fuchs, Wolf, Dachs, Eichh\u00f6rnchen, Igel, Biene, Hummel, Marienk\u00e4fer, Regenwurm, Schmet terling, Libelle, Heusch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner \u2013 und der ist nur halb so gro\u00df wie ich.Sein Name ist Liam und er ist ein s\u00fc\u00dfes, flauschiges Eichh\u00f6rnchen.Wie es dazu kam, dass ich nun diesen kleinen Kerl bei mir wohnen habe, ist eine lustige Geschichte.Eines Tages fand ich Liam am Stra\u00dfenrand. Er sa\u00df dort alleine, verletzt und schwach. Es war klar, dass er Hilfe bra"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 44,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.6212053480340987
+    },
+    "wellbeing_factors": {
+        "state_score": 0.39,
+        "wellbeing": 0.39,
+        "sleep": 0.64,
+        "anxiety": 0.86,
+        "happiness": 0.15,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sa\u00df. Der Zug fuhr durch eine wundersch\u00f6ne Landschaft, die an die Schweiz erinnerte. Meine Mutter und mein Bruder waren sehr aufgeregt und konnten es kaum erwarten, auszusteigen und die Landschaft zu erkunden. Ich selbst war etwas zur\u00fcckhaltender und genoss einfach die ruhige Fahrt.Pl\u00f6t",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungEinrichtungTerrasseWLANTVK\u00fccheWaschmaschineSp\u00fclmaschineK\u00fchlschrankGefrierfachMikrowelleToasterWasserkocherKaffeemaschineBettw\u00e4scheHandt\u00fccherGeschirrGeschirrsp\u00fclmittelSp\u00fcl",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Giraffe, Affe, Pferd, Hund, Katze, Maus, Fisch, Vogel, Schmetterling, Marienk\u00e4fer, Biene, Ameise, Regenwurm, Schnecke, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, Gans, Ente, Huhn, Gans , Schaf, Ziege,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen App, die es den Benutzern erm\u00f6glicht, sich gegenseitig Nachrichten zu schreiben und Fotos auszutauschen. Die App soll sowohl f\u00fcr iOS als auch f\u00fcr Android verf\u00fcgbar sein.Ich habe mich f\u00fcr die Programmiersprache Swift entschieden, da sie eine saubere und leistungsstarke Sprache ist, die spezi"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 45,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.2
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re aufmerksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat. Es ist eine Art Zeitmaschine, mit der man in die Vergangen heit reisen kann.Der Mann ist sehr auf",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 10 Gehminuten entfernt. Die n\u00e4chste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Die n\u00e4chste Tankstelle ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste Einkaufsm\u00f6glichkeit ist ca. 5 Fahrminuten entfernt. Die n\u00e4chste",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Pinguin, Delfin, Wal, Hai, B\u00e4r, Wolf, Fuchs, Hirsch, Reh, Elch, Antilope, Gnu, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme zu bewerten und zu kommentieren.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht m"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 46,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 1.0001158582274825
+    },
+    "wellbeing_factors": {
+        "state_score": 0.31,
+        "wellbeing": 0.31,
+        "sleep": 0.56,
+        "anxiety": 0.94,
+        "happiness": 0.1,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin in einem kleinen Caf\u00e9 sitze. Wir unterhalten uns angeregt \u00fcber Gott und die Welt, lachen viel und genie\u00dfen unseren Kaffee. Pl\u00f6tzlich geht die T\u00fcr auf und ein Mann betritt das Caf\u00e9. Er geht zielstrebig auf uns zu und sagt: \u201eEntschuldigung, darf ich mich zu Ihnen setzen?\u201c Meine Freundin und ich sch",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man entweder zu Fu\u00df oder mit dem Fahrrad in wenigen Minuten. Der n\u00e4chste B\u00e4cker ist etwa 10 Gehminuten entfernt.Die n\u00e4chste Bushaltestelle befindet sich direkt vor dem Haus und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist etwa 10 Fahrminuten entfernt.Der n\u00e4chste Flughafen ist der Flughafen Frankfurt",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Fuchs, Hund, Katze, Pferd, Kuh, Schaf, Ziege, Gans, Ente, Huhn, Truthahn, Esel, Kamel, Strau\u00df, Flamingo, Papagei, Affe, Gorilla, Orang-Utan, Schimpanse, Bonobo, L \u00f6we, Tiger, Gep",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er he i\u00dft Oskar und ist ein s\u00fc\u00dfer kleiner Hamster. Ich habe ihn aus dem Zoogesch\u00e4ft mitgebracht und er lebt jetzt in meinem Zimmer.Oskar ist sehr neugierig und erkundet gerne seine Umgebung. Er l\u00e4uft in seinem K\u00e4fig hin und her und schaut sich alles genau an. Manchmal klettert er auch auf das Rad und dreht ein paar"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 47,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 2.011608791364192
+    },
+    "wellbeing_factors": {
+        "state_score": 0.16,
+        "wellbeing": 0.16,
+        "sleep": 0.41,
+        "anxiety": 0.91,
+        "happiness": 0.03,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinem besten Freund und meiner besten Freundin in einem Zimmer war. Wir haben gelernt f\u00fcr eine Pr\u00fcfung und auf einmal hat mein bester Freund angefangen, mich zu k\u00fcssen. Er wollte es unbedingt tun und irgendwie ist es passiert. Ich fand es total unangenehm, aber ich wollte ihn nicht entt\u00e4uschen . Deshalb habe ich es zugelassen.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man in wenigen Minuten mit dem Fahrrad. Die Bushaltestelle ist in unmittelbarer N\u00e4he. In der Umgebung gibt es viele Wanderwege und Ausflugsm\u00f6glichkeiten.Das Haus ist teilweise unterkellert und hat einen Dachboden. Das Grundst\u00fcck ist mit einer Steinmauer eingefasst und bietet einen sch\u00f6nen Blick ins Tal.Die Anschl\u00fcsse f\u00fcr Strom, Wasser und",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, Gepard, L\u00f6we, Gorilla, Tiger, Wolf, Fuchs, Hirsch, B\u00fcffel, Koala, Panda, Orang-Utan, Eichh\u00f6rnchen, Fledermaus, Schildkr\u00f6te, Affe, Pferd, Kamel, Strau\u00df, Delfin, Robbe, K\u00e4nguru, Gans, Ente , Flamingo, Papagei",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein paar Tage Urlaub , weil mein Mann an einem Fortbildungsseminar teilgenommen hat. Ich bin nicht mitgefahren, sondern habe die Zeit genutzt, um ein bisschen aufzur\u00e4umen, W\u00e4sche zu waschen und ein bisschen zu entspannen.Als mein Mann zur\u00fcckgekommen ist, hatte er mir eine kleine \u00dcberraschung mitgebracht: Ein Buch, das er w\u00e4hrend seines Seminars entdeckt hat"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 48,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.7838317216505336
+    },
+    "wellbeing_factors": {
+        "state_score": 0.36,
+        "wellbeing": 0.36,
+        "sleep": 0.61,
+        "anxiety": 0.89,
+        "happiness": 0.13,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen war, die alle um einen gro\u00dfen runden Tisch sa\u00dfen. In der Mitte des Tisches stand eine gro\u00dfe Kerze, die helles Licht verstr\u00f6mte.Ich setzte mich zu den anderen an den Tisch und wir begannen zu essen. Es gab eine gro\u00dfe Auswahl an Speisen, aber ich konnte mich nicht entscheiden, was ich essen wollte. Also beschloss ich, alle Gerichte auszuprob",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die Bushaltestelle befindet sich in unmittelbarer N\u00e4he und bietet eine gute Anbindung an das \u00f6ffentliche Verkehrsnetz.AusstattungDie Wohnung verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Das Schlafzimmer ist mit einem gro\u00dfen Doppelbett ausgestattet. Das Badez",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Affe, Pferd, Hund, Katze, Maus, Eichh\u00f6rnchen, Fuchs, Dachs, B\u00e4r, Wolf, Giraffe, Zebra, Strau\u00df, Flamingo, Papagei, Schildkr\u00f6te, Schmetterling, Biene, Ameise, Marienk\u00e4fer, Regenw urm, Frosch, Kr\u00f6te",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es handelt sich dabei um die Entwicklung einer mobilen App, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme und -serien zu entdecken, zu verwalten und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Anforderungsanalyse: In dieser Phase arbeite ich eng mit dem Kunden zusammen, um die genauen Anforderungen an die App zu"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 49,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.9596435298615498,
+    "varied_param_variance": 0.3637888924291991,
+    "parameters": {
+        "sampling": 0.8246546451400111,
+        "context_span": 101,
+        "target_length": 125,
+        "temperature": 0.32813308563407495
+    },
+    "wellbeing_factors": {
+        "state_score": 0.46,
+        "wellbeing": 0.46,
+        "sleep": 0.71,
+        "anxiety": 0.79,
+        "happiness": 0.21,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle auf mich warten, dass ich etwas sage. Aber ich habe nichts gesagt, weil ich nicht wusste, was ich sagen sollte. Dann bin ich aufgewacht.Was bedeutet dieser Traum f\u00fcr dich?Dieser Traum k\u00f6nnte darauf hinweisen, dass du dich in einer Situation befindest, in der du dich unwohl f\u00fchlst, weil du",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 60qm und besteht aus einem Wohnzimmer, einer K\u00fcche, einem Schlafzimmer und einem Badez",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K\u00e4nguru, Strau\u00df, Flamingo, Papagei, Pinguin, Delfin, Wal, Eule, Fuchs, Wolf, B\u00e4r, Hirsch, Reh, Elch, Antilope, B\u00fcffel",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht"
+    }
+}
