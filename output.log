@@ -1,39 +1,0 @@
-nohup: ignoring input
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.05s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.44s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.53s/it]
-Processing cohort: group_a
-Generating data for subject 0 in group_a
-Generating data for subject 1 in group_a
-Generating data for subject 2 in group_a
-Generating data for subject 3 in group_a
-Generating data for subject 4 in group_a
-Generating data for subject 5 in group_a
-Generating data for subject 6 in group_a
-Generating data for subject 7 in group_a
-Processing cohort: group_b
-Generating data for subject 0 in group_b
-Generating data for subject 1 in group_b
-Generating data for subject 2 in group_b
-Generating data for subject 3 in group_b
-Generating data for subject 4 in group_b
-Generating data for subject 5 in group_b
-Generating data for subject 6 in group_b
-Generating data for subject 7 in group_b
-Processing cohort: group_c
-Generating data for subject 0 in group_c
-Generating data for subject 1 in group_c
-Generating data for subject 2 in group_c
-Generating data for subject 3 in group_c
-Generating data for subject 4 in group_c
-Generating data for subject 5 in group_c
-Generating data for subject 6 in group_c
-Generating data for subject 7 in group_c
-Processing cohort: group_d
-Generating data for subject 0 in group_d
-Generating data for subject 1 in group_d
-Generating data for subject 2 in group_d
-Generating data for subject 3 in group_d
-Generating data for subject 4 in group_d
-Generating data for subject 5 in group_d
-Generating data for subject 6 in group_d
-Generating data for subject 7 in group_d
-Total execution time: 215496.51 seconds

@@ -1,8 +1,7 @@
-from itertools import product
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import numpy as np
 import torch
-from scipy.linalg import sqrtm
+import json
+import os
 
 class PipelineSetup: 
     def __init__(self, config):
@@ -10,6 +9,21 @@ class PipelineSetup:
         self.model = AutoModelForCausalLM.from_pretrained(config.model_name, device_map=self.device, torch_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(config.model_name)
         self.excluded_tokens = self.setup_tokenizer(self.tokenizer)
+
+    @staticmethod
+    def load_progress(progress_file):
+        """Load the progress file if it exists, else return an empty dictionary."""
+        if os.path.exists(progress_file):
+            with open(progress_file, "r") as file:
+                return json.load(file)
+        return {}
+
+    @staticmethod
+    def save_progress(progress, progress_file):
+        """Save progress to the progress file."""
+        with open(progress_file, "w") as file:
+            json.dump(progress, file, indent=4)
+
 
     @staticmethod
     def set_device():

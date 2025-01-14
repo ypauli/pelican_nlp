@@ -1,5 +1,4 @@
 import torch
-from torch.nn.functional import cosine_similarity
 
 class TextGenerator:
     def __init__(self, setup, prompts, parameter, generation_arguments):

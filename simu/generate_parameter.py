@@ -84,6 +84,14 @@ class ParameterGenerator:
         }
         
     @staticmethod
+    def clean_parameters(parameters):
+        parameters["temperature"] = np.clip(parameters["temperature"], 0.2, 10)
+        parameters["sampling"] = np.clip(parameters["sampling"], 0.2, 0.98)
+        parameters["context_span"] = round(np.clip(parameters["context_span"], 5, 500))
+        parameters["target_length"] = round(np.clip(parameters["target_length"], 5, 1000))
+        return parameters
+        
+    @staticmethod
     def generate_parameters(parameters, setup):
         """
         Generate generation arguments for TextGenerator based on the parameters.
@@ -107,3 +115,4 @@ class ParameterGenerator:
             "do_sample": True,                        # Enable sampling
             "top_p": parameters["sampling"],  # Sampling method (e.g., "top_p")
         }
+        
