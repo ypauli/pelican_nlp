@@ -4,4 +4,10 @@
 - paragraph detection
 - dialog
 ...
-- create python module from project
+
+types of text it should be able to handle:
+- discourse
+- monologue
+- social media data?
+- articles?
+- books?
