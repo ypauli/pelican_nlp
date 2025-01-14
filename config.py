@@ -1,25 +1,15 @@
-from datetime import datetime
 import numpy as np
 import math
 
-    # parameters = {
-    #     "temperature": round(np.clip(sampled_values[0], 0.8, 5.0), 2),
-    #     "sampling": ("top_p", round(np.clip(sampled_values[1], 0.75, 2.0), 2)),
-    #     "retroactive_span": int(np.clip(sampled_values[2], 30, 300)),
-    #     "proactive_span": int(np.clip(sampled_values[3], 30, 300)),
-    #     "target_length": int(np.clip(sampled_values[4], 150, 450)), # roughly 100 - 350 words x 1.5 to account for tokens
-    #     "token_noise_rate": round(np.clip(sampled_values[5], 0.0, 0.2), 2),
-    #     "lie_rate": 0,
-
 class Config:
     def __init__(self):
-        self.subjects_per_cohort = 10
-        self.timepoints_per_subject = 5
+        self.subjects_per_cohort = 8
+        self.timepoints_per_subject = 50
         self.global_parameter_stats = {
-            "temperature": {"mean": 1.2, "variance": 0.0234},
-            "sampling": {"mean": 0.85, "variance": 0.0026}, # Using top-p sampling
-            "context_span": {"mean": 150, "variance": 2108.57},
-            "target_length": {"mean": 50, "variance": 26.03}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
+            "temperature": {"mean": 1.2, "variance": 0.4},
+            "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling
+            "context_span": {"mean": 80, "variance": 650.79},
+            "target_length": {"mean": 120, "variance": 937}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
         }
         self.cohorts = {
             "group_a": {
@@ -34,13 +24,13 @@ class Config:
             },
             "group_c": {
                 "varied_parameter": "context_span",
-                "mean_values": {"context_span": 150},
-                "variance_values": {"context_span": 3149.85},
+                "mean_values": {"context_span": 80},
+                "variance_values": {"context_span": 650.79},
             },
             "group_d": {
                 "varied_parameter": "target_length",
-                "mean_values": {"target_length": 300},
-                "variance_values": {"target_length": 8434.30},
+                "mean_values": {"target_length": 120},
+                "variance_values": {"target_length": 937},
             }
         }
         self.parameter_weights = {
@@ -74,11 +64,9 @@ class Config:
             )
         }
         self.prompts = {
-            "Seit letzter Woche hat sich in meinem Leben einiges verändert", # remove before generation
             "Seit letzter Woche habe ich",
-            "Mein letzter Traum war",
-            "Als letztes habe ich geträumt, dass" # remove before generation
-            "Von hier aus bis zum nächsten Supermarkt gelangt man am besten",
+            "Als letztes habe ich geträumt",
+            "Von hier aus bis zum nächsten Supermarkt gelangt man",
             "Ich werde so viele Tiere aufzählen wie möglich: Pelikan,"
             # Interactive Prompts
             # "Dieses Bild zeigt",

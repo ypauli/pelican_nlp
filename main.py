@@ -1,6 +1,7 @@
 import json
 import os
 import numpy as np
+import time
 
 from config import Config
 from simu import ParameterGenerator
@@ -11,6 +12,7 @@ if __name__ == "__main__":
     # Initialize configuration and pipeline setup
     config = Config()
     setup = PipelineSetup(config)
+    start_time = time.time()
 
     # Iterate through each cohort
     for cohort_name, cohort_config in config.cohorts.items():
@@ -37,9 +39,12 @@ if __name__ == "__main__":
 
                     # Combine constant and timepoint-specific parameters
                     parameters = {**constants, varied_param: varied_param_value}
-                    parameters["sampling"] = min(parameters["sampling"], 0.98)
-                    parameters["context_span"] = round(parameters["context_span"])
-                    parameters["target_length"] = round(parameters["target_length"])
+                    
+                    # Ensure the values are valid
+                    parameters["temperature"] = np.clip(parameters["temperature"], 0.2, 10)
+                    parameters["sampling"] = np.clip(parameters["sampling"], 0.2, 0.98)
+                    parameters["context_span"] = round(np.clip(parameters["context_span"], 5, 500))
+                    parameters["target_length"] = round(np.clip(parameters["target_length"], 5, 1000))
 
                     # Calculate well-being factors, including state score
                     wellbeing_factors = ParameterGenerator.state_sample(
@@ -69,4 +74,8 @@ if __name__ == "__main__":
                     
                     json.dump({"generated_text": generated_text}, file, indent=4)
                     file.write("\n")
-                    print(generated_text)
+                    
+    # Calculate and print the total execution time
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Total execution time: {elapsed_time:.2f} seconds")
