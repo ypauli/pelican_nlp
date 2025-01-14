@@ -1,0 +1,1550 @@
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 0,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 137
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin, dass du in einer Situation bist, in",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung: - 2 Schlafzimmer- 1 Wohnzimmer- 1 K\u00fcche- 1 Badezimmer- 1 Balkon- 1 Terrasse- 1 Garten- 1 Garage- 1 Stellplatz- 1 K",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Re",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken , meine Erfolge und Misserfolge, meine H\u00f6hen und Tiefen, meine Tr\u00e4ume und W\u00fcnsche, meine \u00c4ngste und Zweifel, meine St\u00e4rken und Schw \u00e4chen, meine Familie, meine Freunde, meine Arbeit, meine Hobbys, meine Reisen, me"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 1,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 129
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne. Die Wohnfl\u00e4che betr\u00e4gt ca. 100 qm und verteilt sich auf zwei Etagen.Im Erdgeschoss befinden sich das Wohnzimmer, die K\u00fcche und ein Badezimmer mit Dusche.Im Obergeschoss gibt es",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahr ungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber bisher habe ich es nie wirklich ernsthaft in Betracht gezogen. Aber jetzt f\u00fchle ich,"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 2,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 96
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kran",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsfilme zu bewerten und zu kommentieren.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Benutzeroberfl\u00e4"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 3,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 138
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin, dass du in einer Situation bist, in der",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung: - 2 Schlafzimmer- 1 Wohnzimmer- 1 K\u00fcche- 1 Badezimmer- 1 Balkon- 1 Terrasse- 1 Garten- 1 Garage- 1 Stellplatz- 1 Keller",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber irgendwie habe ich es nie wirklich ernsthaft in Betr acht gezogen. Bis ich eines Tages auf die Idee kam, dass es vielleicht eine gute M\u00f6glichkeit"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 4,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 110
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Diese",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche.Die K\u00fcche ist komplett ausgestattet",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Lama, Kamel, Elef",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkennt nisse, die ich in den letzten Jahren im Bereich der Pers\u00f6nlichkeitsentwicklung und des pers\u00f6nlichen Wachstums gesammelt habe.Das Buch wird den Titel \"Die Reise zur Selbstentdeckung\" tragen"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 5,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 105
+    },
+    "wellbeing_factors": {
+        "state_score": 0.46,
+        "wellbeing": 0.46,
+        "sleep": 0.71,
+        "anxiety": 0.79,
+        "happiness": 0.21,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.B",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ru higen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Das Haus verf\u00fcgt \u00fcber 3 Schlafzimmer, 2 Badezimmer und einen gro\u00dfen Wohnbereich mit offener K\u00fcche.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es erm \u00f6glicht, dass Benutzer sich gegenseitig Nachrichten schicken k\u00f6nnen, \u00e4hnlich wie bei Facebook oder anderen sozialen Netzwerken.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Web"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 6,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 69
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit me",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Zebra,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse."
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 7,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 121
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Die K\u00fcche ist komplett ausgestattet mit Herd, Backofen, K\u00fchlschrank",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht um meine Reisen und Abenteuer, die ich in den letzten Jahren erlebt habe.Ich habe schon immer gerne gesch rieben und es war schon lange mein Traum, ein Buch zu ver\u00f6ffentlichen. Jetzt ist der richtige Zeitpunkt gekommen, um diesen Traum Wirklichkeit werden zu lassen"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 8,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 126
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick auf die umliegende Landschaft.Das Grundst\u00fcck ist komplett eingez\u00e4unt und bietet somit ausreichend Sicherheit f\u00fcr Ihre vierbeinigen Freunde.Ausstattung:- Wohnfl\u00e4che: ca. 1",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber meine Erfahrungen mit dem Laufen. Wie ich angefangen habe zu laufen, was ich dabei gelernt habe und wie es mein Leben ver\u00e4ndert hat. Ich m\u00f6chte dieses Buch nicht nur f\u00fcr mich schreiben, sondern auch mit anderen teilen, die vielleicht \u00e4hnliche Erfahrungen gemacht"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 9,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 133
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin, dass du in einer Situation bist, in der du",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegenden Berge. Die Ferienwohnung befindet sich im Erdgeschoss des Hauses und verf\u00fcgt \u00fcber einen separaten Eingang.Die Wohnung ist modern und gem\u00fctlich eingerichtet und bietet alles, was man f\u00fcr einen sch\u00f6nen Urlaub ben\u00f6tigt.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber irg endwie habe ich es immer aufgeschoben. Vielleicht weil ich dachte, dass es nicht wichtig genug ist, vielle"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 10,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 56
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuc",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 11,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 134
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegenden Berge. Die Ferienwohnung befindet sich im Erdgeschoss des Hauses und verf\u00fcgt \u00fcber einen separaten Eingang.Die Wohnung ist modern und gem\u00fctlich eingerichtet und bietet alles, was man f\u00fcr einen sch\u00f6nen Urlaub ben\u00f6tigt.Im",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hir",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse , die ich in den letzten Jahren im Bereich der Pers\u00f6nlichkeitsentwicklung und des pers\u00f6nlichen Wachstums gesammelt habe.Das Buch wird den Titel \"Die Reise zur Selbstentdeckung\" tragen und in mehrere Teile gegliedert sein. Im ersten Teil werde ich \u00fcber meine eig"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 12,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 149
+    },
+    "wellbeing_factors": {
+        "state_score": 0.5,
+        "wellbeing": 0.5,
+        "sleep": 0.75,
+        "anxiety": 0.75,
+        "happiness": 0.25,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen muss, dass es",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen Wohn -/Essbereich mit offener K\u00fcche, zwei Schlafzimmern, einem Badezimmer und einer Terrasse.Im Wohn-/Essbereich befindet sich ein gem\u00fctliches Sofa und ein Esstisch mit vier St\u00fchlen. Die offene K\u00fcche ist",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tief en, meine Tr\u00e4ume und W\u00fcnsche, meine \u00c4ngste und Unsicherheiten.Es ist eine aufregende und herausfordernde Aufgabe, die mich vor viele neue Fragen stellt. Wie strukturiere ich meine Gedanken? Wie finde ich die richtigen"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 13,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 120
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6 nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Die K\u00fcche ist komplett ausgestattet mit Herd, Backofen, K\u00fchlsch",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse, die ich in den letzten Jahren im Bereich der Pers\u00f6nlichkeitsent wicklung und des pers\u00f6nlichen Wachstums gesammelt habe.Das Buch wird den Titel \"Die Reise zur Selbstentdeckung\" tragen. In diesem Buch werde ich verschiedene"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 14,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 111
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Diese Tra",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngeg end und bietet dennoch eine gute Anbindung an den \u00f6ffentlichen Nahverkehr.In unmittelbarer N\u00e4he befinden sich mehrere Schulen und Kinderg\u00e4rten.Ausstattung:- 3 Zimmer- K\u00fcche",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Lama, Kamel, Elefant",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, meine eigene Firma zu gr\u00fcnden und mich damit selbstst\u00e4ndig zu machen. Diese Entscheidung habe ich nicht leichtfertig getroffen, sondern nach reiflicher \u00dcberlegung und vielen Gespr\u00e4chen mit Freunden und meiner Familie getroffen. Ich bin mir bewusst, dass"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 15,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 71
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn anzuschne",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:-",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Zebra, Giraffe",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tief"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 16,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 50
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen sch\u00f6nen",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 17,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 180
+    },
+    "wellbeing_factors": {
+        "state_score": 0.54,
+        "wellbeing": 0.54,
+        "sleep": 0.79,
+        "anxiety": 0.71,
+        "happiness": 0.29,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen muss, dass es nicht das ist, was ich er wartet habe. Es k\u00f6nnte eine Entt\u00e4uschung oder eine \u00dcberraschung sein.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Se itenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegenden Berge. Die Ferienwohnung befindet sich im Erdgeschoss und hat einen separaten Eingang. Sie verf\u00fcgt \u00fcber einen gro\u00dfen Wohn- und Essbereich mit einer voll ausgestatteten K \u00fcche. Au\u00dferdem gibt es zwei Schlafzimmer, eines mit einem Doppelbett und eines mit zwei Einzelbetten. Das Badezimmer ist mit einer Dusche ausgestattet.Die Ferienwohnung ist ideal f\u00fcr Familien oder Paare, die einen ruh",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pelikan, Pinguin, Eule, Adler, Kranich",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, meine eigene Firma zu gr\u00fcnden und mich damit selbstst\u00e4ndig zu machen. Ich habe schon l\u00e4nger mit dem Gedanken gespielt, mich selbstst\u00e4ndig zu machen, aber ich war mir nicht sicher, ob ich den Schritt wirklich wagen sollte. Aber nachdem ich das Buch gelesen habe, war ich \u00fcberzeugt, dass es der richtige Weg f\u00fcr m ich ist. Ich habe meinen Job gek\u00fcndigt und mich selbstst\u00e4ndig gemacht. Es war die beste Entscheidung, die ich je getroffen habe.Ich kann das Buch jedem empfe"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 18,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 115
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Diese Traumdeutung",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngegend und biet et dennoch eine gute Anbindung an den \u00f6ffentlichen Nahverkehr.In unmittelbarer N\u00e4he befinden sich mehrere Schulen und Kinderg\u00e4rten.Ausstattung:- 3 Zimmer- Wohnfl\u00e4che ca. ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, ein Buch zu schreiben , genauer gesagt einen Ratgeber f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201e Fotografieren lernen leicht gemacht\u201c tragen und sich an Menschen richten, die sich f\u00fcr die Fotografie interessieren und gerne mehr dar\u00fcber lernen m\u00f6chten.In den letzten Tagen hab"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 19,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 104
+    },
+    "wellbeing_factors": {
+        "state_score": 0.46,
+        "wellbeing": 0.46,
+        "sleep": 0.71,
+        "anxiety": 0.79,
+        "happiness": 0.21,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Das Haus verf\u00fcgt \u00fcber 3 Schlafzimmer, 2 Badezimmer und einen gro\u00dfen Wohnbereich mit offener K\u00fcche",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Datenbank zu erstellen, die es erm\u00f6glicht, dass mehrere Benutzer gleichzeitig auf die gleichen Daten zugreifen und diese bearbeiten k\u00f6nnen.Die Daten werden in einer MySQL-Datenbank gespeichert. Die Benutzer authentifizieren sich mit ihren Benutzernamen"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 20,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 134
+    },
+    "wellbeing_factors": {
+        "state_score": 0.49,
+        "wellbeing": 0.49,
+        "sleep": 0.74,
+        "anxiety": 0.76,
+        "happiness": 0.24,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegenden Berge. Die Ferienwohnung befindet sich im Erdgeschoss des Hauses und verf\u00fcgt \u00fcber einen separaten Eingang.Die Wohnung ist modern und gem\u00fctlich eingerichtet und bietet alles, was man f\u00fcr einen sch\u00f6nen Urlaub ben\u00f6tigt.Im",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hir",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse , die ich in den letzten Jahren im Bereich der Pers\u00f6nlichkeitsentwicklung und des pers\u00f6nlichen Wachstums gesammelt habe.Das Buch wird den Titel \"Die Reise zur Selbstentdeckung\" tragen und in mehrere Teile gegliedert sein. Im ersten Teil werde ich \u00fcber meine eig"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 21,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 173
+    },
+    "wellbeing_factors": {
+        "state_score": 0.53,
+        "wellbeing": 0.53,
+        "sleep": 0.78,
+        "anxiety": 0.72,
+        "happiness": 0.28,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen muss, dass es nicht das ist, was ich er wartet habe. Es k\u00f6nnte auch ein Hinweis darauf sein",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten.Das Haus liegt in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick auf die umliegenden Berge. Die Wohnfl\u00e4che betr\u00e4gt ca. 100 m\u00b2 und verteilt sich auf zwei Etagen. Im Erdgesch oss befindet sich ein gro\u00dfz\u00fcgiger Wohn- und Essbereich mit offener K\u00fcche, ein Schlafzimmer und ein Badezimmer. \u00dcber eine Holztreppe gelangt man in das Obergeschoss, wo sich zwei weitere Schlafzimmer und ein weiteres Badezimmer befinden.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe , Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hir sch, Elefant, Nashorn, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Aff",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben , aber ich hatte immer das Gef\u00fchl, dass ich nicht genug zu erz\u00e4hlen habe. Dass mein Leben nicht au\u00dfergew\u00f6hnlich genug ist, um es wert zu sein, aufgeschrieben zu werden. Aber nachdem ich dieses Buch gelesen habe, f\u00fchle ich mich anders. Vielleicht"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 22,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 86
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht e",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohnbereich",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pingu",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle. Das Schreiben eines Buches ist"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 23,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 145
+    },
+    "wellbeing_factors": {
+        "state_score": 0.5,
+        "wellbeing": 0.5,
+        "sleep": 0.75,
+        "anxiety": 0.75,
+        "happiness": 0.25,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen m",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Das Haus verf\u00fcgt \u00fcber 3 Schlafzimmer, 2 Badezimmer und einen gro\u00dfen Wohn-/Essbereich mit offener K\u00fcche.Im Erdgeschoss befindet sich ein Schlafzimmer mit einem Doppelbett (180x200cm) und ein Badezimmer",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse .Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber irgendwie habe ich es nie wirklich ernsthaft in Betracht gezogen. Aber jetzt ist es anders. J etzt habe ich das Gef\u00fchl, dass es an der Zeit ist, meine Geschichte zu teil"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 24,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 67
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, B\u00fcffel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 25,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 150
+    },
+    "wellbeing_factors": {
+        "state_score": 0.51,
+        "wellbeing": 0.51,
+        "sleep": 0.76,
+        "anxiety": 0.74,
+        "happiness": 0.26,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen muss, dass es nicht",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen Wohnbere ich mit offener K\u00fcche, zwei Schlafzimmern, einem Badezimmer und einer Terrasse.Im Wohnbereich befindet sich ein gem\u00fctliches Sofa und ein Esstisch mit vier St\u00fchlen. Die offene K\u00fcche ist komplett ausgestattet mit einem",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Z",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tiefen , meine Tr\u00e4ume und W\u00fcnsche, meine \u00c4ngste und Unsicherheiten.Es ist eine aufregende und herausfordernde Aufgabe, die mich vor viele neue Fragen stellt. Wie strukturiere ich me ine Gedanken? Wie finde ich die richtigen W"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 26,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 129
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne. Die Wohnfl\u00e4che betr\u00e4gt ca. 100 qm und verteilt sich auf zwei Etagen.Im Erdgeschoss befinden sich das Wohnzimmer, die K\u00fcche und ein Badezimmer mit Dusche.Im Obergeschoss gibt es",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahr ungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber bisher habe ich es nie wirklich ernsthaft in Betracht gezogen. Aber jetzt f\u00fchle ich,"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 27,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 143
+    },
+    "wellbeing_factors": {
+        "state_score": 0.5,
+        "wellbeing": 0.5,
+        "sleep": 0.75,
+        "anxiety": 0.75,
+        "happiness": 0.25,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwarte oder hoffe, aber",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen Wohn- und Essbereich mit offener K\u00fcche, zwei Schlafzimmern, einem Badezimmer und einer Terrasse.Im Wohnbereich befindet sich ein gem\u00fctliches Sofa und ein Esstisch mit vier St\u00fchlen. Die offene K\u00fcche",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, G",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, me ine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber bisher habe ich es nie wirklich ernsthaft in Angriff genommen. Jetzt ist es an der Zeit, diesen Traum Wirklichkeit werden zu lassen."
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 28,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 127
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne .Die Wohnfl\u00e4che betr\u00e4gt ca. 100 qm und verteilt sich auf zwei Etagen.Im Erdgeschoss befinden sich das Wohnzimmer, die K\u00fcche und ein Badezimmer mit Dusche.Im Obergeschoss",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, D",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht um meine Erfahrungen mit dem Laufen und wie es mein Leben ver\u00e4ndert hat.Ich habe schon oft dar\u00fcber nachgedacht, meine Geschichte aufzuschreiben , aber ich habe es nie wirklich ernsthaft in Betracht gezogen. Aber jetzt f\u00fchle ich, dass es an der Zeit ist. Ich"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 29,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 114
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Diese Traumdeut",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Die K\u00fcche ist komplett ausgestattet mit Herd, Backof",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, T",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, ein Buch zu schreib en, genauer gesagt einen Ratgeber f\u00fcr angehende Fotografen.Dieses Buch soll nicht nur Anf\u00e4nger ansprechen, sondern auch fortgeschrittene Fotografen, die ihr Wissen erweitern m\u00f6chten. Es wird verschiedene Themen rund um die Fotografie behandeln, wie zum"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 30,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 146
+    },
+    "wellbeing_factors": {
+        "state_score": 0.5,
+        "wellbeing": 0.5,
+        "sleep": 0.75,
+        "anxiety": 0.75,
+        "happiness": 0.25,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich etwas erwartet habe, aber feststellen muss",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro \u00dfen Wohn- und Essbereich mit offener K\u00fcche, zwei Schlafzimmern, einem Badezimmer und einer Terrasse.Im Wohnbereich befindet sich ein gem\u00fctliches Sofa und ein Esstisch mit vier St\u00fchlen. Die K\u00fcche ist komplett aus",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Ant",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse. Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber irgendwie habe ich es nie wirklich ernsthaft in Angriff genommen. Diesmal ist es anders. Diesmal habe ich das Gef\u00fchl, dass es an der Zeit ist, meine Gedanken und Er"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 31,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 91
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohnbereich mit offener K\u00fc",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Papagei, Affe,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon immer gerne geschrieben und fand es"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 32,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 129
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist aus Plastik. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin,",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne. Die Wohnfl\u00e4che betr\u00e4gt ca. 100 qm und verteilt sich auf zwei Etagen.Im Erdgeschoss befinden sich das Wohnzimmer, die K\u00fcche und ein Badezimmer mit Dusche.Im Obergeschoss gibt es",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahr ungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon oft dar\u00fcber nachgedacht, ein Buch zu schreiben, aber bisher habe ich es nie wirklich ernsthaft in Betracht gezogen. Aber jetzt f\u00fchle ich,"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 33,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 71
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn anzuschne",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:-",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Zebra, Giraffe",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tief"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 34,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 80
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit meinen Freunden zu teilen. Doch pl\u00f6t",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen W",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich hab"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 35,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 91
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es nicht echt ist. Es ist",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohnbereich mit offener K\u00fc",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Papagei, Affe,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Ich habe schon immer gerne geschrieben und fand es"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 36,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 108
+    },
+    "wellbeing_factors": {
+        "state_score": 0.46,
+        "wellbeing": 0.46,
+        "sleep": 0.71,
+        "anxiety": 0.79,
+        "happiness": 0.21,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Se itenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Die K\u00fcche ist komplett ausgestattet",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Lama, Kamel,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden , ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahr ungen, meine Erfolge und Misserfolge, meine Gedanken und Gef\u00fchle.Es ist eine aufregende und herausfordernde Aufgabe, die viel Zeit und M\u00fche erfordert. Aber ich freue"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 37,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 123
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet darauf hin, dass du",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohn- und Essbereich mit offener K\u00fcche. Die K\u00fcche ist komplett ausgestattet mit Herd, Backofen, K\u00fchlschrank, Gef",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, F",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht um meine Reisen und Abenteuer, die ich in den letzten Jahren erlebt habe.Ich habe schon immer gerne geschrieben und fand es immer faszinierend, meine Erfahrungen mit anderen zu teilen. Dieses Buch soll nicht nur eine Sammlung von Geschichten sein, sondern auch ein Ratgeber f\u00fcr"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 38,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 68
+    },
+    "wellbeing_factors": {
+        "state_score": 0.42,
+        "wellbeing": 0.42,
+        "sleep": 0.67,
+        "anxiety": 0.83,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Zebra",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedanken und meine Erkenntnisse."
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 39,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 77
+    },
+    "wellbeing_factors": {
+        "state_score": 0.43,
+        "wellbeing": 0.43,
+        "sleep": 0.68,
+        "anxiety": 0.82,
+        "happiness": 0.18,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit meinen Freunden zu teilen. Aber",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.Ausstattung:Das Haus verf\u00fcgt \u00fcber",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, B\u00fcffel, Giraffe, Zebra, Antilope",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine Gedanken und meine Gef\u00fchle."
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 40,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 115
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Diese Traumdeutung",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngegend und biet et dennoch eine gute Anbindung an den \u00f6ffentlichen Nahverkehr.In unmittelbarer N\u00e4he befinden sich mehrere Schulen und Kinderg\u00e4rten.Ausstattung:- 3 Zimmer- Wohnfl\u00e4che ca. ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, ein Buch zu schreiben , genauer gesagt einen Ratgeber f\u00fcr angehende Fotografen.Das Buch wird den Titel \u201e Fotografieren lernen leicht gemacht\u201c tragen und sich an Menschen richten, die sich f\u00fcr die Fotografie interessieren und gerne mehr dar\u00fcber lernen m\u00f6chten.In den letzten Tagen hab"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 41,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 92
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich sp",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Ad",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues H obby. Ich hab e angefangen zu n\u00e4hen. Ich habe schon immer gerne gebastelt und kreativ gearbeitet, aber das N\u00e4hen ist etwas ganz Besonderes f\u00fcr mich. Es ist so erf\u00fcllend, etwas mit den eigenen H\u00e4nden zu erschaffen, das am Ende wirklich funktioniert"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 42,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 126
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in der ich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick auf die umliegende Landschaft.Das Grundst\u00fcck ist komplett eingez\u00e4unt und bietet somit ausreichend Sicherheit f\u00fcr Ihre vierbeinigen Freunde.Ausstattung:- Wohnfl\u00e4che: ca. 1",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber meine Erfahrungen mit dem Laufen. Wie ich angefangen habe zu laufen, was ich dabei gelernt habe und wie es mein Leben ver\u00e4ndert hat. Ich m\u00f6chte dieses Buch nicht nur f\u00fcr mich schreiben, sondern auch mit anderen teilen, die vielleicht \u00e4hnliche Erfahrungen gemacht"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 43,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 124
+    },
+    "wellbeing_factors": {
+        "state_score": 0.48,
+        "wellbeing": 0.48,
+        "sleep": 0.73,
+        "anxiety": 0.77,
+        "happiness": 0.23,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.Bedeutung: Dieser Traum deutet auf eine Situation hin, in",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf die umliegende Landschaft.Das Grundst\u00fcck ist komplett eingez\u00e4unt und bietet somit ausreichend Sicherheit f\u00fcr Ihre vierbeinigen Freunde.Ausstattung:Das Haus verf\u00fcgt \u00fcber zwei Etagen",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei, Affe, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuch",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Reisen und Abenteuer, die ich in den letzten Jahren erlebt habe.Ich habe schon immer gerne geschrieben und fand es immer faszinierend, meine Erfahrungen und Erlebnisse mit anderen zu teilen. Dieses Buch soll nicht nur eine Sammlung von Geschichten sein, sondern auch"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 44,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 92
+    },
+    "wellbeing_factors": {
+        "state_score": 0.45,
+        "wellbeing": 0.45,
+        "sleep": 0.7,
+        "anxiety": 0.8,
+        "happiness": 0.2,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich sp",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 m entfernt.Die Wohnung befindet sich im Erdgeschoss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. ",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Ad",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues H obby. Ich hab e angefangen zu n\u00e4hen. Ich habe schon immer gerne gebastelt und kreativ gearbeitet, aber das N\u00e4hen ist etwas ganz Besonderes f\u00fcr mich. Es ist so erf\u00fcllend, etwas mit den eigenen H\u00e4nden zu erschaffen, das am Ende wirklich funktioniert"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 45,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 82
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit meinen Freunden zu teilen. Doch pl\u00f6tzlich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen Wohnbere",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flaming",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tiefen , meine Tr\u00e4ume und W\u00fcns"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 46,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 102
+    },
+    "wellbeing_factors": {
+        "state_score": 0.46,
+        "wellbeing": 0.46,
+        "sleep": 0.71,
+        "anxiety": 0.79,
+        "happiness": 0.21,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Ich gehe zu dem Tisch und nehme mir ein St\u00fcck vom Kuchen. Als ich es in den Mund nehmen will, merke ich, dass es aus Plastik ist. Ich spucke es aus und gehe weg.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus ist in einem sehr gepflegten Zustand und verf\u00fcgt \u00fcber eine moderne Einbauk\u00fcche, einen gro\u00dfen Wohn- und Essbereich mit Zugang zur Terrasse und zum Garten.Im Obergeschoss befinden sich zwei Schlafzimmer und ein Badezimmer.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flamingo, Pinguin, Eule, Adler, Kranich, Papagei,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Entwicklung einer mobilen Anwendung, die es Benutz ern erm\u00f6glicht, ihre Lieblings-Podcasts zu entdecken, zu abonnieren und anzuh\u00f6ren.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Anforderungsanalyse:"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 47,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 56
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuc",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick auf",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch,",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 48,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 82
+    },
+    "wellbeing_factors": {
+        "state_score": 0.44,
+        "wellbeing": 0.44,
+        "sleep": 0.69,
+        "anxiety": 0.81,
+        "happiness": 0.19,
+        "medication": 1,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen und ich freue mich darauf, ihn mit meinen Freunden zu teilen. Doch pl\u00f6tzlich",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfen Wohnbere",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Flaming",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Erfolge und Misserfolge, meine H\u00f6hen und Tiefen , meine Tr\u00e4ume und W\u00fcns"
+    }
+}
+{
+    "cohort": "group_d",
+    "subject": 7,
+    "timepoint": 49,
+    "varied_param": "target_length",
+    "varied_param_mean": 104.4017064846518,
+    "varied_param_variance": 996.3368894442846,
+    "parameters": {
+        "temperature": 0.2,
+        "sampling": 0.691522234592042,
+        "context_span": 72,
+        "target_length": 58
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle haben sich um einen Tisch versammelt, auf dem ein gro\u00dfer Kuchen liegt. Es ist mein Geburtstagskuchen.",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Wohngegend und bietet einen wundersch\u00f6nen Blick auf",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Ein Buch \u00fcber mein Leben, meine Erfahrungen, meine Gedank"
+    }
+}
