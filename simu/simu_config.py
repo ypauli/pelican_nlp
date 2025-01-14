@@ -1,15 +1,16 @@
 import numpy as np
 import math
 
-class Config:
+class SimuConfig:
     def __init__(self):
-        self.subjects_per_cohort = 8
+        self.directory = "simu_output"
+        self.subjects_per_cohort = 10
         self.timepoints_per_subject = 50
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.4},
             "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling
             "context_span": {"mean": 80, "variance": 650.79},
-            "target_length": {"mean": 120, "variance": 937}, # use 300, 1275.56 in actual generation, "mean": 50, "variance": 26.03 for test
+            "target_length": {"mean": 120, "variance": 937}, # {"mean": 120, "variance": 937} actual generation, {"mean": 30, "variance": 0} for test
         }
         self.cohorts = {
             "group_a": {
