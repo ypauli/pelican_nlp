@@ -33,7 +33,6 @@ window_sizes: [2]
 metric_function: cosine_similarity
 aggregation_functions: mean_of_means
 
-
 cleaning_options:
   general_cleaning: true # General cleaning options used for most text preprocessing, default: True.
   remove_punctuation: true

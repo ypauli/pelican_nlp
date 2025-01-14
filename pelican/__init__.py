@@ -1,0 +1,1 @@
+from .main import Pelican  # Now importing Pelican

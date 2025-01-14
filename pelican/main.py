@@ -7,9 +7,9 @@ import torch.cuda
 import sys
 import shutil
 import yaml
-from document import Document
-from preprocessing import Subject, Corpus
-from setup_functions import ignore_files
+from pelican.document import Document
+from pelican.preprocessing import Subject, Corpus
+from pelican.setup_functions import ignore_files
 
 class Pelican:
     def __init__(self, config_path='config.yml', dev_mode=True):
