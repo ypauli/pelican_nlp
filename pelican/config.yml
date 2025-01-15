@@ -54,4 +54,4 @@ tokenization_options_embeddings:
   method: "whitespace"
 
 normalization_options:
-  method: "lemmatization" # Options: lemmatization or stemming
+  method: "lemmatization" #Options: lemmatization or stemming
