@@ -1,5 +1,5 @@
 import re
-from preprocessing import TextImporter
+from pelican.preprocessing import TextImporter
 
 class Document:
     def __init__(self, file_path, name, corpus_name, task=None, num_speakers=None, has_sections=False, section_identifier=None, number_of_sections=None):
