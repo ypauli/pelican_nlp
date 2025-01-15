@@ -1,0 +1,32 @@
+{
+    "subjects": {
+        "0": {
+            "cohorts": {
+                "group_a": {
+                    "0": true,
+                    "1": true
+                },
+                "group_b": {
+                    "0": true,
+                    "1": true
+                },
+                "group_c": {
+                    "0": true,
+                    "1": true
+                },
+                "group_d": {
+                    "0": true,
+                    "1": true
+                }
+            }
+        },
+        "1": {
+            "cohorts": {
+                "group_a": {
+                    "0": true,
+                    "1": true
+                }
+            }
+        }
+    }
+}

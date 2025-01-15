@@ -1,0 +1,12 @@
+Prompt_0:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe
+
+Prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 10 Minuten.
+
+Prompt_2:
+Seit letzter Woche habe ich einen neuen Kollegen. Er ist klein und flauschig und hat vier Beine
+
+Prompt_3:
+Als letztes habe ich geträumt , dass ich mit einer Freundin von mir, die ich schon lange nicht mehr
+

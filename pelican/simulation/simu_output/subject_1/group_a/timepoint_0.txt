@@ -1,0 +1,12 @@
+Prompt_0:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe
+
+Prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.
+
+Prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Einen Mitbewohner, der mein Leben auf den Kopf
+
+Prompt_3:
+Als letztes habe ich geträumt , dass ich mit meinem Bruder und meiner Mutter in einem kleinen
+

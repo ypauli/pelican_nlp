@@ -3,14 +3,14 @@ import math
 
 class SimuConfig:
     def __init__(self):
-        self.directory = "simu_output"
-        self.subjects_per_cohort = 20
-        self.timepoints_per_subject = 52
+        self.directory = "/home/ubuntu/PELICAN/pelican/simulation/simu_output"
+        self.subjects = 2
+        self.timepoints = 2
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.4},
             "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling
             "context_span": {"mean": 80, "variance": 650.79},
-            "target_length": {"mean": 120, "variance": 937}, # {"mean": 120, "variance": 937} actual generation, {"mean": 30, "variance": 0} for test
+            "target_length": {"mean": 30, "variance": 0}, # {"mean": 120, "variance": 937} actual generation, {"mean": 30, "variance": 0} for test
         }
         self.cohorts = {
             "group_a": {

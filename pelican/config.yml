@@ -2,22 +2,24 @@
 # =======================================
 input_file: "text" #or 'audio'
 
-PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/KetamineStudy/KetamineStudy_ProjectFolder/" # Set default to home directory, e.g., '/home/usr/...'
+PATH_TO_PROJECT_FOLDER: "/home/ubuntu/PELICAN/pelican/simulation/simu_output" # Set default to home directory, e.g., '/home/usr/...'
 language: "german" # Possibly add options for German and English
 numberOfSubjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
-multipleSessions: false # Set to True if multiple sessions per subject
+multipleSessions: true # Set to True if multiple sessions per subject
 
 recompute_everything: true #If set to 'false' pelican will try to reuse previously computed results stored on your drive
 
 has_multiple_sections: true #evaluated independently
-section_identification: "Bild:" #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
-number_of_sections: 7 #if 'null' number of sections automatically detected, however, specifying number recommended if known.
+section_identification: "generated_text" #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
+number_of_sections: null #if 'null' number of sections automatically detected, however, specifying number recommended if known.
 
 task_names:
   - "sampleTask" # Give names of tasks used for creation of the text file (e.g., ['fluency', 'interview'])
 corpus_names:
-  - "Ketamin"
-  - "Placebo" # Names of individual categories to group together
+  - "Als letztes habe ich getr\u00e4umt"
+  - "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man"
+  - "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,"
+  - "Seit letzter Woche habe ich": # Names of individual categories to group together
 
 extract_logits: true
 extract_embeddings: null

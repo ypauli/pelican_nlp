@@ -1,0 +1,12 @@
+Prompt_0:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Pferd, Katze, Hund, Fuchs, Dachs, Wolf, Bär, Giraffe, Zebra, Strauß, Krokodil, Schildkröte, Affe, Elefant, Löwe, Tiger, P
+
+Prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten . Die nächste Bushaltestelle ist etwa 5 Gehminuten entfernt. Die nächste S -Bahn-Station ist etwa 10 Gehminuten entfernt. Der nächste Flughafen ist der
+
+Prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um die Entwicklung einer mobilen Anwendung, die es den Benutzern ermöglicht, ihre täglichen Aktivitäten zu verfolgen und zu analysieren . Die App bietet eine Vielzahl von Funktionen wie Schrittzähler, Kalorienverbrauch, Schl
+
+Prompt_3:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle um mich herum unterhalten sich angeregt, lachen und sind fröhlich. Ich stehe in der Mitte des Raumes und fühle mich völlig fehl am Platz. Mein Herz rast, meine Hände zittern und ich kann kaum einen klaren Gedank
+

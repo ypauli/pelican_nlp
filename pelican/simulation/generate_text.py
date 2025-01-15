@@ -11,7 +11,8 @@ class TextGenerator:
         for prompt in prompts:
             self.out[prompt] = self.generate_text(setup, device, prompt, parameter, generation_arguments)
     
-    def generate_text(self, setup, device, text, parameter, arguments):
+    def generate_text(self, setup, device, prompt, parameter, arguments):
+        text = prompt
         text_ids = setup.tokenizer(text, return_tensors="pt").input_ids.to(device)
 
         while text_ids.shape[1] < parameter["target_length"]:

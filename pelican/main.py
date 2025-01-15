@@ -54,6 +54,8 @@ class Pelican:
             documents = []
             # Load all files belonging to the same corpus
             for subject in subjects:
+                print(subject.subjectID)
+                print(current_corpus)
                 filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)
                 if os.path.isdir(filepath):
                     file_name = os.listdir(filepath)[0]

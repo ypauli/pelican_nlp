@@ -2,31 +2,21 @@ import numpy as np
 
 class ParameterGenerator:
     @staticmethod
-    def subject_sample(config, cohort_name):
-        """
-        Set up subject-specific parameters, including constant values
-        and the mean/variance for the cohort's varied parameter.
+    def subject_sample(config):
         
-        Args:
-            config (Config): The configuration object.
-            cohort_name (str): The name of the cohort.
-        
-        Returns:
-            dict: Subject-specific constants and cohort-specific varying parameter details.
-        """
-        # Cohort-specific configuration
-        cohort = config.cohorts[cohort_name]
-
-        # Sample constants for non-varying parameters
+        # Sample constants for all parameters
         constants = {
             param: np.random.normal(
                 loc=config.global_parameter_stats[param]["mean"],
                 scale=np.sqrt(config.global_parameter_stats[param]["variance"])
             )
             for param in config.global_parameter_stats
-            if param != cohort["varied_parameter"]  # Exclude the varied parameter
         }
-
+        
+        return constants
+        
+    def cohort_sample(cohort, constants):
+        
         # Sample mean and variance for the cohort's varied parameter
         varied_param = cohort["varied_parameter"]
         varied_param_mean = np.random.normal(
@@ -92,7 +82,7 @@ class ParameterGenerator:
         return parameters
         
     @staticmethod
-    def generate_parameters(parameters, setup):
+    def generate_arguments(parameters, setup):
         """
         Generate generation arguments for TextGenerator based on the parameters.
 

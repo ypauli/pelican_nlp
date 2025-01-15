@@ -1,5 +1,5 @@
-import json
 import os
+import json
 import time
 import simu_config
 import generate_parameter
@@ -11,80 +11,113 @@ if __name__ == "__main__":
     config = simu_config.SimuConfig()
     setup = setup_pipeline.PipelineSetup(config)
     start_time = time.time()
+    
+    # Initialize the output directory
+    if not os.path.exists(config.directory):
+        os.makedirs(config.directory, exist_ok=True)
 
-    # Iterate through each cohort
-    for cohort_name, cohort_config in config.cohorts.items():
-        print(f"Processing cohort: {cohort_name}")
-        cohort_dir = os.path.join(config.directory, cohort_name)
-        os.makedirs(cohort_dir, exist_ok=True)
-        print(cohort_dir)
-        progress_file = os.path.join(cohort_dir, "progress.json")
-        progress = setup.load_progress(progress_file)
+    # Initialize the progress file
+    progress_file = os.path.join(config.directory, "progress.json")
 
-        # Generate data for each subject in the cohort
-        for subject in range(config.subjects_per_cohort):
-            if progress.get(str(subject), {}).get("completed", False):
-                print(f"Skipping subject {subject} in {cohort_name}, already completed.")
-                continue
+    # Check if progress file exists
+    if os.path.exists(progress_file):
+        with open(progress_file, "r") as file:
+            progress = json.load(file)
+    else:
+        # Initialize an empty progress structure and create the file
+        progress = {"subjects": {}}
+        with open(progress_file, "w") as file:
+            json.dump(progress, file, indent=4)
 
-            print(f"Generating data for subject {subject} in {cohort_name}")
-            progress[str(subject)] = progress.get(str(subject), {"timepoints": {}, "completed": False})
-            subject_file = os.path.join(cohort_dir, f"subject_{subject}.json")
+    # Iterate through each subject
+    for subject in range(config.subjects):
+        # Initialize subject progress if it doesn't exist
+        if str(subject) not in progress["subjects"]:
+            progress["subjects"][str(subject)] = {"cohorts": {}}
+            
+        # Initialize subject constants
+        constants = generate_parameter.ParameterGenerator.subject_sample(config)
+        
+        # Process each cohort
+        for cohort_name, cohort_config in config.cohorts.items():
+            print(f"Processing subject: {subject}, cohort: {cohort_name}")
 
-            # Process each timepoint for the subject
-            for timepoint in range(config.timepoints_per_subject):
-                if progress[str(subject)]["timepoints"].get(str(timepoint), False):
-                    print(f"Skipping timepoint {timepoint} for subject {subject}, already completed.")
+            # Create subject-specific directory for cohort
+            cohort_dir = os.path.join(config.directory, f"subject_{subject}", cohort_name)
+            os.makedirs(cohort_dir, exist_ok=True)
+
+            # Create the metadata.json file for this subject and cohort
+            metadata_json_file = os.path.join(cohort_dir, "metadata.json")
+
+            # Initialize metadata information
+            cohort_data = generate_parameter.ParameterGenerator.cohort_sample(cohort_config, constants)
+
+            # Create or overwrite the metadata file
+            metadata = {
+                "subject": subject,
+                "cohort": cohort_name,
+                "constants": constants,
+                "varied_param": cohort_data["varied_parameter"],
+                "mean": cohort_data["varied_param_mean"],
+                "variance": cohort_data["varied_param_variance"],
+                "timepoints": []
+            }
+
+            with open(metadata_json_file, "w") as meta_file:
+                json.dump(metadata, meta_file, indent=4)
+
+            # Process each timepoint for the subject in this cohort
+            for timepoint in range(config.timepoints):
+                # Check if the timepoint has already been processed
+                if progress["subjects"][str(subject)]["cohorts"].get(cohort_name, {}).get(str(timepoint), False):
+                    print(f"Skipping timepoint {timepoint} for subject {subject} in cohort {cohort_name}, already completed.")
                     continue
 
-                # Unpack subject-specific details
-                constants, varied_param, varied_param_mean, varied_param_variance = generate_parameter.ParameterGenerator.subject_sample(config, cohort_name).values()
+                print(f"Generating data for subject {subject}, cohort {cohort_name}, timepoint {timepoint}")
 
                 # Generate timepoint-specific value for the varied parameter
                 varied_param_value = generate_parameter.ParameterGenerator.timepoint_sample(
-                    varied_param_mean, varied_param_variance
+                    cohort_data["varied_param_mean"], cohort_data["varied_param_variance"]
                 )
-
-                # Combine constant and timepoint-specific parameters
-                parameters = {**constants, varied_param: varied_param_value}
+                parameters = {**constants, cohort_data["varied_parameter"]: varied_param_value}
                 parameters = generate_parameter.ParameterGenerator.clean_parameters(parameters)
 
-                # Calculate well-being factors, including state score
-                wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(
-                    parameters, config.parameter_rules
-                )
+                # Generate wellbeing factors for the timepoint
+                wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(parameters, config.parameter_rules)
 
-                # Create a record for the timepoint
-                record = {
-                    "cohort": cohort_name,
-                    "subject": subject,
-                    "timepoint": timepoint,
-                    "varied_param": varied_param,
-                    "varied_param_mean": varied_param_mean,
-                    "varied_param_variance": varied_param_variance,
-                    "parameters": parameters,
-                    "wellbeing_factors": wellbeing_factors,
-                }
-
-                # Generate generation arguments for TextGenerator
-                generation_arguments = generate_parameter.ParameterGenerator.generate_parameters(parameters, setup)
+                # Create the text for this timepoint
+                generation_arguments = generate_parameter.ParameterGenerator.generate_arguments(parameters, setup)
                 text_generator = generate_text.TextGenerator(setup, config.prompts, parameters, generation_arguments)
                 generated_text = text_generator.out
 
-                with open(subject_file, "a") as file:
-                    json.dump(record, file, indent=4)
-                    file.write("\n")
-                    
-                    json.dump({"generated_text": generated_text}, file, indent=4)
-                    file.write("\n")
+                # Create a new file for each timepoint
+                timepoint_txt_file = os.path.join(cohort_dir, f"timepoint_{timepoint}.txt")
+
+                with open(timepoint_txt_file, "w") as timepoint_file:
+                    for idx, prompt in enumerate(generated_text):
+                        timepoint_file.write(f"Prompt_{idx}:\n")
+                        timepoint_file.write(f"{generated_text[prompt]}\n\n")
+
+                # Append the timepoint data to the metadata JSON
+                metadata["timepoints"].append({
+                    "timepoint": timepoint,
+                    "varied_param_value": varied_param_value,
+                    "wellbeing_factors": wellbeing_factors
+                })
 
                 # Update progress for this timepoint
-                progress[str(subject)]["timepoints"][str(timepoint)] = True
-                setup.save_progress(progress, progress_file)
+                if cohort_name not in progress["subjects"][str(subject)]["cohorts"]:
+                    progress["subjects"][str(subject)]["cohorts"][cohort_name] = {}
 
-            # Mark subject as completed
-            progress[str(subject)]["completed"] = True
-            setup.save_progress(progress, progress_file)
+                progress["subjects"][str(subject)]["cohorts"][cohort_name][str(timepoint)] = True
+
+            # Save progress after processing the cohort for the subject
+            with open(progress_file, "w") as file:
+                json.dump(progress, file, indent=4)
+
+            # Write the updated metadata JSON file with timepoints data
+            with open(metadata_json_file, "w") as meta_file:
+                json.dump(metadata, meta_file, indent=4)
 
     # Calculate and print the total execution time
     end_time = time.time()
