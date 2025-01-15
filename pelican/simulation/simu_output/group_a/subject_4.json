@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, sich zu registrier en, Profile anzulegen, Fotos hochzuladen, Nachrichten auszutauschen und vieles mehr.Das Projekt ist in PHP und MySQL geschrieben und verwendet die Zend Framework MVC-Architektur. Es verwendet AJAX f\u00fcr"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 4,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.8125104103753884,
+    "varied_param_variance": 0.38374352881082496,
+    "parameters": {
+        "sampling": 0.8133817894808879,
+        "context_span": 82,
+        "target_length": 100,
+        "temperature": 2.4273841105243275,
+        "proactive_span": 82,
+        "retroactive_span": 82
+    },
+    "wellbeing_factors": {
+        "state_score": 0.09,
+        "wellbeing": 0.09,
+        "sleep": 0.34,
+        "anxiety": 0.84,
+        "happiness": 0.01,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in wenigen Minuten. Dennoch haben wir uns in der N\u00e4he einer B\u00e4ckerei, Metzgerei und Kneipe niedergelassen, f\u00fcr diejenigen, die etwas mehr Abwechslung brauchen.W\u00e4hrend der Sommermonate bieten wir zus\u00e4tzlich zu unserer regul\u00e4ren Speisekar te eine",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein  riesiges Kissen in me inem Wohnzimmer liegen, mit dem ich super zufrieden bin. Es sieht nicht nur sehr schick aus, sondern bietet dank seiner Gr\u00f6\u00dfe auch genug Platz zum Einkuscheln und ist sehr bequem.Ich habe mich f\u00fcr die Variante in Taupe entschieden, weil sie nicht zu",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Affe, Delfin, Elefant, B\u00e4r, L\u00f6we, Tiger, Wolf, Fuchs, Hund, Katze, Maus, Eichh\u00f6rnchen, Eule, Adler, Fasan, Ente, Gans, Huhn, Pfau, Flamingo, Pferd, Kamel, Lama, Gir",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt von einem Mann, der sich mit einer Katze unterhielt. Beide lagen auf dem Boden, und der Mann hielt die Katze im Arm und sprach mit ihr. In diesem Traum war die Katze ein Symbol f\u00fcr das Unbewusste, f\u00fcr die weibliche Seite meines Wesens, f\u00fcr meine Gef\u00fchle und Instinkte. Der Mann war ich selbst, und die Art"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 4,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.7895701507007986,
+    "varied_param_variance": 0.44429685781171746,
+    "parameters": {
+        "sampling": 0.7861444452985077,
+        "context_span": 86,
+        "target_length": 144,
+        "temperature": 1.541752532461874,
+        "proactive_span": 86,
+        "retroactive_span": 86
+    },
+    "wellbeing_factors": {
+        "state_score": 0.22,
+        "wellbeing": 0.22,
+        "sleep": 0.47,
+        "anxiety": 0.97,
+        "happiness": 0.05,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in etwa 15 Minuten. Der n\u00e4chste \u00f6ffentliche Verkehrsknotenpunkt ist die Bushaltestelle \u201eRingstra\u00dfe\u201c, die etwa 5 Gehminuten entfernt ist.Anreise mit \u00f6ffentlichen Verkehrsmitteln:Vom Hauptbahnhof aus f\u00e4hrt man mit der Stra\u00dfenbahnlinie 2 bis zur Haltestelle \u201eRingstra\u00dfe\u201c. Von dort aus sind es etwa 5 Gehminuten bis zum Haus.Vom Flughafen aus nimmt man die S-",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Spielzeug. Es handelt sich um eine kleine Digitalkamera mit 5 Megapixel Aufl\u00f6sung, die ich f\u00fcr unterwegs gekauft habe. Die Canon Ixus 700 IS ist zwar nicht die neueste Kamera auf dem Markt, aber f\u00fcr meine Zwecke mehr als ausreichend. Der integ rierte optische Bildstabilisator ist ein nettes Gimmick und die Bildqualit\u00e4t ist f\u00fcr eine Kamera dieser Preisklasse wirklich gut.Ich habe die Canon Ixus 7",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Tiger, B\u00fcffel, Giraffe, Eisb\u00e4r, Wolf, Fuchs, Hund, Katze, Maus, Eichh\u00f6rnchen, Schildkr\u00f6te , Schlange, Krokodil, Pferd, Zebra, Strau\u00df, Flamingo, Papagei, Affe, L\u00f6we, Tiger, B\u00fcffel, Elefant, Pelikan, Giraffe, Eisb\u00e4r, Wolf, Fuchs, Hund, Katze, Maus,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin. Alle starren mich an und ich f\u00fchle mich klein und unbedeutend.Was bedeutet dieser Traum?Freundliche Gr\u00fc\u00dfe!Mit freundlichen Gr\u00fc\u00dfen,Gabriele Liebe Gabriele,ich danke dir f\u00fcr deine Frage.In diesem Traum geht es darum, dass du dich klein und unbedeutend f\u00fchlst. Das kann verschiedene Gr\u00fcnde haben. V"
+    }
+}

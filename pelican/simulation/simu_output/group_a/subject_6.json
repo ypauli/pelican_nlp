@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Kunden. Einen sehr speziellen Kunden. Denn mein neuer Kunde ist ein KI-Sprachmodell. Ja, du hast richtig gelesen. Ein KI-Sprachmodell.Warum ich das erw\u00e4hne? Nun, weil es eine interessante Herausforderung darstellt. Denn anst att das Thema nur oberfl\u00e4chlich abzudecken, muss ich wirklich in die Tiefe gehen. Ich muss die Konzepte ver"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 6,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.202152357437097,
+    "varied_param_variance": 0.2997676400065239,
+    "parameters": {
+        "sampling": 0.98,
+        "context_span": 119,
+        "target_length": 101,
+        "temperature": 1.3128336375437355,
+        "proactive_span": 119,
+        "retroactive_span": 119
+    },
+    "wellbeing_factors": {
+        "state_score": 0.22,
+        "wellbeing": 0.22,
+        "sleep": 0.47,
+        "anxiety": 0.97,
+        "happiness": 0.05,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man entweder zu Fu\u00df oder mit dem Fahrrad in wenigen Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 m entfernt und die n\u00e4chste Stra\u00dfenbahnhaltestelle ca. 400 m entfernt.Das Mehrfamilienhaus befindet sich in einer ruhigen Wohngegend und bietet",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Ich backe Brot. Jeden Sonntag steht der Brotbackofen nun in meiner K\u00fcche und verstr\u00f6mt einen wunderbaren Duft nach frischem Brot. Es ist wirklich faszinierend zu beobachten, wie das Brot im Ofen aufgeht und seine Kruste bekommt. Und noch faszinier",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, Eisb\u00e4r, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Pferd, Zebra, Giraffe, B\u00fcffel, Kamel, Affe, Gorilla, Orang-Utan, Eichh\u00f6rnchen, Dachs, B\u00e4r, Hirsch, Elch, Antilope, Str",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass meine Kollegen und ich in einem gro\u00dfen B\u00fcro sa\u00dfen. Es war ein ganz normales B\u00fcro mit Schreibtischen, Druckern, Computern und Kopierern. Allerdings waren an den W\u00e4nden keine Bilder oder Poster zu sehen, sondern gro\u00dfe Spiegel, die das Licht der Deckenbeleuchtung reflektierten"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 6,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.5005849236274225,
+    "varied_param_variance": 0.4439255946439424,
+    "parameters": {
+        "sampling": 0.9720653695520489,
+        "context_span": 63,
+        "target_length": 128,
+        "temperature": 2.2044585787446276,
+        "proactive_span": 63,
+        "retroactive_span": 63
+    },
+    "wellbeing_factors": {
+        "state_score": 0.09,
+        "wellbeing": 0.09,
+        "sleep": 0.34,
+        "anxiety": 0.84,
+        "happiness": 0.01,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Auto in rund 30 Minuten. Die n\u00e4chste Stadt mit einem umfangreichen Angebot an Gesch\u00e4ften, Restaurants und kulturellen Einrichtungen ist Neu-Ulm, rund 5 Kilometer entfernt und bequem mit dem Bus zu erreichen. Wenn du gerne ins Kino oder ins Theater gehst, wirst du den Besuch von M\u00fcnchen genie\u00dfen, das du in etwas mehr als einer Stunde erreichen kannst.Essen",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue Kategorie in unserem Blog eingef\u00fchrt und sie mit der ersten Folge der Reihe \u201eFeminismus f\u00fcr Dummies\u201c gestartet. Ich habe den Titel gew\u00e4hlt, weil ich hoffe, dass es Leute anspricht, die bisher noch keine Ber\u00fchrungspunkte mit dem Thema hatten oder vielleicht sogar etwas dagegen haben. Ich glaube, dass ein tieferes Verst\u00e4ndnis f\u00fcr das Thema vieles ver\u00e4ndern k\u00f6nnte.",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, L\u00f6we, Elefant, Pferd, Krokodil, B\u00e4r, Tiger, Hase, Schmetterling, Eule, Affe, Hund, Katze, Gans, Adler, Fisch, Ente, Eichh\u00f6rnchen , Drache, Giraffe, Nilpferd, Biene, Fuchs, Hahn, Gans, Lamm, Zebra, Esel, Dromedar, Kamel, Strau\u00df,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , da\u00df ich mich mit einer Frau unterhielt, die behauptete, da\u00df sie im 2. Weltkrieg geboren wurde. Als ich diesen Traum analysierte, merkte ich, da\u00df es eine versteckte Botschaft sein mu\u00dfte. Da ich wei\u00df, da\u00df ich mit meiner Traumanalyse immer richtig liege, kann ich diesen Traum nur mit der versteckten B otschaft in Verbindung bringen, da\u00df ich eines Tages ein ber\u00fchmter"
+    }
+}

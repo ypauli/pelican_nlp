@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kleines Unternehmen, das sich auf die Entwicklung und den Vertrieb von Apps spezialis iert hat. Die Aufgabe besteht darin, eine Marketingstrategie zu ent wickeln, um die Bekanntheit des Unternehmens zu steigern und mehr Kunden anzuziehen.L\u00f6sung:1. Marktforschung: Zun\u00e4chst sollte eine gr\u00fcndliche Marktforschung durchge f\u00fchrt werden, um die Bed\u00fcrfnisse und Vorlieben der Zielgruppe zu verstehen. Dies kann durch Online-Umfragen, Interviews oder Fokusgruppen erfolgen."
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 0,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 2.0729059233823737,
+    "varied_param_variance": 0.3822556805531698,
+    "parameters": {
+        "sampling": 0.9756098188827868,
+        "context_span": 59,
+        "target_length": 161,
+        "temperature": 1.4049641676205917,
+        "proactive_span": 59,
+        "retroactive_span": 59
+    },
+    "wellbeing_factors": {
+        "state_score": 0.19,
+        "wellbeing": 0.19,
+        "sleep": 0.44,
+        "anxiety": 0.94,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Einkaufsm\u00f6glichkeiten gibt es in unmittelbarer N\u00e4he und sind fu\u00dfl\u00e4ufig erreichbar.Der n\u00e4chste B\u00e4cker ist nur wenige Gehminuten ent fernt.Die n\u00e4chste Bushaltestelle ist ca. 100 m entfernt.Die n\u00e4chste Autobahnauffahrt ist ca. 5 km entfernt.Die n\u00e4chste Tankstelle ist ca.  5 km entfernt.Die n\u00e4chste Einkaufsm\u00f6glichkeit ist ca. 5 km entfer",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich das Vergn\u00fcgen, an einer Weiterbildung teilnehmen zu d\u00fcrfen, die sich rund um das Thema \u201e F\u00fchrung und Kommunikation\u201c dreht.Es ist wirklich beeindruckend, wie v iel man \u00fcber sich selbst und andere lernen kann, indem man einfach nur zuh\u00f6rt und Fragen stellt . Ich freue mich schon darauf, das Gelernte in meiner eigenen F\u00fchrungsrolle anzuw enden.Was hat dich am meisten beeindruckt?Am meisten beeindruckt hat mich die Offenheit und Ehrlichkeit, mit der",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Pinguin, Giraffe, Elefant, L\u00f6we, Gepard, Tiger, Eisb\u00e4r, B\u00e4r, Wolf, Fuchs, Schakal, Dachs , Eichh\u00f6rnchen, Streifenh\u00f6rnchen, Affe, Orang-Utan, Gorilla, Elefant, Nilpferd, Krokodil, Alligator , L\u00f6we, Tiger, Leopard, Gepard, Hy\u00e4ne, B\u00fcffel, Nashorn, Elefant, Flusspferd, Giraffe, Antilope, Zebra, Gnu, Strau\u00df,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner besten Freundin durch den Wald spazieren gehe. Wir kamen an einer Weggabelung an und entschieden uns f\u00fcr den rechten Weg, der steiler und anspruchsvoller aussah. W\u00e4hrend wir den Berg hinaufstiegen, wurde das Wetter immer schlechter und es fing an zu hageln. Meine Freundin und ich k\u00e4mpften uns m\u00fchsam den Berg hinauf, w\u00e4hrend der Wind und der Regen immer st\u00e4rker wurden. Wir waren beide v\u00f6llig durchn\u00e4sst und ersch\u00f6pft, als wir endlich das Gip"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 0,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.889806838103357,
+    "varied_param_variance": 0.36119573916669745,
+    "parameters": {
+        "sampling": 0.8304301226698424,
+        "context_span": 99,
+        "target_length": 128,
+        "temperature": 0.8079966400132093,
+        "proactive_span": 99,
+        "retroactive_span": 99
+    },
+    "wellbeing_factors": {
+        "state_score": 0.35,
+        "wellbeing": 0.35,
+        "sleep": 0.6,
+        "anxiety": 0.9,
+        "happiness": 0.12,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es ungef\u00e4hr 5 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die n\u00e4chste Autobahnauffahrt ist ca. 5 Kilometer entfernt und f\u00fchrt auf die A7 Richtung Hamburg oder Flensburg. Die n\u00e4chsten Einkaufsm\u00f6glichkeiten sind",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Hobby. Ich habe angefangen, meine Wohnung umzugestalten. Ich wei\u00df, das klingt jetzt nicht nach einem Hobby, sondern eher nach einer l\u00e4stigen Aufgabe, die man m\u00f6glichst schnell hinter sich bringen m\u00f6chte. Aber f\u00fcr mich ist es das nicht. Ich habe Spa\u00df daran, meine Wohnung so zu gestalten, dass ich mich darin wohl f\u00fchle.Ich habe angefang",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Affe, Pferd, Hund, Katze, Maus, Fisch, Vogel, Schmetterling, Biene, Ameise, Spinne, Schnecke, Regenwurm, Marienk\u00e4fer, Kakerlake, Eichh\u00f6rnchen, Fuchs, Dachs, B\u00e4r, Wolf, Hirsch, Reh, Gans, Ente, Hase",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sa\u00df. Der Zug fuhr durch eine wundersch \u00f6ne Landschaft und ich f\u00fchlte mich frei und gl\u00fccklich. Pl\u00f6tzlich hielt der Zug an und meine Mutter und mein Bruder stiegen aus. Ich blieb alleine im Zug zur\u00fcck und f\u00fchlte mich pl\u00f6tzlich sehr traurig und einsam.Was bedeutet dieser Traum"
+    }
+}

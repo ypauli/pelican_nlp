@@ -4,8 +4,8 @@ import math
 class SimuConfig:
     def __init__(self):
         self.directory = "simu_output"
-        self.subjects_per_cohort = 10
-        self.timepoints_per_subject = 50
+        self.subjects_per_cohort = 20
+        self.timepoints_per_subject = 52
         self.global_parameter_stats = {
             "temperature": {"mean": 1.2, "variance": 0.4},
             "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling

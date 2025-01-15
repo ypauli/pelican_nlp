@@ -1,0 +1,33 @@
+{
+    "cohort": "group_a",
+    "subject": 18,
+    "timepoint": 0,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.1472511656980355,
+    "varied_param_variance": 0.3972402412203059,
+    "parameters": {
+        "sampling": 0.8291772104138085,
+        "context_span": 73,
+        "target_length": 111,
+        "temperature": 0.9569721622222513,
+        "proactive_span": 73,
+        "retroactive_span": 73
+    },
+    "wellbeing_factors": {
+        "state_score": 0.27,
+        "wellbeing": 0.27,
+        "sleep": 0.52,
+        "anxiety": 0.98,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um die Gestaltung und Umsetzung einer neuen Webseite f\u00fcr ein mittelst\u00e4ndisches Unternehmen aus dem Maschinenbau-Sektor. Das Unternehmen ist weltweit t\u00e4tig und bietet eine breite Palette an Produkten und D ienstleistungen an.Die neue Webseite soll nicht nur optisch ansprechend sein, sondern auch",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meiner Mutter und meinem Bruder in einem Zug sitze. Der Zug f\u00e4hrt durch eine wundersch\u00f6ne Landschaft. Es gibt Berge und T\u00e4ler, Fl\u00fcsse und W\u00e4lder. Der Zug h\u00e4lt an verschiedenen Stationen und Menschen steigen ein und aus. Meine Mutter und mein Bruder unterhalten sich angeregt \u00fcber das Leben, die Vergangen",
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man bequem mit dem Fahrrad.Wer lieber zu Fu\u00df unterwegs ist, erreicht den Supermarkt in ca. 15 Minuten.Mit dem Auto dauert es etwa 5 Minuten.Mit \u00f6ffentlichen Verkehrsmitteln ist der Supermark t in ca. 10 Minuten zu erreichen.Die n\u00e4chste Bushaltestelle ist",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Tiger, Elefant, Gepard, Pferd, Giraffe, Affe, Fuchs, Dachs, Wolf, Adler, Kranich, Gans, Ente, Hahn, Hund, Katze, Maus, Schaf, Ziege, Kuh, B\u00fcffel, Kamel, Strau\u00df, Flamingo,"
+    }
+}

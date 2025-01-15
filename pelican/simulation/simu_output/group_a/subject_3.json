@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich endlich mal wieder ein Projekt beendet, bei dem ich ein wenig mitgeholfen habe.Es geht um die Doku zu meinem alten Projekt namens \"DokuWiki\". Ich habe einiges beigesteuert, wie eben die Doku selbst, die \u00dcbersetzungen, ein bisschen"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 3,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.2020861259941154,
+    "varied_param_variance": 0.34641787366589377,
+    "parameters": {
+        "sampling": 0.98,
+        "context_span": 63,
+        "target_length": 26,
+        "temperature": 0.6770747870392594,
+        "proactive_span": 63,
+        "retroactive_span": 63
+    },
+    "wellbeing_factors": {
+        "state_score": 0.21,
+        "wellbeing": 0.21,
+        "sleep": 0.46,
+        "anxiety": 0.96,
+        "happiness": 0.04,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man nur zu Fu\u00df oder mit dem Fahrrad",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eichh\u00f6rnchen,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit einer Gruppe von Leuten in einem Raum"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 3,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.725802564942639,
+    "varied_param_variance": 0.43121709892151266,
+    "parameters": {
+        "sampling": 0.7753973163798396,
+        "context_span": 65,
+        "target_length": 139,
+        "temperature": 1.1916874042445627,
+        "proactive_span": 65,
+        "retroactive_span": 65
+    },
+    "wellbeing_factors": {
+        "state_score": 0.26,
+        "wellbeing": 0.26,
+        "sleep": 0.51,
+        "anxiety": 0.99,
+        "happiness": 0.07,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fu\u00df sind es ca. 30 Minuten. Die n\u00e4chste Bushaltestelle ist ca. 5 Gehminuten entfernt.Beschreibung:Die Wohnung befindet sich im Erdgesch oss eines Mehrfamilienhauses und verf\u00fcgt \u00fcber einen eigenen Eingang.Die Wohnfl\u00e4che betr\u00e4gt ca. 50 m\u00b2 und besteht aus einem Wohnzimmer, einer K\u00fcche, einem Schlaf",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Spielzeug. Es ist klein, es ist schwarz und es macht unglaublich viel Spa\u00df. Die Rede ist nat\u00fcrlich von meinem neuen 3D-Drucker, dem Prusa i3 MK3 S+.Ich habe schon l\u00e4nger mit dem Gedanken gespielt, mir einen 3D-Drucker anzuschaffen. Der Prusa i3 MK3S+ hat mich letztendlich \u00fcberzeugt, weil er einfach zu bedienen ist, eine g",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Elefant, Giraffe, Pferd, Affe, Tiger, Zebra, Gepard, Fuchs, Wolf , Hund, Katze, Maus, B\u00e4r, Dachs, Eichh\u00f6rnchen, Reh, Hirsch, B\u00fcffel, Strau\u00df, Flamingo, Pfau, Schildkr\u00f6te, Schmetterling, Marienk\u00e4fer, Biene, Ameise, Raupe, Regenwurm, Fisch",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Zug sa\u00df. Ich war auf dem Weg nach Hause, aber der Zug fuhr nicht dorthin, wo ich hin wollte. Ich stieg aus und versuchte, einen anderen Zug zu find en, der mich dorthin brachte, wo ich hin wollte, aber ich konnte keinen finden. Ich war verwirrt und frustriert und wusste nicht, was ich tun sollte.Was bede utet dieses R\u00e4tsel?Die Antwort auf dieses R\u00e4"
+    }
+}

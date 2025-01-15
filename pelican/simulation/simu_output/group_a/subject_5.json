@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Lauf en. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern erm\u00f6glicht, ihre Lieblingsrezepte zu speichern und zu teilen.Das Projekt ist in mehrere Phasen unterteilt:1. Design der Webseite: Ich muss ein ansprechendes und benutzerfreundliches Design erstellen, das es den Benutzern leicht"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.046073099015482,
+    "varied_param_variance": 0.37496440986054713,
+    "parameters": {
+        "sampling": 0.8229609972214904,
+        "context_span": 50,
+        "target_length": 136,
+        "temperature": 0.24195758989206706,
+        "proactive_span": 50,
+        "retroactive_span": 50
+    },
+    "wellbeing_factors": {
+        "state_score": 0.41,
+        "wellbeing": 0.41,
+        "sleep": 0.66,
+        "anxiety": 0.84,
+        "happiness": 0.17,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die n\u00e4chste Bushaltestelle ist etwa 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen.Das Haus verf\u00fcgt \u00fcber einen gro\u00dfen Garten, der zum Entspannen und Spielen einl\u00e4dt. Au\u00dferdem gibt es einen \u00fcberdachten Parkplatz f\u00fcr Fahrr\u00e4der und Motorr\u00e4der. Die K\u00fcche ist gut ausgestattet und bietet alles, was man",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden , ein Buch zu schreiben. Es geht dabei um meine Erfahrungen mit dem Laufen und wie es mein Leben ver\u00e4ndert hat.Ich hab e mich dazu entschieden, dieses Buch zu schreiben, weil ich m\u00f6chte, dass mehr Menschen die Freude am Laufen entdecken und erleben k\u00f6nnen, was es f\u00fcr mich bedeutet. Es ist nicht nur eine k\u00f6rperliche Aktivit\u00e4t, son",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonob o, Eichh\u00f6rnchen, Fuchs, Dachs, Wolf, B\u00e4r, Luchs, Puma, Jaguar, Leopard, Gepard, Hy\u00e4ne, L\u00f6we, Tiger, Elefant, Nashorn, Flusspferd, Gorilla, Schimpanse,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle auf mich warten, dass ich etwas sage. Ich habe aber nichts gesagt, weil ich nicht wusste, was ich sagen sollte. Ich habe einfach nur gel\u00e4chelt und gewartet, bis es vorbei war.Als sie gegangen waren, sagte meine Mutter zu mir: \"Ich habe ihnen gesagt, dass sie dich in Ruhe lassen sollen, aber sie wollten einfach nicht"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 5,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.3205040482145975,
+    "varied_param_variance": 0.41995367061284006,
+    "parameters": {
+        "sampling": 0.7907556736433599,
+        "context_span": 107,
+        "target_length": 105,
+        "temperature": 1.843716211249828,
+        "proactive_span": 107,
+        "retroactive_span": 107
+    },
+    "wellbeing_factors": {
+        "state_score": 0.18,
+        "wellbeing": 0.18,
+        "sleep": 0.43,
+        "anxiety": 0.93,
+        "happiness": 0.03,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in ca. 15 Minuten.Mit dem Fahrrad kann man in ca. 5-10 Minuten den n\u00e4chsten Supermarkt erreichen.Der n\u00e4chste B\u00e4cker ist 15 Gehminuten entfernt.Die n\u00e4chste Apotheke ist 15 Gehminuten entfernt.Der n\u00e4chste Arzt ist",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschieden, meine alten H\u00f6rspielkassetten zu digitalisieren und sie so f\u00fcr die Ewigkeit zu konservieren. Das Ganze mache ich nat\u00fcrlich nicht alleine, sondern mit ein paar Freunden zusammen.Wie ich darauf gekommen bin? Ganz einfach: Ich habe meine",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Elefant, L\u00f6we, Tiger, Affe, Kamel, Pferd, Schaf, Ziege, Gans, Ente, Hahn, Hund, Katze, Fisch, Maus, B\u00e4r, Eisb\u00e4r, Wolf, Giraffe, Strau\u00df, Flamingo, Schildkr\u00f6te, Schlange, Eichh\u00f6rnchen,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Caf\u00e9 sa\u00df und ein Gespr\u00e4ch mit einem Mann f\u00fchrte, der mir unglaublich sympathisch war. Wir sprachen \u00fcber Gott und die Welt und ich hatte das Gef\u00fchl, als w\u00fcrden wir uns schon ewig kennen. Am Ende des Gespr\u00e4ches fragte er mich, ob ich noch etwas trinken m\u00f6chte und ich sagte, dass ich ger"
+    }
+}

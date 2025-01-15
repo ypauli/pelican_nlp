@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen langen Schwanz. Sein Fell ist schwarz und wei\u00df gemustert und er hat gro\u00dfe, dunkle Augen.Mein neuer Mitbewohner ist ein"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 1,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 2.0923702454996227,
+    "varied_param_variance": 0.4303894440439565,
+    "parameters": {
+        "sampling": 0.8523895848794569,
+        "context_span": 65,
+        "target_length": 73,
+        "temperature": 2.3524886263872484,
+        "proactive_span": 65,
+        "retroactive_span": 65
+    },
+    "wellbeing_factors": {
+        "state_score": 0.08,
+        "wellbeing": 0.08,
+        "sleep": 0.33,
+        "anxiety": 0.83,
+        "happiness": 0.01,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df in ca. 10-15 Minuten. Es gibt viele kleine Gesch\u00e4fte in der Umgebung.Von hier aus k\u00f6nnen Sie den \u00f6ffentlichen Verkehr nutzen, um zum Flughafen, zum Bahnhof",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich mich mit der Frage besch\u00e4ftigt, ob ich in Zukunft lieber einen Mac oder einen Windows-PC nutzen m\u00f6chte.Ich habe den Trend schon l\u00e4nger beobachtet und bin zu dem Schluss gekommen, dass mein n\u00e4chster Computer w",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Storch, Kranich, Gans, Ente, Kormoran, M\u00f6we, Seeadler, Fasan, Hase, Hirsch, Elch, Eichh\u00f6rnchen, B\u00e4r, Wolf, L\u00f6",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich im Krankenhaus lag und alle m\u00f6glichen Untersuchungen \u00fcber mich ergehen lassen musste. Zuerst eine R\u00f6ntgenaufnahme, dann eine Ultraschalluntersuchung des Kopfes und schlie\u00dflich auch des"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 1,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": -0.18876922067216229,
+    "varied_param_variance": 0.45290938007909,
+    "parameters": {
+        "sampling": 0.7402498443577725,
+        "context_span": 71,
+        "target_length": 134,
+        "temperature": 0.2,
+        "proactive_span": 71,
+        "retroactive_span": 71
+    },
+    "wellbeing_factors": {
+        "state_score": 0.47,
+        "wellbeing": 0.47,
+        "sleep": 0.72,
+        "anxiety": 0.78,
+        "happiness": 0.22,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Das Haus liegt in einer ruhigen Seitenstra\u00dfe und bietet einen wundersch\u00f6nen Blick ins Gr\u00fcne.AusstattungDas Haus verf\u00fcgt \u00fcber einen gro\u00dfz\u00fcgigen Wohnbereich mit einem gem\u00fctlichen Sofa und einem Esstisch. Die K\u00fcche ist modern ausgestattet und bietet alles, was man zum Kochen ben\u00f6tigt. Das Schlafzimmer ist mit einem",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es geht dabei um meine Erfahrungen und Erkenntnisse aus meiner langj\u00e4hrigen T\u00e4tigkeit als Unternehmensberater. Das Buch wird den Titel \u201eDer Unternehmensfl\u00fcsterer\u201c tragen.In den letzten Tagen habe ich viel Zeit damit verbracht, \u00fcber die Struktur des Buches nachzudenken. Ich habe festgestellt, dass",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Elefant, L\u00f6we, Tiger, Gepard, Wolf, Fuchs, Dachs, B\u00e4r, Hirsch, Reh, Elch, Gnu, Antilope, Zebra, Giraffe, Strau\u00df, Krokodil, Alligator, Schildkr\u00f6te, Schnabeltier, Koala, K\u00e4nguru, Affe, Orang-Utan, Gorilla, L\u00f6we, Panther, Tiger, Leopard, Gep",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem Raum voller Menschen bin, die alle in einem gro\u00dfen Kreis stehen. In der Mitte des Kreises steht ein Mann, der eine Rede h\u00e4lt. Ich stehe au\u00dferhalb des Kreises und h\u00f6re auf merksam zu, was der Mann zu sagen hat. Er erz\u00e4hlt von einer neuen Technologie, die er entwickelt hat. Es ist eine Art Zeitmaschine, die es den Menschen erm\u00f6glicht, in die Vergangenheit zu reisen und dort Fehler zu korrigieren."
+    }
+}

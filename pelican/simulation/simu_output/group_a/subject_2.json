@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue Funktion auf meinem Blog aktiviert.Diese Funktion nennt sich \u201eAbonnieren per Mail\u201c und erm\u00f6glicht es Besuchern meines Blogs, sich f\u00fcr den Erhalt neuer Artikel per E-Mail anzumelden.Ich habe diese Funktion hinzugef\u00fcgt, weil"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 2,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.7852486816546476,
+    "varied_param_variance": 0.48397584277619565,
+    "parameters": {
+        "sampling": 0.9345974695065292,
+        "context_span": 92,
+        "target_length": 158,
+        "temperature": 2.5725472749387257,
+        "proactive_span": 92,
+        "retroactive_span": 92
+    },
+    "wellbeing_factors": {
+        "state_score": 0.1,
+        "wellbeing": 0.1,
+        "sleep": 0.35,
+        "anxiety": 0.85,
+        "happiness": 0.01,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man in zehn Minuten. Und die Gegend ist ruhig und gr\u00fcn. Wer w\u00fcnscht sich da f\u00fcr die t\u00e4gliche Besorgung nicht ein schnelles Einkaufshilfsmittel? Mit dem Carrybike von M\u00f6bel Pfiffigkeit ist das kein Problem mehr.Das robuste Tourenfahrrad bietet Platz f\u00fcr bis zu zwei Kisten Bier, einen Einkaufskorb und sogar f\u00fcr ein Kind hat es Platz. Und weil es praktisch \u00fcberall hinpasst, kann es auch im Auto verstaut werden, wenn es nicht gebraucht wird",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich eine neue Lieblingsschuhe: meine selbstgebastelten Sandalen. Die sind so sch\u00f6n leicht und luftig, wie man sich nur einen Schuh w\u00fcnschen kann. Sie passen perfekt zu me inen neuen Lieblingskleidchen und lassen mich auch bei gro\u00dfer Hitze einen k\u00fchlen Kopf bewahren.Ach, was habe ich gelacht, als ich mir diese Sandalen gebastelt hab e. Und wie sehr habe ich sie geliebt! Sie waren nicht nur sch\u00f6n und luftig, nein sie waren auch der absolute Eyecatcher. Egal wohin ich in diesen Sandalen",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Flamingo, Pinguin, Eule, Dachs, Wolf, Elefant, Eisb\u00e4r, Gnu, Giraffe, Koala, Schakal, Seepferdchen, L\u00f6we , Krake, Affe, Krokodil, Tiger, B\u00e4r, Schmetterling, Katze, Tintenfisch, Pferd, Hai, Igel, Fuchs, Fledermaus, Schnecke, Schildkr\u00f6te, Delfin, Zebra, Strau\u00df, Panda, Lemur, Reh, Hase, Opossum,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , wie der Mann, der mich geschlagen hat, an meiner Wohnungst\u00fcr stand, um mir ein Buch zu schenken. Es war irgendein altes Buch, \u00fcber das Leben oder so etwas. Ich habe das Buch angenommen und war dankbar \u00fcber seine G\u00fcte, so etwas Sch\u00f6nes zu schenken.Was bedeutet dieser Traum? \u201cDer Traumdeuter erz\u00e4hlte, ohne den Mann zu erw\u00e4hnen, der ihr die G\u00fcte erwiesen hatte: \u201eIn deinem Traum warst du in der Welt des Menschseins aufgewachsen"
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 2,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.4138875371411757,
+    "varied_param_variance": 0.46813646976915413,
+    "parameters": {
+        "sampling": 0.8647023374661134,
+        "context_span": 122,
+        "target_length": 55,
+        "temperature": 1.7274647199724733,
+        "proactive_span": 122,
+        "retroactive_span": 122
+    },
+    "wellbeing_factors": {
+        "state_score": 0.16,
+        "wellbeing": 0.16,
+        "sleep": 0.41,
+        "anxiety": 0.91,
+        "happiness": 0.03,
+        "medication": 0,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man entweder zu Fu\u00df oder mit dem Fahrrad innerhalb von 5 bis 10 Minuten. In unmittelbarer N\u00e4he gibt es auch einen B\u00e4cker",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Spielzeug: eine N\u00e4hmaschine! Ja, richtig gelesen, eine N\u00e4hmaschine. Und ich freue mich riesig dar\u00fcber, denn ich n\u00e4",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Storch, Eule, Fuchs, Eichh\u00f6rnchen, Hirsch, B\u00e4r, Wolf, L\u00f6we, Panther, Tiger,",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass mich mein Exfreund verfolgt hat, obwohl ich schon lange mit jemand anderem zusammen bin.Was bedeutet das?Freund"
+    }
+}

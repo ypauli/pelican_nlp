@@ -1548,3 +1548,69 @@
         "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues H obby f\u00fcr mich entdeckt. N\u00e4hen. Genauer gesag t das N\u00e4 hen von Tas chen. Ich fin de Taschen einfach pr aktisch und sie lassen sich w underbar individualis ieren. Ich habe schon einige T aschen gen\u00e4 ht, die me istens einf ach gehalten sind , aber diesmal wollte ich etwas Besonder es machen. Ich habe mich f\u00fcr eine gro\u00dfe Tasche entschieden, die viel Platz bietet. Au\u00dferdem wollte ich eine Tasche, die man auch als Rucksack tragen kann.Das Schnittmuster"
     }
 }
+{
+    "cohort": "group_a",
+    "subject": 7,
+    "timepoint": 50,
+    "varied_param": "temperature",
+    "varied_param_mean": 0.8922714749038501,
+    "varied_param_variance": 0.3217876640167374,
+    "parameters": {
+        "sampling": 0.8460652955582487,
+        "context_span": 78,
+        "target_length": 162,
+        "temperature": 1.3209482063984652,
+        "proactive_span": 78,
+        "retroactive_span": 78
+    },
+    "wellbeing_factors": {
+        "state_score": 0.25,
+        "wellbeing": 0.25,
+        "sleep": 0.5,
+        "anxiety": 1.0,
+        "happiness": 0.06,
+        "medication": 0,
+        "drugs": 1
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man mit dem Fahrrad in zehn Minuten. Mit dem Auto dauert es etwa eine Viertelstunde.Wer lieber zu Fu\u00df unterwegs ist, erreicht den Supermarkt in etwa 30 Minuten.Mit \u00f6ffentlichen Verkehrsmitteln ist der Supermarkt mit der Buslinie  112 erreichbar. Die Haltestelle befindet sich direkt vor dem Supermarkt.Parkm\u00f6glichkeitenEs stehen kostenlose Parkpl\u00e4tze zur Verf\u00fcgung.RollstuhlgerechtDer Supermarkt ist rollstuhl",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein Problem mit meinem Handy. Es startet zwar, aber der Touchscreen funktioniert nicht richtig. Manchmal reagiert er \u00fcberhaupt nicht, manchmal nur sehr verz\u00f6gert. Ich habe schon versucht, den Cache zu l\u00f6schen und das Handy neu zu starten, aber das hat leider nichts gebracht. Hat jemand eine Idee, was ich noch tun k\u00f6nnte, um das Problem zu beheben?Vielen Dank im Voraus f\u00fcr eure Hilfe!Liebe Gr\u00fc\u00dfe,Alex Wir verwenden Cookies, um Ihnen ein optimales Webseiten-",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, L\u00f6we, Giraffe, Elefant, Flamingo, Pferd, Katze, Hund, Maus , Eichh\u00f6rnchen, Fuchs, Wolf, B\u00e4r, Schildkr\u00f6te, Affe, B\u00fcffel, Tiger , L\u00f6we, Zebra, Kamel, Strau\u00df, Elefant, Giraffe, Flamingo, Pferd, Katze, Hund, Maus, Eichh\u00f6rnchen, Fuchs, Wolf, B\u00e4r, Schildkr\u00f6te, Affe, B\u00fcffel, Tiger, L\u00f6we, Zeb",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich in einem riesigen B\u00fcro sitze und an einem riesigen Schreibtisch arbeite. Alles um mich herum ist wei\u00df und leer. Ich sitze da und versuche mich zu konzentrieren, aber es f\u00e4llt mir unglaublich schwer. Die wei\u00dfe Wand gegen\u00fcber starrt mich an und ich habe das Gef\u00fchl, dass sie mich beobachtet. Pl\u00f6tzlich h\u00f6re ich eine T\u00fcr quietschen und springe erschrocken hoch. Ich drehe mich um und sehe, dass es nur die T\u00fcr zu meinem Schlafzimmer ist."
+    }
+}
+{
+    "cohort": "group_a",
+    "subject": 7,
+    "timepoint": 51,
+    "varied_param": "temperature",
+    "varied_param_mean": 1.140299474459301,
+    "varied_param_variance": 0.4206212527619375,
+    "parameters": {
+        "sampling": 0.9111372235114404,
+        "context_span": 128,
+        "target_length": 161,
+        "temperature": 1.075788475628359,
+        "proactive_span": 128,
+        "retroactive_span": 128
+    },
+    "wellbeing_factors": {
+        "state_score": 0.34,
+        "wellbeing": 0.34,
+        "sleep": 0.59,
+        "anxiety": 0.91,
+        "happiness": 0.12,
+        "medication": 1,
+        "drugs": 0
+    }
+}
+{
+    "generated_text": {
+        "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man": "Von hier aus bis zum n\u00e4chsten Supermarkt gelangt man zu Fu\u00df oder mit dem Fahrrad in wenigen Minuten.AusstattungEigenschaftenEnergieausweisVerf\u00fcgbar ab01.01.2023EnergieeffizienzklasseBWesentlicher Energietr\u00e4gerGasHeizungsartZentralheizungBaujahr1990ZustandGepflegtBeschreibungDie Wohnung befindet sich im Erdgeschoss eines Mehrf amilienhauses mit insgesamt 4 Wohneinheiten.",
+        "Seit letzter Woche habe ich": "Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Plattform zu entwickeln, die es Menschen erm\u00f6glicht, ihre Erfahrungen mit bestimmten Produkten oder Dienstleistungen zu teilen. Das Ziel ist es, eine Community zu schaffen, in der Benutzer ihre Meinungen, Bewertungen und Erfahrungen austauschen k\u00f6nnen, um anderen bei ihrer Kaufentscheidung zu helfen.Die Plattform wird in mehreren Sprachen verf\u00fcgbar sein, um eine breite Palette von Benutzern anzusprechen. Sie wird auch eine Reihe von Funkt",
+        "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan,": "Ich werde so viele Tiere aufz\u00e4hlen wie m\u00f6glich: Pelikan, Eisb\u00e4r, Pinguin, Giraffe, Elefant, L\u00f6we, Tiger, Gepard, Fuchs, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Schaf, Ziege, Kuh, Pferd, Esel, Kamel, Strau\u00df, Ente, Gans, Huhn, Truthahn, Fasan, Pfau, Kakadu, Papagei, Affe, Gorilla, Orang-Utan , Schimpanse, Bonobo, Elefant, Nashorn, Flusspferd, B",
+        "Als letztes habe ich getr\u00e4umt": "Als letztes habe ich getr\u00e4umt , dass ich mit meinem Vater und meinem Bruder im Auto sa\u00df. Wir fuhren irgendwo hin, ich wei\u00df nicht mehr wohin. Mein Vater sa\u00df am Steuer und mein Bruder auf dem Beifahrersitz. Ich sa\u00df auf dem R\u00fccksitz hinter meinem Bruder. W\u00e4hrend der Fahrt sagte mein Vater pl\u00f6tzlich zu meinem Bruder: \"Du, ich muss dir etwas gestehen.\" Und mein Bruder fragte: \"Was denn?\" Und mein Vater antwortete: \"Ich habe deine Mutter betrogen.\" Und"
+    }
+}
