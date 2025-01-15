@@ -39,7 +39,7 @@ class Corpus:
         for i in range(len(self.documents)):
             for j in range(len(self.documents[i].sections)):
                 self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens_logits[j], model)
-                store_features_to_csv(self.documents[i].logits, self.documents[i].results_path, append=(j>0))
+                store_features_to_csv(self.documents[i].logits, self.documents[i].results_path)
             print(self.documents[i].logits)
             self.documents[i].logits = []
 
@@ -47,12 +47,13 @@ class Corpus:
     def extract_embeddings(self):
         embeddingsExtractor = EmbeddingsExtractor('fastText')
         for i in range(len(self.documents)):
-            for j in range(len(self.documents[i].sections)):
-                self.documents[i].embeddings = embeddingsExtractor.process_tokens(self.documents[i].tokens_embeddings[j],
+            print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)
+            for j in range(len(self.documents[i].cleaned_sections)):
+                self.documents[i].embeddings.append(embeddingsExtractor.process_tokens(self.documents[i].tokens_embeddings[j],
                                                                                   self.config['window_sizes'],
-                                                                                  self.config['aggregation_functions'])
-            print(self.documents[i].embeddings)
-            store_features_to_csv(self.documents[i].embeddings, self.documents[i].results_path)
+                                                                                  self.config['aggregation_functions']))
+                store_features_to_csv(self.documents[i].embeddings[j], self.documents[i].results_path)
+
         return
 
     def get_corpus_info(self):
