@@ -1,0 +1,41 @@
+{
+    "subject": 1,
+    "cohort": "group_a",
+    "constants": {
+        "temperature": -0.9857608517201519,
+        "sampling": 1.0319438326065404,
+        "context_span": 63.983393866091454,
+        "target_length": 30.0
+    },
+    "varied_param": "temperature",
+    "mean": 1.2679842585313075,
+    "variance": 0.3709266458305388,
+    "timepoints": [
+        {
+            "timepoint": 0,
+            "varied_param_value": 1.0994053729388522,
+            "wellbeing_factors": {
+                "state_score": 0.16,
+                "wellbeing": 0.16,
+                "sleep": 0.41,
+                "anxiety": 0.91,
+                "happiness": 0.03,
+                "medication": 1,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 1,
+            "varied_param_value": 0.7977638865823298,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 0
+            }
+        }
+    ]
+}

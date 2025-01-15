@@ -15,6 +15,8 @@ if __name__ == "__main__":
     # Initialize the output directory
     if not os.path.exists(config.directory):
         os.makedirs(config.directory, exist_ok=True)
+    subject_dir = os.path.join(config.directory, f"Subjects")
+    metadata_dir = os.path.join(config.directory, f"Metadata")
 
     # Initialize the progress file
     progress_file = os.path.join(config.directory, "progress.json")
@@ -42,12 +44,13 @@ if __name__ == "__main__":
         for cohort_name, cohort_config in config.cohorts.items():
             print(f"Processing subject: {subject}, cohort: {cohort_name}")
 
-            # Create subject-specific directory for cohort
-            cohort_dir = os.path.join(config.directory, f"subject_{subject}", cohort_name)
+            # Create subject-specific directory for cohort and metadata.json file for this subject and cohort
+            cohort_dir = os.path.join(subject_dir, f"subject_{subject}", cohort_name)
+            cohort_metadata_dir = os.path.join(metadata_dir, f"subject_{subject}", cohort_name)
             os.makedirs(cohort_dir, exist_ok=True)
+            os.makedirs(cohort_metadata_dir, exist_ok=True)
 
-            # Create the metadata.json file for this subject and cohort
-            metadata_json_file = os.path.join(cohort_dir, "metadata.json")
+            metadata_json_file = os.path.join(cohort_metadata_dir, "metadata.json")
 
             # Initialize metadata information
             cohort_data = generate_parameter.ParameterGenerator.cohort_sample(cohort_config, constants)
@@ -95,7 +98,7 @@ if __name__ == "__main__":
 
                 with open(timepoint_txt_file, "w") as timepoint_file:
                     for idx, prompt in enumerate(generated_text):
-                        timepoint_file.write(f"Prompt_{idx}:\n")
+                        timepoint_file.write(f"New Prompt: prompt_{idx}:\n")
                         timepoint_file.write(f"{generated_text[prompt]}\n\n")
 
                 # Append the timepoint data to the metadata JSON

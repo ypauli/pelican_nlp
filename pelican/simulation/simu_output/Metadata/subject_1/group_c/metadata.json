@@ -1,0 +1,14 @@
+{
+    "subject": 1,
+    "cohort": "group_c",
+    "constants": {
+        "temperature": -0.9857608517201519,
+        "sampling": 1.0319438326065404,
+        "context_span": 63.983393866091454,
+        "target_length": 30.0
+    },
+    "varied_param": "context_span",
+    "mean": 102.84972094135752,
+    "variance": 646.1891342002399,
+    "timepoints": []
+}

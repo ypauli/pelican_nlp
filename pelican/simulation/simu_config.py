@@ -28,11 +28,11 @@ class SimuConfig:
                 "mean_values": {"context_span": 80},
                 "variance_values": {"context_span": 650.79},
             },
-            "group_d": {
-                "varied_parameter": "target_length",
-                "mean_values": {"target_length": 120},
-                "variance_values": {"target_length": 937},
-            }
+            # "group_d": {
+            #     "varied_parameter": "target_length",
+            #     "mean_values": {"target_length": 120},
+            #     "variance_values": {"target_length": 937},
+            # }
         }
         self.parameter_weights = {
             "temperature": -0.9,
