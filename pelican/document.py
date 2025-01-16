@@ -36,6 +36,7 @@ class Document:
         return f"TextDocument(file={self.file}, task={self.task}, speakers={self.num_speakers}, has_sections={self.has_sections}, cleaned_text={self.cleaned_text})"
 
     def process_document(self, pipeline):
+        print(f'=====processing document {self.name}======')
         pipeline.process_document(self)
 
     def create_results_csv(self, project_path):
@@ -50,6 +51,7 @@ class Document:
             pass
 
     def clean_text(self, cleaner, is_dialog=False):
+        print('cleaning text...')
         if self.sections is None:
             raise ValueError("Text must be loaded and divided into sections before cleaning.")
 
@@ -63,6 +65,7 @@ class Document:
         print(self.cleaned_sections)
 
     def tokenize_text(self, tokenizer, purpose):
+        print('tokenizing text...')
         if self.cleaned_sections is {}:
             raise ValueError("Text must be cleaned before tokenizing.")
         for title,content in self.cleaned_sections.items():
@@ -72,6 +75,7 @@ class Document:
                 self.tokens_embeddings.append(tokenizer.tokenize(content))
 
     def normalize_text(self, normalizer):
+        print('normalizing text...')
         """Normalizes the tokens_logits (e.g., stemming or lemmatization)."""
         if self.tokens_logits is None:
             raise ValueError("Text must be tokenized before normalization.")
@@ -98,6 +102,7 @@ class Document:
 
     def detect_sections(self):
 
+        print('detecting sections (if any)...')
         lines = self.raw_text.splitlines()
 
         if not self.has_sections:

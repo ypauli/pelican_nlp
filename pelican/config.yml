@@ -19,8 +19,8 @@ corpus_names:
   - "group_a"
   - "group_b" # Names of individual categories to group together
 
-extract_logits: true
-extract_embeddings: null
+extract_logits: null
+extract_embeddings: true
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
