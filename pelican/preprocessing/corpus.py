@@ -14,6 +14,7 @@ class Corpus:
         self.task = task
 
     def preprocess_all_documents(self):
+        print(f'preprocessing all documents (corpus.py)')
         for document in self.documents:
             document.create_results_csv(self.config['PATH_TO_PROJECT_FOLDER'])
             document.detect_sections()
@@ -45,6 +46,7 @@ class Corpus:
 
 
     def extract_embeddings(self):
+        print('embeddings extraction in progress')
         embeddingsExtractor = EmbeddingsExtractor('fastText')
         for i in range(len(self.documents)):
             print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)

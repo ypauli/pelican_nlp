@@ -1,15 +1,18 @@
 import csv
-import os
 import numpy as np
 
 def store_features_to_csv(input_data, output_file):
 
+    print('storing results as csv')
     print('The type of the input data is: ', type(input_data))
 
     if isinstance(input_data, dict):
 
         embeddings = input_data.get('embeddings')
         tokens = input_data.get('tokens_logits')
+
+        print(f'tokens: {tokens}')
+        print(f'embeddings: {embeddings}')
 
         if embeddings is not None:
             if len(embeddings) != len(tokens):

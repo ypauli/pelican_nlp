@@ -13,6 +13,8 @@ class TextPreprocessingPipeline:
 
     def process_document(self, document, is_dialog=False):
 
+        print('processing document (pipeline.py)')
+
         # Clean, tokenize, and normalize chapters or whole document
         document.clean_text(self.cleaner, is_dialog=is_dialog)
         if self.config['extract_logits']:

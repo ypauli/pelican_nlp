@@ -45,11 +45,12 @@ class Pelican:
         os.mkdir(os.path.join(self.output_directory, 'results_consolidation'))
 
         # Instantiate all subjects
+        print('Instantiating Subjects...')
         subjects = [Subject(subject) for subject in os.listdir(self.path_to_subjects)]
 
         # Process each corpus specified in the configuration
         for current_corpus in self.config['corpus_names']:
-            print(f'{current_corpus} is being processed')
+            print(f'corpus {current_corpus} is being processed')
 
             documents = []
             # Load all files belonging to the same corpus
