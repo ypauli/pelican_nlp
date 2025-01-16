@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Tiger
+
+New Prompt: prompt_2:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen stehe und alle starren mich
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um eine Webseite
+

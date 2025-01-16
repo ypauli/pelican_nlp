@@ -6,134 +6,133 @@ import generate_parameter
 import setup_pipeline
 import generate_text
 
+def initialize_directories(base_dir):
+    """Ensure the required directories exist."""
+    if not os.path.exists(base_dir):
+        os.makedirs(base_dir, exist_ok=True)
+    return {
+        "Subjects": os.path.join(base_dir, "Subjects"),
+        "Metadata": os.path.join(base_dir, "Metadata"),
+        "ProgressFile": os.path.join(base_dir, "progress.json")
+    }
+
+def load_or_initialize_progress(progress_file):
+    """Load progress from a file or create a new progress structure."""
+    if os.path.exists(progress_file):
+        with open(progress_file, "r") as file:
+            return json.load(file)
+    progress = {"subjects": {}}
+    save_json(progress, progress_file)
+    return progress
+
+def save_json(data, file_path):
+    """Save data to a JSON file."""
+    with open(file_path, "w") as file:
+        json.dump(data, file, indent=4)
+
+def load_metadata(metadata_file):
+    """Load metadata for a subject if it exists, else return None."""
+    if os.path.exists(metadata_file):
+        with open(metadata_file, "r") as file:
+            return json.load(file)
+    return None
+
+def create_metadata(subject, group_name, constants, group_data):
+    """Create initial metadata for a subject and group."""
+    return {
+        "subject": subject,
+        "group": group_name,
+        "constants": constants,
+        "varied_param": group_data["varied_parameter"],
+        "mean": group_data["varied_param_mean"],
+        "variance": group_data["varied_param_variance"],
+        "timepoints": []
+    }
+
+def process_timepoint(timepoint, subject, session_id, group_name, group_dir, group_data, constants, config, setup, progress, metadata):
+    """Process a single timepoint for a subject and group."""
+    if progress["subjects"][str(subject)]["groups"].get(group_name, {}).get(str(timepoint), False):
+        print(f"Skipping timepoint {timepoint} for subject {subject} in group {group_name}, already completed.")
+        return
+
+    print(f"Generating data for subject {subject}, group {group_name}, timepoint {timepoint}")
+
+    varied_param_value = generate_parameter.ParameterGenerator.timepoint_sample(
+        group_data["varied_param_mean"], group_data["varied_param_variance"]
+    )
+    parameters = {**constants, group_data["varied_parameter"]: varied_param_value}
+    parameters = generate_parameter.ParameterGenerator.clean_parameters(parameters)
+
+    wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(parameters, config.parameter_rules)
+    generation_arguments = generate_parameter.ParameterGenerator.generate_arguments(parameters, setup)
+    text_generator = generate_text.TextGenerator(setup, config.prompts, parameters, generation_arguments)
+    generated_text = text_generator.out
+
+    timepoint_file_path = os.path.join(
+        group_dir, f"sub-{subject}_ses-{session_id}_group-{group_name}_timepoint-{timepoint}.txt"
+    )
+    os.makedirs(group_dir, exist_ok=True)
+    with open(timepoint_file_path, "w") as timepoint_file:
+        for idx, prompt in enumerate(generated_text):
+            timepoint_file.write(f"New Prompt: prompt_{idx}:\n")
+            timepoint_file.write(f"{generated_text[prompt]}\n\n")
+
+    metadata["timepoints"].append({
+        "timepoint": timepoint,
+        "varied_param_value": varied_param_value,
+        "wellbeing_factors": wellbeing_factors
+    })
+    progress["subjects"][str(subject)]["groups"].setdefault(group_name, {})[str(timepoint)] = True
+
+def process_subject(subject, session_id, config, setup, directories, progress):
+    """Process a single subject across all groups and timepoints."""
+    metadata_dir = os.path.join(directories["Metadata"], f"subject_{subject}", f"a")
+    subject_dir = os.path.join(directories["Subjects"], f"ses-{session_id}", f"subject_{subject}")
+    os.makedirs(metadata_dir, exist_ok=True)
+    
+    # Initialize subject progress if it doesn't exist, else get constants
+    constants = generate_parameter.ParameterGenerator.subject_sample(config)
+    subject_metadata_file = os.path.join(metadata_dir, "metadata.json")
+    saved_metadata = load_metadata(subject_metadata_file)
+
+    # If generation is continued, get subject constants
+    if saved_metadata:
+        constants = saved_metadata.get("constants", constants)
+        print(f"Fetchedd subject metadata")
+        
+    # Ensure the subject is initialized in the progress dictionary
+    if str(subject) not in progress["subjects"]:
+        progress["subjects"][str(subject)] = {"groups": {}}
+
+    for group_name, group_config in config.groups.items():
+        print(f"Processing subject: {subject}, group: {group_name}")
+
+        group_dir = os.path.join(subject_dir, f"group_{group_name}")
+        group_metadata_dir = os.path.join(metadata_dir, group_name)
+        os.makedirs(group_dir, exist_ok=True)
+        os.makedirs(group_metadata_dir, exist_ok=True)
+        metadata_file = os.path.join(group_metadata_dir, "metadata.json")
+
+        group_data = generate_parameter.ParameterGenerator.group_sample(group_config, constants)
+        metadata = create_metadata(subject, group_name, constants, group_data)
+
+        for timepoint in range(config.timepoints):
+            process_timepoint(timepoint, subject, session_id, group_name, group_dir, group_data, constants, config, setup, progress, metadata)
+
+        save_json(metadata, metadata_file)
+        save_json(progress, directories["ProgressFile"])
+
 if __name__ == "__main__":
-    # Initialize configuration and pipeline setup
     config = simu_config.SimuConfig()
     setup = setup_pipeline.PipelineSetup(config)
     start_time = time.time()
-    
-    # Initialize the output directory
-    if not os.path.exists(config.directory):
-        os.makedirs(config.directory, exist_ok=True)
-    subject_dir = os.path.join(config.directory, f"Subjects")
-    metadata_dir = os.path.join(config.directory, f"Metadata")
 
-    # Initialize the progress file
-    progress_file = os.path.join(config.directory, "progress.json")
+    directories = initialize_directories(config.directory)
+    progress = load_or_initialize_progress(directories["ProgressFile"])
 
-    # Check if progress file exists
-    if os.path.exists(progress_file):
-        with open(progress_file, "r") as file:
-            progress = json.load(file)
-    else:
-        # Initialize an empty progress structure and create the file
-        progress = {"subjects": {}}
-        with open(progress_file, "w") as file:
-            json.dump(progress, file, indent=4)
+    for session_id in range(config.sessions):
+        for subject in range(config.subjects):
+            process_subject(subject, session_id, config, setup, directories, progress)
 
-    # Iterate through each subject
-    for subject in range(config.subjects):
-                    
-        # Initialize subject constants
-        constants = generate_parameter.ParameterGenerator.subject_sample(config)
-        
-        # Initialize subject progress if it doesn't exist, else get constants
-        if str(subject) not in progress["subjects"]:
-            progress["subjects"][str(subject)] = {"cohorts": {}}
-        else: 
-            # Fetch constants from the metadata file if it exists
-            metadata_file_path = os.path.join(metadata_dir, f"subject_{subject}", "metadata.json")
-            if os.path.exists(metadata_file_path):
-                with open(metadata_file_path, "r") as metadata_file:
-                    subject_metadata = json.load(metadata_file)
-                    constants = subject_metadata.get("constants", {})
-            else:
-                print(f"Metadata file not found for subject {subject}.")
-                constants = generate_parameter.ParameterGenerator.subject_sample(config)
-        
-        # Process each cohort
-        for cohort_name, cohort_config in config.cohorts.items():
-            print(f"Processing subject: {subject}, cohort: {cohort_name}")
-
-            # Create subject-specific directory for cohort and metadata.json file for this subject and cohort
-            cohort_dir = os.path.join(subject_dir, f"subject_{subject}", cohort_name)
-            cohort_metadata_dir = os.path.join(metadata_dir, f"subject_{subject}", cohort_name)
-            os.makedirs(cohort_dir, exist_ok=True)
-            os.makedirs(cohort_metadata_dir, exist_ok=True)
-
-            metadata_json_file = os.path.join(cohort_metadata_dir, "metadata.json")
-
-            # Initialize metadata information
-            cohort_data = generate_parameter.ParameterGenerator.cohort_sample(cohort_config, constants)
-
-            # Create or overwrite the metadata file
-            metadata = {
-                "subject": subject,
-                "cohort": cohort_name,
-                "constants": constants,
-                "varied_param": cohort_data["varied_parameter"],
-                "mean": cohort_data["varied_param_mean"],
-                "variance": cohort_data["varied_param_variance"],
-                "timepoints": []
-            }
-
-            with open(metadata_json_file, "w") as meta_file:
-                json.dump(metadata, meta_file, indent=4)
-
-            # Process each timepoint for the subject in this cohort
-            for timepoint in range(config.timepoints):
-                # Check if the timepoint has already been processed
-                if progress["subjects"][str(subject)]["cohorts"].get(cohort_name, {}).get(str(timepoint), False):
-                    print(f"Skipping timepoint {timepoint} for subject {subject} in cohort {cohort_name}, already completed.")
-                    continue
-
-                print(f"Generating data for subject {subject}, cohort {cohort_name}, timepoint {timepoint}")
-
-                # Generate timepoint-specific value for the varied parameter
-                varied_param_value = generate_parameter.ParameterGenerator.timepoint_sample(
-                    cohort_data["varied_param_mean"], cohort_data["varied_param_variance"]
-                )
-                parameters = {**constants, cohort_data["varied_parameter"]: varied_param_value}
-                parameters = generate_parameter.ParameterGenerator.clean_parameters(parameters)
-
-                # Generate wellbeing factors for the timepoint
-                wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(parameters, config.parameter_rules)
-
-                # Create the text for this timepoint
-                generation_arguments = generate_parameter.ParameterGenerator.generate_arguments(parameters, setup)
-                text_generator = generate_text.TextGenerator(setup, config.prompts, parameters, generation_arguments)
-                generated_text = text_generator.out
-
-                # Create a new file for each timepoint
-                timepoint_txt_file = os.path.join(cohort_dir, f"timepoint_{timepoint}.txt")
-
-                with open(timepoint_txt_file, "w") as timepoint_file:
-                    for idx, prompt in enumerate(generated_text):
-                        timepoint_file.write(f"New Prompt: prompt_{idx}:\n")
-                        timepoint_file.write(f"{generated_text[prompt]}\n\n")
-
-                # Append the timepoint data to the metadata JSON
-                metadata["timepoints"].append({
-                    "timepoint": timepoint,
-                    "varied_param_value": varied_param_value,
-                    "wellbeing_factors": wellbeing_factors
-                })
-
-                # Update progress for this timepoint
-                if cohort_name not in progress["subjects"][str(subject)]["cohorts"]:
-                    progress["subjects"][str(subject)]["cohorts"][cohort_name] = {}
-
-                progress["subjects"][str(subject)]["cohorts"][cohort_name][str(timepoint)] = True
-
-            # Save progress after processing the cohort for the subject
-            with open(progress_file, "w") as file:
-                json.dump(progress, file, indent=4)
-
-            # Write the updated metadata JSON file with timepoints data
-            with open(metadata_json_file, "w") as meta_file:
-                json.dump(metadata, meta_file, indent=4)
-
-    # Calculate and print the total execution time
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+    elapsed_time = time.time() - start_time
     print(f"Total execution time: {elapsed_time:.2f} seconds")

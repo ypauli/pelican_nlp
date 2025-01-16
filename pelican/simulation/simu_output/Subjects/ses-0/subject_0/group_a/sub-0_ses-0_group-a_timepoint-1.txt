@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß oder per Bus. Wer lieber im S
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Pinguin, Giraffe, Zebra
+
+New Prompt: prompt_2:
+Als letztes habe ich geträumt , dass ich auf der Tanzfläche tanze und alle Augen sind auf
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich wieder eine geregelte Arbeitsstelle in meiner alten Firma. Es
+

@@ -5,34 +5,43 @@ import os
 
 class PipelineSetup: 
     def __init__(self, config):
+        """
+        Initialize the pipeline setup with model, tokenizer, and device configurations.
+
+        Args:
+            config: Configuration object containing model name and other settings.
+        """        
         self.device = self.set_device()
         self.model = AutoModelForCausalLM.from_pretrained(config.model_name, device_map=self.device, torch_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(config.model_name)
         self.excluded_tokens = self.setup_tokenizer(self.tokenizer)
 
     @staticmethod
-    def load_progress(progress_file):
-        """Load the progress file if it exists, else return an empty dictionary."""
-        if os.path.exists(progress_file):
-            with open(progress_file, "r") as file:
-                return json.load(file)
-        return {}
-
-    @staticmethod
-    def save_progress(progress, progress_file):
-        """Save progress to the progress file."""
-        with open(progress_file, "w") as file:
-            json.dump(progress, file, indent=4)
-
-
-    @staticmethod
     def set_device():
+        """
+        Determine the device to use for running the model. Raises an error if CUDA is not available.
+
+        Returns:
+            torch.device: The device set for the model.
+        
+        Raises:
+            RuntimeError: If CUDA is not available.
+        """
         if torch.cuda.is_available() == False:
             raise RuntimeError("CUDA is not available. Please ensure you have a compatible GPU and CUDA installed.")
         return torch.device("cuda")
 
     @staticmethod
     def setup_tokenizer(tokenizer):
+        """
+        Configure the tokenizer to exclude specific tokens or patterns.
+
+        Args:
+            tokenizer: The tokenizer object to be configured.
+
+        Returns:
+            list: List of input IDs corresponding to excluded tokens or patterns.
+        """
         return tokenizer([
             # Newlines and Whitespace Variations
             "\n", "\n\n", "\n\n\n", "\t", "\r", "\r\n"," \n", " \n\n", ".\n", ".\n\n", 
