@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einem Flohmarkt herumschlendere. Ich schaue mir die Stände an und plötzlich entdecke ich ein altes Buch. Ich nehme es in die Hand und öffne es. Es ist ein altes Kochbuch aus dem 19. Jahrhundert. Ich blättere darin und finde Rezepte, die ich noch nie gesehen habe. Eines davon scheint besonders interessant zu sein. Es ist ein Rezept für eine Suppe, die aus Zutaten besteht, die ich
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Minuten. Auch die nächste Bäckerei ist nicht weit entfernt und lädt zum gemütlichen Frühstück ein.Nur wenige Gehminuten entfernt befindet sich die Haltestelle der Straßenbahnlinie 1, die direkt in die Innenstadt führt. Auch der Hauptbahnhof ist in wenigen Minuten zu Fuß erreichbar.Die Umgebung bietet zahlreiche Einkaufsmöglichkeiten, Restaurants, Cafés und Biergär
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Fuchs, Wolf, Tiger, Affe, Pferd, Hund, Katze, Schildkröte, Vogel, Fisch, Bär, Dachs, Büffel, Krokodil, Gepard, Strauß, Gnu, Zebra, Hyäne, Elch, Tapir, Gürteltier, Känguru, Koala, Eule, Flederma us, Eichhörn
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er heißt Max und ist ein kleiner Hund . Ich muss gestehen, dass ich vorher noch nie einen Hund gehabt habe. Ich habe zwar schon viele Hunde gesehen und mit ihnen gespielt, aber einen eigenen Hund hatte ich noch nie.Max ist ein süßer kleiner Hund, der sehr anhänglich ist. Er folgt mir überall hin und will immer bei mir sein. Es ist wirklich niedlich, wie er mich mit seinen großen Augen ansch
+

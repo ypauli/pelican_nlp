@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass meine Mutter und ich in einem großen Raum mit vielen anderen Menschen waren. Meine Mutter und ich waren die einzigen Frauen in diesem Raum, alle anderen waren Männer. Meine Mutter und ich waren auch die einzigen Menschen, die Englisch sprachen. Alle anderen sprachen eine Sprache, die wir nicht verstanden.Plötzlich begann einer der Männer zu sprechen . Er sprach Englisch und sagte: "Wer seid ihr und was macht ihr hier?" Wir erklärten
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 10 Minuten.Wir bieten Ihnen eine gemütliche Ferienwo hnung mit einem separaten Eingang.Die Wohnung verfügt über ein Schlafzimmer mit einem Doppel bett, ein Wohnzimmer mit einer Schlafcouch, eine voll ausgestattete Küche und ein Badezimmer mit Dusche.Die Wohnung verfügt über eine eigene Terrasse mit Gartenmöbeln und einem Grill.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Fuchs, Hund, Katze, Maus, Eichhörnchen , Schildkröte, Schlange, Frosch, Marienkäfer, Regenwurm, Biene, Ameise, Spinne , Heuschrecke, Kakerlake, Maulwurf, Meerschweinchen, Kaninchen, Esel, Pferd , Elefant, Löwe, Tiger, Panther, Gepard
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Kollegin in meiner Abteilung. Sie ist jünger als ich, arbeitet aber schon länger in der Firma als ich. Sie ist sehr nett und wir verstehen uns eigentlich ganz gut. All erdings habe ich manchmal das Gefühl, dass sie mich nicht ernst nimmt. Wenn ich zum Beispiel Ideen vorsch lage, nickt sie zwar und sagt, dass sie darüber nachdenken wird, aber ich habe das Gefühl, dass sie nicht wirklich interessiert ist.
+

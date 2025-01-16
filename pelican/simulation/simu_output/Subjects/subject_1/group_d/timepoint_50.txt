@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einer großen Stadt an einer Bushaltestelle stehe und auf den Bus warte, der mich zu meinem Ziel bringen soll. Plötzlich kommt ein älterer Mann auf mich zugerannt und schreit: „Schnell, der Bus kommt!
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Mit öffent lichen VerkehrsmittelnMit öffentlichen Verkehrsmitteln gelangt man am besten mit der Straßenbahnlinie 15 bis zur Haltestelle "Kreuz
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Löwe, Tiger, Fuchs, Hund, Katze, Pferd, Zebra, Giraffe, Büffel , Tapir, Strauß, Koala, Eichhörnchen
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Kollegin. Sie ist sehr nett, jung und dynamisch . Ihr Name ist Melanie und sie ist meine neue Assistentin. Ich muss zugeben, dass ich anfangs etwas skeptisch war. Wie würde sich meine Arbeit verändern? Würde
+

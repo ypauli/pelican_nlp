@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen stehe. Alle haben sich um einen Tisch versammelt, an dem ein großer Kuchen liegt. Ich habe Hunger und möchte unbedingt etwas von dem Kuchen probieren. Aber ich traue mich nicht, weil ich Angst habe, dass ich etwas falsch machen könnte oder dass die anderen mich komisch anschauen könnten. Was soll ich machen?Frage gestellt von: AnonymAntwort von: PsychologinLiebe Fragest
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fuß sind es etwa 30 Minuten. Der nächste B äcker ist 15 Gehminuten entfernt.Wie weit ist es zum nächsten Krankenhaus? Das nächste Krankenhaus ist das Universitätsklinikum Schleswig-Holstein, Campus Kiel . Es befindet sich in einer Entfernung von etwa 15 Kilometern und kann innerhalb von 20 Minuten mit dem Auto erreicht werden.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Tiger, Panda, Gepard, Fuchs, Dachs, Wolf, Bär, Pferd, Kamel, Zebra, Affe, Schimpanse, Orang-Utan, Gorilla, E isbär, Löwe, Tiger, Elefant, Flamingo, Strauß, Gans, Kranich, Storch, Papagei, Kakadu, Schildkröte, Schnecke,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich meine Ernährung komplett umgestellt. Kein Zucker mehr, keine Kohlenhydrate, kein Alkohol, kein K offein, keine Milchprodukte, kein Fleisch, kein F isch, keine Eier, keine Nüsse, keine Hülsenfr üchte, keine Sojabohnen, kein Mais, kein Weizen , kein Reis, kein Zucker, keine Süßigkeiten, kein Kaffee, kein Tee, kein Alkohol, keine Medikamente,
+

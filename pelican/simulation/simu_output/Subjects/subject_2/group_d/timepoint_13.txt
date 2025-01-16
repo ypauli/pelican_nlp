@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Freundin in einem Zug saß. Der Zug fuhr sehr schnell und ich hatte Angst, dass er entgleisen könnte. Meine Freundin versuchte mich zu beruhigen und sagte, dass der Zug sich er ist und nicht entgleisen wird. Aber ich hatte immer noch Angst und konnte mich nicht entspannen.Plötzlich hielt der Zug an einer Station und die Türen öffneten sich. Ein Mann stieg ein und setzte sich ne ben mich. Er sah mich an und sagte:
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Tiger, Eisbär, Gepard, Fuchs, Wolf , Dachs, Schakal, Hyäne, L öwe, Zebra, Antilope, Gnu, Strauß, Kranich, Flamingo, Pfau , Paradiesvogel, Affe, Elefant, Nashorn, Flusspferd, Giraffe, Zebra, Antilope, Gnu, Strauß, Kranich, Flamingo, Pfau, Paradiesvogel,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um die Entwicklung einer mobilen Applikation, die es den Benutzern ermöglicht, einfach und schnell Informationen zu verschiedenen Themenbereichen abzuruf en. Die App soll sowohl für Android- als auch für iOS-Geräte verfügbar sein.Das Projekt ist in mehrere Phasen unterteilt:1. Marktforschung: Bevor ich mit der Entwicklung der App beginne, werde ich eine gründliche Marktforschung durchführen, um
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten.Wie weit ist der nächste Bahnhof?Der n ächste Bahnhof ist der Hauptbahnhof Kassel. Mit dem Fahrrad dauert es etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten. Wie weit ist der nächste Flughafen?Der nächste Flughafen ist der Flughafen Kassel-Calden. Mit dem Fahrrad d
+

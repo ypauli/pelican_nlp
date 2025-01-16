@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Ex-Freund zusammen war. Wir haben uns gestritten und er hat mich verlassen. Ich habe versucht, ihn zurückzugewinnen, aber er hat mich abgewiesen. Jetzt ist er mit einer anderen Frau zusammen und ich fühle mich schrecklich. Was soll ich tun?Antwort: Liebeskummer ist eine der schlimmsten Erf ahrungen, die man machen kann. Es fühlt sich an, als ob dein Herz gebrochen wurde und du nicht weiß
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten.W ie weit ist es bis zum nächsten Krankenhaus?Mit dem Fahrrad dauert es etwa 2 0 Minuten bis zum nächsten Krankenhaus. Mit dem Auto dauert es etwa 10 Minuten.W ie weit ist das nächste Krankenhaus entfernt?Mit dem Fahrrad dauert es etwa 20 Minuten
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Giraffe, Löwe, Tiger, Gepard, Wolf, Fuchs, Dachs, B är, Hirsch, Reh, Elch, Känguru, Koala, Affe, Orang-Utan, Gorilla, Löwe, Tiger, Panther, Elefant, Nashorn, Flusspferd, Gnu, Zebra, Antilope, Strauß, Hyäne, Löwe, Leopard, Gepard, Giraffe,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kle ines Unternehmen, das sich auf die Entwicklung von Apps spezialisiert hat . Die Firma nennt sich Appsolutly und hat ihren Sitz in Düsseldorf.Weblinks  Offizielle Website Einzelnachweise Softwarehersteller (Deutschland) Unternehmen (Düsseldorf)Gegründet 2011 Wir verwenden Cookies, um Ihnen ein optimales Webseiten-Er
+

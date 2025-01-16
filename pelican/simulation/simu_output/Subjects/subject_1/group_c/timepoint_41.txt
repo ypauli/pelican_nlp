@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem riesigen Raum voller Bücher saß. Überall stapelten sich die Bücher, bis zur Decke hinauf. Einige der Bücher waren dick wie Telefonbücher, andere hatten nur wenige Seiten. Die Bücher waren aus den unterschiedlichsten Materialien, manche waren hart wie Stein, andere weich wie Seide. Einige waren alt und vergilbt, andere glänzten neu und unbenutzt.Ich wollte ein bestimmtes Buch finden, aber
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in etwa 10 Minuten.Die nächste Bushaltestelle ist ca. 150m entfernt und bietet direkte Verbindungen nach Lübeck, Bad Segeberg und Travemünde.In unmittelbarer Nähe befinden sich mehrere Restaurants, Cafés und Einkaufsmöglichkeiten.Eine Fahrradgarage ist vorhanden.Ausstattung:Die Wohnung verfügt über einen großen W
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Eisbär, Tiger, Gepard, Giraffe, Zebra, Affe, Pferd, Kamel, Strauß, Flamingo, Bär, Wolf, Fuchs, Hund, Katze, Maus, Eichhörnchen, Schaf, Ziege, Büffel, Kuh , Elefant, Löwe, Gepard, Tiger, Eisbär, Giraffe, Zebra, Affe, Pferd, Kamel
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich arbeite an einer neuen Webseite für meine Freundin. Sie ist Künstlerin und möchte ger ne ihre Werke der Öffentlichkeit präsentieren.Die Webseite soll einfach zu bedienen sein, ansprechend ausse hen und schnell laden. Ich habe mich für WordPress als CMS entschieden, da es sehr einfach zu installieren und einzurichten ist.Die erste Aufgabe bestand darin, ein Theme auszuwählen
+

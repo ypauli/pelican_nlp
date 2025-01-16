@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einer Party war und alle waren meine Freunde und wir haben viel Spaß gehabt.Dann war ich auf einem anderen Fest und alle waren meine Fre unde und wir haben viel Spaß gehabt.Aber jetzt bin ich auf einer Party und alle sind Fremde und ich fühle mich einsam. Was kann ich tun?
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man bequem mit dem F ahrrad. Ausflüge Für Tagesaus flüge bieten sich zahlreiche M öglichkeiten an. Bes uchen Sie zum Beisp iel das berühmte Kloster Eberbach in Eltville oder die malerische Stadt Rüdesheim mit ihrer weltbekannten Drosselgasse.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Zebra, Tiger, Giraffe, Affe, Eisbär, Pinguin, Fuchs, Hund, Kat ze, Maus, Hase, Delfin, Schildkröte, Frosch, Bär, Robbe, Koala, Reh, Büffel, Giraffe, Elefant
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein Problem mit meinem E-Mail Account. Ich kann zwar Mails emp fangen, allerdings kann ich keine Mails mehr versenden. Meine M ails werden abgeschickt , allerdings kommen diese nicht beim Empfänger an. Was mache ich falsch?Mit freundlichen GrüßenMichaelAnzeigeDieser Kunde hatte ein Problem mit der E-
+

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle starren mich an und warten darauf, dass ich etwas sage. Aber ich habe nichts zu sagen. Ich stehe einfach nur da und fühle mich unwohl. Dann gehe ich wieder hinaus und setze mich in mein Zimmer, wo ich mich sicher fühle.Ich
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Pferd, Hund, Katze, Maus, Kuh, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Truthahn, Fasan, Pfau, Adler, Bussard, Kranich, Reh, Hirsch, Elch,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu erstellen, auf der man sich ein Profil anlegen kann, um dann später mit anderen Benutzern in Kontakt zu treten. Ich habe mich für PHP als Programmiersprache entschieden, da es leicht zu erlernen ist und viele nützliche Funktionen bietet.
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fuß sind es etwa 30 Minuten.Die nächste Bushaltestelle ist ca. 200 m entfernt und bietet Verbindungen in alle Richtungen.Die nächste Straßenbahnhaltestelle ist ca. 400m entfernt und bietet Verbindungen
+

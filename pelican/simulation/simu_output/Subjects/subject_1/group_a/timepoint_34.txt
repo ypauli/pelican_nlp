@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle schauen mich an, als würden sie auf etwas warten. Ich weiß nicht, was es ist, aber ich fühle mich un wohl.Ich versuche, mich zu konzentrieren, aber es fällt mir schwer. Die Geräusche um mich herum werden lauter und ich kann kaum noch etwas erkennen. Meine Augen brennen und mein Kopf fühlt sich an, als würde er explodieren
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 10 Minuten. Mit dem Auto dauert es etwa 5 Minuten.W ie weit ist es zum nächsten Krankenhaus?Das nächste Krankenhaus ist das Klinikum Nürnberg. Es ist etwa 10 Kilometer entfernt und mit dem Auto in etwa 15 Minuten zu erreichen . Die Adresse lautet:Klinikum NürnbergKrankenhaus der MaximalversorgungKrankenhaus
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Gepard, Pferd, Kamel, Büffel, Wolf, Dachs, Fuchs, Hirsch, Bär, Eule, Adler, Kranich, Gans, Ente, Eichhörn chen, Affe, Elefant, Löwe, Tiger, Panther, Gepard, Zebra, Strauß, Flamingo , Schildkröte, Schmetterling, Marienkäfer,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kle ines Start-Up, das sich auf die Entwicklung von Apps spezialisiert hat. Das Unternehmen ist noch recht jung, hat aber bereits ein paar bemerkenswerte Projekte abgeliefert.Die Entwicklung einer App ist ein komplexer Prozess, der sorgfält ige Planung, Design und Entwicklung erfordert. Es ist wichtig, einen Entwickler zu finden, der nicht nur technisch versiert ist, sondern auch Ihre
+

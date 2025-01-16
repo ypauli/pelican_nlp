@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle schauen mich an und lachen über mich. Ich fühle mich sehr unwohl und versuche mich zu verstecken, aber es ist zu spät. Alle lachen über mich und ich kann nichts dagegen tun. Dieses Gefühl der Peinlichkeit ist sehr unangenehm und ich möchte es so schnell wie mö glich loswerden. Was kann ich tun, um dieses Gefühl zu überwinden?Antwort:Lie
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man nur zu Fuß oder mit dem Fahrrad. Mit dem Auto wäre es ein Umweg von etwa 15 Minuten. Die nächste Bushaltestelle ist ca. 10 Gehminuten entfernt. Der Bus fährt alle 2 0 Minuten und braucht etwa 15 Minuten bis zum Hauptbahnhof.Die nächste Straßenbahnhaltestelle ist etwa 5 Gehminuten entfernt. Die Straßenbahn fährt alle 10 Minuten und braucht etwa 20 Minuten
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Giraffe, Elefant, Löwe, Tiger, Bär, Panda, Eisbär, Wolf, Fuchs, Dachs , Eichhörnchen, Reh, Hirsch, Gnu, Zebra, Affe, Gorilla, Orang-Utan, Koala , Gepard, Löwe, Tiger, Elefant, Nashorn, Flusspferd, Giraffe, Zebra, Strau ß, Flamingo, Pelikan, Pinguin, Eisbär,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Web seite zu erstellen, die es den Benutzern ermöglicht, Informationen zu einem bestimmten Thema zu teilen und zu diskutieren. Das Projekt ist in mehrere Phasen unterteilt: 1. Informationsbeschaffung: Die Benutzer sammeln Informationen über ein bestimmtes Thema, indem sie Artikel lesen, Videos ansehen oder Interviews führen.2. Diskussion: Die
+

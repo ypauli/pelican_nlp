@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Hund spazieren gehe. Ich habe ihn an der Leine und er zieht mich hinter sich her. Ich versuche ihn zu kontrollieren, aber es gelingt mir nicht. Ich habe Angst, dass er plötzlich losrennt und wegläuft. Was kann ich tun, um diese Situation zu verbessern?Antwort: Es scheint, als hätte Ihr Hund ein Problem mit der Leinenführigkeit. Dies ist ein häufiges Problem bei Hunden und kann durch verschiedene Faktoren verursacht werden, wie zum Beispiel mangelnde Erziehung, Angst oder Stress.Um dieses Problem zu verbessern, sollten Sie folgende Schritte befolgen
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Pferd, Affe, Hund, Katze, Fuchs, Wolf, Bär, Schaf, Ziege, Kuh, Gans, Ente, Huhn, Taube, Fasan, Pfau, Kranich, Strauß, Eule, Nachtvogel, Fledermaus, Maus, Ratte, Hamster, Meerschweinchen, Kaninchen, Eichhörnchen , Igel, Dachs, Fuchs, Wolf, Bär, Löwe, Tiger, Elefant, Nashorn, Flusspferd, Zebra, Giraffe, Gnu, Antilope, Büffel,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein Forschungsprojekt im Bereich des maschinellen Lernens, genauer gesagt geht es darum, ein neuronales Netzwerk zu trainieren, das in der Lage ist, medizinische Bilder wie Röntgenaufnahmen oder MRT-Bilder zu analysieren und dabei bestimmte Krankheitsbilder zu erkennen.Das Projekt ist sehr interessant, da es zeigt, wie künstliche Intelligenz eingesetzt werden kann, um Ärzte bei der Diagnose von Krankheiten zu unterstützen. Es ist wichtig zu beachten, dass die KI -Technologie nicht als Ersatz für menschliche Ex
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. Direkt vor dem Haus gibt es eine Bushaltestelle, mit der man in wenigen Minuten den Hauptbahnhof erreicht . Von dort aus sind es nur noch wenige Stationen mit der Straßenbahn in die Innenstadt.Einkau fsmöglichkeiten gibt es in unmittelbarer Nä he des Wohnheims, in der Innenstadt und im nahegelegenen Einkaufszentrum. FreizeitmöglichkeitenSport  Das Wohnheim verfügt über eine eigene Sporthalle, die von den Bewohnern genutzt werden kann. In der Nähe des Wohnheims befinden sich zudem mehrere Sportpl
+

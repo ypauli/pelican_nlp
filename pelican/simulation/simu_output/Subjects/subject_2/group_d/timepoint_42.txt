@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum mit vielen Menschen bin. Plötzlich geht die Tür auf und ein Mann kommt herein. Er trägt ein weißes Hemd und eine schwarze Hose. Er geht auf mich zu und sagt: „ Hallo, mein Name ist John Doe. Was machst du hier?“Ich antworte: „Ich bin auch hier, um an diesem Meeting teilzuneh
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gor illa, Schimpanse, Bonobo, Eichhörnchen, Fuchs, Wolf, Dachs, Bär, Hirsch, Reh, Elch, Antilope, Gnu, Zebra, Strauß
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Spielzeug: Einen 3D-Drucker. Genauer gesagt handelt es sich um einen Prusa i3 MK3S+, den ich von meinem Arbeitgeber gesponsert bekommen habe. Ich habe schon länger mit dem Gedanken gespielt, mir einen 3D-Drucker anzuschaffen, aber die hohen Anschaffungskosten haben mich bisher davon
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Mit öffentlichen VerkehrsmittelnMit öffentlichen Verkehrsmitteln ist der Weg zum nächsten Supermarkt etwas komplizierter. Man muss zunächst mit der Straßenbahn (Linie 11) bis zur Haltestelle "Hauptbahnhof" fahren und von dort aus mit dem Bus (Linie
+

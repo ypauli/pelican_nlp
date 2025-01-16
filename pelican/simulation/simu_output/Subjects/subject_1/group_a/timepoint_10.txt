@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem riesigen Raum mit vielen anderen Menschen bin. Alle sitzen um einen großen Tisch herum. In der Mitte des Raumes steht ein riesiger Fernseher, auf dem ein Fußballspiel läuft.Ich setze mich an den Tisch und fange an, mit den Menschen um mich herum zu sprechen. Es ist eine angenehme Atmosphäre und ich fühle mich sehr wohl.Nachdem das Spiel vorbei ist, gehe ich zurück zu meinem
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 10 Minuten. Die nächste Bushaltestelle ist etwa 10 Gehminuten entfernt. Die nächste S-Bahn- Station ist etwa 15 Gehminuten entfernt. Der nächste Flughafen ist der Flughafen Köln /Bonn (IATA-Code: CGN), der etwa 20 Kilometer entfernt ist und mit dem Auto in etwa 25 Minuten
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Pferd, Hund, Katze, Maus, Hase , Fuchs, Dachs, Wolf, Bär, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Gockel, Truthahn, Fasan, Rebhuhn, Wachtel, Lerche, Amsel, Drossel, Fink , Sperling, Grünfink, Buchfink, Goldammer,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am laufen. Es handelt sich dabei um eine kle ine Web-Anwendung, die es ermöglicht, einzelne Artikel aus einem RSS-Feed zu speichern und später abzuruf en, wenn man Zeit dafür hat.Diese Anwendung ist besonders nützlich für Benutzer, die viele RSS- Feeds abonniert haben, da sie es ihnen ermöglicht, die Artikel zu lesen, wenn sie Zeit dafür haben, anstatt ständig
+

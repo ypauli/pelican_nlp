@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass meine Freundin und ich mit einem großen Koffer voller Kleidungsstücke im Zug saßen. Die anderen Fahrgäste schauten uns komisch an und fragten uns, was wir da machten. Wir erklärten ihnen, dass wir eine Woche lang Urlaub machen würden und unsere Koffer voller Kleidung und Lebensmittel hätten. Wir waren die Einzigen, die am Flughafen waren. Der Mann sagte uns, wir sollten in den Flieger steigen
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad recht schnell.Einige Restaurants befinden sich auch in der Nähe.Mit dem Auto dauert es ca. 15 Minuten , um vom Flughafen zum Hotel zu gelangen.Bitte beachten Sie, dass es sich hierbei um ungefähre Entfernungen handelt und die tatsäch liche Entfernung je nach Verkehrsaufkommen, Straßensperrungen etc. abweichen kann.Der Flughafen Palma de Mallorca (
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Affe, Giraffe, Eisbär, Tiger, Gepard, Fuchs, Wolf, Pferd, Kuh, Zebra, Dromedar, Löwe, Eisbär, Tiger, Gepard, Fuchs, Wolf, Pferd, Kuh, Z ebra, Dromedar, Löwe, Eisbär, Tiger, Gepard, Fuchs, Wolf, Pferd, Kuh, Zeb ra, Drom
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Mitar beiterin in meinem Team , sie heiß t Alexandra und ist 25 Jahre alt. Sie ist sehr nett und wir haben uns auf Anhieb gut verstanden . Allerdings ist sie nur für 2 Woc hen hier, we il sie Prakt ikum macht und dann wieder nach Hause geht . Schade, dass sie nicht l änger bleibt. Ich hab e sie gefragt, was sie bisher in Deutschland so gesehen hat und sie erzählte mir, dass sie nur die typischen Touristenziele gesehen hat
+

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen stehe. Alle sind sehr aufgeregt und fröhlich. Plötzlich geht die Tür auf und ein Mann kommt herein. Er trägt einen weißen Kittel und hält einen großen Koffer in der Hand. Er stellt sich als Doktor vor und sagt, dass er uns alle heilen wird. D ann nimmt er den Koffer und öffnet ihn. Es kommen viele bunte Kugeln zum Vorschein. Er gibt jedem von uns eine Kugel und sagt, dass wir sie essen sollen. Als wir die Kugeln essen, fühlen wir uns plötzlich viel besser. Wir sind nicht mehr krank und können wieder lachen und sp
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Wolf, Fuchs, Dachs, Hirsch, Reh, Elch, Büffel, Giraffe, Antilope, Zebra, Lama, Alpaka, Kamel, Strauß, Pferd, Esel, Ziege, Schaf, Hund, Katze, M aus, Ratten, Kaninchen, Meerschweinchen, Frettchen, Eichhörnchen, Igel, Schildkröte, Schlange, Eidechse, Kröte, Frosch, Gans, Ente, Huhn, Truthahn, Pfau, Fasan, Rebhuhn, Wachtel, Specht,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen langen dünnen Hals. Wenn er aufgeregt ist, wedelt er mit dem Schwanz. Er frisst Futter aus einer Schüssel und trinkt Wasser aus einem Napf. Manchmal schläft er unter meinem Schreibtisch und manchmal spielt er mit meinem Spielzeug.Mein neuer Mitbewohner ist ein Hund. Sein Name ist Rusty und er ist ein sehr freundlicher Hund. Wenn ich nach Hause komme, wedelt er mit dem Schwanz und freut sich, mich zu sehen. Manchmal spielt er mit mir und manchmal sch läft er einfach auf meinem Sofa.Ich hab
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Wer lie ber zu Fuß geht, erreicht den Supermarkt in etwa 30 Min uten.Der nächste Bäcker ist etwa 15 Gehmin uten entfernt.Die nächste Bushaltestelle ist etwa 1 0 Gehminuten entfernt.Die nächste Tankstelle ist etwa 15 Gehminuten entfernt.Der nächste Fahrradverleih ist etwa 15 Gehminuten entfernt.Die nächste Touristeninformation ist etwa 15 Gehminuten entfernt.Der nächste Geldautomat / die nächste Bank ist etwa 15 Gehminuten entfernt
+

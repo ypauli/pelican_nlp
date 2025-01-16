@@ -17,8 +17,7 @@ task_names:
   - "text_generation" # Give names of tasks used for creation of the text file (e.g., ['fluency', 'interview'])
 corpus_names:
   - "group_a"
-  - "group_b"
-  - "group_c" # Names of individual categories to group together
+  - "group_b" # Names of individual categories to group together
 
 extract_logits: true
 extract_embeddings: null

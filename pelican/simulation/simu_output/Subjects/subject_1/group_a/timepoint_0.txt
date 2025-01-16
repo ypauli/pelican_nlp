@@ -1,12 +1,12 @@
 New Prompt: prompt_0:
-Als letztes habe ich geträumt , dass ich in einem großen Raum mit vielen Menschen bin. Ich habe
+Als letztes habe ich geträumt , dass ich in einem Raum mit vielen Menschen war. Ich wusste, dass ich eine wichtige Aufgabe zu erfüllen hatte, aber ich hatte keine Ahnung, was das war. Plötzlich fühlte ich mich sehr müde und schlief ein.Als ich aufwachte, fühlte ich mich erfrischt und voller Energie. Ich sah mich um und bemerkte, dass ich mich in einem wunderschönen Garten befand. Die Sonne schien hell und
 
 New Prompt: prompt_1:
-Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein Projekt,
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die nächste Bushaltestelle ist in 5 Gehminuten erreichbar.Das Haus verfügt über eine Terrasse, einen Garten und kostenfreie Privatparkpl ätze.Die Unterkunft bietet Nichtraucherzimmer. Haustiere sind auf Anfrage er laubt.Die Zimmer verfügen über ein eigenes Bad mit Dusche oder Badewanne und kostenlosen Pflege
 
 New Prompt: prompt_2:
-Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eichhörnchen, Elefant,
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Giraffe, Löwe, Tiger, Affe, Hund, Katze, Maus , Pferd, Kuh, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Taube, Fisch, Löwe, Drache, Schlange, Büffel, Tiger, Hase, Schaf, Affe, Pferd, Ziege , Affe, Hahn, Huhn, Taube, Fisch, L
 
 New Prompt: prompt_3:
-Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß oder mit dem Fahrrad durch die
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kle ines Unternehmen, welches sich auf die Entwicklung von Apps spezialisiert hat.Zu meinen Aufgaben zählen unter anderem: 1. Recherche und Analyse von Kundenanforderungen 2. Entwurf von Wireframes und Mockups3. Entwicklung von Prototypen4. Gestaltung von Benutzeroberflächen (UI Design)5. Zusammenarbeit mit interdisziplinären Teams
 

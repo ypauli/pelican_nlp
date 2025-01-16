@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle schauen mich an und warten darauf, dass ich etwas sage. Aber ich habe nichts zu sagen. Ich fühle mich leer und unvorbereitet. Dann wache ich auf und merke, dass es nur ein Traum war.Was bedeutet dieser Traum?Dieser Traum könnte darauf hinweisen, dass Sie sich in einer Situation befinden, in der Sie sich unter Druck gesetzt füh len oder mit einer schwierigen Entscheidung zu kämpfen haben. Der Traum könnte auch ein Zeichen dafür sein, dass Sie Angst vor Veränderungen haben oder mit den Erwartungen anderer nicht übereinstimmen.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Giraffe, Eisbär, Schildkröte, Pferd, Hund, Katze, Maus, Fisch, Vogel, Bär, Tiger, Affe, Eichhörnchen, F uchs, Dachs, Wolf, Schaf, Ziege, Gans, Ente, Kranich, Strauß, Flamingo, Elefant, Löwe, Giraffe, Eisbär, Schildkröte, Pfer d, Kamel, Tiger, Panther, Gepard, Affe, Gorilla, Orang-Utan, Schimpanse, Eichhörnchen, Maus, Ratten, Hamster, Meerschweinchen, Kaninc
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein interdisziplinäres Forschungsvorhaben, das vom Bundesministerium für Bildung und Forschung (BMBF) gefördert wird. Das Vorhaben trägt den Titel „Klimawandel und Gesundheit“ und zielt darauf ab, die Auswirkungen des Klimawandels auf die menschliche Gesundheit zu untersuchen.Das Projekt wird in Zusammenarbeit mit der Weltgesundheitsorganisation (WHO) durchgeführt und soll dazu beitragen, das Verständnis für die komplexen Wechselwirkungen zwischen Klimawandel, Gesundheit und menschlichem Wohlbefinden zu verbessern.
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 10 Minuten , zu Fuß in ca. 25 Minuten. Mit öffentlichen Verkehrsmitteln: Die nächstgelegene Bushaltestelle ist die Haltest elle "Südtiroler Platz" der Linie 1 22. Von dort sind es ca. 10 Minuten Fußweg.Mit dem Fahrrad: Die nächstgelegene Fahrradstation ist die Fahrradstation am Hauptbahnhof. Von dort sind es ca. 10 Minuten Fußweg.Mit dem Auto:Von der Autobahn A1 kommend, nehmen Sie die Ausfahrt 25-Osnabrück L
+

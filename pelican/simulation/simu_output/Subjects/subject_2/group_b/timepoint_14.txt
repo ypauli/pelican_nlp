@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Hund im Wald spazieren gehe. Es war ein wunderschöner Herbsttag, die Blätter raschelten unter unseren Füßen und die Sonne schien durch das bunte Laub. Plötzlich hörte ich ein Geräusch hinter mir. Ich drehte mich um und sah einen Mann mit einem großen Hund an uns vorbeigehen. Der Hund zog stark an der Leine und schien sehr aufgeregt zu sein.I ch beobachtete, wie der Mann versuchte, den Hund zu beruhigen, aber es schien nicht zu funktionieren. Der Hund zog weiterhin an der Leine und schien bereit zu sein, sich loszureißen.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Tiger, Gepard, Pferd, Kamel, Dromedar, Wolf, Fuchs, Affe, Orang-Utan, Gorilla, Schimpanse, Gnu, Zebra, Strauß, Krokodil, Alligator, Flamingo, Pelikan, Eisbär, Löwe, Elefant, Giraffe, Tiger, Gepard, Pferd, Kamel, Drom edar, Büffel, Tapir, Wolf, Fuchs, Bär, Luchs, Panther, Leopard, Jaguar, Gepard, Hyäne, Löwe, Affe, Gorilla, Orang-Ut
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Hobby. Ich habe mir einen 3D-Drucker gekauft. Er heißt Prusa i3 MK3S+ und ist ein FDM-Drucker. FDM steht für Fused Deposition Modeling , was bedeutet, dass das Modell aus einem dünnen Faden (Filament) aufgebaut wird, der durch eine heiße Düse geschmolzen und dann Schicht für Schicht aufgetragen wird.Der Prozess des 3D-Drucks beginnt mit der Erstellung eines digitalen Modells des Objekts, das gedruckt werden soll. Dies kann entweder durch die Verwendung von CAD-Software (Computer Aided Design) oder durch den Scan eines bestehenden Objekts
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Das Meer ist ca. 500 Meter entfernt und lädt zum Schwimmen, Sonnenb aden und Entspannen ein.Der nächste Supermarkt ist ca. 500 Meter entfernt und bietet alles für den täglichen Bedar f. Weitere Einkaufsmöglichkeiten gibt es in den umliegenden Ortschaften.Die nächste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in die umliegenden Ortschaften.Die nächste Autobahnanschlussstelle befindet sich ca. 10 Kilometer entfernt an der A
+

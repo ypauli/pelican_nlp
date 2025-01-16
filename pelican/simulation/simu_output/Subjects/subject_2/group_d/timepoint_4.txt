@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Mann und meiner besten Freundin im Urlaub war. Wir waren an einem wunderschönen Strand, die Sonne schien und das Meer war türkisblau. Mein Mann und meine Freund in waren schwimmen, während ich in der Sonne lag und ein Buch las. Plötzlich spürte ich eine Hand auf meinem Bein. Ich schaute auf und sah einen jungen Mann, der mich fragte, ob ich mit ihm schwim men gehen würde. Ich st
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Tiger , Gepard, Pferd, Wolf, Fuchs, Bär, Dachs, Eichhörnchen , Reh, Hirsch, Elch , Luchs, Fasan, Kranich, Gans, Ente, Eule, Nachtvogel, Specht, Marienkäfer, Regenwurm, Schmetterling, Biene, Ameise, Spinne, Frosch, Molch, Eidechse,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Das Ziel ist es, eine Plattform zu schaffen, die es ermöglicht, dass Menschen sich gegenseitig helfen, indem sie ihre Fähigkeiten und Kenntnisse teilen. Die Idee dahinter ist, dass jeder Mensch etwas zu bieten hat, sei es nun Wissen, Fähigkeiten oder Erfahrungen. Diese Plattform soll als Vermittler fungieren und Menschen zusammenbringen, die Hilfe ben ötigen mit denen, die diese Hilfe anbieten
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten. AusstattungEinrichtung WohnbereichTVKüchenzeile GeschirrspülerKühlschrank KaffeemaschineWasserkocher ToasterBadezimmerBadewanne DuscheWCHaartrocknerSchlafzimmerDoppelbettAußenbereichBalkonGartenmöbelGrillParkplatzSonst
+

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem großen Wald spazieren gehe und plötzlich höre ich ein lautes Rascheln im Unterholz. Ich schaue hin und sehe einen großen Bären, der mich neugierig beobachtet.Ich fühle mich sehr unwohl und versuche, mich langsam zurückzuziehen. Aber der Bär folgt mir. Ich weiß nicht, was ich tun soll. Soll ich rennen oder bleiben und versuchen, mich zu beruhigen?
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Wer lieber zu Fuß unterwegs ist, benötigt etwa 45 Minuten.Die nächste Bushaltestelle ist 15 Minuten entfernt.M it öffentlichen Verkehrsmitteln erreichen Sie uns am besten mit der Straßenbahnlinie 5, Haltestelle Löbichau. Von dort sind es ca. 5 Minuten zu Fuß.Mit dem Auto erreichen Sie uns über die Autobahn
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Tiger, Giraffe, Bär, Eisbär, Wolf, Fuchs, Pferd, Zeb ra, Gnu, Antilope, Strauß, Flamingo, Papagei, Affe, Eichhörnchen, Koala, K änguru, Löwe, Tiger, Panda, Elefant, Giraffe, Zebra, Gnu, Antilope, Strauß , Erdmännchen, Gepard, Flamingo, Pinguin
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Lieblingsserie. Sie heißt „The Marvelous Mrs. Mais el“ und spielt in den 1950er Jahren in New York. Die Protagonistin, Miriam „Midge“ Maisel, ist eine Haus frau und Mutter, die heimlich als Stand-up-Comed ian auftritt. Die Serie ist bekannt für ihren einzigartigen Humor und die scharfe Dialoge.HandlungStaffel 1 Die Serie folgt Midge Maisel, einer jüdischen Hausfrau und M
+

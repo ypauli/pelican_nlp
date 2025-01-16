@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Freundin in einem Zug saß. Wir waren auf dem Weg zu einem Konzert, das wir besuchen wollten. Plötzlich hielt der Zug an und die Türen öffneten sich nicht mehr. Der Zugführer kam zu uns und sagte: "Entschuldigung, aber wir haben ein technisches Problem. Ich kann Ihnen nicht sagen, wie lange es dauern wird, bis wir weiterfahren können."Meine Freundin und ich waren
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant , Lö we, T iger, B üffel , Kamel , Pfer d, E sel, Z ebra, Giraffe, Antilope , Gnu , Strau ß, Fl amingo, Kranich , Stor ch, Sch wan, Gans, Ente, Fasan, Pfau, Eichhörnchen, Affe, Elefant, Löwe, Tiger, Büffel, Kamel, Pferd, Esel, Zebra, Giraffe, Antilope
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich arbeite an einem Buch mit dem Arbeitstitel „Das große Glück“. Es geht um die Suche nach dem großen Glück und darum, was es wirklich braucht, um glücklich zu sein. Ich möchte meine Erfahrungen und Erkenntnisse teilen und andere dazu inspirieren, ihr eigenes großes Glück zu finden.Ich freue mich darauf, mehr über dieses Projekt zu erfahren und hoffe, dass es
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten. Mit öffentlichen Verkehrsmitteln: Mit der Straßenbahn (Linie 11) fährt man bis zur Hal testelle "Humboldtstraße" und geht dann etwa 5 Minuten zu Fuß.Mit der U-Bahn (Linie U1) fährt man bis zur Haltestelle "Thalkirchner Straße" und geht dann
+

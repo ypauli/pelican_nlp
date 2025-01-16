@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Vater in einem Raum war, in dem viele Menschen saßen. Die Atmosphäre war schwer und beklemmend. Mein Vater und ich standen in der Ecke und unterhielten uns. Er sagte mir, dass er sich Sorgen um mich mache, weil ich so viel Zeit mit dem Computer verbringe. Ich vers uchte, ihn zu beruhigen, indem ich sagte, dass es nur ein Hobby sei und dass ich auch andere Interessen habe. Doch er ließ nicht locker
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 10 Minuten.Die nächste Bushaltestelle ist ca. 150m entfernt und bietet Ver bindungen in alle Richtungen.Der nächste Bahnhof ist ca. 2km entfernt und bietet Verbindungen in alle Richtungen.Die nächste Autobahnauffahrt ist ca. 10km entfernt und bietet Verbindungen in alle Richtungen.In der näheren Umgebung gibt es mehr
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Eisbär, Pinguin, Giraffe, Fuchs, Eichhörnchen, Schildkröte, Koala, Affe, Dachs, Bär, Hund, Katze, Maus, Pferd, Büffel, Tiger, Gepard, Tapir, Wolf, Hyäne, Löwe, Elefant, Pinguin, Giraffe, Fuchs, Eichhörnchen, Schildkröte, Koala, Affe
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Hobby. Ich habe angefangen zu nähen. Bisher habe ich mich nicht viel mit Nähen auseinander gesetzt , aber ich wollte schon länger etwas Neues ausprobieren. Also habe ich mir eine Nähmaschine gekauft und angefangen zu nähen.Es ist erstaunlich, wie viel Spaß das Nähen machen kann. Ich habe schon einige einfache Projekte abgeschlossen und bin stolz auf das, was ich geschafft habe.
+

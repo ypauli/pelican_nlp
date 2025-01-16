@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Hund spazieren gehe und er plötzlich verschwindet. Ich suche überall nach ihm, aber er ist nirgendwo zu finden. Ich bin verzweifelt und weiß nicht, was ich tun soll. Plötzlich höre ich eine Stimme, die meinen Namen ruft. Ich schaue mich um und sehe einen Mann, der mich anlächelt und meinen Hund hält. Es stellt sich heraus, dass der Mann meinen Hund gefüttert hat, als ich nicht in der Nähe war.Ich bedanke mich bei ihm und frage ihn, wie er auf meinen Hund aufmerksam geworden ist. Er erzählt mir, dass mein Hund
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Giraffe, Löwe, Tiger, Eisbär, Pinguin, Koala, Affe, Eichhörnchen, Dachs, Fuchs, Wolf, Bär, Pferd, Kuh, Schaf, Ziege, Gans, Ente, Hahn, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Igel, Schildkröte, Eidechse, Frosch, Maulwurf , Eichhörnchen, Dachs, Wolf, Bär, Löwe, Tiger, Elefant, Nashorn, Flusspferd, Giraffe, Zebra, Strauß, Pferd, Kuh, Schaf
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Hobby. Naja, eigentlich ist es kein Hobby, sondern eher eine Notwendigkeit. Ich habe angefangen zu nähen. Genauer gesagt habe ich mit dem Nähen angefangen, we il ich meiner Tochter ein Kleid nähen wollte, das sie unbedingt haben wollte, aber nicht kaufen konnte. Also habe ich es selbst genäht. Und weil es so viel Spaß gemacht hat , habe ich einfach weitergemacht.Was war das schwierigste Kleidungsstück, das du je genäht hast?Das schwierigste Kleidungsstück, das ich je genäht habe, war mein eigenes Hochzeitskleid.
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto sind es etwa 10 Minuten. Mit öffentlichen Verkehrsmitteln: Die nächste Bushaltestelle ist etwa 200 Meter vom Hotel entfernt. Die Buslinien 10 0, 101, 102, 1 03, 104, 105,  106, 107, 108, 109, 110, 111 , 112, 113, 114, 115, 116, 117, 118, 119, 120, 121
+

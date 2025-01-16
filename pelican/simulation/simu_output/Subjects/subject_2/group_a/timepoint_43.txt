@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt :Ich wache morgens auf, es ist noch dunkel, aber ich spüre schon die Wärme der aufgehenden Sonne auf meinem Gesicht. Ich öffne meine Augen und sehe einen wunderschönen Sonnenaufgang. Ich stehe langsam auf, strecke mich und genieße diesen Moment des Friedens und der Ruhe, bevor der Tag beginnt.Ich gehe ins Badezimmer, wasche mich und ziehe m ich an. Dann setze ich mich an den Frühstückstisch. Es gibt Rühreier, Speck und Toast. Ich esse langsam und genieße jeden Bissen.Als ich fertig bin, räume
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Giraffe, Tiger, Pferd, Kamel, Affe, Koala, Delfin, Hund, Katze, Maus, Hase, Meerschweinchen, Hamster, Schildkröte, Eichhörnchen, Igel, Fuchs, Gans, Hahn, Ente, Pfau, Strauß, Marienkäfer, Schmetterling, Biene, Bär, Eisbär, Ele fant, Zebra, Giraffe, Löwe, Tiger, Panther, Affe, Gorilla, Orang-Utan, Gnu, Antilope, Zebra, Elefant, Löwe, Gepard, Leop
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein Problem mit meinem Fahrrad. Es springt nicht mehr an. Ich habe die Batterie schon gewechselt, aber es hilft nichts. Was kann ich noch tun?Ich habe ein Problem mit mein em Fahrrad. Es ist ein Elektrofahrrad und ich kann es nicht mehr aufladen. Was soll ich tun?Ich habe ein Problem mit meinem Fahrrad. Es ist ein Mountainbike und ich habe Schwierigkeiten, die Gänge zu schalten. Was soll ich tun?Ich habe ein Problem mit meinem Fahrrad. Es ist ein Rennrad und ich habe Schwierigkeiten, die Bremsen zu benutzen. Was soll ich tun?Ich
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß oder mit dem Fahrrad in wenigen Minuten .Einkaufsmöglichkeiten für den tä glichen Bedarf gibt es in unmittelbarer Nä he.Auch die nächste Bushaltestelle ist nur wenige Gehminuten entfernt und bietet eine gute Anbindung an den öffentlichen Nahver kehr.Ausstattung:Diese W ohnung befindet sich in einem gepflegten Mehrfamil ienhaus und verfügt über folgende Ausstattungs merkmale:- Küche mit Einbauküche, Cerankochfeld, Backofen, Kühlschrank und Spülmaschine- Tageslichtbad mit Badewanne und WC
+

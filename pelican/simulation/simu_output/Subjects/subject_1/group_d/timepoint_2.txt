@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich morgens aufwache und mit meinen Kindern frühstücken möchte. Ich stehe auf und gehe in die Küche und sehe, dass der Tisch schon gedeckt ist . Meine Kinder sitzen da und warten darauf, dass ich komme. Sie lächeln mich an und sagen: „Mama, wir haben dich vermisst
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 10 Minuten.Mit öffentlichen Verkehrsmitteln:Mit der Straßenbahn Linie  3 oder 4 bis zur Haltestelle "Zwickauer Straße" fahren. Von dort aus sind es noch ca. 5 Minuten zu Fuß bis zum Hotel.Mit dem Auto:
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Tiger, Löwe, Gepard, Fuchs, Hund, Katze, Pferd, Maus, Eichhörn chen, Bär, Dachs, Wolf, Schildkröte, Giraffe, Strauß, Gans, Ente, Kranich, Adler
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich das Gefühl, dass meine Katze krank ist. Sie schläft viel mehr als sonst, frisst weniger und ist weniger aktiv . Außerdem hat sie seit ein paar Tagen etwas Ausfluss aus der Nase. Ich mache mir große Sorgen um sie und w ürde gerne wissen, ob das alles nur Stress bedingt ist oder
+

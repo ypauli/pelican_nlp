@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner besten Freundin und meinem besten Freund in einem Café sitze. Wir haben uns lange nicht gesehen und unterhalten uns angeregt über vergangene Zeiten und aktuelle Ereignisse. Plötz lich unterbricht mich meine Freundin und sagt: „Du, ich muss dir etwas erzählen. Mein Partner hat sich von mir getrennt.“Ich bin überrascht und versuche, meine Gedanken zu ord nen. „Das tut mir leid. Wie geht es dir damit?“, frage ich vorsichtig.„Ich
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Affe, Fuchs, Dachs, Wolf, Hund, Katze, Pferd, Schaf, Ziege, Kuh, Büffel, Kamel, Strauß, Esel, Gans, Ente, Hahn, Huhn, Taube, Fasan, Pfau, Kranich, Gans , Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, Gans, G
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um eine Webanwendung, die es Benutzern ermöglicht, Bilder hochzuladen, zu bearbeiten und zu speichern .Die Anwendung ist in Ruby on Rails entwickelt und nutzt die Bildverarbeitungsbibliothek ImageMagick. Die Benutzerauthentifizierung erfolgt über Devise. Weblinks  Offizielle Website (englisch) GitHub-Repository (englisch)Einzelnachweise BildbearbeitungssoftwareFreie Software/Kunst, Kultur, Unterhalt
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Wie lange dauert es vom Flughafen zum Stadtzentrum?Mit dem Auto dauert die Fahrt vom Flughafen zum Stadtzentrum etwa 20 Minuten.Wie lange dauert es vom Flughafen zum Bahnhof?Mit dem Auto dauert die Fahrt vom Flughafen zum Bahnhof etwa 15 Minuten. Wie lange dauert es vom Flughafen zum Stadtzentrum?Mit dem Auto dauert die Fahrt vom Flughafen zum Stadt
+

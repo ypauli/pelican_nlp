@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass meine Mutter, mein Vater und mein Bruder alle in einem Raum waren. Meine Mutter war sehr aufgeregt und mein Bruder und ich sahen uns gegenseitig an und lachten darüber, dass unsere Mutter so aufgeregt war. Mein Vater saß ruhig in einem Sessel und beobachtete alles. Meine Mutter sagte zu meinem Bruder und mir: „Ihr wer det es nicht glauben, aber dein Vater hat gesagt, dass er
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in etwa 15 Minuten. Der Weg führt leicht bergab entlang einer schmalen Straße, die von hohen Bäumen gesäumt ist. Auf halber Strecke kommt man an einem kleinen Spielplatz vorbei, der sich ideal für eine kurze Pause mit den Kindern eignet.Wer es etwas bequemer möchte, kann auch den Bus nehmen. Die Bushaltestelle befindet sich direkt vor dem Hotel und wird regelmäßig angefahren. Die F
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Giraffe, Elefant, Affe, Fuchs, Pferd, Hund, Katze, Maus, Schaf, Ziege, Kuh, Schwein, Büffel, Adler, Fasan, Ente, Gans, Hahn, Huhn, Fisch, Eichhörnchen, Igel, Dachs, Bär, Wolf, Reh, Hirsch, Elch, Esel, Kamel, Strauß, Känguru, Lama
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen: Ich habe mich bei einer Online-Umfrage angemeldet, bei der es dar um geht, einen Online-Kochkurs zu erstellen. Die Idee dahinter gefällt mir sehr gut, denn ich liebe es, neue Rezepte auszuprobieren und meine Kochkünste zu verbessern. Außerdem denke ich, dass es eine großartige Möglichkeit ist, andere Menschen dazu zu inspirieren, gesündere Essgewohnheiten anz
+

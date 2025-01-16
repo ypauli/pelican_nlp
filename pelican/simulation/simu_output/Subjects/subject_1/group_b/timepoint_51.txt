@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in meinem alten Zuhause wohne, aber plötzlich ist alles anders. Die Möbel sind anders, die Farben sind anders, die Gerüche sind anders . Es fühlt sich an, als wäre ich in einem Traum gefangen. Ich versuche zu schreien, aber es kommt kein Ton heraus. Ich versuche zu rennen, aber meine Beine sind schwer wie Blei. Ich versuche zu kämpfen, aber ich kann mich nicht bewegen. Ich
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.AusstattungEinrichtungWLAN WaschmaschineTrocknerKücheSpülmaschineBackofenKühlschrank GefrierfachMikrowelleToasterWasserkocherKaffeemaschineGeschir r und Besteck vorhandenBettwäsche vorhandenHandtücher vorhandenDuscheFöhn
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Tiger, Gepard, Pferd, Affe, Hund, Katze, M aus, Eichhörnchen, Fuchs, Dachs, Wolf, Bär, Giraffe, Zebra, Antilope, Gnu , Elefant, Flusspferd, Löwe, Tiger, Panther, Leopard, Jaguar, Gepard, Karakal , Luchs, Wolf, Hyäne, Büffel, Nashorn
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu ents chlossen, meine eigene Kryptowährung zu erstellen. Wie das funktioniert, möchte ich in diesem Beitrag erklä ren.Die Idee, eine eigene Kryptowährung zu erstellen, kann aus verschiedenen Gründen motiviert sein. Vielleicht mö chtest du eine dezentralisierte digitale Währung schaffen, die unabhängig von staatlicher Kontrolle ist. Oder vielleicht möchtest
+

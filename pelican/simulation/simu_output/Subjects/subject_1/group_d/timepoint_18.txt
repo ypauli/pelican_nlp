@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Einkaufszentrum einkaufen gehe. Ich schiebe meinen Einkaufswagen durch die Gänge und suche nach einem bestimmten Produkt. Plötzlich se he ich jemanden, den ich kenne. Es ist eine Freundin aus der Schule. Wir unterhalten uns kurz und sie fragt mich, ob ich ihr etwas aus dem Supermarkt mitbring en kann. Ich stimme zu und wir vereinbaren, dass ich ihr die Sachen nach der Schule bringe.Ich gehe also nach der Schule in den Supermarkt und
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß, mit dem Fahrrad oder mit dem Auto.Wie komme ich zum nächsten Supermarkt?Zu Fuß: Der nächste Supermarkt ist ca. 10 Gehminuten entfernt.Mit dem Fahrrad: Der nächste Supermarkt ist ca. 5 Fahrradminuten entfernt. Mit dem Auto: Der nächste Supermarkt ist ca. 5 Autominuten entfernt.EnergieausweisEnergieausweis Art: Bedarfsaus weisE
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär , Löwe , Elefant , Giraffe, Pferd, Hund, Kat ze, Maus , Fisch, Vogel, Schildkrö te, Drache , Bär, Fuchs, Eichhörn chen, Lö we, Tiger , Elefant , Pferd , Giraffe, Büffel , Tapir , Löwe , Zebra, Gepard, Löwe, Leopard, Löwe, Löwe, Löwe, Löwe, Löwe, Löwe, Löwe, Löwe
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Einen Mitbewohner, der nicht sprechen kann, nicht essen kann, nicht schlafen kann. Einen Mitbewohner, der nichts tun kann.Dieser Mitbewohner hat keine Hände, keine Beine, keine Augen, keine Ohren, keinen Mund, keine Nase. Dieser Mitbewohner kann nichts sehen, nichts hören, nichts riechen, nichts schmecken, nichts fühlen. Dieser Mitbewohner kann nichts denken, nichts wissen, nichts lernen, nichts verstehen. Dieser Mit bewohner ist ein
+

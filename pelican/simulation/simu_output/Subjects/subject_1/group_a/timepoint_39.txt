@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einer großen Bibliothek war. Überall standen Bücherregale voll mit alten Büchern und ich habe versucht, ein bestimmtes Buch zu finden. Aber ich konnte es einfach nicht finden. Ich habe alle Regale durchsucht, aber das Buch war nirgendwo zu finden.Plötzlich kam eine Frau auf mich zugelaufen. Sie sah mich verwirrt an und fragte mich, ob ich nach einem bestimmten Buch suche. Ich erklärte
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 5-10 Minuten.Mit dem AutoMit dem Auto erreichen Sie uns am besten über die Autobahn A44, Abfahrt Hagen-West. Von dort aus folgen Sie der Beschild erung Richtung Hagen-Zentrum und biegen an der ersten großen Kreuzung links ab. Nach ca.  300 Metern finden Sie uns auf der rechten Seite.Anfahrt aus Richtung Wuppertal:Fahren
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Tiger, Giraffe, Affe, Bär, Eisbär, Pinguin, Delfin, Wal , Hai, Schildkröte, Krokodil, Gepard, Strauß, Flamingo, Eule, Papagei, Affe, Elefant, Tiger, Löwe, Gnu, Zebra, Büffel, Hyäne, Löwe, Leopard, Gepard, Giraffe, Antilope, Nashorn, Ele
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich endlich wieder Zeit für meine Hobbys. Dazu gehört natürlich auch das Lesen von Büchern. In den letzten Wochen hab e ich einige Bücher gelesen, die ich gerne mit euch teilen möchte.Das erste Buch ist "Das Café am Rande der Welt" von John Strelecky. In diesem Buch geht es um einen Geschäftsmann, der nach einem Flugzeugabsturz auf einer einsamen Insel strandet und dort auf einen alten Mann trifft, der
+

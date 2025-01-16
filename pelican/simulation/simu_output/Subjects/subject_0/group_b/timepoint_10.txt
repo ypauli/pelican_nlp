@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einem Fischmarkt war. Ich habe dort Fisch gekauft und ihn dann mit nach Hause genommen. Dabei habe ich gemerkt, dass der F isch viel zu teuer für mich war und ich ihn nicht bezahlen konnte.Dann habe ich den Fisch wieder auf den Fischmarkt zurückgebracht und ges agt, dass der Fisch kaputt gegangen ist. Dann hat der Verkäufer den Fisch zurückgenommen und mir mein Geld gegeben.Ich habe dann
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Min uten. Die Innenstadt ist ca. 1, 5 km ent fernt und bequem mit dem F ahrrad zu erreichen . Der näch ste Flugh afen ist der internationale Flughaf en Frankfurt am Main, der ca.  60 Kil ometer entfer nt ist. G eschichte  Erst mals urk undlich erwähnt wurde der Ort im Jahr 1332.Am 31. Dezember 1971 wurde der Ortsteil Langenhain der bis d
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Gepard, Giraffe, Fuchs, Wolf, Bär, Hund, Katze, Pferd , Kuh, Schaf, Ziege, Kamel, Strauß, Esel, Dromedar, Antilope, Nashorn, Elefant, Zebra, Löwe, Leopard, Gepard, Hyäne, Büffel, Flusspferd, Elefant, Krokodil, Schakal,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein kleines Problem mit meinem Samsung Galaxy S3. Wenn ich eine Nummer wählen möchte, geht das Gerät erst in den Lautlos-Modus , bevor es die gewählte Nummer wählt. Wie kann ich dieses Problem beheben?Danke im Voraus für Ihre Hilfe! Mit freundlichen GrüßenAndreas ZiegerP.S. Ich benutze Ubuntu Linux 20.04 LTS Sie verwenden einen veralteten Browser. Es kann sein
+

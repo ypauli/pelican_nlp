@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Mann und meiner Tochter in einem Zug sitze. Der Zug fährt durch eine wunderschöne Landschaft, die Sonne scheint und es ist alles friedlich. Doch plötzlich hält der Zug an und die Türen öffnen sich nicht mehr. Wir stecken fest und können nicht mehr aussteigen .Ich fange an, meinen Mann und meine Tochter zu beruhigen und sage ihnen, dass wir einfach abwarten müssen, bis der Zug wieder fährt. Aber je länger wir warten, desto unruhiger werden mein Mann und meine Tochter. Sie beginnen zu weinen und ich versuche, sie zu trösten .Pl
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Pferd, Eisbär , Giraffe, Affe, T iger, Wolf, Fuchs, Hund, Kat ze, Maus , Hase, Eichhörn chen, Bär , Dachs , Otter, Schildkrö te, Schlange , Fisch, Vogel, Ente, G ans, Kran ich, Pfau , Strauß, Elefant, Löwe, Pferd, Eisbär, Giraffe, Affe, Tiger, Wolf, Fuchs, Hund, Katze, Maus, Hase, Eichhörnchen, Bär, Dachs, Otter, Schildkröte, Schlange, Fisch, Vogel, Ente,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu entschlossen, ein Buch zu schreiben. Es handelt sich dabei um ein Sachbuch, genauer gesagt um einen Ratgeber zum Thema Selbstständigkeit und Unternehmensgründung.Ich habe mich für dieses Thema entschieden, weil ich selbst vor kurzem den Schritt in die Selbstständigkeit gewagt habe und dabei auf viele Herausforderungen gestoßen bin. Ich möchte meine Erfahrungen und das Wissen, das ich mir angeeignet habe, mit anderen teilen, um ihnen den Einstieg in die Selbstständigkeit zu erleichtern.D as könnte dich auch interessierenSelbstständigkeit
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten. Mit öffentlichen Verkehrsmitteln: Die nächste Bushaltestelle befindet sich direkt vor dem Haus und wird von der Linie 10 bedient. Von hier aus gelangt man in etwa 15 Minuten zum Hauptbahnhof.Mit dem Flugzeug: Der nächstgelegene Flughafen ist der Flughafen Köln/Bonn (IATA-Code: CGN), der etwa 20 Kilometer entfernt liegt. Es besteht eine direkte Busverbindung vom Flughafen zum Hauptbahnhof Düsseldorf. Die Fahrtzeit beträgt etwa 
+

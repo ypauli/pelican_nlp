@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , ich würde in meinem Wohnzimmer sitzen und meine Familie würde um mich herum versammelt sein. Wir würden alle friedlich be ieinander sitzen und einfach die Zeit genießen. Es wäre so ein schönes Gefühl der Einheit und des Zusammenhalts.Aber ich we iß, das ist einfach nur ein Traum. Wahrscheinlich ist das einfach nicht möglich. Nicht jetzt und vielleicht auch nie.Aber ich mache
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß durch schnittlich in 1 0 Minuten .W ie weit ist es vom Hotel zum Strand ?Der nächste Strand ist der Strand von Trou aux Biches , der zu Fuß in etwa 15 Minuten er reichbar ist .W ie weit ist es zum Fl ughafen ?Der Flughaf en Maurit ius Sir See woosag ur Ramgoolam ist etwa 45 Autominuten entfernt.Gibt es in der Nähe Einkaufsmöglichkeiten?Einkaufsm
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Pferd, Eichhörnchen, Katze, Hund, Elefant, Schildkröte, Flamingo, Löwe, Bär, Fuchs, Tiger, Giraffe, Wolf, Affe, Gepard, Zebra, Eisbär, Pinguin, Eule, Pfau, Fasan, Papagei , Strauß, Kamel, Dromedar, Elefant, Flamingo, Löwe, Tapir, Antilope, Nashorn, Gnu,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, ein bestehendes ERP-System durch eine moderne, cloudbasierte Lösung zu ersetzen . Dabei ist es wichtig, dass die neue Software alle Funktionen bietet, die das Unternehmen benötigt, und gleichzeitig einfach zu bedienen ist.Ein weiterer wichtiger Aspekt bei der Einführung neuer Software ist die Schulung der Mitarbeiter. Es ist unerlässlich , dass die Mitarbeiter in der Lage sind, die
+

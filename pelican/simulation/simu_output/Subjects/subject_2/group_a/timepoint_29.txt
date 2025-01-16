@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass wir alle zusammen in einem Zug sitzen. Es ging durch ein dicht bewaldetes Tal. Plötzlich blieb der Zug stehen. Die Bäume um uns herum bewegten sich plötzlich und versperrten den Weg. Der Wind pfiff durch die Bäume und der Zug bewegte sich nicht.Ein Mann stieg aus und versuchte, die Türen zu öffnen. Aber sie ließen sich nicht öffnen. Er ging zur Lokomotive und versuch te, die Bremse zu lösen, aber es gelang ihm nicht.Er rief nach Hilfe, aber niemand hörte ihn. Der Wind pfiff weiterhin durch die Bäume und der Zug bewegte sich nicht.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Bär, Löwe, Pferd, Schaf, Fuchs, Esel, Hund, Katze, Maus, Affe, Giraffe, Büffel, Nashorn, Kamel, Flamingo, Strauß , Krokodil, Marienkäfer, Drache, Schildkröte, Schmetterling, Biene, Libelle, Eichhörnchen, Dachs, Gans, Ente, Fasan, Kranich, Pfau , Papagei, Osterhase, Elefant, Löwe, Tiger, Affe, Flamingo, Fisch, Schildkröte, Maus, Katze, Hund, Pferd, Giraffe, Zebra
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich eine neue Katze. Sie ist etwa 6 Monate alt und eher scheu. Wenn ich mich ihr nähern möchte, geht sie sofort weg und versteckt sich hinter dem Sofa, unter dem Bett oder h inter der Heizung. Wenn ich versuche sie mit Leckerlis zu locken, reagiert sie nicht darauf. Wie kann ich ihr helfen, Vertrauen aufzubauen? Wie kann ich sie an mich gewöhnen?Das ist eine sehr gute Frage, die Du stellst. Du solltest bedenken, dass diese Katze vielleicht schlechte Erfahrungen mit Menschen gemacht hat.Um ihr zu hel fen, solltest Du geduldig sein und ihr Zeit geben
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man schnell und sicher, denn das Wetter hier ist konstant schön.In den letzten Jahren haben sich zahlreiche internationale Marken und Supermärkte hier niedergelassen, was ein bequemes Einkauf en ermöglicht. Die Preise sind niedr iger als in Europa, aber immer noch relativ hoch im Vergle ich zu vielen anderen asiatischen Ländern. Für Abenteuerlustige, die etwas abse its der ausgetretenen Touristenpfade suchen, bieten sich Länder wie Kambodscha, Laos und Myanmar an. In diesen Ländern gibt es viel zu entdecken, sowohl kulturell als auch landschaftlich. Allerd
+

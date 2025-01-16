@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Freundin am Tisch saß. Sie saß neben mir. Wir waren in einem gemütlichen kleinen Café. An der Wand hingen Bilder von berühmten Persönlichkeiten, die in der Stadt gelebt hatten.Ich kann mich nicht daran erinnern, wie unser Gespräch beg onnen hat, aber es war schnell klar, dass wir das Thema
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in ein paar Minuten. Die Lage ist einfach ideal .Die Ferienwohnung ist sehr gemütlich eingerichtet und mit allem ausgestattet, was man für einen schönen Urlaub benötigt. Das Personal ist sehr nett und hilfsbereit. Das Essen ist ausgezeichnet und man kann zwischen verschiedenen Restaurants wählen. Wir werden auf jeden Fall wiederkommen
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Pinguin, Giraffe, Elefant, Gepard, Erdmännchen , Fuchs, Wolf, Grizzlybär, Orca, Pferd, Dachs, Elch, Aff e, Löwe, Tiger, Elefant, Hyäne, Leopard, Eisbär, Gnu, Gepard, Löwe
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Mitbewohner in meinem Zimmer.Er ist klein, schlaksig und hat einen buschigen Schwanz.Sein Name ist Flauschi, er ist ein Eichhörnchen und hat sich letzte Woche einfach so in meinem Zimmer eingenistet. Eigentlich dachte ich, dass es nur vorübergehend ist, aber mittlerweile hat es sich so gemütlich gemacht, dass es
+

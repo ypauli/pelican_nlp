@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Mutter und meiner Schwester in einem Zimmer saß. Meine Mutter sagte zu mir: „Ich habe dich immer geliebt, aber jetzt ist es vorbei.“ Meine Schwester fügte hinzu: „Ich habe dich auch immer geliebt, aber jetzt ist es auch vorbei.“ Ich fühlte mich verletzt und enttäuscht . Wie konnte sie nur so etwas sagen? Wir waren doch immer füreinander da, oder nicht?
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Welche Einkaufsmöglichkeiten gibt es in der Nähe?Es gibt mehrere Supermärkte in der Nähe, wie zum Beispiel Edeka, Rewe und Aldi. Außerdem gibt es in der Nähe auch einige Bäckereien, Drogerien und Apotheken, wie zum Beispiel Rossmann, dm und Müller.Mit den öffentlichen Verkehrsmitteln ist
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Pferd, Kamel, Giraffe, Zebra, Strauß, Flamingo, Schildkröte, Affe, Fuchs, Dachs, Wolf, Bär, Luchs, Leopard, Gepard, Tiger, Löwe, Elefant, Nashorn, Zebra, Gnu, Hyäne, Lö wenäffchen, Gorilla, Schimpanse, Orang-Utan
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um eine kle ine Anwendung, die es Benutzern ermöglichen soll, ihre Lieblingsrezepte zu verwalten und zu teilen.Die Idee hinter dem Projekt ist es, eine einfache und benutzer freundliche Plattform zu schaffen, auf der Benutzer Rez epte hinzufügen, bearbeiten und teilen können. Die Plattform sollte responsive sein, also auf verschiedenen Geräten wie Smartphones, Tablets und
+

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner besten Freundin und meinem besten Freund in einem kleinen Café saß. Wir unterhielten uns angeregt, lachten viel und genossen einfach die Zeit miteinander. Plötzlich sagte meine Freundin zu mir: „Weißt du, ich glaube, ich bin lesbisch.“ Ich war völlig überrascht und wusste nicht, wie ich darauf reagieren sollte. Ich sagte ihr, dass ich sie immer unterstützen würde, egal was passiert, und dass ich glaube, dass es wichtig ist, sich selbst treu zu bleiben und das zu tun, was man für richtig hält, auch wenn es bedeutet
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Gepard, Büffel , Wölfe, Füchse, Bären, Hirsche, Antilopen, Gnus , Hyänen, Löwen, Leoparden, Tüpfelhyänen, Geparden, Elefanten, Flusspferde, Krokodile, Paviane, Warzenschweine, Giraffen, Zebras, Strauße, Oryxantilopen, Elenantilopen , Löwen, Leoparden, Geparden, Hyänen, Wildhunde, Erdmänn chen, Warzenschweine, Flusspferde, Krokodile, Nilgänse, Marabus
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kleines Startup, das sich auf die Entwicklung von mobilen Apps spezialisiert hat. Die Firma nennt sich „AppSolut“ und hat ihren S itz in Stuttgart.Die Idee hinter AppSolut ist es, eine Plattform zu schaffen, auf der Nutzer ihre eigenen Apps erstellen können, ohne dafür Programmierkenntnisse zu benötigen . Die Plattform bietet eine Vielzahl von Tools und Vorlagen, mit denen Benutzer schnell und einf ach interaktive Apps erstellen können, die auf verschiedenen Plattformen wie iOS, Android und dem Web laufen.Wie funktioniert Appgyver?
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 10 Minuten.Die nächste Bushaltestelle ist ca. 200m entfernt.Die nächste Straßenbahnhaltestelle ist ca. 300m entfernt.Die nächste U-Bahn-Haltestelle ist ca. 400m entfer nt.Die nächste S-Bahn-Haltestelle ist ca. 400m entfernt.Die nächste Bushaltestelle ist ca.  400m entfernt.Die nächste Straßenbahnhaltestelle ist ca. 400m entfernt.Die nächste Autobahnanschlussstelle ist ca. 
+

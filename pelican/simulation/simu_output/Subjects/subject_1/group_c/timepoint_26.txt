@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Freunden in einer WG wohne. Wir haben eine riesige Küche mit einem riesigen Esstisch, an dem wir alle zusammen sitzen und essen. An den Wänden hängen riesige Bilder von berühmten Gemälden, wie zum Beispiel "Die Nachtwache" von Rembrandt oder "Das letzte Abendmahl" von Leonardo da Vinci.Ich wache auf und gehe in die Küche, um mir einen Kaffee zu machen
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß oder mit dem Fahrrad in wenigen Minuten . Mit dem Auto sind es etwa 5 Minuten, mit dem Bus ca. 10 Minuten.AusstattungDas Appartement verfügt über ein Schlafzimmer, ein Wohnzimmer, eine Küche, ein Badezimmer und einen Balkon. Die Küche ist ausgestattet mit einem Herd, einem Backofen, einem Kühlschrank, einer Spülmaschine, einem Wasserkocher
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Pferd, Esel, Kamel, Zebra, Affe, Gorilla, Schimpanse, Orang-Utan, Tiger, Leopard, Jaguar, Gepard, Wolf, Fuchs, Dachs, Bär, Luchs, Panther, Hirsch, Elch, Rentier, Karibu, Büffel, Antilope, Gnu, Zebra, Strau ß, Nashorn, Elefant, Flusspfer
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt. Mein Arbeitgeber hat mich damit beauftragt, ein neues Produkt auf den Markt zu bringen. Es handelt sich um eine Software-Lösung, die den Vertriebsprozess in unserem Unternehmen revolutionieren soll.Ich habe bereits viel Erfahrung in der Entwicklung von Software-Produkten, aber dieses Projekt ist besonders herausfordernd, da es sich um ein komplexes System handelt, das viele verschiedene Aspekte unseres Geschäfts betrif
+

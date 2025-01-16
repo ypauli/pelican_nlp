@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem dunklen Wald spazieren gehe. Plötzlich kommt eine Gestalt aus dem Nichts auf mich zugeschossen. Ich versuche zu fliehen, aber ich kann nicht schnell genug laufen. Die Gestalt holt mich ein und greift mich an. Ich wehre mich, aber es ist zu spät. Ich falle zu Boden und die Gestalt springt auf mich drauf. Ich schreie vor Schmerz auf und wache schweißgebadet auf.
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß oder mit dem Fahrrad innerhalb weniger Minuten.Die nächste Bushaltestelle ist ca. 5 Gehminuten entfernt und bietet direkte Verbindungen in die umliegenden Ortschaften.Zur nächsten Autobahnauffahrt sind es ca. 10 Minuten mit dem Auto.Einkaufsmöglichkeiten für den täglichen Bedarf befinden sich in unmittelbarer Nähe.In wenigen Minuten gelangt
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Pinguin, Pferd, Eisbär, Elefant, Löwe, Tiger, Gepard, Affe, Schimpanse, Orang-Utan, Gorilla, Bär, Wolf, Fuchs, Hund, Katze, Maus, Eichhörnchen, Igel, Dachs, Büffel, Nashorn, Elefant, Giraffe, Antilope, Zebra, Flamingo, Papagei, Kakadu, Kranich, Gans, Ente
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Freundin. Sie ist jung, sie ist hübsch, sie ist klug und sie ist verrückt. Sie ist so verrückt, dass sie mich mit in den Zirkus genommen hat. Nein, keine Sorge, sie ist kein Zirkusmädchen. Sie ist einfach nur verrückt nach Zirkus.Ich muss gestehen, dass ich vorher noch nie im Zirkus war. Ich meine, ich war schon mal auf einem Jahrmarkt und habe mir dort Achterbah
+

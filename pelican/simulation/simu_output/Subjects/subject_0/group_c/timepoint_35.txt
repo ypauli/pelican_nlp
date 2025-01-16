@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem kleinen Zimmer sitze, mit einer Tasche voller Dokumente. Ich öffne eine Akte und sehe darin ein Bild von meiner verstorbenen Mutter. Es ist ein schönes Foto, sie lächelt darauf. Ich streiche sanft mit den Fingern über das Bild und fühle ihre Wärme.Plötzlich höre ich eine Stimme hinter mir: "Kann ich dir bei etwas helfen?" Ich drehe mich um und sehe einen älteren
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrr ad ziemlich sch nell durch den Wald. Der Strand ist nur wenige hund ert Meter entfernt und lädt zum B aden und Entspann en ein.D as Ferienhaus ist komplett ausgest attet und biet et Platz für bis zu sechs Personen.Es hat zwei Schlafzimmer, ein Wohnzimmer mit Kamin, eine voll ausgestattete Küche und ein Badezimmer mit Dusche und WC.Außerdem verfügt es über eine Terrasse und einen
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Flamingo, Pinguin, Affe, Hund, Katze, Maus, Pferd, Esel, Schaf, Ziege, Antilope, Büff el, Lama, Kamel, Nashorn, Elefant, Zebra, Strauß, Gepard, Gnu, Bär, Waschbär, Fuchs, Dachs, Wolf, Fennek, Känguru, Krokodil,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Job. Ich bin jetzt „Leiter des Fachbereichs Wissenschaft“ einer privaten Universität. Die wichtigste Aufgabe besteht darin, dafür zu sorgen, dass die Studierenden gute wissenschaftliche Arbeit leisten. Dazu gehört auch die Betreuung von Abschlussarbeiten. Mein Gehalt ist sehr gut und die Arbeitsbedingungen sind angenehm. Allerdings ist der Arbeitsdruck hoch und ich habe wenig Zeit für meine eigene Forschung.Welche
+

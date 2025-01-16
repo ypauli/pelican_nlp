@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Eltern und meinem Bruder in einem Restaurant sitze. Mein Bruder und ich teilen uns eine große Pizza, meine Eltern essen etwas anderes. Wir unterhalten uns angeregt, lachen und genießen das Essen.Dieser Traum ist für mich besonders wichtig, weil ich in letzter Zeit viel Streit mit meinem Bruder hatte und unsere Beziehung ziemlich angespannt ist. Der Traum zeigt mir, dass ich trotz
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 15 Minuten.Der nächste Bäcker ist in ca. 5 Gehminuten erreichbar.In der Nähe befindet sich eine Bushaltestelle, von der aus man in ca. 20 Minuten die Innenstadt erreichen kann.AusstattungEinrichtungFahrradraumBalkon/TerrasseGarten/LiegewieseSpielplatzWaschmaschineWäschetrockner
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Gepard, Pferd, Büffel, Kamel, Wolf, Fuchs, Dachs, Hirsch, Reh, Elch, Gnu, Zebra, Giraffe, Strauß, Flamingo, Affe, Gorilla, Orang-Utan, Schimpanse, Eichhörnchen, Waschbär, Bär, Luchs, Panther, Leopard, Jaguar, Tapir, Koala,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich die Möglichkeit, das neue Samsung Galaxy Note 8 zu testen. Ich muss gestehen, dass ich ein großer Fan von Samsung-Geräten bin. Mein aktuelles Smartphone ist ein Samsung Galaxy S7 und ich bin wirklich zufrieden damit.Als ich das Note 8 zum ersten Mal in den Händen hielt, war ich wirklich beeindruckt von der Größe des Geräts. Mit einem 6,3 Zoll großen Bildschirm ist es definitiv kein kleines Smartphone.
+

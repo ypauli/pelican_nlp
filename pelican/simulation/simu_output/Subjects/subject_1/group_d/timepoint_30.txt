@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Zug sitze. Der Zug fährt los, aber ich bemerke, dass ich mein Ticket vergessen habe. Ich versuche, schnell ein Ticket zu kauf en, aber der Zug ist schon zu weit weg. Was soll ich tun?Antwort: Wenn du dein Ticket vergessen hast
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß, mit dem Fahrrad oder mit dem Bus. Der Bus fährt alle halbe Stunde und die Fahrt dau ert etwa 10 Minuten.Wie viel kostet eine Fahrt mit dem Bus?Eine Fahrt mit dem Bus kostet 1,50€.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Eisbär, Tiger, Gepard, Fuchs, Wolf, Dachs, Bär, Tapir, Eichhörnchen , Zebra, Pferd, Löwe, Affe, Tiger, Elefant, Eisbär, Giraffe
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich das Gefühl, dass meine Wahrnehmung von Zeit sich verändert hat. Es fühlt sich an, als ob die Zeit schneller vergehen würde. Ist das möglich? Kann sich unsere Wahrnehmung von Zeit ver ändern?Die Wahrnehmung von Zeit kann tatsächlich von verschiedenen Faktoren be
+

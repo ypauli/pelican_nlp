@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem großen Raum mit vielen Menschen saß. Alle waren sehr nett und ich fühlte mich wohl. Plötzlich ging die Tür auf und ein Mann betrat den Raum. Er sah mich an und sagte: "Ah, du bist also die Neue. Schön, dass du hier bist." Dann zeigte er auf einen Platz in der Mitte des Raumes und sagte: "Setz dich bitte dort hin." Ich tat, was er gesagt hatte, und er setzte sich neben mich."Also, was machst du hier?" fragte er mich."Ich bin hier, um zu lernen und neue Leute kennenzulernen", antwortete ich.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, Känguru, Strauß, Flamingo, Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla, Panda, Koala, K änguru, Eichhörnchen, Fuchs, Dachs, Wolf, Bär, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Schimpanse, Gorilla
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Plattform zu entwickeln, die es Benutzern ermöglicht, ihre eigenen Online-Kurse zu erstellen, zu verwalten und zu monet arisieren. Die Plattform wird eine Reihe von Tools und Funktionen bieten, die es den Benutzern erleichtern, qualitativ hochwertige Kurse zu erstellen, einschließlich der Erstellung von In halten, der Verfolgung von Schülern und der Verwaltung von Zahlungen.Die Plattform wird auch eine Reihe von Funktionen bieten, die es den Benutzern ermöglichen, ihre Kurse zu monetarisieren, wie z.B. die Erstellung von
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Wer lieber zu Fuß geht, braucht etwa 30 bis 40 Minuten. Mit dem Auto dauert es je nach Verkehrslage 5 bis 10 Minuten .Mit öffentlichen Verkehrsmitteln erreichen Sie uns am besten mit der Straßenbahnlinie 4 oder 5 bis zur Haltestelle "Rathaus ". Von dort sind es nur wenige Gehminuten bis zu unserem Büro.Wir freuen uns auf Ihren Besuch und wünschen Ihnen eine angenehme Anreise!Mit freundlichen GrüßenIhr Team der Kanzlei Wundke & Kollegen
+

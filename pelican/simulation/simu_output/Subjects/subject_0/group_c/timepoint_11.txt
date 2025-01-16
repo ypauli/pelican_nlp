@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Eltern und Freunden im Kino war. Der Film war großartig und ich hätte ihn wirklich gerne gesehen. Doch als der Film zu Ende war, standen meine Eltern schon auf und verließen den Kinosaal. Ich versuchte sie zu stop pen, aber sie ignorierten mich einfach. Ich war so enttäuscht und traurig, dass ich anfing zu weinen.Ein paar Tage später fand ich eine Nachricht auf meinem Handy. Es war
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man bequem zu Fuß in 5 Minuten. Trotzdem entscheidet sich die Mehrheit der Bevölkerung für das Auto, weil es bequemer ist.Wie lange braucht man mit dem Fahrrad zum n ächsten Supermarkt?  ASSISTANT: Mit dem Fahrrad dauert es etwa 15 Minuten, um zum nächsten Supermarkt zu gelangen. Dies ist deutlich schneller als mit dem Auto, da man nicht im Stau stehen muss und auch keine Park
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Schmetterling, Löwe, Zebra, Elefant, Giraffe, Krokodil, Eisbär, Tiger, Pinguin, Eule, Pferd, Affe, Delfin, Katze, Fuchs, Hund, Maus, Eichhör nchen, Drache, Flamingo, Marienkäfer, Bär, Löwe, Elefant, Fuchs, Löwe, Elefant, Pinguin, Eule, Fuchs, Hund, M
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Sicherheitsdienst, der mich rund um die Uhr beschützt. Mein neuer Leibwächter ist ein kleiner grüner Frosch.Er hockt auf meinem Schreibtisch und beobachtet mich ständig. Ich muss gestehen, es hat etwas beruhigendes, wenn man weiß, dass jemand da ist, der einem den Rücken freihält.Der Frosch muss sich an meinem Schreibtisch wohlfühlen, denn er verweilt
+

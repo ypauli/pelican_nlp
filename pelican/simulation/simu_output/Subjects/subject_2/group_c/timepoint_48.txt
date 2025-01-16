@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Freund in einem Café sitze. Wir unterhalten uns angeregt über das Leben, die Liebe und die Zukunft. Plötzlich geht die Tür auf und meine Mutter kommt herein. Sie sieht uns beide an und sagt: „Ihr seid ein schönes Paar.“ Dann geht sie wieder hinaus. Mein Freund und ich schauen uns an und grinsen. Wir wissen, dass unsere Mütter uns lieben und stolz auf uns sind, auch wenn sie vielleicht manchmal etwas neugierig sind.Diese kleine Geschichte zeigt, wie wichtig es ist, offen über unsere Beziehungen zu sprechen und uns
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elef ant, Pferd, Eisbär, Gir affe, Krokodil , Fuchs, Wolf , Bär, Tiger , Schildkröte , Affe, Gep ard, Zebra, Kamel, Büff el, Hyäne, Strauß, Gnu , Antilope, L öwe, Tiger, Elefant, Giraffe , Krokodil, Fuchs, Wolf, Bär, Tiger, Schildkröte, Affe, Gepard, Zebra, Kamel, Büffel, Hyäne, Strauß, Gnu, Antilope, Löwe, Tiger, Elefant, Giraffe, Krokodil, Fuchs, Wolf
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Spielzeug: Einen 3D-Drucker. Ich habe mich für den „Prusa i3 MK3S+“ entschieden, weil er zu den beliebtesten und meistverkauften 3D-Druckern auf dem Markt gehört. Der Drucker ist modular aufgebaut, sodass man ihn leicht reparieren und aufrüsten kann. Außerdem ist er Open-Source, was bedeutet, dass jeder die Pläne und Software des Druckers einsehen und nutzen kann.Die Einrichtung des Druckers war relativ einfach, obwohl es einige Zeit in Anspruch nahm, alle Te ile zusammenzubauen. Die Anleitung ist sehr detailliert und
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto sind es ca. 5 Minuten.Mit öffentlichen Verkehr smitteln erreicht man den nächsten Supermarkt mit der Buslinie 12 in Richtung Hauptbahnhof. Man steigt an der Haltest elle "Hauptbahnhof" aus und läuft ca. 5 Minuten bis zum Supermarkt.Mit öffentlichen Verkehrsmitteln erreicht man den nächsten Bäcker mit der Buslinie 12 in Richtung Hauptbahnhof. Man steigt an der Haltestelle "Hauptbahnhof" aus und läuft ca. 5 Minuten bis zum Bäcker.Mit öffentlichen Verkehr
+

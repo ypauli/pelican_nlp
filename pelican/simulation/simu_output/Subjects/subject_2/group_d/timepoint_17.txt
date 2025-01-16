@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem großen Raum mit vielen anderen Menschen bin. Plötzlich kommt ein Mann auf mich zugerannt und schreit mich an, was ich hier zu suchen hätte. Ich versuche zu erklären, dass ich hier nichts zu suchen habe, aber der Mann lässt nicht locker. Er drückt mich gegen die Wand und droht mir, dass er mich umbringen würde, wenn ich noch einmal hierher kommen würde. Ich rufe die Polizei, aber der Mann verschwindet, bevor die Polizei
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Pferd, Hund, Katze, Maus, Schaf, Ziege, Kamel, Strauß, Gans, Ente, Hahn, Huhn, Truthahn, Fasan, Pfau, Rebhuhn, Wachtel, Lerche, Specht, Storch, Kranich , Reiher, Gans, Ente, Hahn, Huhn, Truthahn, Fasan, Pfau, Rebhuhn, Wachtel, Lerche, Specht, St
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen buschigen Schwanz. Seinen Namen habe ich noch nicht herausgefunden, aber ich nenne ihn einfach „Kleiner Freund“.Kleiner Freund ist sehr neugierig und erkundet jeden Winkel meiner Wohnung. Manchmal sitzt er stundenlang vor dem Fenster und beobachtet die Vögel draußen. Er ist auch sehr gesprächig und erzählt mir oft von seinen Abenteuern, die er mit seinen Freunden erlebt hat.Eines Tages
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Mit öffentlichen VerkehrsmittelnMit den öffentlichen Verkehrsmitteln ist der Weg zum nächsten Supermarkt etwas umständlicher . Man kann entweder mit der U-Bahn (Linie U2) bis zur Haltestelle "Pankow" fahren und von dort aus mit dem Bus (Linie 250) bis zur Haltestelle "Pankow-Kir che" fahren oder mit der S-Bahn (Linie S1, S2, S25 oder S8)
+

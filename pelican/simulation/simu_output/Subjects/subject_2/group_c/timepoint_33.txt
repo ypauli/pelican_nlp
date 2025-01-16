@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle sind um einen großen Tisch herum versammelt. Ich stehe in der Mitte des Raumes und halte ein großes Schild hoch, auf dem in großen Buchstaben steht : „Ich bin schwul und stolz darauf!“ Die Reaktionen der Menschen im Raum sind unterschiedlich. Einige nicken zustimmend, andere schütteln den Kopf, wieder andere starren mich nur an. Aber das ist mir egal. Ich bin stolz darauf, schwul zu sein, und ich werde es jedem sagen, der es hören will oder auch nicht.Es ist wichtig, sich selbst treu zu bleiben und zu seinen Gefühlen zu stehen
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eichhörnchen, Elefant, Lö we, Gepard, Zebra, Giraffe , Büffel, Tiger, Panther, Fuchs, Wolf, Bär, Dachs , Eisbär, Pinguin, Koala , Orang-Utan , Gorilla, Schim panse, Bonobo , Gepard, L öwe, Tapir , Elefant, Fl usspferd, Nash orn, Zebra, Giraffe, Strauß , Krokodil, Warzenschwein, Hyäne, Löwe, Gepard, Elefant, Flusspferd, Nashorn, Zebra, Giraffe, Strauß, Krokodil, Warzenschwein
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und ein weiches Fell. Mein neuer Mitbewohner ist eine Katze namens Luna. Ich habe mich sehr darauf gefreut, endlich wieder eine Katze zu haben, nachdem meine alte vor ein paar Jahren gestorben ist.Die ersten Tage mit Luna waren etwas schwierig. Sie war anfangs sehr ängstlich und hat sich nur unter dem Sofa versteckt. Aber nach ein paar Tagen hat sie sich langsam an ihr neues Zuhause gewöhnt und kommt nun immer öfter aus ihrem Versteck heraus. Wir hoffen, dass sie bald ganz zutraulich wird und ein schönes neues Leben bei
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Wer lieber zu Fuß unterwegs ist, erreicht den nächsten Supermarkt in etwa 30 Minuten.Mit öffentlichen Ver kehrsmitteln erreichen Sie den nächsten Supermarkt in ca. 20 Minuten.N ächstgelegener Flughafen: Flughafen Palma de Mallorca (PMI) - ca. 80 kmNächstgelegener Bahnhof: Palma de Mallorca - ca. 80 km Nächstgelegener Busbahnhof: Palma de Mallorca - ca. 80 kmNächstgelegener Hafen: Palma de Mallorca - ca. 80 km
+

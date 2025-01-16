@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem besten Freund, den ich schon lange nicht mehr gesehen habe, in einem Restaurant sitze. Wir reden über alte Zeiten, lachen und genießen das Essen. Plötzlich sagt er zu mir : „Weißt du, ich habe mich immer gefragt, warum du so bist, wie du bist. Jetzt weiß ich es. Du bist so, wie du bist, weil du dich entschieden hast
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonobo, Koala , Flamingo, Papagei, Lama, Kamel, Dromedar, Strauß, Gans, Ente, Eichhörnchen, Fuchs, Hund, Katze, Pferd, Elefant
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern ermöglicht, ihre Lieblingsrezepte zu speichern und zu teilen. Die Seite soll einfach zu bedienen sein und eine schöne Benutzeroberfläche haben.Ich habe mich entschieden, Python und Django für dieses Projekt zu verw enden, da ich bereits Erfahrung mit dies
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten . Der nächste Bäcker ist gleich um die Ecke und der nächste Supermarkt nur wenige hundert Meter entfernt. EinkaufenLebensm ittelgeschäfteBäckereienDrogerienApothekenPostämterTankstellenGeldautomatenGastronomieRestaurantsCafésBarsImbissbuden
+

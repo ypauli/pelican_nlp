@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Hund spazieren gehe. Ich bemerkte, dass mein Hund anfing zu ziehen und zu ziehen. Ich versuchte ihn zu beruhigen, aber es war zu spät. Mein Hund riss sich los und rannte auf die Straße.Ich rannte hinterher und versuchte verzweifelt, ihn einzufangen. Aber es war zu spät. Mein Hund wurde von einem Auto erfasst und getötet. Ich war am Boden zerstört.
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln. Der nächste Supermark t ist etwa 15 Gehminuten entfernt.Anreise mit öffentlichen Verkehrsmitteln Vom Hauptbahnhof Karlsruhe fährst du mit der Straßenbahnlinie 2 in Richtung Durlach und steigst an der Haltestelle "Durlacher Tor" aus. Von dort sind es nur wenige Gehminuten bis zum Eingang des
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Ut an, Schimpanse, Gorilla, Flamingo, Strauß, Känguru, Koala, Pinguin, Delfin, Wal , Elefant, Löwe, Tiger, Panther, Gepard, Bär, Wolf, Fuchs, Eisbär, P anda, Orang-Utan, Gorilla, Schimpanse, Bonob
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich um ein kleines Startup, das sich auf die Entwicklung von Apps spezialisiert hat. Meine Aufgabe besteht darin, die Marketingstrategie zu entwick eln und umzusetzen, um die Bekanntheit des Unternehmens zu steigern und mehr potenzielle Kunden anzuziehen. Die Aufgaben eines Marketingmanagers umfassen in der Regel:1. Marktforschung: Verstehen der Zielgruppe, der Konkurren
+

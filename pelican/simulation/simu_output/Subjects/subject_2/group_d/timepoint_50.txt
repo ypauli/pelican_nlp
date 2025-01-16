@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Ex-Freund telefoniert habe. Ich habe ihm gesagt, dass ich ihn immer noch liebe und er hat gesagt, dass er mich immer noch liebt. Wir haben beschlossen, es noch einmal zu versuchen, weil wir beide glauben, dass wir einen Fehler gemacht haben.
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Pferd, Gepard, Giraffe, Affe, Fuchs, Hund, Katze, Maus, Eichhörnchen, Dachs, Wolf, Bär, Schaf, Ziege, Gans, Ente, Hahn, Huhn
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Mein Mitbewohner ist klein, flauschig und hat vier Beine. Er schläft mit mir im Bett, frisst aus meinem Napf und spielt mit meinem Spielzeug . Mein neuer Mitbewohner ist ein Hund.Ich habe schon immer gerne Hunde gehabt. Als Kind hatte ich einen
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.AusstattungEinrichtungTerrasseGarten WLANWaschmaschineTrocknerSpülmaschineMikrowelleGeschirrBesteckGläserTöpfePfannen
+

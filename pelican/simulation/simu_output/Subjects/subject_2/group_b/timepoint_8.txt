@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Zug saß. Der Zug hielt an einer Haltestelle und ich stieg aus. Als ich die Tür öffnete, sah ich eine lange Schlange von Menschen, die darauf warteten, dass der Zug weiterfähr t. Ich war verwirrt, denn ich hatte nicht bemerkt, dass der Zug an einer Haltestelle angehalten hatte.Ich fragte einen Mann in der Schlange, ob er wüsste, wann der nächste Zug kommt. Er antwortete, dass der nächste Zug in fünfzehn Minuten kommen würde.Ich setzte mich wieder hin und wartete. Nach etwa zehn Minuten öffnete sich die Tür des Zuges
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Giraffe, Löwe, Tiger, Eisbär, Pferd, Hund, Katze, Maus, Schaf, Ziege, Büffel, Kamel, Affe, Orang-Utan, Gorilla , Elefant, Giraffe, Löwe, Tiger, Eisbär, Pferd, Hund, Katze, Maus, Schaf, Ziege, Büffel, Kamel, Affe, Orang-Utan, Gor illa, Elefant, Giraffe, Löwe, Tiger, Eisbär, Pferd, Hund, Katze, Maus, Schaf, Ziege, Büffel, Kamel, Affe, Orang-Ut
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen buschigen Schwanz. Sein Fell ist weich und flauschig und er riecht gut. Mein neuer Mitbewohner ist ein Meerschweinc hen.Meerschweinchen sind kleine Nagetiere, die ursprünglich aus Südamerika stammen. Sie sind sehr soziale Tiere und leben normalerweise in großen Gruppen. In der Wildnis fress en sie Pflanzen, Gräser und Kräuter.Es gibt verschiedene Arten von Meerschweinchen, darunter Zwergmeerschweinchen, Glatthaarmeerschweinchen und Roset tenmeerschweinchen. Jede Art hat ihre eigen
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß oder mit dem Fahrrad. Mit dem Auto dauert es etwa 10 Minuten. Zum Bahnhof gelangt man entweder zu Fuß oder mit dem Fahrrad. Mit dem Auto dauert es etwa 5 Minuten.Zum Flughaf en gelangt man entweder zu Fuß oder mit dem F ahrrad. Mit dem Auto dauert es etwa 1 0 Minuten.Mit öffentlichen Verkehr smitteln erreicht man den Flughafen mit der Bus linie 606. Die Busse fahren alle 20 Minuten und halten direkt vor dem Terminal. Die Fahrzeit beträgt etwa 20 Minuten.Alternativ kann man auch
+

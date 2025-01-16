@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem großen Raum mit vielen anderen Menschen war. Alle waren um einen großen Tisch herum versammelt und es gab ein großes Buffet mit vielen verschiedenen Speisen und Getränken.Ich wollte gerade etwas vom Buffet nehmen, als plötzlich jemand anfing zu sprechen. Ich konnte nicht verstehen, was er sagte, aber alle anderen im Raum schienen aufmerksam zuzuhören.Ich setzte mein Essen ab und drehte mich
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Zebra, Eisbär, Pingu in, Fuchs, Hund, Katze , Maus, Hamster, Meerschwe inchen, Kaninchen, Eichhörn chen, Igel, Schildkröte, Schmetterling, Biene, Marienkäfer, Regenwurm, Ameise, Spinne, Frosch, Kröte, Molch, Salamander, Eidechse, Gecko, Chamäleon, Schnecke
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Software zu entwickeln, die es ermöglicht, Daten aus verschiedenen Quellen zu sammeln, zu verarbeiten und zu visualisieren. Das Ziel ist es , eine Plattform zu schaffen, die es Benutzern erleichtert, ihre Daten zu analysieren und zu visualisieren, ohne dass sie technische Kenntnisse benötigen.Ich habe bereits einige Erfahrung in der Entwicklung von Webanwendungen und Datenvisualisierungst
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten.Wie weit ist es zum nächsten Flughafen?Der nächste Flugh afen ist der Flughafen Köln/Bonn (CGN). Er liegt etwa 20 Kilometer entfernt und ist mit dem Auto in etwa 25 Minuten zu erreichen.Wie lange dauert die Fahrt zum Flughafen?Die Fahrt zum Flughafen Köln/Bon
+

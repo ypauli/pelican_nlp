@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einer großen Bühne stehe und alle warten darauf, dass ich anfange zu sprechen. Aber ich kann mich an nichts erinnern, was ich sagen wollte. Ich habe Angst vor dieser Situation und versuche sie zu vermeiden, indem ich möglichst wenig mit anderen Menschen zu tun habe.Ich habe auch Angst vor engen Rä umen und großen Menschenmengen. Ich fühle mich unwohl und eingeengt, wenn ich in solchen Situ
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 10 Minuten.Wie lange dauert es mit dem Auto vom Flughaf en zum Hotel?Mit dem Auto vom Flughafen zum Hotel dauert es etwa 20 Minuten. Wie viel kostet ein Taxi vom Flughafen zum Hotel?Ein Taxi vom Flughafen zum Hotel kostet in der Regel zwischen 20 und 30 Euro, abhängig von der Verkehrssituation und der Tageszeit
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Giraffe, Zebra, Pferd, Fuchs, Wolf, B üffel, Krokodil, Flamingo, Papagei, Affe, Gepard, Kamel, Strauß, Nashorn, Elefant, Löwe, Tiger, Panther, Eisbär, Grizzlybär, Polarfuchs, Wolf, Schakal, Hyäne, Luchs, Puma, Ozelot
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine neue Webseite aufzubauen, die sich mit dem Thema Nachhaltigkeit und Umweltschutz auseinandersetzt.Das Pro jekt ist in mehrere Phasen unterteilt:1. Recher che und Planung: Die Schülerinnen und Schüler recherchieren verschied ene Themen rund um den Umweltschutz, wie z.B. Klimawandel, Plastikverschmutzung und erneuerbare Energ
+

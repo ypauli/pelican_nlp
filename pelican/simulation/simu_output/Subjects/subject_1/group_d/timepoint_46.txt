@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in meinem Büro sitze und auf einen Termin warte. Plötzlich geht die Tür auf und mein Chef kommt herein. Er sagt zu mir: "Ich habe schlechte Nachrichten. Wir müssen das Unternehmen schließen. Alle Mitarbeiter werden entlassen."Ich
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man in 15 Minuten zu Fuß. Die Entfernung beträgt etwa 1,2 Kilometer.Wie lange dauert es mit dem Auto zum nächsten Supermarkt?Mit dem Auto dauert die Fahrt zum nächsten Supermarkt etwa 3 Minuten. Die Entfernung beträgt etwa 1
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Wolf, Fuchs, Hirsch, Reh, Büffel, Zebra, Antilope, Strauß, Pferd, Kamel, Esel, Dromedar, Ziege, Schaf, Gans, Ente,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen, und zwar habe ich den Auftrag bekommen, eine App zu entwickeln, die es den Benutzern ermöglicht, ihre Einnahmen und Ausgaben zu verfolgen. Die App soll einfach zu bed ienen sein und den Benutzern helfen, ihren finanziellen Überblick zu behalten.
+

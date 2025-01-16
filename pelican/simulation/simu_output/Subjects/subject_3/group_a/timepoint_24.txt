@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Freundin in einem Café sitze und sie mir erzählt, dass sie schwanger ist. Ich bin total überrascht und freue mich riesig für sie. Dann wache ich auf und merke, dass es nur ein Traum war.Was bedeutet dieser Traum für mich?Liebe Grüße und danke im Voraus für die Antwort!Mit freundlichen Grüßen,
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Zebra, Büffel, Eisbär, Tiger, Leopard, Gepard, Wolf, Fuchs, Dachs, Bär, Hirsch, Reh, Elch, Karibu, Antilope, Gnu, Zebra, Strauß, Flamingo, Papagei, Affe, Gorilla, Orang-Utan, Schimpanse, Bon
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Entwicklung einer mobilen Applikation, die es den Benutzern ermöglicht, Fotos aufzunehmen, zu bearbeiten und zu teilen.Ich habe mich für die Programmiersprache Kotlin entschieden, da sie eine saubere und effiziente Syntax bietet und gut mit Android Studio zusammenarbeitet. Für die Benutzeroberfläche verwende ich
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten, zu Fuß sind es etwa 30 Minuten. Die nächste Bush altestelle ist ca. 200 Meter entfernt, die nächste Straßenbahnhaltestelle ist ca. 400 Meter entfernt. Die nächste Autobahnauffahrt ist ca. 5 Kilometer entfernt.Anreise mit öffentlichen Verkehrsmitteln:
+

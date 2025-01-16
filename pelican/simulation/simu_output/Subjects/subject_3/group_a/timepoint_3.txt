@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin, die alle auf mich schauen. Ich fühle mich unwohl und versuche, mich zu verstecken, aber es gelingt mir nicht. Dann wache ich auf.Was bedeutet dieser Traum?Danke für deine Hilfe!Mit freundlichen Grüßen, [Dein Name]Liebe/r Ratsuchende/r,
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Utan, Gorilla, Schimpanse, Bonobo, Eichhörnchen, Fuchs, Wolf, Dachs, Bär, Hirsch, Reh, Elch, Antilope, Gnu, Zebra, Strauß, Flamingo, Papagei, Pinguin
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um die Entwicklung einer App, die es den Benutzern ermöglicht, einfach und schnell Rezepte zu erstellen, zu speichern und zu teilen. Die App soll sowohl für iOS als auch für Android verfügbar sein.Ich habe mich entschieden, die App mit React Native zu entwickeln, da es mir ermöglicht, eine plattformübergre
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Mit öffentlichen Verkehrsmitteln: Die nächste Bushaltestelle befindet sich direkt vor dem Haus und wird von der Linie 101 angefahren.Mit dem Auto:Von der Autobahn A1 kommend, nehmen Sie bitte die Ausfahrt 12 (Hannover-Herrenhausen) und folgen
+

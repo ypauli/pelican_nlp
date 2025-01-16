@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Hund spazieren gehe und plötzlich ist er weg. Ich habe nach ihm gerufen und nach ihm gesucht, aber er war nirgends zu finden. Ich war sehr verzweifelt und traurig, weil ich dachte, dass mein Hund weggelaufen ist. Aber dann bin ich aufgewacht und habe gemerkt, dass es nur ein Traum war. Das war eine sehr unangeneh
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Gorilla, Elefant, Delfin, Wolf, Tiger, Gepard, Affe, Büffel, Koala, Panda, Pinguin, Katze, Hund, Maus, Hamster, Meerschweinchen, Kaninchen, Pferd, Esel, Kuh, Schaf, Ziege, Ente, Gans, Huhn, Truthahn, Fisch
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich eine neue Funktion in meinem Blog integriert, die es Euch ermöglicht, meine Artikel zu bewerten. Wenn Euch ein Artikel besonders gut gefallen hat, könnt Ihr nun einen Daumen hoch dafür geben, indem Ihr auf die entsprechende Schaltfläche klickt. Wenn Euch ein Artikel nicht gefallen hat, könnt Ihr das ebenfalls signalisieren, indem Ihr auf die andere Sch
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten. Es bietet sich an, mit dem Fahrrad hinzufahren , da man so nicht auf die Busverbindungen angewiesen ist und zusätzlich etwas für die Gesundheit tut.Wie lange braucht man mit dem Fahrrad bis zum nächsten Supermarkt?Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrr
+

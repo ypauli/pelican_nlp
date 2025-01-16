@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem großen Saal mit vielen Leuten saß und jemand fragte mich, was ich beruflich mache. Ich antwortete: „Ich bin Lehrerin, aber eigentlich bin ich Schriftstellerin.“ Dann lächelte ich und fügte hinzu: „Ich schreibe Kinderbücher.“
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Affe, Hund, Kat ze, Pferd, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Truthahn, Fasan, Fuchs, Dachs, Wolf, Bär, Hirsch, Antilope,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kleines Unternehmen, das sich auf die Entwicklung von mobilen Anwendungen spezialisiert hat.Die Firma heißt „Mobile Apps Solutions“ und bietet maßgeschneiderte Lösungen für Unternehmen an, die ihre Geschäftsprozesse durch den Einsatz von
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Wie weit ist es bis zur nächsten Bushaltestelle? Von hier aus bis zur nächsten Bushaltestelle gelangt man mit dem Fahrrad in etwa 5 Minuten.Wie weit ist es bis zum nächsten Bahnhof?
+

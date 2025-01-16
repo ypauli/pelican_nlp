@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Eltern und Geschwistern in einem großen Raum saß. Es war eine gemütliche Atmosphäre, alle waren in guten Gesprächen vertieft, lachten und genossen die Zeit miteinander. Meine Mutter
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man bequem mit dem Fahrrad oder zu Fuß entlang eines wunderschönen Spazierweges.Auf dem Weg begegnet man verschiedenen Tieren wie Eseln, Schafen, Ziegen und Pferden
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Fuchs, Hund, Katze, Pferd, Zebra, Büffel, Gepard, Tiger , Affe, Eule, Papagei
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Entwicklung einer Lös ung zur Erfassung, Verarbeitung und Visualisierung von Echtzeitdaten aus dem Internet of Things (IoT) Bereich.Das Projekt ist in zwei Hauptteile
+

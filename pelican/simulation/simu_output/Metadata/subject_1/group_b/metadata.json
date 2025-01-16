@@ -2,39 +2,689 @@
     "subject": 1,
     "cohort": "group_b",
     "constants": {
-        "temperature": -0.9857608517201519,
-        "sampling": 1.0319438326065404,
-        "context_span": 63.983393866091454,
-        "target_length": 30.0
+        "temperature": 1.303289624654704,
+        "sampling": 0.9712924604982136,
+        "context_span": 49.236623286232685,
+        "target_length": 140.11613666418535
     },
     "varied_param": "sampling",
-    "mean": 0.8036386814915694,
-    "variance": 0.009892432246526165,
+    "mean": 0.8670684831668596,
+    "variance": 0.009305642506913098,
     "timepoints": [
         {
             "timepoint": 0,
-            "varied_param_value": 0.6562118223329717,
+            "varied_param_value": 0.9151743174503261,
             "wellbeing_factors": {
-                "state_score": 0.39,
-                "wellbeing": 0.39,
-                "sleep": 0.64,
-                "anxiety": 0.86,
-                "happiness": 0.15,
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 1,
+            "varied_param_value": 0.9752319361910322,
+            "wellbeing_factors": {
+                "state_score": 0.18,
+                "wellbeing": 0.18,
+                "sleep": 0.43,
+                "anxiety": 0.93,
+                "happiness": 0.03,
                 "medication": 1,
                 "drugs": 0
             }
         },
         {
-            "timepoint": 1,
-            "varied_param_value": 0.932895397575669,
+            "timepoint": 2,
+            "varied_param_value": 0.7921826108751999,
             "wellbeing_factors": {
-                "state_score": 0.31,
-                "wellbeing": 0.31,
-                "sleep": 0.56,
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 3,
+            "varied_param_value": 0.7536587626491367,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 4,
+            "varied_param_value": 0.9504309398052149,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
                 "anxiety": 0.94,
-                "happiness": 0.1,
+                "happiness": 0.04,
                 "medication": 0,
                 "drugs": 1
+            }
+        },
+        {
+            "timepoint": 5,
+            "varied_param_value": 0.811747739804452,
+            "wellbeing_factors": {
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 1,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 6,
+            "varied_param_value": 0.6818714738769603,
+            "wellbeing_factors": {
+                "state_score": 0.24,
+                "wellbeing": 0.24,
+                "sleep": 0.49,
+                "anxiety": 0.99,
+                "happiness": 0.06,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 7,
+            "varied_param_value": 0.8516422341885889,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 8,
+            "varied_param_value": 0.8147197772172855,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 9,
+            "varied_param_value": 0.9499438520309545,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 10,
+            "varied_param_value": 0.7623915962847057,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 11,
+            "varied_param_value": 0.9294190366035042,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 12,
+            "varied_param_value": 0.8836966222035687,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 13,
+            "varied_param_value": 1.003850185492231,
+            "wellbeing_factors": {
+                "state_score": 0.18,
+                "wellbeing": 0.18,
+                "sleep": 0.43,
+                "anxiety": 0.93,
+                "happiness": 0.03,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 14,
+            "varied_param_value": 0.8037077100999628,
+            "wellbeing_factors": {
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 15,
+            "varied_param_value": 0.99171321399276,
+            "wellbeing_factors": {
+                "state_score": 0.18,
+                "wellbeing": 0.18,
+                "sleep": 0.43,
+                "anxiety": 0.93,
+                "happiness": 0.03,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 16,
+            "varied_param_value": 0.6260650638253062,
+            "wellbeing_factors": {
+                "state_score": 0.26,
+                "wellbeing": 0.26,
+                "sleep": 0.51,
+                "anxiety": 0.99,
+                "happiness": 0.07,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 17,
+            "varied_param_value": 0.8168291893270043,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 18,
+            "varied_param_value": 0.880674433096483,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 19,
+            "varied_param_value": 0.9640811341950328,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 20,
+            "varied_param_value": 0.732454387824877,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 21,
+            "varied_param_value": 0.8122226503870081,
+            "wellbeing_factors": {
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 22,
+            "varied_param_value": 0.8886871832113284,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 23,
+            "varied_param_value": 0.9030881232827997,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 24,
+            "varied_param_value": 0.9524889697888782,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 25,
+            "varied_param_value": 0.7628812131668772,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 26,
+            "varied_param_value": 1.0801146234995094,
+            "wellbeing_factors": {
+                "state_score": 0.18,
+                "wellbeing": 0.18,
+                "sleep": 0.43,
+                "anxiety": 0.93,
+                "happiness": 0.03,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 27,
+            "varied_param_value": 0.7356164249945035,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 28,
+            "varied_param_value": 0.8220101593462,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 29,
+            "varied_param_value": 0.7995211027945737,
+            "wellbeing_factors": {
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 30,
+            "varied_param_value": 0.914286868492078,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 31,
+            "varied_param_value": 0.74299871322592,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 32,
+            "varied_param_value": 0.7986700021700721,
+            "wellbeing_factors": {
+                "state_score": 0.22,
+                "wellbeing": 0.22,
+                "sleep": 0.47,
+                "anxiety": 0.97,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 33,
+            "varied_param_value": 0.7572920991175865,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 34,
+            "varied_param_value": 0.6123181532028442,
+            "wellbeing_factors": {
+                "state_score": 0.26,
+                "wellbeing": 0.26,
+                "sleep": 0.51,
+                "anxiety": 0.99,
+                "happiness": 0.07,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 35,
+            "varied_param_value": 0.8576397989592068,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 36,
+            "varied_param_value": 0.8877727440127916,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 37,
+            "varied_param_value": 0.8539208455503571,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 38,
+            "varied_param_value": 0.6985156511612056,
+            "wellbeing_factors": {
+                "state_score": 0.24,
+                "wellbeing": 0.24,
+                "sleep": 0.49,
+                "anxiety": 0.99,
+                "happiness": 0.06,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 39,
+            "varied_param_value": 0.9505675806708508,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 40,
+            "varied_param_value": 0.8135451152801945,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 41,
+            "varied_param_value": 0.8335581497632885,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 42,
+            "varied_param_value": 0.9571915166887502,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 43,
+            "varied_param_value": 0.8547468045592258,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 44,
+            "varied_param_value": 0.8364751830034872,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 45,
+            "varied_param_value": 1.036396477595962,
+            "wellbeing_factors": {
+                "state_score": 0.18,
+                "wellbeing": 0.18,
+                "sleep": 0.43,
+                "anxiety": 0.93,
+                "happiness": 0.03,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 46,
+            "varied_param_value": 0.88410154149186,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 0
+            }
+        },
+        {
+            "timepoint": 47,
+            "varied_param_value": 0.8536999933526258,
+            "wellbeing_factors": {
+                "state_score": 0.21,
+                "wellbeing": 0.21,
+                "sleep": 0.46,
+                "anxiety": 0.96,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 48,
+            "varied_param_value": 0.6873845935087226,
+            "wellbeing_factors": {
+                "state_score": 0.24,
+                "wellbeing": 0.24,
+                "sleep": 0.49,
+                "anxiety": 0.99,
+                "happiness": 0.06,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 49,
+            "varied_param_value": 0.865047326886705,
+            "wellbeing_factors": {
+                "state_score": 0.2,
+                "wellbeing": 0.2,
+                "sleep": 0.45,
+                "anxiety": 0.95,
+                "happiness": 0.04,
+                "medication": 1,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 50,
+            "varied_param_value": 0.9492461816315425,
+            "wellbeing_factors": {
+                "state_score": 0.19,
+                "wellbeing": 0.19,
+                "sleep": 0.44,
+                "anxiety": 0.94,
+                "happiness": 0.04,
+                "medication": 0,
+                "drugs": 1
+            }
+        },
+        {
+            "timepoint": 51,
+            "varied_param_value": 0.7485638042740628,
+            "wellbeing_factors": {
+                "state_score": 0.23,
+                "wellbeing": 0.23,
+                "sleep": 0.48,
+                "anxiety": 0.98,
+                "happiness": 0.05,
+                "medication": 0,
+                "drugs": 0
             }
         }
     ]

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Freundin in einem Zug saß. Der Zug fuhr durch eine wunderschöne Landschaft, die an die Schweiz erinnerte. Wir unterhielten uns angeregt über unsere Zukunftspläne, als plötzlich der Zug zum Stehen kam.Wir stiegen aus und sahen uns um. Die Landschaft war atembera ubend. Die Sonne ging gerade unter und tauchte alles in ein warmes, goldenes Licht. Die Berge waren
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Die nächste Bushaltestelle ist etwa 5 Gehminuten entfernt und die nächste S-Bahn-Station etwa 10 Gehminuten.Die Wohnung ist mit einer Einbauküche, einem Wohnzimmer, einem Schlafzimmer und einem Badezimmer ausgestattet. Die Einbauküche verfügt über einen Herd, einen Backofen, einen Kühlschrank, eine Spülmaschine und
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Ut an, Gorilla, Schimpanse, Flamingo, Strauß, Känguru, Koala, Pinguin, Delfin, Wal , Eisbär, Löwe, Tiger, Gepard, Elefant, Nashorn, Zebra, Giraffe, Affe, Orang-Utan, Schimpanse, Bonobo, Gorilla,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht um die Entwicklung einer mobilen Anwendung, die es den Benutzern ermöglicht, sich gegenseitig Nachrichten zu schreiben und Fotos ausz utauschen, ähnlich wie bei WhatsApp oder anderen Messaging- Apps.Wie funktioniert Kik Messenger?K ik Messenger ist ein kostenloser Instant-Messaging-Dienst, der es Benutzern ermöglicht, Textnachrichten, Fotos, V
+

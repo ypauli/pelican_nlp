@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass mein Vater gestorben ist. Ich bin aufgewacht und habe geweint, weil ich dachte, er ist wirklich gestorben. Aber dann habe ich gemerkt, dass es nur ein Traum war. Ich habe meinen Vater angerufen und gefragt, ob alles in Ordnung ist. Er hat gesagt: "Ja, alles ist in Ordnung, warum fragst du?" Dann habe ich mich besser gefüh lt.Ich habe auch mal geträumt, dass meine Freundin mit einem anderen Mann zusammen war. Als ich aufgewacht bin, habe ich sie angerufen und gefragt, ob das stimmt. Sie hat gesagt: "Nein, das stimmt nicht
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Elefant, Giraffe, Pferd, Kamel, Fuchs, Hund, Katze, Maus, Eichhörnchen, Bär, Wolf, Schaf, Ziege, Gans, Ente, Hahn, Huhn , Truthahn, Pfau, Strauß, Affe, Gorilla, Orang-Utan, Schimpanse, Bonobo, Koala, Känguru, Krokodil, Alligator, Schildkröte, Schnecke, Regenwurm, Marienkäfer, Biene, Hummel, Schmetterling, Libelle, Spinne, Skorpion, Ameise, Termite, Bärtierchen, Wurm,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und einen buschigen Schwanz. Sein Fell ist dunkelgrau und er hat große, dunkle Augen. Der neue Mitbewohner ist ein Meerschweinchen.Meerschweinchen sind kleine Nagetiere, die ursprünglich aus Südamerika stammen. Sie werden oft als Haustiere gehalten, weil sie relativ einfach zu pflegen sind und nicht viel Platz brauchen. Meerschweinchen sind gesellige Tiere und sollten immer mindestens zu zweit gehalten werden.Mein neues Meerschweinchen ist noch etwas scheu, aber ich hoffe, dass es sich bald an mich gewöhnt
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 10 Minuten.Wie weit ist es bis zur nächsten Bushaltestelle?Die nächste Bushaltestelle ist etwa 5 Gehminuten entfernt.Gibt es in der Nä he Einkaufsmöglichkeiten?Ja, es gibt in der Nähe Einkaufsmöglichkeiten. Der nächste Supermarkt ist etwa 15 Minuten mit dem Fahrrad oder 10 Minuten mit dem Auto entfernt.Gibt es in der Nähe Restaurants oder Cafés?Ja, es gibt in der Nähe Restaurants und Cafés.
+

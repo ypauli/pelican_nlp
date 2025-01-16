@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich im Zug sitze. Plötzlich hält der Zug an und die Türen öffnen sich. Draußen sehe ich viele
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß, mit dem Fahrrad oder mit dem Auto. Der nächste Supermarkt ist 500m entfernt.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Giraffe, Löwe, Tiger, Pferd, Affe, Hund, Kat
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ein Projekt, das mir sehr am Herzen liegt, weil es eine wichtige Sache unterstützt, die mir sehr am
+

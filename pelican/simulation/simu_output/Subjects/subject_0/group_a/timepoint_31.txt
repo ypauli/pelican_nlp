@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einer Hochzeit eingeladen war. Die Braut trug ein wunderschönes Kleid und der Bräutigam einen schicken Anzug. Alle Gäste waren festlich gekleidet und es gab leckeres Essen und Getränke. Die Stimmung war ausgelassen und alle hatten viel Spaß. Am nächsten Morgen waren alle etwas verkatert, aber das tat der guten Stimmung keinen Abbruch. Nach einem ausgiebigen Frühst ück ging es
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Min uten. Das Meer ist ca.  200 m entfer nt. Eink aufsm öglichkeiten und Restaurants befinden sich in unmittel barer N ähe. Die nächste Bushaltest elle befindet sich in ca. 10 0 m Ent fernung. Die näch ste Straßen bahnhaltest elle befindet sich in ca. 300 m Entfernung.Die nächste Autobahnanschlussstelle befindet sich in ca. 10 km Entfernung
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Giraffe, Tiger, Bär, Fuchs, Wolf, Hund, Katze, Pferd, Esel, Eichhörnchen , Affe, Elefant, Löwe, Giraffe, Tiger, Bär, Fuchs, Wolf, Hund, Katze, Pferd, Esel, E ichhörnchen, Schildkröte, Krokodil, Flamingo, Strauß, Elefant, Löwe, Giraffe, Tiger, B
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Funktion in meinem Blog freigeschaltet: Die Kommentar-Abos.Mit dieser Funktion kannst du dich anmelden, um per E-Mail benachrichtigt zu werden, wenn jemand auf meinem Blog einen Kommentar hinterlässt.So funktioniert es: Wenn du zum ersten Mal einen Kommentar hinterlässt, gib bitte die E-Mail-Adresse an, mit der du benachrichtigt werden möch test, wenn jemand auf deinen Kommentar antwort
+

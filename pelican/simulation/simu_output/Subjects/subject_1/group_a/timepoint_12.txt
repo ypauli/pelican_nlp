@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Zug saß. Der Zug hielt an einer Haltestelle und ich stieg aus, um auf den nächsten Zug zu warten. Als ich ausstieg, sah ich, dass die Haltestelle in der Nähe eines großen Gebäudes lag.Das Gebäude hatte mehrere Stockwerke und auf jedem Stockwerk gab es eine Reihe von Fenstern. Die Fenster waren groß genug, um einen guten Blick auf die Straße zu ermöglichen, aber klein genug, um
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 10 Minuten. Wie weit ist es bis zur nächsten Bushaltestelle?Die nächste Bushaltestelle befindet sich direkt vor dem Hotel.Wie weit ist es bis zum nächsten Flughafen?Der nächste Flughafen ist der Flughafen Köln/Bonn (CGN). Dieser liegt ca. 15 km vom Hotel entfernt und ist mit dem Auto
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Hund, Katze, Maus, Eichhörnchen, Fuchs, Bär, Pferd, Zebra, Giraffe, Kuh, Schaf, Schwein, Gans, Ente, Hahn, Huhn, Esel, Kamel , Elefant, Löwe, Tiger, Panther, Gepard, Affe, Orang-Utan, Gorilla, Löwe , Tiger, Panther, Gepard, Affe, Orang-Ut
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Mein Mitbewohner ist klein, hat vier Be ine und einen buschigen Schwanz. Sein Fell ist schwarz und we iß gefleckt und er hat große, leuchtend grüne Aug en. Wenn er mich anschaut, fühle ich mich so , als würde er durch mich hindurchsehen, als wäre ich gar nicht wirklich da. Es ist, als würde er meine Seele sehen. Und das macht mir Angst.Ich habe versucht, ihn
+

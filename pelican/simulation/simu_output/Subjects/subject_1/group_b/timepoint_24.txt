@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Vater und meinem Bruder in einem Raum war. Mein Vater sagte zu meinem Bruder: „Du musst dich entscheiden. Du kannst entweder mit mir oder mit deiner Mutter gehen. Du kannst nicht beides haben.“ Mein Bruder antwortete: „Ich gehe mit meiner Mutter.“Mein Vater drehte sich zu mir um und sagte: „Also, du gehst mit deinem Vater.“Ich antwortete: „
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten.Die nächste Bushaltestelle ist ca. 200m entfernt und bietet zahlreiche Verbindungen in alle Richtungen.Die nächste Autobahnau ffahrt ist ca. 10km entfernt.Die nächsten Einkaufsmöglichkeiten sind ca . 2km entfernt.Die nächste Bushaltestelle ist ca. 2km entfernt.Die nächste
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Giraffe, Affe, Pferd, Katze, Hund, Schildkröte , Krokodil, Delfin, Wal, Fuchs, Hase, Eichhörnchen, Bär, Wölfe, Lö we, Tiger, Elefant, Affe, Giraffe, Zebra, Strauß, Flamingo, Pfau, Papagei, Eisbär, Panda, Koala, Löwe, Tiger,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Start. Es geht darum, eine App zu ent wickeln, die den Benutzern ermöglicht, ihre Lieblings rezepte hinzuzufügen, zu verwalten und zu teilen . Die App soll auch personalisierte Empfehlungen basierend auf den Vor lieben des Benutzers bieten.Technologie Die App verwendet die Programmiersprache Kotlin von JetBrains und die App-Entwicklungsumgebung Android Studio von Google.Einzelnachweise 
+

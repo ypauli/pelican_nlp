@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner besten Freundin in einem Zug sitze. Wir unterhalten uns über irgendwelche belanglosen Dinge, als der Zug plötzlich zum Stehen kommt. Wir schauen aus dem Fenster und sehen, dass der Zug mitten im Nirgendwo stehen geblieben ist. Wir sind beide etwas nervös, aber meine Freundin versucht, ruhig zu bleiben und schlägt vor, dass wir aussteigen und nachsehen, was los ist
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in etwa 15 Minuten. Die nächste Bushaltestelle ist ca. 5 Gehminuten entfernt und bietet Verbindungen in alle Richtungen .Mit öffentlichen Verkehrsmitteln:Mit der Straßenbahn Linie 12 oder 15 bis zur Haltestelle "Hohenzollernplatz" fahren. Von dort aus sind es ca. 5 Gehminuten bis zur Wohnung.Mit dem Auto:Von der Autob
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Eisbär, Tiger, Elefant, Gepard, Pferd, Giraffe, Affe, Fuchs, Wolf, Dachs, Bär, Schaf, Ziege, Kuh, Schwein, Hund, Katze, Maus, Eichhörnchen, Igel, Schildkröte, Schlange , Drache, Phönix, Kranich, Pfau, Fasan, Gans, Ente, Hahn, Taube, Hase, Kaninchen,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich die Möglichkeit, einige Tage in einem kleinen Dorf in der Nähe meiner Heimatstadt zu verbringen. Ich freue mich darauf, die Natur zu genießen, die frische Luft einzuatmen und einfach mal abzuschalten.Ich habe mir vorgenommen, diese Zeit bewusst zu gestalten. Keine ständige Erreichbarkeit, kein Multitasking, sondern einfach nur sein. Ich möchte die Ruhe auf mich wirken lassen, die Schönheit der
+

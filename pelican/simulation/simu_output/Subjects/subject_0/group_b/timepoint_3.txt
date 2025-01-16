@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass jemand, den ich kenne, mich in einem riesigen Saal mit vielen anderen Leuten stehen lässt. Ich fühle mich unwohl und allein, weil ich nicht weiß, was ich tun soll oder wohin ich gehen soll. Plötzlich kommt eine Person auf mich zu, nimmt meine Hand , führt mich zu einem Tisch, setzt mich hin, stellt einen Teller mit Essen vor mich hin, gießt mir etwas zu trinken ein und ge
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man nicht nur zu Fuß, auch das Fah rrad ist eine gute Alternative. Mit dem F ahrrad lässt sich die Um gebung v iel besser erkunden und man ist flexibler als mit dem Auto. Auch wenn man nicht weit fahren möchte, ist das F ahrrad eine gute Alternative. M it dem F ahrrad kommt man schnell von A nach B und es ist gesund und umweltfreundlich. Außerdem kann man mit dem Fahrrad auch größere Strecken zurückleg
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Giraffe, Affe, Flamingo, Eisbär, Pinguin, Eule, Hund, Katze, Fisch, Maus , Vogel, Schmetterling, Delfin, Tiger, Tapir, Bär, Elefant, Löwe, Giraffe, Affe, Flamingo , Gepard, Eisbär, Luchs, Fuchs, Wolf, Büffel, Zebra, Panda, Koala, Orang-Ut
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Lieblingsbäcker. Und dieser Bäcker ist kein anderer als mein Freund Jens. Denn Jens ist ein großartiger Bä cker. Er hat eine kleine Bäckerei in Berlin, die „Bäckerei Jens“. Und Jens ist wirklich der beste Bäcker, den ich kenne. Seine Brote und Brötchen schmecken einfach fantastisch.Aber Jens ist nicht nur ein großartiger Bäcker. Er ist auch ein begnadeter Geschichtenerzähler. Seine Anek
+

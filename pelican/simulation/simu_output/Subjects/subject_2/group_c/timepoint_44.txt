@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Vater und meiner Mutter in einem Raum saß. Mein Vater hielt eine Pistole in der Hand und sagte zu meiner Mutter: "Ich werde dich jetzt erschießen." Meine Mutter flehte ihn an, es nicht zu tun, aber er drückte ab und meine Mutter fiel zu Boden. Ich rannte aus dem Haus und versteckte mich hinter einem Busch. Ich sah, wie mein Vater die Leiche meiner Mutter ins Haus trug und hörte, wie er sagte: "Jetzt bist du an der Reihe." Ich versteckte mich den ganzen Tag hinter dem Busch und traute mich nicht, nach Hause zu gehen
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Pferd, Hund, Katze, Fuchs, Dachs, Wolf, Schaf, Ziege, Gans, Ente, Hahn, Huhn, Truthahn, Pfau, Adler, Kranich, Reh, Hirsch, Büffel, Kamel, Strauß , Esel, Elefant, Nashorn, Flusspferd, Löwe, Tiger, Panther, Leopard, Gepard, Luchs, Wolf, Fuchs, Dachs, Bär, Tapir, Affe, Gorilla, Orang-Utan, Schimpanse, Eichhörnchen, Maus, Rat
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und sieht ein bisschen aus wie eine Mischung aus Meerschweinchen und Eichhörnchen. Sein Name ist Toby und er ist ein Chinchilla.Chinchillas sind kleine, nachtaktive Nagetiere, die ursprünglich aus den Anden in Südamerika stammen. Sie sind bekannt für ihr weiches, dichtes Fell, das in vielen verschiedenen Farben und Mustern vorkommt. Toby ist ein seltener weißer Chinchilla mit schwarzen Flecken.Toby lebt in einem großen Käfig im Wohn zimmer, wo er viel Platz zum Springen und Klettern hat. Er bekommt täglich frisches
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 10 Minuten.Die nächste Bushaltestelle befindet sich in ca. 200m Entfernung und bietet Verbindungen in alle Richtungen. Die nächste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt. Einkaufsmöglichkeiten für den täglichen Bedarf befinden sich in unmittelbarer Nähe.Die nächste Bushaltestelle ist ca. 200m entfernt und bietet Verbindungen in alle Richtungen.Die nächste Autobahnauffahrt ist ca. 10 Fahrminuten entfernt.Einkaufsm
+

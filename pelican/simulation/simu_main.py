@@ -33,12 +33,23 @@ if __name__ == "__main__":
 
     # Iterate through each subject
     for subject in range(config.subjects):
-        # Initialize subject progress if it doesn't exist
-        if str(subject) not in progress["subjects"]:
-            progress["subjects"][str(subject)] = {"cohorts": {}}
-            
+                    
         # Initialize subject constants
         constants = generate_parameter.ParameterGenerator.subject_sample(config)
+        
+        # Initialize subject progress if it doesn't exist, else get constants
+        if str(subject) not in progress["subjects"]:
+            progress["subjects"][str(subject)] = {"cohorts": {}}
+        else: 
+            # Fetch constants from the metadata file if it exists
+            metadata_file_path = os.path.join(metadata_dir, f"subject_{subject}", "metadata.json")
+            if os.path.exists(metadata_file_path):
+                with open(metadata_file_path, "r") as metadata_file:
+                    subject_metadata = json.load(metadata_file)
+                    constants = subject_metadata.get("constants", {})
+            else:
+                print(f"Metadata file not found for subject {subject}.")
+                constants = generate_parameter.ParameterGenerator.subject_sample(config)
         
         # Process each cohort
         for cohort_name, cohort_config in config.cohorts.items():

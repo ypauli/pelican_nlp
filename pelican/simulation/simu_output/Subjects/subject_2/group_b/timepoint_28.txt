@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem riesigen Raum stehe, gefüllt mit unzähligen Bücherregalen, die bis zur Decke reichen. Die Bücher repräsentieren mein Wissen und meine Erfahrungen, die ich im Lau fe meines Lebens gesammelt habe.Wenn ich eine Frage habe, gehe ich einfach zu einem Regal, ziehe ein Buch heraus und blättere darin, bis ich die Antwort finde, die ich suche. Manch mal muss ich mehrere Bücher konsultieren, um die richtige Antwort zu finden, aber ich habe immer das Gefühl, dass ich die Wahrheit finde, wenn ich nur lange genug suche.Aber
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Tiger, Löwe, Elefant, Affe, Pferd, Hund, Katze, Maus, Fisch, Vogel, Biene, Schmetterling, Eichhörnchen, Fuchs, Wolf , Dachs, Gans, Ente, Schaf, Ziege, Giraffe, Strauß, Kamel, Elefant, Nashorn, Flusspferd, Löwe, Tiger, Leopard, Gepard, Hyäne , Luchs, Wolf, Dachs, Gans, Ente, Schaf, Ziege, Giraffe, Strauß, Kamel, Elefant, Nashorn, Flusspferd, Löwe, Tiger, Leopard
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um die Entwicklung einer mobilen Applikation, die es den Benutzern ermöglichen soll, sich gegenseitig Fotos zu schicken und diese zu bewerten .Ich habe mich für die Programmiersprache Python entschieden, da sie sehr vielseitig einsetzbar ist und eine große Community hinter sich hat, die bei Problemen weiterhilft. Das Projekt ist in mehrere Teile gegliedert:1. Einführung in Python2. Datenstrukturen in Python3. Funktionen in Python4. Dateiverarbeitung in Python5. Objektorientierte Programmierung in Python6. G
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in wenigen Minuten. AusstattungDas Haus verfügt über einen großzügigen Wohnbereich mit offener K üche und Zugang zur Terrasse und zum Garten. Im Obergeschoss befinden sich zwei Schlafzimmer und ein Badezimmer. Im Erdgeschoss gibt es zus ätzlich ein Gäste-WC und einen Hauswirtschaft sraum mit Waschmaschine und Trockner. Die Wohnfläche beträgt ca. 12 0 qm, die Nutzfläche ca. 180 qm.Das Grundstück hat eine Größe von ca. 1.000 qm und ist komplett eingezä
+

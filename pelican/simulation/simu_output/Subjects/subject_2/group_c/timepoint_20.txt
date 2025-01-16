@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle sind sehr aufgeregt und reden durcheinander. Plötzlich kommt eine Frau auf mich zugerannt und schreit mich an: "Du hast meine Handtasche gestohlen!" Ich bin vö llig verwirrt, denn ich habe weder eine Frau gesehen, noch habe ich eine Handtasche gesehen, geschwe ige denn habe ich irgendwelche Frauenklamotten gesehen. Ich habe nur Männer gesehen. Ich meine, ich habe nichts dagegen, dass Männer Frauenkleidung tragen, wenn sie wollen, aber ich habe etwas dagegen, dass Männer
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Tiger , Eisbär, Gepard, Pferd, Kamel, Giraffe, Büffel, Tapir, Wolf , Löwe, Elefant, G nu, Zebra, Hyäne, Löwe, Leopard, Gepard , Nashorn, Büffel, E land, Impala, Giraffe, Elef ant, Flusspferd, Warz enschwein, Hyäne, Lö we, Leopard, Gepard, E isbär, Panda, Gorilla, Orang-Utan, Schimpanse , Bonobo, Giraffe, Flusspferd, Elefant, Nashorn, Zebra, Antilope, Strauß
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, hat vier Beine und sieht ein bisschen aus wie eine Mischung aus Hund und Eichhörnchen. Mein neuer Mitbewohner ist ein Eichhörnchen.Eichhörnchen sind wirklich faszinierende Geschöpfe. Sie sind klein, flink und können klettern wie die Weltmeister. Aber sie sind auch ziemlich schlau und wissen genau, wie sie sich gegen größere und stärkere Feinde zur Wehr setzen können. Ein weiterer interessanter Aspekt des Spiels ist die Möglichkeit, sich mit anderen Spielern zu verbünden und gemeinsam Quests abzuschließen. Dies fördert die soziale Interaktion
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten.Mit öffentlichen Verkehrsmitteln Mit öffentlichen Verkehrsmitteln erreicht man den Flughafen entweder mit der S-Bahn-Linie S8 oder mit der U-Bahn-Linie U2. Die Fahrtzeit vom Hauptbahnhof beträgt etwa 15 Minuten.Mit dem Auto Von der Autobahn A 1 kommend, nehmen Sie die Ausfahrt Wunstorf und folgen der B 442 in Richtung Neustadt am Rübenberge. In Neustadt fol gen Sie der Beschilderung Richtung Nienburger Straße und biegen rechts
+

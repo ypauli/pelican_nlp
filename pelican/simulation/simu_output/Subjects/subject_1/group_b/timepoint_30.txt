@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , daß ich in einem großen Saal war. An den Wänden hingen riesige Bilder, die die Geschichte der Menschheit erzählten. In der Mitte des Saales stand ein ries iger Stuhl, auf dem ein Mann saß. Er trug eine Krone und hielt ein Zepter in der Hand. Er sah mich an und lächelte.Ich fühlte m ich plötzlich sehr klein und unbedeutend neben ihm. Aber irgendwie fühlte ich mich
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Minuten. Die Bushaltestelle befindet sich direkt vor dem Haus. Die Einkaufsmöglichkeiten im Ort sind vielfältig. Es gibt zwei Bäcker, einen Metzger, eine Apotheke, eine Tankstelle , zwei Supermärkte, einen Drogeriemarkt und verschiedene Boutiquen.Besonderheiten  Das Stadtbild ist geprägt durch eine Vielzahl von Hochhäusern, sowohl Wohn- als auch Bürogebäude
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Pferd, Elefant, Tiger, Affe, Hund, Katze, Schildkröte , Krokodil, Fuchs, Gepard, Giraffe, Zebra, Büffel, Löwe, Strauß, Elefant, Flamingo, Pinguin, Tiger, Panther, Eisbär, Gorilla, Affe, Hund, Katze , Meerschweinchen, Hamster, Kaninchen, Maus,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Spielzeug. Einen 3D-Drucker, genauer gesagt einen Prusa i3 MK3S+. Das Gerät ist wirklich beeindruckend, vor allem wenn man bedenkt, dass es für weniger als 1.000 Euro erhältlich ist. Es handelt sich um einen 3D-Drucker, der in der L age ist, Objekte aus einer Vielzahl von Materialien wie Kunststoff, Metall und sogar Keramik herzustellen. Mit einer Druckgeschwindigkeit von
+

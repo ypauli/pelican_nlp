@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem kleinen Café sitze, umgeben von Büchern und Schreibutensilien. Mein Laptop ist geöffnet und ich arbeite an meinem Manuskript , während ich eine Tasse heiße Schokolade schlürfe und das sanfte Summen der Gespräche um mich herum genieße.Das ist mein perfekter Schreib nachmittag.Wie sieht dein perfekter Schreibnachmittag aus? Lass es mich in
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 10 Minuten, zu Fuß in 20 Minuten. Mit dem Auto dauert es  5 Minuten.Anfahrt mit öffentlichen Verkehrsmitteln:Mit der Straßenbahn Lin ie 1, 2, 3 oder 4 bis zur Haltestelle „Hauptbahnhof“ fahren. Von dort sind es nur wenige Meter zu Fuß bis zum Hauptbahnhof.Mit der U-Bahn Linie 1, 2 oder 3 bis zur Hal
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Pferd, Kamel, Fuchs, Wolf, Hund, Katze , Maus, Kuh, Schaf, Ziege, Gans, Ente, Huhn, Truthahn, Adler, Bussard, Krähe, Eule, Fasan, Rebhuhn, Wachtel, Lerche, Drossel, Amsel, Fink , Goldammer, Stieglitz, Grünfink, Buchfink
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, weiß und flauschig . Mein neuer Mitbewohner ist eine Katze namens Minka. Minka ist ein Kätzchen, das ich von einem Freund geschenkt bekommen habe. Sie ist noch jung und verspielt und liebt es, mit meinen Sachen zu spielen. Minka ist sehr neugierig und lernt schnell neue Dinge kennen. Sie ist auch sehr anhänglich und schnurrt immer, wenn ich sie streichle.
+

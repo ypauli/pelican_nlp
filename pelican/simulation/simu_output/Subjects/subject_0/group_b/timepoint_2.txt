@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , ich sitze in einem großen Saal, alles ist schön weihnachtlich geschmückt, an den Wänden hängen Girlanden aus bunten K ugeln und Lichtern, in der Mitte des Raumes steht eine große Weihnachtstanne, die prächtig geschmückt ist. Um die Tanne herum stehen Geschenke, die darauf warten, von den kleinen Gästen geöffnet zu werden, und überall hört man das fröhliche Lachen der Kinder. Eine
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem F ahrrad in etwa  15 Min uten. Mit dem Auto fähr t man in Richtung Südosten etwa 15 Minuten zum nächsten Supermarkt . Die näch ste Bushal testelle ist etwa 1 00 Meter entfernt . Der Flugh afen ist etwa 1 0 Kilometer entfernt . Einchecken, Auschecken, Frühstücken, Abendessen und alles dazwischen ist in 5 Minuten zu Fuß erreichbar.Zu
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Elefant, Löwe, Giraffe, Tiger, Koala, Fuchs, Wolf, Schildkröte, Hai, Gepard, Gnu, Zebra, Tapir, Affe, Krokodil, Orang-Utan, Gorilla, Flamingo, Strauß, B üffel, Elefant, Tiger, Löwe, Leopard, Panther, Gepard, Hyäne, Löwe, Gepard, Hyä
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine kleine neue Kategorie im Blog eingerichtet. Unter "Gedanken zur Zeit" möchte ich über Themen nachdenken, die mich bewegen, die ich aber nicht unbedingt zu einem vollständigen Blogbeitrag ausarbeiten möchte. Daher sind es eher kurze Texte, die zum Nachdenken an regen sollen. Dass die Firma RS Components in Köln ansässig ist, war mir bis vor kurzem nicht bewusst. Die F irma ist ein weltweit führender Anbiet
+

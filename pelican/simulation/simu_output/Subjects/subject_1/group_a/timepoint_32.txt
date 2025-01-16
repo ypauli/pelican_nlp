@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Supermarkt bin und eine riesige Tüte voller Gummibärchen sehe. Ich habe die Tüte genommen, aber als ich sie öffnen wollte, habe ich festgestellt, dass es sich nicht um Gummibärchen handelt, sondern um Würmer. Ich habe mich sehr erschrocken und die Würmer weggeworfen. Danach habe ich nochmal gegoogelt und festgestellt, dass es sich wirklich um Gummibärchen
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man in wenigen Minuten mit dem Auto, Fahrrad oder zu Fuß.Mit einem Klick auf die Karte können Sie sich die genaue Lage des Ferienhauses anzeigen lassen.Anreise mit dem AutoAus Richt ung Norden (Hamburg, Lübeck):Fahren Sie auf der A1 bis zum Autobahndreieck Hamburg- Nordwest. Wechseln Sie hier auf die A23 Richtung Bremen. Verlassen Sie die A23 an der Ausfah
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Löwe, Giraffe, Affe, Pferd, Bär, Eichhörnchen, Fuchs, Dachs , Wolf, Schaf, Gans, Ente, Hund, Katze, Maus, Esel, Kuh, Schwein, Büffel , Ziege, Schaf, Pferd, Hase, Hirsch, Löwe, Elefant, Kamel, Nilpferd , Bär, Tiger, Panther, Gepard, Löwe,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein Problem mit meinem Laptop. Wenn ich ihn einschal te, leuchtet der Bildschirm kurz auf und geht dann wieder aus . Es gibt keine Fehlermeldung oder ähnliches. Ich hab e bereits versucht, den Akku zu entfernen und wieder einzusetzen aber das hat auch nichts gebracht. Hat jemand eine Idee was ich tun könnte?...zur FrageWas möchtest Du wissen?Deine Frage beantwortencomputerfrageFrage stellen
+

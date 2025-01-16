@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in der U-Bahn sitze. Eine Frau neben mir hat ein Baby im Arm und sagt zu ihrem Mann: „Schatz, ich glaube, das Baby hat Hunger.“ Der Mann antwort et: „Ja, das ist mir auch aufgefallen, aber ich glaube nicht, dass wir hier in der U-Bahn das Fläschchen geben sollten.“ Die Frau sagt: „Aber es ist doch mein Kind, ich kann es doch nicht hungern lassen.“ Der Mann sagt: „Ja, ja,
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 10 Minuten, zu Fuß in etwa 20 Minuten.Der nächste Bäcker ist 5 Gehminuten entfernt und bietet eine große Auswahl an frischen Backwaren. Die nächste Einkaufsmöglichkeit (Aldi, Lidl, Rewe) ist 10 Geh minuten entfernt.GastronomieEs gibt eine große Auswahl an Restaurants, Cafés und Bars in der Nähe
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Flamingo, Eisbär, Pinguin, Schildkröte, Gepard, Affe, Zebra, Krokodil, Tiger, Bär, Adler, Wolf, Fuchs, Schakal, Gnu, Löwe, Elefant, Eisbär, Hyäne, Antilope, Strauß, Büffel, Giraffe, L öwe, Zebra, Gepard, Leopard, Gnu, Imp
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein kleines Experiment gestartet. Ich habe meine Ernährung kom plett auf vegetarisch umgestellt. Ich bin zwar kein Vegan er, aber ich denke es ist eine gute Idee, wenigstens einmal im Jahr eine vegetarische Woche einzulegen.A ußerdem versuche ich seit einiger Zeit meinen Fleischkonsum einzuschränken. Das gelingt mir leider nicht immer, aber ich arbeite daran.Was ist dein Lieblingsrezept?
+

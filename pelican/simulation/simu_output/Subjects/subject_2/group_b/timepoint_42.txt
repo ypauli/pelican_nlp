@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Mutter telefoniert habe. Ich habe sie angerufen, weil ich wissen wollte, wie es ihr geht. Sie hat mir gesagt, dass es ihr gut geht und dass sie mich vermisst. D ann habe ich mit meinem Vater telefoniert. Er hat gefragt, wie meine Prüfung gelaufen ist, und ich habe ihm gesagt, dass es gut gelaufen ist. Dann habe ich mit meiner Schwester telefon iert, und sie hat gefragt, wie meine Prüfung gelaufen ist, und ich habe ihr gesagt, dass es gut gelaufen ist. Dann habe ich mit meiner Mutter telefoniert, und sie hat gefragt
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Affe, Pferd, Katze, Hund, Maus, Eichhörnchen, Bär, Fuchs, Wolf, Schaf, Ziege, K uh, Schwein, Gans, Ente, Hahn, Huhn, Truthahn, Pfau, Strauß, Kranich, Gans, Ente, Hahn, Huhn, Truthahn, Pfau, Strauß, Kranich , Gans, Ente, Hahn, Huhn, Truthahn, Pfau, Strauß, Kranich, Gans, Ente, Hahn, Huhn, Truthahn, Pfau, Strauß, Kranich, G
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein Forschungsprojekt im Bereich des maschinellen Lernens, genauer gesagt um die Entwicklung eines neuronalen Netzwerks zur Vorhersage von Energieverbrauchsmustern in Wohngebäuden. Das Ziel dieses Projekts ist es, ein Modell zu erstellen, das in der Lage ist, den zukünftigen Energieverbrauch eines Wohngebäudes zu prognostizieren, indem es historische Verbrauchsdaten und externe Faktoren wie das Wetter und die Nutzung des Gebäudes berücksichtigt. Dieses Modell kann dann verwendet werden, um den Energieverbrauch des Geb
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten. Mit öffentlichen Verkehrsmitteln: Die nächste Bushaltestelle befindet sich direkt vor der Praxis. Die Buslinien 500,  501, 502, 503, 504, 505, 506 , 507, 508, 50 9, 510, 511, 5 12, 513, 514, 515, 516, 517, 518, 519, 520, 521, 5
+

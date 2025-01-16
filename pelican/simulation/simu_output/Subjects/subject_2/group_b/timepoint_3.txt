@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Ex-Freund telefoniert habe. Ich habe ihn angerufen, weil ich wissen wollte, ob er noch Gefühle für mich hat. Er hat gesagt, dass er mich immer noch liebt, aber dass er in einer neuen Beziehung ist. Ich habe ihm gesagt, dass ich das verstehe und dass ich ihm alles Gute wünsche. Dann habe ich aufgelegt.Ich fühle mich schlecht, we il ich ihm nicht gesagt habe, dass ich immer noch Gefühle für ihn habe. Ich bereue es, dass ich aufgelegt habe. Was soll ich tun? Soll ich ihm eine SMS schreiben?Mit freundlichen
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Giraffe, Affe, Pferd, Kamel, Büffel, Wolf, Fuchs, Dachs, Eichhörnchen, Maus, Katze, Hund , Schaf, Ziege, Gans, Ente, Hahn, Truthahn, Fasan, Pfau, Kranich, Flamingo, Papagei, Strauß, Schildkröte, Schmetterling, Marienkä fer, Grille, Heuschrecke, Kakerlake, Spinne, Skorpion, Tausendfüßler, Regenwurm, Assel, Floh, Maus, Ratte, Eichhörnchen, Igel
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern ermöglicht, sich zu registrieren, ein Profil anzulegen , Fotos hochzuladen, Nachrichten zu senden und zu empfangen und vieles mehr.Ich habe mich für PHP und MySQL als Technologien entschieden, da sie weit verbreitet sind und es viele Tutorials und Ressourcen gibt, um zu lernen, wie man sie verwendet. Außerdem sind sie kostenlos und Open Source, was bedeutet, dass jeder sie verwenden und daran mitarbeiten kann.Es gibt jedoch auch einige Nachteile bei
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten. Mit öffentlichen Verkehrsmitteln Mit öffentlichen Verkehrsmitteln gelangt man am besten mit der Straßenbahn (Linie 1 1) oder mit der U-Bahn (Linie U1 ) zum Hauptbahnhof. Von dort aus sind es nur wenige Gehminuten bis zum Markt.Mit dem Fahrrad ist der Wochenmarkt ebenfalls gut zu erreichen. Es gibt zahlreiche Fahrradst änder in der Nähe des Marktes.Mit dem Auto ist der Wochenmarkt ebenfalls gut zu erreichen. Es gibt mehrere Parkmöglichkeiten in der Nähe des Marktes.
+

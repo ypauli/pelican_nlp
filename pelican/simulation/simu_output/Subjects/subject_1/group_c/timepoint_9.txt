@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem besten Freund in einem Zug saß. Der Zug fuhr langsam durch die Landschaft und es sah so aus, als würden wir ständig anhalten und wieder losfahren. Mein Freund und ich unterhielten uns angeregt über das Leben, die Liebe und die Zukunft. Plötzlich öffnete sich die T ür des Zuges und ein Mann stieg ein. Er ging direkt auf meinen Freund zu und sagte: "Entschuldigung, ich habe
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Minuten. Eine Bushaltestelle befindet sich direkt vor dem Haus. Die nächste Autobahnauffahrt ist ca.  10 km entfernt.Ausstattung:Die Ferienwohnung befindet sich im Erdgeschoss eines Zweifamilienhauses und verfügt über einen separaten Eingang. Sie ist gemütlich eingerichtet und bietet Platz für bis zu 4 Personen.Die Wohnung verfügt über ein Wohnzimmer mit einem Sof
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Tiger, Löwe, Hund, Katze, Pferd, Kuh, Schaf, Ziege, Kamel, Esel, Affe, Gorilla, Orang-Utan, Schimpanse, Delfin, Wal, Robbe, Eichhörnchen, Bär, Wolf, Fuchs, Reh, Hirsch, Büffel , Elefant, Tiger, Löwe, Hund, Katze, Pferd, Kuh, Schaf, Ziege,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Freundin. Wir haben uns auf einer Party kennengelernt und uns sofort gut verstanden. Sie ist wirklich nett und hübsch und ich freue mich sehr, sie kennenzulernen. Allerdings bin ich mit meinem jetzigen Freund noch zusammen. Ich weiß nicht, was ich tun soll. Ich fühle mich schlecht, weil ich meinen Freund betrügen würde, wenn ich mit meiner neuen Freundin etwas anfangen würde. Andererseits
+

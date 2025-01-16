@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin und jeder von ihnen hält ein leuchtendes Eis in der Hand. Ich stehe da und frage mich, was das zu bedeuten hat. Dann wache ich auf.Was bedeut et dieser Traum?Dieser Traum könnte darauf hinweisen, dass du dich in einer Situation befindest, in der du dich unsicher fühlst oder nicht weißt, was die nächsten Schritte sind. Das Eis kön nte deine Unsicherheit oder Angst vor dem Unbekannten repräsentieren. Die Tatsache, dass du auf dem Eis gehst, könnte darauf hinweisen, dass du bereit bist, dich diesen Äng
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Tiger, Löwe, Gepard, Wolf, Fuchs, Dachs, Eichhörnchen, Bär, Hirsch, Reh, Gnu, Antilope, Zebra, Giraffe , Strauß, Flamingo, Papagei, Pinguin, Robbe, Schildkröte, Krokodil, Affe, Elefant, Tiger, Löwe, Gepard, Wolf, Fuchs, Dachs , Bär, Eisbär, Polarfuchs, Elch, Rentier, Karibu, Moschusochse, Gnu, Zebra, Antilope, Lama, Alpaka, Kamel, Nashorn,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um eine Webseite, die sich speziell an kleine und mittelständische Unternehmen (KMU) richtet, die bisher noch keinen Online-Auftritt besitzen oder mit ihrem aktuellen nicht zufrieden sind.Die Seite wird unter der Domain <http://www.webseite-fuer-kmu.de> zu finden sein und sich in erster Linie dar auf konzentrieren, kleine und mittlere Unternehmen (KMU) dabei zu unterstützen, ihre Online-Präsenz zu verbessern.Das Angebot umfasst folgende Leistungen: 1. Website-Erstellung: Wir erstellen professionelle We
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man entweder zu Fuß, mit dem Fahrrad oder mit öffentlichen Verkehrsmitteln. Mit dem Auto ist der nächste Supermarkt in ca. 5 Minuten erreichbar.Anreise mit öffentlichen Verkehrsmitteln:Vom Flughafen Frankfurt (FRA) mit der S8 Richtung Wiesbaden bis zum Hauptbahnhof Wiesbaden. Von dort mit der Straßenbahn Linie 1 Richtung Biebrich oder mit der Buslinie 20 Richtung Bie brich zum Biebricher Schloss.Mit dem Auto:Von Frankfurt kommend auf der A66 Richtung Wiesbaden bis zur Ausfahrt Wiesbaden-Biebr
+

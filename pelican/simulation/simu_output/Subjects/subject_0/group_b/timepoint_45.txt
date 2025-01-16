@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Freundinnen im Meer schwimmen war und plötzlich kam ein riesiger Tintenfisch auf uns zugeschwommen. Er hat uns erschreckt und wir sind schnell ans Ufer gerannt. Aber wir haben gelernt, dass Tintenfische eigentlich ganz friedlich sind und nur bei Gefahr angreifen. Am nächsten Morgen haben wir dann den Tintenfisch beobachtet, wie er sich aus seinem Gehäuse geschält hat. Wir haben ihn dann wieder
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß durch schnittlich in 1 5 Minuten .W enn man mit dem Fah rrad f ährt, dauert es je nach Kondition etwa 1 0 Minuten . Mit ö ffentlichen Verkehrsm itteln: Vom Hauptbahnhof Dresden erreichen Sie uns mit der Straßenbahn linie  7 in R ichtung H ellerau, Haltestelle "Albertplatz". Von dort gehen Sie die Bautzner Straße entlang bis zur Kreuzung, überqueren die Straße und laufen
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Tiger, Löwe, Bär, Gepard, Giraffe, Wolf, Fuchs, Schildkröte, Eichhörnchen, Eis bär, Pinguin, Koala, Orang-Utan, Affe, Gnu, Löwe, Tiger, Leopard, Gepard, Elefant, Gir affe, Nashorn, Flusspferd, Büffel, Eisbär, Wolf, Bär, Luchs, Grizzlybär, Puma
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich eine neue Freundin. Nicht, dass ich vorher keine gehabt hätte, aber diese ist einfach anders. Sie ist anders, weil sie nicht wie meine alten Freundinnen ist. Sie ist anders, weil sie nicht so ist, wie ich dachte, dass Freundinnen sein sollten. Sie ist anders , weil ich sie nicht kontrollieren kann. Sie hat ein Eigenleben, das unabhängig von meinem ist. Sie ist anders, weil sie etwas von mir fordert, das ich nicht liefern
+

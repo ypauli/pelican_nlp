@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich auf einer Party war. Alle waren sehr nett zu mir und ich fühlte mich wohl. Plötzlich sah ich einen riesigen schwarzen H und auf mich zukommen. Mein Herz raste, ich fühlte mich eingeschüchtert und wusste nicht
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in etwa 20 Minuten, mit dem Fahrrad in etwa 10 Minuten.Der Hauptbahnhof ist ca. 15 Gehminuten entfernt. Zum Flughafen Düsseldorf International Airport gelangt man mit der S-Bahn in ca.
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Giraffe, Zebra, Affe, Fuchs, Hund, Katze, Gans , Ente, Pferd, Schaf, Esel, Hase, Maus, Meerschweinchen,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein Problem, dass ich vorher nicht hatte. Und zwar habe ich seit dem letzten Update auf Windows 10, 1709, ein Problem mit meiner WLAN Verbindung. Sobald die WLAN Verbindung get rennt wird und ich erneut verbinde, kann ich nicht mehr ins Internet. Es kommt
+

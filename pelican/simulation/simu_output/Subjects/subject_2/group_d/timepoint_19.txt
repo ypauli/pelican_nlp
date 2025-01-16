@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinen Freunden in einem Restaurant sitze. Wir sind alle sehr gut gelaunt und führen angeregte Gespräche. Plötzlich kommt der Besitzer des Restaurants zu uns an den Tisch und sagt, dass er uns bitten muss, das Lokal zu verlassen. Er begründet dies damit, dass er nur eine bestimmte Anzahl von Gästen in seinem Lokal haben möchte, die er persönlich kennt. Wir sind alle sehr
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Giraffe, Löwe, Tiger, Eisbär, Pinguin, Affe, Fuchs, Hund, Katze, Maus, Hamster, Meerschweinchen, Kaninchen, Schildkr öte, Igel, Dachs, Eichhörnchen, Fledermaus, Ziege, Schaf, Gans, Ente, Pferd, Esel, Zebra, Strauß, Flamingo
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein Gemeinschaftsprojekt, das ich zusammen mit einem Kollegen durchführe. Das Ziel dieses Projektes ist es, eine Software zu entwick eln, die es Benutzern ermöglicht, ihre persönlichen Daten sicher zu speichern und zu verwalten.Das Projekt ist in mehrere Phasen unterteilt. In der ersten Phase haben wir uns darauf konzentriert, eine sichere und
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa zehn Minuten. Mit öffentlichen Verkehrsmitteln Die nächstgelegene Bushaltestelle ist die Bushaltestelle "Rathaus" (Linie 101, 102, 10 3, 104, 105, 106, 107, 108, 109, 110, 111, 112, 
+

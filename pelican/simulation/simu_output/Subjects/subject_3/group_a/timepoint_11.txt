@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meinem Vater in einem Raum saß. Es war eine gemütliche Atmosphäre. Mein Vater und ich haben uns unterhalten und gelacht. Es war ein schöner Traum.Was bedeutet dieser Traum für dich?Dieser Traum könnte darauf hinweisen, dass du eine positive Beziehung zu deinem Vater hast oder dass du dich nach mehr Zeit mit ihm sehnst. Es könnte auch
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Pinguin, Löwe, Tiger, Elefant, Giraffe, Gepard, Affe, Fuchs, Wolf, Dachs, Bär, Hund, Katze, Pferd, Kuh, Schaf, Ziege, Kamel, Strauß, Ente, Gans, Hahn, Huhn, Taube, Eule, Specht, Kranich, Reh, Hirsch,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kleines Startup, das sich darauf spezialisiert hat, kleine und mittelständische Unternehmen bei der Digitalisierung ihrer Geschäftsmodelle zu unterstützen.Das Unternehmen bietet seinen Kunden verschiedene Dienstleistungen an, darunter Ber atung, Schulungen und Implementierung von Softwarelösungen. Das Ziel ist es, den Unternehmen dabei zu helfen, effiz
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man in ca. 15 Minuten zu Fuß. Mit dem Fahrrad dauert es etwa 10 Minuten. Mit dem Auto sind es etwa 5 Minuten.Wie weit ist die nächste Bushaltestelle entfernt?Die nächste Bushaltestelle befindet sich ca. 100 Meter entfernt.Wie weit ist der nächste Bahnhof entfernt?Der nächste Bahnhof ist der
+

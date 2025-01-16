@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass mein Bruder und ich uns in einer großen Stadt verlaufen haben. Wir waren beide auf der Suche nach unserer Mutter, die wir schon lange nicht mehr gesehen hatten. Die Stadt war voller Menschen und überall gab es Geschäfte, Cafés und Restaurants. W ir waren sehr hungrig, aber wir hatten kein Geld.Plötzlich sah ich einen kleinen Laden mit einem großen Schild draußen: "Essen für nur einen Cent!" Ich konnte mein Glück kaum
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in ca. 5 Minuten und zu Fuß in etwa 20 Minuten. In unmittelbarer Nähe gibt es auch einen Bäcker, ein Café und einen Metzger.Mit dem Auto Von der Autobahn A8 kommend, nehmen Sie bitte die Ausfahrt Nürnberg-Kleinreuth/Feucht. Folgen Sie dann der B2 und nehmen Sie die Ausfahrt Nürnberg-Nordost. Folgen Sie nun
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Fuchs, Eisbär, Zebra, Pinguin, Hund, Katze, Maus, Fisch, Vogel, Hase, Dachs, Wolf, Schildkröte, Tiger, Gepard, P ferd, Bär, Löwe, Zebra, Giraffe, Elefant, Tiger, Pferd, Eisbär, Bär, Elefant, Giraffe, Löwe, Tiger, Pferd,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich in meinen Seminaren immer wieder die Frage gehört: „Wie geht es weiter mit der Digitalisierung, Herr Weber?“ Die Antwort ist ebenso einfach wie komplex: Es hängt davon ab, wie sich die Unternehmen und Organisationen in den kommenden Wochen und Monaten entwickeln.Die Digitalisierung hat sich aufgrund des Corona-Virus dramatisch beschleunigt. Viele Unternehmen mussten schnell auf Remote-Arbeit umstellen, Meetings werden online abgehalten und der E-Commerce boom
+

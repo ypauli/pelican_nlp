@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Mutter und meiner Schwester im Zug saß. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Meine Mutter und meine Schw ester waren sehr aufgeregt und ich versuchte, sie zu beruhigen.Ich erinnere mich noch an das Gefühl der Erleichterung, als wir endlich am Kranken haus ankamen und die Hektik nachließ. Die Ärzte und Krankenschwestern waren sehr freundlich und hilfs
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten.W ie weit ist es bis zur nächsten Bushaltestelle?Die nächste Bushaltestelle befindet sich direkt vor dem Hotel.Wie weit ist es bis zum nächsten Flughafen?Der nächste Flughafen ist der Flughafen Köln/Bonn (CGN). Dieser liegt ca. 15 km vom Hotel entfernt.Gibt es
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Giraffe, Zebra, Affe, Orang-Ut an, Gorilla, Schimpanse, Flamingo, Strauß, Känguru, Koala, Pinguin, Delfin, Wal , Elefant, Löwe, Tiger, Leopard, Gepard, Eisbär, Panda, Gnu, Antilope, Zebra, Giraffe, Strauß, Flamingo, Papagei
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kle ines Unternehmen, das sich auf die Entwicklung von Apps spezialisiert hat .Ich habe mich für dieses Projekt entschieden, weil es mir ermöglicht, meine technischen Fähigkeiten zu erweitern und gleichzeitig einen positiven Einfluss auf die Ges ellschaft auszuüben. Ich freue mich darauf, Teil dieses Projekts zu sein und hoffe, dass wir gemeinsam viel erreichen können.
+

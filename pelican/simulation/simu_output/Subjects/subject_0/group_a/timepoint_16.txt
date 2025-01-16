@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Mutter und meiner Schwester im Zug saß. Wir waren auf dem Weg zu meinem Vater, der im Krankenhaus lag. Ich erinnere mich, wie ich aus dem Fenster schaute und die Landschaft an mir vorbeiziehen sah. Ich fühlte eine tiefe Traurigkeit in mir aufsteigen, als ob ich etwas verloren hätte, aber ich konnte nicht genau sagen, was es war.Ich versuchte, mich abzulen ken, ind
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man zu Fuß in wenigen Min uten. Das Ferienhaus bietet Platz für  4 Personen. Es verf ügt über 2 Schl afzimmer , ein W ohnzimmer mit Kamin , eine voll ausgestatt ete Kü che und ein Badez immer mit D usche. Außerd em gibt es einen großen Balkon mit Blick auf das Me er. Die Wohnung ist ideal für Familien oder Paare, die einen entspannten und komfortablen Urlaub in einer wunderschönen Umgebung suchen
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Pferd, Kamel, Giraffe, Gepard, Wolf, Fuchs, Dachs, B üffel, Strauß, Flamingo, Gnu, Zebra, Affe, Elefant, Löwe, Tiger, Pferd, Kamel, Gir affe, Hyäne, Leopard, Gepard, Löwe, Büffel, Strauß, Flamingo, Gnu, Zebra, Affe
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine Webseite zu gestalten und zu programmieren, die es den Benutzern ermö glicht, ihre eigenen Geschichten zu erstellen und zu teilen. Die Seite soll einfach zu bedienen sein und schöne Ergebnisse liefern. Funktionen:1. Einfache Benutzeroberfläche: Die App bietet eine einfache und intuitive Benutzeroberflä che, die es Benutzern ermöglicht, ihre
+

@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich in einem Raum voller Menschen bin. Alle schauen mich an und warten darauf, dass ich anfange zu sprechen. Aber ich habe nichts zu sagen. Ich fühle mich hilflos und ausgeliefer t.Ich versuche, mich zu konzentrieren, aber es fällt mir schwer. Die Geräusche um mich herum werden immer lauter und ich kann kaum noch etwas verstehen. Plötzlich spüre ich eine Hand auf meiner Schulter und drehe mich erschrocken um. Es
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Kamel , Pferd, Hund, Katze, Schaf, Ziege, Gans, Ente, Hahn, Truthahn, Fasan, Pfau , Kranich, Flamingo, Papagei, Eichhörnchen , Affe, Tiger, Löwe, Elefant, Kamel, Pferd, Hund, Katze, Schaf, Ziege, Gans, Ente, Hahn, Truthahn, Fasan, Pfau, Kranich, Flaming
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich einen neuen Mitbewohner. Er ist klein, flauschig und hat vier Pfoten. Mein neuer Mitbewohner ist ein Kätzchen namens Luna. Sie ist noch jung und verspielt und erkundet gerne ihre neue Umgeb ung. Es macht Spaß, ihr dabei zuzusehen, wie sie die Welt entdeckt.Aber es gibt auch Herausforderungen. Zum Beispiel hat Luna manchmal Angst vor lauten Geräuschen oder frem den Menschen. Aber mit Geduld und Liebe können wir ihr helfen, diese Ängste zu
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in 15 Minuten. Mit dem Auto dauert es etwa  5 Minuten.Mit öffentlichen VerkehrsmittelnMit der Straßenbahn (Linie 10) fährt man bis zur Haltestelle "Haupt bahnhof". Von dort sind es etwa 5 Minuten zu Fuß.Mit dem Bus ( Linie 20) fährt man bis zur Haltestelle "Hauptbahnhof". Von dort sind es etwa 5 Minuten zu Fuß.Mit der S-Bahn (Linien S1,
+

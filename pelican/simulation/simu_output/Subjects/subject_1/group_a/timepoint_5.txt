@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit meiner Mutter und meiner Schwester in einem Zug sitze. Der Zug fährt durch eine wunderschöne Landschaft, die an die Schweiz erinnert. Meine Mutter und meine Schwester sind begeistert von der Aussicht und machen Fotos. Plötzlich hält der Zug an einer unbekannten Station und die Türen öffnen sich nicht. Der Zugbegleiter erklärt uns, dass wir hier aussteigen müssen und einen anderen Zug nehmen
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 10 Minuten. Mit öffentlichen VerkehrsmittelnMit öffentlichen Verkehrsmitteln gelangt man am best en mit der U-Bahn (Linie U1) zum Hauptbahnhof. Von dort aus sind es nur wenige Gehminuten bis zum Hotel.Mit dem AutoVon Norden kommend:Auf der Autobahn A1 bis zur Ausfah
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Giraffe, Pferd, Hund, Katze, Maus, Hase , Eichhörnchen, Fuchs, Wolf, Schaf, Ziege, Kuh, Büffel, Kamel, Strauß , Affe, Elefant, Löwe, Tiger, Panther, Gepard, Bär, Eisbär, Pinguin, Robbe, Wolf, Fuchs, Dachs, Hirsch, Elch
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es handelt sich dabei um ein kle ines Unternehmen, welches sich auf die Entwicklung von Apps spezialisiert hat. Die Aufgaben sind vielfältig und reichen von der Konze ption über die Programmierung bis hin zur Gestaltung der Benutzerober fläche.WebentwicklungDie Webentwicklung umfasst die Erstellung von Websites und Webanwendungen unter Verwendung von HTML, CSS, JavaScript und anderen Webtechnologien. Dazu gehören sowohl statische als auch dynam
+

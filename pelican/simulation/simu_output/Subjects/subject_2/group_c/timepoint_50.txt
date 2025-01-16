@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass mein Vater gestorben ist. Ich habe mit meiner Mutter telefoniert und sie hat mir gesagt, dass mein Vater verstorben ist. Ich war sehr traurig und habe geweint. Dann bin ich aufgewacht.Was bedeutet dieser Traum?Freue mich auf Ihre Ant wort.Mit freundlichen Grüßen,[Dein Name]Guten Tag,Ihr Traum deutet darauf hin, dass Sie sich Sorgen um Ihren Vater machen. Es könnte sein, dass er krank ist oder sich in einer schwierigen Situation befindet und Sie sich um ihn sorgen. Mit freundlichen Grüßen,
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Elefant, Giraffe, Löwe, T iger, Eisbär, Pinguin, Ko ala, Eichhörnchen, Fuchs, Hund, Katze, Pferd, Kamel , Dromedar, Zebra, Gnu , Affe, Orang-Utan, Gorilla , Flamingo, Papagei, Strauß , Elefant, Giraffe, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe, Tiger, Gepard, Löwe
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Spielzeug: Einen 3D-Drucker. Genauer gesagt handelt es sich um einen Prusa i3 MK3S+, den ich von meinem Arbeitgeber geschenkt bekommen habe. Ich habe schon länger mit dem Gedanken gespielt, mir einen 3 D-Drucker anzuschaffen, aber die hohen Anschaffungskosten haben mich bisher davon abgehalten. Umso glücklicher bin ich, dass ich jetzt die Möglichkeit habe, dieses tolle Gerät auszuprobieren.Die Einrichtung des Druckers war relativ einfach und ich konnte schnell mit dem Drucken beginnen. Die Druckqualität ist wirklich beeindruckend
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 10 Minuten. Die nächste Bushaltestelle ist ca. 200 Meter entfernt und bietet Verbindungen in alle Richtungen. Die nächste Autobahnauffahrt ist ca. 5 Kilometer entfernt und bietet direkten Anschluss an die A3.Energieausweis Energieausweis Art: VerbrauchsausweisEnergieausweis gültig bis: 0 1.04.2024Energieeffizienzklasse: CWesentliche Energieträger: ErdgasHeizungsart: ZentralheizungBaujahr: 19
+

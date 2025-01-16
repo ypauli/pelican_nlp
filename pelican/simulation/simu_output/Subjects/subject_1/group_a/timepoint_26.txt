@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , daß ich in einer mir völlig fremden Stadt war, allein und verlassen. Ich wußte nicht, wohin ich gehen sollte, und war voller Furcht. Auf ein mal hörte ich hinter mir eine Stimme, die rief: "Halt! Wer bist du? Was suchst du hier?" Ich wagte nicht, mich umzudrehen, denn ich glaubte, dass es der Wächter sein müsste, der mich entdeckt hatte. Ich antwortete:
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man problemlos zu Fuß.AusstattungW-LanTVSpülmaschineGesch irr/BesteckKaffeemaschineWasserkocherToasterKühlschrankG efrierfachHerdBackofenMikrowelleDunstabzugBettwäscheHand tücherStaubsaugerGeschirrPfannenTöpfeKaffeemaschineWas
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Affe, Fuchs, Schildkröte, Pferd, Walfisch, Gepard, Eichhörnchen, Tiger, Adler, Krokodil, Giraffe, Büffel, Fledermaus , Eisbär, Löwe, Elefant, Panther, Tapir, Strauß, Fuchs, Wolf, Gnu, Hyäne, Tiger, Gepard, Koala, Pinguin,
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Hobby für mich entdeckt: das Fotografieren. Es ist schon erstaunlich, was man mit einer Kamera alles machen kann. In den letzten Tagen habe ich schon einiges ausprobiert und bin sehr begeistert von den Möglichkeiten, die sich mir biet en. Ich habe zum Beispiel versucht, einige meiner Liebl ingsrezepte zu digitalisieren, was gar nicht so einfach war, wie ich gedacht habe. Aber mit etwas Geduld und Ausdauer habe ich es
+

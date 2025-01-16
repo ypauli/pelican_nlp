@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mich mit meinem Ex-Freund gestritten habe, weil er mich vernachlässigt hat. Ich habe ihm gesagt, dass er sich mehr um mich kümmern soll, aber er hat nur gelacht und gesagt, dass ich übertreibe. Aber ich fühle mich wirklich vernachlässigt. Was soll ich tun?Antwort:Liebe Fragestellerin,vielen Dank für Ihre Anfrage, die ich Ihnen auf Grundlage der angegebenen Informationen verbindlich wie folgt beantworten möchte:Sie sollten mit Ihrem Partner darüber sprechen, dass Sie sich vernachlässigt fühlen und dass
+
+New Prompt: prompt_1:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Pferd, Kamel, Zebra, Affe, Gorilla, Orang-Utan, Schimpanse, Eichhörnchen, Fuchs, Dachs, Wolf, Luchs, Bär, Grizzlybär, Koala, Känguru, Strauß, Flamingo, Pelikan, Eisbär, Elefant, Löwe, Tiger, Gepard, Leopard, Jaguar, Affe, Gorilla, Orang-Utan, Schimpanse, Bonobo, Eichhörnchen, Maus, Ratte, Hamster, Meerschweinchen, Kaninchen, Hase,
+
+New Prompt: prompt_2:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Es geht darum, eine interaktive Karte zu erstellen, die es den Benutzern ermöglicht, bestimmte Orte auf der Welt zu finden und Informationen über diese Orte abzurufen.Das Projekt ist in mehrere Phasen unterteilt:1. Recherche und Datensammlung: Ich muss relevante Daten über verschiedene Orte auf der Welt sammeln, einschließlich ihrer geografischen Koordinaten, Höhenlagen, Zeitzonen und anderer relevanter Informationen.2. Datenverarbeitung: Die gesammelten Daten müssen verarbeitet werden, um nützliche Informationen daraus zu gewinnen. Dies kann
+
+New Prompt: prompt_3:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Mit dem Auto dauert es etwa 5 Minuten. Mit öffentlichen Verkehrsmitteln: Die nächste Bushaltestelle befindet sich direkt vor dem Einkaufszentrum. Die Buslinien 1 01, 102, 103,  104, 105, 106, 107, 108, 109 , 110, 111, 11 2, 113, 114, 115, 116, 117, 118, 119, 120, 121, 12
+

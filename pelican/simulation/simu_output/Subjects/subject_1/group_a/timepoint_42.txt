@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Als letztes habe ich geträumt , dass ich mit einer Gruppe von Freunden in einem dunklen Wald spazieren gehe. Plötzlich hören wir Geräusche und sehen Lichter in der Ferne. Wir beschließen , näher zu gehen, um zu sehen, was los ist. Als wir näher kommen, sehen wir eine Gruppe von Männern, die um ein Lagerfeuer stehen und grillen. Wir fragen, ob es in Ordnung ist, näher zu kommen, und sie laden uns ein, uns dazuz
+
+New Prompt: prompt_1:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit dem Fahrrad in etwa 15 Minuten. Wer lieber zu Fuß geht, braucht etwa 30 Minuten .Mit öffentlichen VerkehrsmittelnMit öffentlichen Verkehrsmitteln gelangt man am besten mit der U-Bahn-Linie U1 bis zur Haltestelle "Hauptbahnhof". Von dort sind es nur wenige Gehminuten bis zum Hauptbahnhof. Alternativ kann man auch mit der S-Bahn-Linie S1, S2 oder S
+
+New Prompt: prompt_2:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Eisbär, Löwe, Tiger, Elefant, Giraffe, Affe, Hund, Katze, Maus, Fisch, Vogel, Schmetterling, Biene, Marienkäfer, Regenwurm, Spinne, Ameise, Bär, Tiger, Löwe, Elefant, Giraffe, Zebra, Pferd, Gans, Ente, Hahn, Huhn , Taube, Fasan, Pfau, Eichhörnchen, Aff
+
+New Prompt: prompt_3:
+Seit letzter Woche habe ich ein neues Projekt am Laufen. Ich habe mich dazu ents chlossen, ein Buch zu schreiben. Genauer gesagt handelt es sich um einen Ratgeber, in dem ich meine Erfahrungen und Tipps rund um das Thema Selbstständigkeit teilen möchte. Ich habe mich für das Self-Publishing entschieden, da es mir ermöglicht, die volle Kontrolle über den gesamten Prozess der Veröffentlichung und Vermarktung meiner Bücher zu haben.
+
