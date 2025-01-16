@@ -55,14 +55,15 @@ class Document:
         if self.sections is None:
             raise ValueError("Text must be loaded and divided into sections before cleaning.")
 
-        print(self.sections)
+        print(f'amount of sections to clean: {len(self.sections)}')
+        print(f'sections to clean: {self.sections}')
         self.cleaned_sections = self.sections.copy()
         for title, content in self.sections.items():
             if is_dialog:
                 self.cleaned_sections[title] = self.extract_spoken_text(content)
             else:
                 self.cleaned_sections[title] = cleaner.clean(content)
-        print(self.cleaned_sections)
+        print(f'cleaned sections: {self.cleaned_sections}')
 
     def tokenize_text(self, tokenizer, purpose):
         print('tokenizing text...')
