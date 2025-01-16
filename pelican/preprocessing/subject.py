@@ -7,6 +7,7 @@ class Subject:
         self.name = None
         self.description = description  # Description of the subject
         self.documents = []  # List of TextDocument instances
+        self.numberOfSessions = None
 
     def __repr__(self):
         return f"Subject(ID={self.subjectID}, num_documents={len(self.documents)})"
