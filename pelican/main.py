@@ -70,9 +70,9 @@ class Pelican:
                             file_name = os.listdir(filepath)[0]
                             print(f'The current file is: {file_name}')
                             documents.append(Document(filepath, file_name, current_corpus,
-                                                      has_sections=self.config['has_multiple_sections'],
-                                                      section_identifier=self.config['section_identification'],
-                                                      number_of_sections=self.config['number_of_sections']))
+                                                    has_sections=self.config['has_multiple_sections'],
+                                                    section_identifier=self.config['section_identification'],
+                                                    number_of_sections=self.config['number_of_sections']))
                             subject.add_document(documents[-1])
                 else:
                     filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)

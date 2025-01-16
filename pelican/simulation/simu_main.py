@@ -87,7 +87,7 @@ def process_timepoint(timepoint, subject, session_id, group_name, group_dir, gro
 def process_subject(subject, session_id, config, setup, directories, progress):
     """Process a single subject across all groups and timepoints."""
     metadata_dir = os.path.join(directories["Metadata"], f"subject_{subject}", f"a")
-    subject_dir = os.path.join(directories["Subjects"], f"ses-{session_id}", f"subject_{subject}")
+    subject_dir = os.path.join(directories["Subjects"], f"subject_{subject}",  f"ses-{session_id}")
     os.makedirs(metadata_dir, exist_ok=True)
     
     # Initialize subject progress if it doesn't exist, else get constants
@@ -98,7 +98,7 @@ def process_subject(subject, session_id, config, setup, directories, progress):
     # If generation is continued, get subject constants
     if saved_metadata:
         constants = saved_metadata.get("constants", constants)
-        print(f"Fetchedd subject metadata")
+        print(f"Fetched subject metadata")
         
     # Ensure the subject is initialized in the progress dictionary
     if str(subject) not in progress["subjects"]:
@@ -107,7 +107,7 @@ def process_subject(subject, session_id, config, setup, directories, progress):
     for group_name, group_config in config.groups.items():
         print(f"Processing subject: {subject}, group: {group_name}")
 
-        group_dir = os.path.join(subject_dir, f"group_{group_name}")
+        group_dir = os.path.join(subject_dir, group_name)
         group_metadata_dir = os.path.join(metadata_dir, group_name)
         os.makedirs(group_dir, exist_ok=True)
         os.makedirs(group_metadata_dir, exist_ok=True)
@@ -129,9 +129,9 @@ if __name__ == "__main__":
 
     directories = initialize_directories(config.directory)
     progress = load_or_initialize_progress(directories["ProgressFile"])
-
-    for session_id in range(config.sessions):
-        for subject in range(config.subjects):
+    
+    for subject in range(config.subjects):
+        for session_id in range(config.sessions):
             process_subject(subject, session_id, config, setup, directories, progress)
 
     elapsed_time = time.time() - start_time
