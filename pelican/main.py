@@ -11,7 +11,8 @@ from torchvision.datasets.utils import download_file_from_google_drive
 
 from pelican.document import Document
 from pelican.preprocessing import Subject, Corpus
-from pelican.setup_functions import ignore_files
+from pelican.setup_functions import ignore_files, subject_instatiator
+
 
 class Pelican:
     def __init__(self, config_path='config.yml', dev_mode=True):
@@ -34,7 +35,6 @@ class Pelican:
             sys.exit()
 
     def run(self):
-
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
@@ -46,14 +46,8 @@ class Pelican:
         shutil.copytree(self.path_to_subjects, self.output_directory, ignore=self.ignore_files)
         os.mkdir(os.path.join(self.output_directory, 'results_consolidation'))
 
-        # Instantiate all subjects
-        print('Instantiating Subjects...')
-        subjects = [Subject(subject) for subject in os.listdir(self.path_to_subjects)]
-
-        #Identify sessions per subject
-        if self.config['multiple_sessions']:
-            for subject in subjects:
-                subject.numberOfSessions = len(os.listdir(os.path.join(self.path_to_subjects,str(subject.subjectID))))
+        #Instantiating all subjects
+        subjects = subject_instatiator(self.config)
 
         # Process each corpus specified in the configuration
         for current_corpus in self.config['corpus_names']:
@@ -64,8 +58,11 @@ class Pelican:
             for subject in subjects:
 
                 if subject.numberOfSessions is not None:
+                    path_sessionfolder = os.path.join(self.path_to_subjects, subject.subjectID)
+                    print(f'The sessions of subject {subject} are {os.listdir(path_sessionfolder)}')
+
                     for i in range(subject.numberOfSessions):
-                        current_session = f"ses-{str(max(1, i)).zfill(2)}"
+                        current_session = os.listdir(path_sessionfolder)[i]
                         print(f'The current session is: {current_session}')
                         filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_session, current_corpus)
                         print(f'The filepath is: {filepath}')
