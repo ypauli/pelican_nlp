@@ -4,8 +4,8 @@ input_file: "text" #or 'audio'
 
 PATH_TO_PROJECT_FOLDER: "/home/ubuntu/PELICAN/pelican/simulation/simu_output" # Set default to home directory, e.g., '/home/usr/...'
 language: "german" # Possibly add options for German and English
-numberOfSubjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
-multipleSessions: true # Set to True if multiple sessions per subject
+number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
+multiple_sessions: true # Set to True if multiple sessions per subject
 
 recompute_everything: true #If set to 'false' pelican will try to reuse previously computed results stored on your drive
 

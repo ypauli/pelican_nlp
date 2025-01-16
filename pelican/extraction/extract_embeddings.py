@@ -18,6 +18,7 @@ class EmbeddingsExtractor:
             print('fasttext model loaded')
 
         print('Processing embeddings for all tokens...')
+        print(f'mode is {self.mode}')
         for token in tokens:
             if self.mode == 'semantic':
                 embeddings.append(ft.get_word_vector(token))

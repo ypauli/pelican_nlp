@@ -7,6 +7,8 @@ import torch.cuda
 import sys
 import shutil
 import yaml
+from torchvision.datasets.utils import download_file_from_google_drive
+
 from pelican.document import Document
 from pelican.preprocessing import Subject, Corpus
 from pelican.setup_functions import ignore_files
@@ -48,6 +50,11 @@ class Pelican:
         print('Instantiating Subjects...')
         subjects = [Subject(subject) for subject in os.listdir(self.path_to_subjects)]
 
+        #Identify sessions per subject
+        if self.config['multiple_sessions']:
+            for subject in subjects:
+                subject.numberOfSessions = len(os.listdir(os.path.join(self.path_to_subjects,str(subject.subjectID))))
+
         # Process each corpus specified in the configuration
         for current_corpus in self.config['corpus_names']:
             print(f'corpus {current_corpus} is being processed')
@@ -55,14 +62,30 @@ class Pelican:
             documents = []
             # Load all files belonging to the same corpus
             for subject in subjects:
-                filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)
-                if os.path.isdir(filepath):
-                    file_name = os.listdir(filepath)[0]
-                    documents.append(Document(filepath, file_name, current_corpus,
-                                              has_sections=self.config['has_multiple_sections'],
-                                              section_identifier=self.config['section_identification'],
-                                              number_of_sections=self.config['number_of_sections']))
-                    subject.add_document(documents[-1])
+
+                if subject.numberOfSessions is not None:
+                    for i in range(subject.numberOfSessions):
+                        current_session = f"ses-{str(max(1, i)).zfill(2)}"
+                        print(f'The current session is: {current_session}')
+                        filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_session, current_corpus)
+                        print(f'The filepath is: {filepath}')
+                        if os.path.isdir(filepath):
+                            file_name = os.listdir(filepath)[0]
+                            print(f'The current file is: {file_name}')
+                            documents.append(Document(filepath, file_name, current_corpus,
+                                                      has_sections=self.config['has_multiple_sections'],
+                                                      section_identifier=self.config['section_identification'],
+                                                      number_of_sections=self.config['number_of_sections']))
+                            subject.add_document(documents[-1])
+                else:
+                    filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)
+                    if os.path.isdir(filepath):
+                        file_name = os.listdir(filepath)[0]
+                        documents.append(Document(filepath, file_name, current_corpus,
+                                                  has_sections=self.config['has_multiple_sections'],
+                                                  section_identifier=self.config['section_identification'],
+                                                  number_of_sections=self.config['number_of_sections']))
+                        subject.add_document(documents[-1])
 
             # Initialize and process the corpus
             corpus = Corpus(current_corpus, documents, self.config)
