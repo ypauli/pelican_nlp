@@ -19,7 +19,7 @@ corpus_names:
   - "Ketamin"
   - "Placebo" # Names of individual categories to group together
 
-extract_logits: null
+extract_logits: true
 extract_embeddings: true
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
