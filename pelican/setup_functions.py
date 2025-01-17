@@ -12,6 +12,3 @@ def subject_instatiator(config):
             subject.numberOfSessions = len(os.listdir(os.path.join(path_to_subjects, str(subject.subjectID))))
 
     return subjects
-
-def ignore_files(dir, files):
-    return [f for f in files if os.path.isfile(os.path.join(dir, f))]

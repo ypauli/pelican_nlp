@@ -7,12 +7,10 @@ import torch.cuda
 import sys
 import shutil
 import yaml
-from torchvision.datasets.utils import download_file_from_google_drive
 
 from pelican.document import Document
-from pelican.preprocessing import Subject, Corpus
-from pelican.setup_functions import ignore_files, subject_instatiator
-
+from pelican.preprocessing import Corpus
+from pelican.setup_functions import subject_instatiator
 
 class Pelican:
     def __init__(self, config_path='config.yml', dev_mode=True):
@@ -67,22 +65,24 @@ class Pelican:
                         filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_session, current_corpus)
                         print(f'The filepath is: {filepath}')
                         if os.path.isdir(filepath):
-                            file_name = os.listdir(filepath)[0]
-                            print(f'The current file is: {file_name}')
+                            for j in range(len(os.listdir(filepath))):
+                                file_name = os.listdir(filepath)[j]
+                                print(f'The current file is: {file_name}')
+                                documents.append(Document(filepath, file_name, current_corpus,
+                                                          has_sections=self.config['has_multiple_sections'],
+                                                          section_identifier=self.config['section_identification'],
+                                                          number_of_sections=self.config['number_of_sections']))
+                                subject.add_document(documents[-1])
+                else:
+                    filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)
+                    if os.path.isdir(filepath):
+                        for j in range(len(os.listdir(filepath))):
+                            file_name = os.listdir(filepath)[j]
                             documents.append(Document(filepath, file_name, current_corpus,
                                                       has_sections=self.config['has_multiple_sections'],
                                                       section_identifier=self.config['section_identification'],
                                                       number_of_sections=self.config['number_of_sections']))
                             subject.add_document(documents[-1])
-                else:
-                    filepath = os.path.join(self.path_to_subjects, subject.subjectID, current_corpus)
-                    if os.path.isdir(filepath):
-                        file_name = os.listdir(filepath)[0]
-                        documents.append(Document(filepath, file_name, current_corpus,
-                                                  has_sections=self.config['has_multiple_sections'],
-                                                  section_identifier=self.config['section_identification'],
-                                                  number_of_sections=self.config['number_of_sections']))
-                        subject.add_document(documents[-1])
 
             # Initialize and process the corpus
             corpus = Corpus(current_corpus, documents, self.config)
@@ -101,9 +101,8 @@ class Pelican:
 
     @staticmethod
     def ignore_files(directory, files):
-        """Ignore certain files when copying the subjects folder."""
-        # Add logic for which files to ignore if necessary
-        return []
+        """Ignore all files when copying the subjects folder."""
+        return [f for f in files if os.path.isfile(os.path.join(directory, f))]
 
 if __name__ == '__main__':
     app = Pelican()
