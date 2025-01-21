@@ -6,29 +6,40 @@ from scipy.spatial.distance import pdist, squareform
 class EmbeddingsExtractor:
     def __init__(self, model_name, mode='semantic'):
 
-        self.model = model_name #embedding model_instance (e.g., fastText, Epitran instance)
+        self.model_name = model_name #embedding model_instance (e.g., fastText, Epitran instance)
         self.mode = mode #semantic or phonetic
+        self.model = self._load_model()
 
-    def get_vector(self, tokens):
-        embeddings = []
+    def _load_model(self):
         if self.mode == 'semantic':
             import fasttext.util
             fasttext.util.download_model('de', if_exists='ignore')
-            ft = fasttext.load_model('cc.de.300.bin')
+            model = fasttext.load_model('cc.de.300.bin')
             print('fasttext model loaded')
+        elif self.mode == 'phonetic':
+            # Here, self.model_name is expected to be an instance of a phonetic model like Epitran.
+            if not self.model_name:
+                raise ValueError("A phonetic model instance is required for 'phonetic' mode.")
+            model = self.model_name
+            print('Phonetic model loaded.')
+        else:
+            raise ValueError("Mode should be 'semantic' or 'phonetic'.")
+        return model
+
+    def get_vector(self, tokens):
+        embeddings = []
 
         print('Processing embeddings for all tokens...')
         print(f'mode is {self.mode}')
         for token in tokens:
             if self.mode == 'semantic':
-                embeddings.append(ft.get_word_vector(token))
+                embeddings.append(self.model.get_word_vector(token))
             elif self.mode == 'phonetic':
                 ipa_transcription = self.model.transliterate(token)
                 # Convert IPA transcription to feature vectors (e.g., using panphon)
-                # Here we assume a function ipa_to_features exists
                 embeddings.append(ipa_to_features(ipa_transcription))
             else:
-                raise ValueError("Mode should be 'semantic' or 'phonetic'")
+                raise ValueError("Mode should be 'semantic' or 'phonetic'.")
         return embeddings
 
     def compute_similarity(self, vec1, vec2, metric_function):

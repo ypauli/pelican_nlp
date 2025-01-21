@@ -10,7 +10,6 @@ class TextTokenizer:
 
     def tokenize(self, text):
         method = self.options.get('method')
-        print(f'The method to tokenize the text is {method}')
 
         if method == 'whitespace':
             return text.split()
