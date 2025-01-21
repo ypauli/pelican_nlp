@@ -15,9 +15,11 @@ class Model:
     def load_model(self):
         self.model_instantiation()
         self.device_map_creation()
-        offload_directory = self.PROJECT_PATH+'./offload'
-        if not os.path.isdir(offload_directory):
-            os.mkdir(offload_directory)
+        offload_directory = os.path.join(self.PROJECT_PATH, 'offload')
+        try:
+            os.makedirs(offload_directory, exist_ok=True)
+        except Exception as e:
+            print(f"Error: {e}")
         self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map, offload_dir=offload_directory)
 
     def model_instantiation(self,empty_weights=False):

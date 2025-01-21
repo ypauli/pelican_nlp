@@ -14,6 +14,7 @@ def subject_instatiator(config):
     if config['multiple_sessions']:
         for subject in subjects:
             subject.numberOfSessions = len(os.listdir(os.path.join(path_to_subjects, str(subject.subjectID))))
+            print(subject.numberOfSessions)
 
     return subjects
 

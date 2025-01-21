@@ -3,32 +3,33 @@ import math
 
 class SimuConfig:
     def __init__(self):
-        self.directory = "simu_output"
-        self.subjects_per_cohort = 10
-        self.timepoints_per_subject = 50
+        self.directory = "/home/ubuntu/PELICAN/pelican/simulation/simu_output"
+        self.sessions = 1
+        self.subjects = 1
+        self.timepoints = 2
         self.global_parameter_stats = {
-            "temperature": {"mean": 1.2, "variance": 0.4},
+            "temperature": {"mean": 1.4, "variance": 0.4},
             "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling
             "context_span": {"mean": 80, "variance": 650.79},
             "target_length": {"mean": 120, "variance": 937}, # {"mean": 120, "variance": 937} actual generation, {"mean": 30, "variance": 0} for test
         }
-        self.cohorts = {
-            "group_a": {
+        self.groups = {
+            "a": {
                 "varied_parameter": "temperature",
-                "mean_values": {"temperature": 1.2},
+                "mean_values": {"temperature": 1.4},
                 "variance_values": {"temperature": 0.4},
             },
-            "group_b": {
+            "b": {
                 "varied_parameter": "sampling",
                 "mean_values": {"sampling": 0.85},
                 "variance_values": {"sampling": 0.01},
             },
-            "group_c": {
+            "c": {
                 "varied_parameter": "context_span",
                 "mean_values": {"context_span": 80},
                 "variance_values": {"context_span": 650.79},
             },
-            "group_d": {
+            "d": {
                 "varied_parameter": "target_length",
                 "mean_values": {"target_length": 120},
                 "variance_values": {"target_length": 937},

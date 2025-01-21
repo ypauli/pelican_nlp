@@ -2,40 +2,45 @@ import numpy as np
 
 class ParameterGenerator:
     @staticmethod
-    def subject_sample(config, cohort_name):
+    def subject_sample(config):
         """
-        Set up subject-specific parameters, including constant values
-        and the mean/variance for the cohort's varied parameter.
-        
-        Args:
-            config (Config): The configuration object.
-            cohort_name (str): The name of the cohort.
-        
-        Returns:
-            dict: Subject-specific constants and cohort-specific varying parameter details.
-        """
-        # Cohort-specific configuration
-        cohort = config.cohorts[cohort_name]
+        Generate a sample of constants for all parameters based on global statistics.
 
-        # Sample constants for non-varying parameters
+        Args:
+            config (object): Configuration object containing global parameter statistics,
+                             with each parameter having "mean" and "variance" values.
+
+        Returns:
+            dict: A dictionary where keys are parameter names and values are sampled constants.
+        """
         constants = {
             param: np.random.normal(
                 loc=config.global_parameter_stats[param]["mean"],
                 scale=np.sqrt(config.global_parameter_stats[param]["variance"])
             )
             for param in config.global_parameter_stats
-            if param != cohort["varied_parameter"]  # Exclude the varied parameter
         }
+        return constants
+        
+    def group_sample(group, constants):
+        """
+        Generate a sample of constants for all parameters based on global statistics.
 
-        # Sample mean and variance for the cohort's varied parameter
-        varied_param = cohort["varied_parameter"]
+        Args:
+            config (object): Configuration object containing global parameter statistics,
+                             with each parameter having "mean" and "variance" values.
+
+        Returns:
+            dict: A dictionary where keys are parameter names and values are sampled constants.
+        """
+        varied_param = group["varied_parameter"]
         varied_param_mean = np.random.normal(
-            loc=cohort["mean_values"][varied_param],
-            scale=np.sqrt(cohort["variance_values"][varied_param])
+            loc=group["mean_values"][varied_param],
+            scale=np.sqrt(group["variance_values"][varied_param])
         )
         varied_param_variance = np.abs(np.random.normal(
-            loc=cohort["variance_values"][varied_param],
-            scale=0.1 * cohort["variance_values"][varied_param]
+            loc=group["variance_values"][varied_param],
+            scale=0.1 * group["variance_values"][varied_param]
         ))  # Ensure variance is positive
 
         return {
@@ -85,6 +90,16 @@ class ParameterGenerator:
         
     @staticmethod
     def clean_parameters(parameters):
+        """
+        Clean and clip parameter values to ensure they fall within valid ranges.
+
+        Args:
+            parameters (dict): Dictionary containing parameters such as temperature, sampling rate, 
+                               context span, and target length.
+
+        Returns:
+            dict: A dictionary with cleaned and clipped parameter values.
+        """
         parameters["temperature"] = np.clip(parameters["temperature"], 0.2, 10)
         parameters["sampling"] = np.clip(parameters["sampling"], 0.2, 0.98)
         parameters["context_span"] = round(np.clip(parameters["context_span"], 5, 500))
@@ -92,7 +107,7 @@ class ParameterGenerator:
         return parameters
         
     @staticmethod
-    def generate_parameters(parameters, setup):
+    def generate_arguments(parameters, setup):
         """
         Generate generation arguments for TextGenerator based on the parameters.
 
