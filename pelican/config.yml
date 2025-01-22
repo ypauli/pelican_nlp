@@ -21,7 +21,7 @@ corpus_names:
   - "c" # Names of individual categories to group together
 
 extract_logits: true
-extract_embeddings: true
+extract_embeddings: null
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
