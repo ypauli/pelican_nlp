@@ -1,6 +1,17 @@
-librosa
-numpy
-PyQt5
-pyqtgraph
-pydub
-simpleaudio 
+# Core Dependencies
+torch>=2.0.0
+openai-whisper>=20231117
+pyannote.audio>=3.1.1
+uroman>=0.2.2
+pydub>=0.25.1
+numpy>=1.24.0
+
+# GUI Dependencies
+PyQt5>=5.15.0
+pyqtgraph>=0.13.3
+librosa>=0.10.1
+simpleaudio>=1.0.4
+
+# Additional Dependencies
+tqdm>=4.65.0
+soundfile>=0.12.1 

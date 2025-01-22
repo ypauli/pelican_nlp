@@ -1,5 +1,16 @@
 """
 Common utilities for the transcription system.
+
+This module provides utility functions used throughout the transcription system,
+including:
+- Device management for PyTorch computations
+- Text normalization and cleaning
+- Time interval manipulation and merging
+- Time formatting and conversion
+- Unicode handling and normalization
+
+The utilities are designed to be robust and handle edge cases gracefully,
+with clear error messages and fallback behaviors where appropriate.
 """
 import re
 import torch
@@ -11,8 +22,15 @@ def get_device(skip_mps: bool = False) -> torch.device:
     """
     Get the best available device for computation.
     
+    Determines the optimal compute device based on availability and requirements.
+    The priority order is:
+    1. CUDA (GPU) if available
+    2. MPS (Apple Silicon) if available and not skipped
+    3. CPU as fallback
+    
     Args:
-        skip_mps: If True, skip MPS even if available (for operations that don't support it)
+        skip_mps (bool): If True, skip MPS even if available. This is useful
+            for operations that don't support MPS acceleration.
         
     Returns:
         torch.device: Best available device (cuda > mps > cpu)
@@ -26,14 +44,24 @@ def get_device(skip_mps: bool = False) -> torch.device:
 
 def normalize_text(text: str) -> str:
     """
-    Normalize text by removing special characters and extra whitespace,
-    but preserving sentence-ending punctuation.
+    Normalize text by removing special characters and extra whitespace.
+    
+    This function performs several text normalization steps:
+    1. Unicode normalization (NFKC form)
+    2. Removal of special characters while preserving sentence endings
+    3. Whitespace normalization
+    4. Handling of ellipsis and multiple punctuation
+    5. Preservation of important punctuation marks
     
     Args:
-        text: Input text to normalize
+        text (str): Input text to normalize
         
     Returns:
-        Normalized text
+        str: Normalized text with consistent formatting
+        
+    Example:
+        >>> normalize_text("Hello...   world!!!")
+        "Hello... world!"
     """
     # Convert to NFKD form and remove diacritics
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
@@ -57,14 +85,28 @@ def normalize_text(text: str) -> str:
 
 def merge_intervals(intervals: List[Dict[str, Any]], tolerance: float = 0.1) -> List[Dict[str, Any]]:
     """
-    Merge overlapping time intervals.
+    Merge overlapping time intervals in a list of dictionaries.
+    
+    This function merges time intervals that overlap or are within a specified
+    tolerance of each other. It's useful for combining nearby speech segments
+    or cleaning up diarization results.
     
     Args:
-        intervals: List of dictionaries with 'start_time' and 'end_time' keys
-        tolerance: Time tolerance for merging intervals (seconds)
-        
+        intervals (List[Dict[str, Any]]): List of interval dictionaries, each containing
+            at least 'start' and 'end' keys with float values
+        tolerance (float): Maximum gap between intervals to consider them adjacent
+            
     Returns:
-        List of merged intervals
+        List[Dict[str, Any]]: Merged intervals, maintaining all original dictionary
+            keys with values from the first interval in each merged group
+            
+    Example:
+        >>> intervals = [
+        ...     {"start": 0.0, "end": 1.0, "text": "Hello"},
+        ...     {"start": 0.9, "end": 2.0, "text": "world"}
+        ... ]
+        >>> merge_intervals(intervals)
+        [{"start": 0.0, "end": 2.0, "text": "Hello"}]
     """
     if not intervals:
         return []
@@ -86,13 +128,23 @@ def merge_intervals(intervals: List[Dict[str, Any]], tolerance: float = 0.1) -> 
 
 def format_time(seconds: float) -> str:
     """
-    Format time in seconds to HH:MM:SS.mmm.
+    Format time in seconds to a human-readable string.
+    
+    Converts a duration in seconds to a formatted string in the format:
+    "HH:MM:SS.mmm" for durations >= 1 hour
+    "MM:SS.mmm" for durations < 1 hour
     
     Args:
-        seconds: Time in seconds
+        seconds (float): Time duration in seconds
         
     Returns:
-        Formatted time string
+        str: Formatted time string
+        
+    Example:
+        >>> format_time(3661.5)
+        "01:01:01.500"
+        >>> format_time(61.5)
+        "01:01.500"
     """
     hours = int(seconds // 3600)
     minutes = int((seconds % 3600) // 60)

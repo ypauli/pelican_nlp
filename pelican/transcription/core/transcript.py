@@ -1,5 +1,15 @@
 """
 Transcript management module for handling transcription data.
+
+This module provides functionality for managing and manipulating transcription data, including:
+- Combining word-level alignments with speaker diarization
+- Aggregating words into meaningful utterances
+- Managing different types of alignments (Whisper and forced)
+- Serializing and deserializing transcript data to/from JSON
+- Handling transcript metadata and processing history
+
+The module works closely with the audio processing module to maintain synchronization
+between audio segments and their corresponding transcriptions.
 """
 import json
 import re
@@ -9,7 +19,30 @@ from .audio import AudioFile
 
 
 class Transcript:
-    """Manages transcription data and operations."""
+    """
+    Manages transcription data and operations.
+    
+    This class serves as the central point for managing transcription data,
+    combining different sources of information (transcription text, word alignments,
+    and speaker diarization) into a coherent structure.
+
+    Key features:
+    - Loads transcription data from either AudioFile objects or JSON files
+    - Combines word-level alignments with speaker information
+    - Aggregates words into meaningful utterances based on pauses and duration
+    - Provides methods for data manipulation and export
+    
+    Attributes:
+        audio_file (Optional[AudioFile]): Reference to associated audio file
+        audio_file_path (str): Path to the source audio file
+        transcript_text (str): Raw transcription text
+        whisper_alignments (List): Word-level alignments from Whisper
+        forced_alignments (List): Word-level alignments from forced alignment
+        speaker_segments (List): Speaker diarization segments
+        combined_data (List): Processed data combining alignments and speakers
+        combined_utterances (List): Utterance-level aggregated data
+        metadata (Dict): Processing metadata and parameters
+    """
     
     def __init__(self, audio_file: Optional[AudioFile] = None, json_data: Optional[Dict] = None):
         """

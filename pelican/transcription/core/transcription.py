@@ -1,5 +1,17 @@
 """
 Audio transcription module using Whisper for speech-to-text.
+
+This module provides speech-to-text functionality using OpenAI's Whisper model,
+offering high-quality transcription across multiple languages. Key features include:
+- Support for multiple Whisper model variants (tiny to large)
+- Multi-language transcription support
+- Word-level timing information
+- Batch processing of audio chunks
+- GPU acceleration for faster processing
+- Confidence scores for transcriptions
+
+The module uses the Hugging Face Transformers implementation of Whisper,
+providing both transcription and timing information for each word.
 """
 import io
 import torch
@@ -12,17 +24,44 @@ import librosa
 
 
 class AudioTranscriber:
-    """Handles speech-to-text transcription using Whisper."""
+    """
+    Handles speech-to-text transcription using OpenAI's Whisper model.
+    
+    This class provides functionality for transcribing audio into text using
+    Whisper, a state-of-the-art speech recognition model. It handles:
+    - Audio format conversion and preprocessing
+    - Model loading and optimization
+    - Transcription with word-level timing
+    - Language-specific processing
+    - Batch processing of audio chunks
+    
+    The transcriber supports multiple Whisper model variants, from tiny models
+    suitable for quick transcription to large models for maximum accuracy.
+    It automatically handles device placement and optimization.
+
+    Attributes:
+        model_name (str): Name/path of the Whisper model
+        language (str): Language code for transcription
+        device (torch.device): Compute device for model inference
+        pipe (pipeline): Loaded Whisper pipeline
+        chunk_length (int): Maximum chunk length in seconds
+        stride_length (int): Overlap between chunks in seconds
+    """
     
     def __init__(self, model_name: str = "openai/whisper-large", 
                  language: str = "de", device: Optional[torch.device] = None):
         """
-        Initialize the transcriber.
+        Initialize the transcriber with specified model and language.
         
         Args:
-            model_name: Name of the Whisper model to use (default: whisper-large for best accuracy)
-            language: Language code (e.g., 'de' for German, 'en' for English)
-            device: Device to use for inference (default: best available)
+            model_name (str): Name of the Whisper model to use. Options include:
+                - openai/whisper-tiny: Fastest but least accurate
+                - openai/whisper-base: Good balance for shorter content
+                - openai/whisper-small: Better accuracy, still reasonably fast
+                - openai/whisper-medium: High accuracy, slower
+                - openai/whisper-large: Best accuracy, slowest
+            language (str): Language code for transcription (e.g., 'de', 'en')
+            device (Optional[torch.device]): Device to use for inference
         """
         self.model_name = model_name
         self.language = language

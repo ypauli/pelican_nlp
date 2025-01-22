@@ -1,5 +1,14 @@
 """
 Audio processing module for handling audio files and chunks.
+
+This module provides classes and utilities for processing audio files, including:
+- Audio file loading and normalization
+- Chunking audio based on silence detection
+- Managing audio segments with their associated transcriptions
+- Handling different types of word alignments (Whisper and forced alignment)
+- Speaker diarization integration
+
+The module uses librosa for audio processing and pydub for audio manipulation.
 """
 import librosa
 import numpy as np
@@ -11,7 +20,20 @@ from pathlib import Path
 
 
 class Chunk:
-    """Represents a chunk of audio with its transcription and alignments."""
+    """
+    Represents a chunk of audio with its transcription and alignments.
+    
+    A chunk is a segment of audio that typically represents a natural break in speech,
+    such as a pause between sentences or speaker turns. Each chunk maintains its own
+    transcription and word-level alignments.
+
+    Attributes:
+        audio_segment (AudioSegment): The actual audio data for this chunk
+        start_time (float): Start time of this chunk in the original audio (seconds)
+        transcript (str): The transcribed text for this chunk
+        whisper_alignments (list): Word-level alignments from Whisper
+        forced_alignments (list): Word-level alignments from forced alignment
+    """
     
     def __init__(self, audio_segment: AudioSegment, start_time: float):
         """
@@ -29,7 +51,29 @@ class Chunk:
 
 
 class AudioFile:
-    """Handles all operations related to an audio file."""
+    """
+    Handles all operations related to an audio file.
+    
+    This class is the main entry point for audio processing operations. It handles:
+    - Loading and normalizing audio files
+    - Splitting audio into manageable chunks based on silence detection
+    - Managing transcription and alignment data for each chunk
+    - Integrating speaker diarization information
+    - Maintaining audio processing metadata
+    
+    The class supports various audio formats through librosa and provides methods
+    for audio manipulation and analysis.
+
+    Attributes:
+        file_path (str): Path to the source audio file
+        target_rms_db (float): Target RMS level for audio normalization
+        normalized_path (str): Path to the normalized audio file
+        audio (np.ndarray): Raw audio data
+        sample_rate (int): Audio sample rate
+        chunks (List[Chunk]): List of audio chunks after splitting
+        speaker_segments (List): Speaker diarization segments
+        metadata (Dict): Processing metadata and parameters
+    """
     
     def __init__(self, file_path: str, target_rms_db: float = -20):
         """

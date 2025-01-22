@@ -1,5 +1,17 @@
 """
 Forced alignment module for aligning transcripts with audio.
+
+This module provides functionality for precise word-level alignment between
+transcribed text and audio using the MMS Forced Aligner from torchaudio.
+Key features include:
+- Automatic text normalization and romanization
+- Word-level timing extraction
+- Support for multiple languages
+- Batch processing of audio chunks
+- Robust handling of different audio formats and sampling rates
+
+The module uses torchaudio's MMS-FA pipeline for high-accuracy alignment
+and uroman for text normalization.
 """
 import io
 import torch
@@ -13,7 +25,27 @@ import librosa
 
 
 class ForcedAligner:
-    """Handles forced alignment of transcripts with audio."""
+    """
+    Handles forced alignment of transcripts with audio using MMS-FA.
+    
+    This class provides precise word-level alignment between transcribed text
+    and audio using torchaudio's MMS Forced Aligner. It handles:
+    - Text normalization and romanization for multiple languages
+    - Audio resampling and format conversion
+    - Batch processing of audio chunks
+    - Generation of word-level timing information
+    
+    The aligner uses a pre-trained model that supports multiple languages
+    and can handle various audio conditions. It provides timing information
+    at both the word and phoneme level.
+
+    Attributes:
+        device (torch.device): Compute device for model inference
+        bundle (torchaudio.pipelines): MMS-FA model bundle
+        model (torch.nn.Module): The loaded alignment model
+        processor (object): Text and audio processor for the model
+        uroman_dir (str): Directory containing uroman normalization rules
+    """
     
     def __init__(self, device: Optional[torch.device] = None):
         """

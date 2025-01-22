@@ -1,5 +1,23 @@
 """
 Main processing script for audio transcription pipeline.
+
+This module orchestrates the entire audio processing pipeline, including:
+- Audio file loading and normalization
+- Speech recognition using Whisper
+- Forced alignment for precise word timing
+- Speaker diarization
+- Transcript generation and processing
+
+The pipeline is configurable through various parameters and supports
+progress tracking through callbacks. It handles all the necessary setup
+and cleanup of models and resources.
+
+Key components:
+- AudioFile: Handles audio processing and chunking
+- AudioTranscriber: Manages speech recognition
+- ForcedAligner: Provides precise word-level timing
+- SpeakerDiarizer: Identifies and labels different speakers
+- Transcript: Manages and combines all transcription data
 """
 import os
 import warnings
@@ -54,25 +72,37 @@ def process_audio(
     progress_callback: Optional[Callable[[str, float, str], None]] = None
 ) -> str:
     """
-    Process an audio file through the transcription pipeline.
+    Process an audio file through the complete transcription pipeline.
+    
+    This function orchestrates the entire processing pipeline, including:
+    1. Audio loading and normalization
+    2. Chunking based on silence detection
+    3. Speech recognition with Whisper
+    4. Forced alignment for precise word timing
+    5. Speaker diarization
+    6. Combining all data into a structured transcript
     
     Args:
-        file_path: Path to the audio file
-        hf_token: HuggingFace token for diarization model
-        output_dir: Directory to save output files
-        num_speakers: Optional number of speakers to constrain diarization
-        model: Whisper model to use for transcription
-        language: Language code (e.g., 'de' for German)
-        device: Device to use for processing
-        pause_threshold: Minimum pause duration (in seconds) to split utterances
-        max_utterance_duration: Maximum duration (in seconds) for a single utterance
-        alignment_source: Which alignments to use ('whisper_alignments' or 'forced_alignments')
-        diarizer_params: Parameters for speaker diarization
-        silence_params: Parameters for silence-based audio splitting
-        progress_callback: Optional callback function to report progress (step_name: str, progress: float, message: str)
+        file_path (str): Path to the input audio file
+        hf_token (str): HuggingFace token for accessing models
+        output_dir (str): Directory to save output files
+        num_speakers (Optional[int]): Expected number of speakers (None for auto-detection)
+        model (str): Whisper model to use for transcription
+        language (str): Language code (e.g., 'de' for German)
+        device (Optional[torch.device]): Compute device to use
+        pause_threshold (float): Minimum pause duration for utterance splitting
+        max_utterance_duration (float): Maximum duration of a single utterance
+        alignment_source (str): Which alignment to use ('whisper_alignments' or 'forced_alignments')
+        diarizer_params (Dict): Parameters for speaker diarization
+        silence_params (Dict): Parameters for silence-based audio chunking
+        progress_callback (Optional[Callable]): Function to call for progress updates
     
     Returns:
-        Path to the output JSON file
+        str: Path to the output JSON file containing all transcript data
+    
+    Raises:
+        ValueError: If input parameters are invalid
+        RuntimeError: If processing fails at any stage
     """
     def update_progress(step: str, progress: float = 0, message: str = ""):
         if progress_callback:

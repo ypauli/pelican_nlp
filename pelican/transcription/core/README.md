@@ -1,86 +1,122 @@
 # Core Transcription Module
 
-This module handles the core functionality of audio transcription, speaker diarization, and forced alignment. Here's a breakdown of the main components:
+This module provides a comprehensive solution for audio transcription, speaker diarization, and forced alignment. It features a modular architecture with configurable components and a controller layer for transcript manipulation.
 
-## Main Classes
+## Architecture Overview
 
-### `Chunk`
-- Represents a segment of audio with its transcription and alignments
-- Stores audio segment, start time, transcript, and alignments
+### Core Components
 
-### `AudioFile`
-- Handles audio file operations
+#### `AudioFile` (`audio.py`)
+- Handles audio file operations and preprocessing
 - Features:
   - Audio loading and normalization
-  - Splitting audio into chunks based on silence
-  - Metadata tracking
-  - Model registration
+  - Intelligent chunking based on silence detection
+  - Configurable silence parameters for optimal segmentation
+  - Metadata tracking and model registration
 
-### `Transcript`
-- Manages transcription data and operations
-- Features:
-  - Loading/saving transcripts from/to JSON
-  - Aggregating words into utterances
-  - Combining alignment and diarization data
+#### `AudioTranscriber` (`transcription.py`)
+- Manages speech-to-text transcription using Whisper
+- Supports multiple Whisper model variants
+- Configurable language settings
+- Optimized for GPU acceleration when available
 
-### `AudioTranscriber`
-- Handles speech-to-text transcription using Whisper
-- Processes audio chunks and generates word-level alignments
-
-### `ForcedAligner`
-- Performs forced alignment between text and audio
+#### `ForcedAligner` (`alignment.py`)
+- Performs precise forced alignment between text and audio
 - Uses uroman for text normalization
+- Generates word-level timing information
+- Configurable alignment parameters
 
-### `SpeakerDiarizer`
-- Handles speaker diarization using pyannote.audio
-- Identifies speaker segments in the audio
+#### `SpeakerDiarizer` (`diarization.py`)
+- Implements speaker diarization using pyannote.audio
+- Features:
+  - Automatic speaker count detection
+  - Configurable clustering parameters
+  - Adjustable segmentation settings
+  - Speaker overlap handling
+
+#### `Transcript` (`transcript.py`)
+- Central data structure for managing transcription results
+- Features:
+  - JSON-based serialization
+  - Word-level timing information
+  - Speaker labels
+  - Utterance aggregation
+
+#### `TranscriptController` (`transcription_controller.py`)
+- High-level interface for transcript manipulation
+- Features:
+  - Speaker merging and splitting
+  - Word boundary adjustments
+  - Speaker management
+  - Data access methods
 
 ## Processing Pipeline
 
-1. Audio Loading & Preprocessing:
-   - Load audio file
+1. **Initialization and Setup**
+   - Load and validate audio file
+   - Initialize models and components
+   - Configure processing parameters
+
+2. **Audio Preprocessing**
    - Normalize audio levels
-   - Split into manageable chunks based on silence
+   - Split into chunks based on configurable silence parameters
+   - Prepare for parallel processing
 
-2. Transcription & Alignment:
-   - Transcribe each chunk using Whisper
-   - Perform forced alignment
-   - Generate word-level timing information
+3. **Core Processing**
+   - Transcribe audio using Whisper
+   - Generate word-level alignments
+   - Perform speaker diarization
+   - Combine results into unified transcript
 
-3. Speaker Diarization:
-   - Identify speaker segments
-   - Combine with word alignments
-
-4. Post-processing:
+4. **Post-processing**
    - Aggregate words into utterances
-   - Combine all data into final transcript
-   - Save results to JSON
+   - Apply speaker labels
+   - Generate final transcript
+   - Export results to JSON
 
-## Suggested Refactoring
+## Configuration Options
 
-The current monolithic structure should be split into:
+### Audio Processing
+- `pause_threshold`: Minimum silence duration for segmentation
+- `max_utterance_duration`: Maximum length of utterance chunks
+- `silence_params`: Detailed control over audio splitting
+  - `min_silence_len`: Minimum silence duration (ms)
+  - `silence_thresh`: Silence threshold (dBFS)
+  - `min_length`: Minimum chunk length (ms)
+  - `max_length`: Maximum chunk length (ms)
 
-1. `audio.py`:
-   - `Chunk` class
-   - `AudioFile` class
-   - Audio processing utilities
+### Diarization
+- `num_speakers`: Optional speaker count override
+- `diarizer_params`: Fine-tuning for speaker detection
+  - `segmentation`: Controls for speech segment detection
+  - `clustering`: Parameters for speaker clustering
 
-2. `transcription.py`:
-   - `AudioTranscriber` class
-   - Core transcription logic
+### Transcription
+- `model`: Choice of Whisper model variant
+- `language`: Target language for transcription
+- `device`: Processing device selection (CPU/GPU)
+- `alignment_source`: Source for word timing information
 
-3. `alignment.py`:
-   - `ForcedAligner` class
-   - Alignment utilities
+## Usage Example
 
-4. `diarization.py`:
-   - `SpeakerDiarizer` class
-   - Speaker identification logic
+```python
+from core.main import process_audio
 
-5. `transcript.py`:
-   - `Transcript` class
-   - Transcript data management
+result = process_audio(
+    file_path="audio.wav",
+    hf_token="your-huggingface-token",
+    output_dir="output",
+    model="openai/whisper-large",
+    language="de",
+    num_speakers=2
+)
+```
 
-6. `utils.py`:
-   - Common utilities
-   - Helper functions 
+## Dependencies
+
+- torch
+- whisper
+- pyannote.audio
+- uroman
+- pydub
+- numpy 

@@ -1,5 +1,17 @@
 """
 Speaker diarization module for identifying speakers in audio.
+
+This module provides speaker diarization functionality using pyannote.audio,
+enabling the identification and segmentation of different speakers in audio files.
+Key features include:
+- Automatic speaker detection and segmentation
+- Support for known number of speakers or automatic detection
+- Integration with pyannote's state-of-the-art diarization models
+- Configurable clustering and segmentation parameters
+- GPU acceleration support for faster processing
+
+The module uses pyannote.audio's pipeline for robust speaker diarization,
+supporting both fixed and variable numbers of speakers.
 """
 import torch
 from typing import Dict, Optional
@@ -11,16 +23,37 @@ import tempfile
 
 class SpeakerDiarizer:
     """
-    Handles speaker diarization of audio files.
+    Handles speaker diarization of audio files using pyannote.audio.
+    
+    This class provides functionality to identify and segment different speakers
+    in audio recordings. It uses pyannote.audio's speaker diarization pipeline
+    to perform:
+    - Speaker change detection
+    - Speech activity detection
+    - Speaker embedding extraction
+    - Speaker clustering
+    
+    The diarizer supports both scenarios where the number of speakers is known
+    in advance and where it needs to be automatically determined. It can be
+    configured through various parameters to optimize for different use cases.
+
+    Attributes:
+        device (torch.device): Compute device for model inference
+        pipeline (DiarizationPipeline): Loaded diarization pipeline
+        parameters (Dict): Configuration parameters for diarization
+        model (str): Name/path of the diarization model
     """
     def __init__(self, hf_token: str, parameters: Dict, device = None, model = "pyannote/speaker-diarization-3.1"):
         """
         Initializes the SpeakerDiarizer.
         
-        :param hf_token: Hugging Face token for accessing diarization models.
-        :param parameters: Parameters for the diarization pipeline.
-        :param device: Device to use for processing
-        :param model: Model to use for diarization
+        Args:
+            hf_token (str): Hugging Face token for accessing diarization models
+            parameters (Dict): Parameters for the diarization pipeline including:
+                - segmentation: Parameters for speech activity detection
+                - clustering: Parameters for speaker clustering
+            device (Optional[torch.device]): Device to use for processing
+            model (str): Model identifier for the diarization pipeline
         """
         if device is not None:
             self.device = device
