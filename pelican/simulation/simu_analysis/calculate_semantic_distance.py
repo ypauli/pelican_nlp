@@ -13,6 +13,8 @@ def run(csv_path):
     # for section_start, section_end, avg_distance in avg_distances:
     #     print(f"Average semantic distance for section from '{section_start}' to '{section_end}': {avg_distance}")
     
+    print(avg_distances)
+    
     return avg_distances
     
 

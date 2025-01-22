@@ -26,6 +26,11 @@ for group in ["temperature", "sampling", "context_span", "target_length"]:
             writer.writerow(csv_rows)
             
 for subject in os.listdir(metadata_dir):
+    
+    if not subject.startswith("s"):
+        print(f"Skipping directory {group}")
+        continue
+    
     for group in os.listdir(os.path.join(metadata_dir, subject)):
         
         if not group.startswith(("a", "b", "c", "d")):
@@ -48,9 +53,9 @@ for subject in os.listdir(metadata_dir):
                 logits_file = os.path.join(out_dir, subject, f"ses-0", group, f"sub-{subject_id}_ses-0_group-{group}_timepoint-{timepoint}_results_logits.csv")
                 
                 if not (os.path.exists(embeddings_file) and os.path.exists(logits_file)):
-                    # print("Files not found")  
-                    # print(embeddings_file)
-                    # print(logits_file)  
+                    print("Files not found")  
+                    print(embeddings_file)
+                    print(logits_file)  
                     continue
                     
                 print(f"Processing timepoint {timepoint} for subject {subject_id} in group {group}")
@@ -59,10 +64,13 @@ for subject in os.listdir(metadata_dir):
                 perplexity = calculate_perplexity.run(logits_file)
                 entropy = calculate_entropy.run(logits_file)
                 
+                 # If one of the returned lists is not of length 4, ignore datapoint
+                if len(semantic_distance) != 4 or len(perplexity) != 4 or len(entropy) != 4:
+                    continue
+                
                 # Save calculated metrics to CSV
                 for prompt in range(n_prompts):
                     data_file = os.path.join(data_dir, f"{metadata["varied_param"]}-{prompt}.csv")
-                    print(data_file)
                     
                     with open(data_file, mode="a", newline="") as file:
                         writer = csv.writer(file)

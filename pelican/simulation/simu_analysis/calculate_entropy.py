@@ -12,6 +12,7 @@ def run(csv_path):
     #     if perplexity is not None:
     #         print(f"{section}: Perplexity = {perplexity:.4f}")
     #     else:
+            
     #         print(f"{section}: Skipped (no valid data after ignoring sequences).")
     
     return section_perplexities
@@ -86,7 +87,7 @@ def calculate_entropy_per_section(file_path):
 
         # Calculate perplexity
         average_entropy = df['entropy'].mean()
-        print(f"Entropy: {average_entropy}")
+        # print(f"Entropy: {average_entropy}")
                 
         section_results[idx] = average_entropy
     

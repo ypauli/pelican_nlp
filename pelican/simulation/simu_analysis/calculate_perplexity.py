@@ -89,7 +89,7 @@ def calculate_perplexity_per_section(file_path):
 
         # Calculate perplexity
         perplexity = np.exp(-logprob_sum / N)
-        print(f"Perplexity: {perplexity}")
+        # print(f"Perplexity: {perplexity}")
                 
         section_results[idx] = perplexity
     
