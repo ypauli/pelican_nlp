@@ -7,12 +7,12 @@ import calculate_perplexity
 import calculate_entropy
 
 # Define directories
-base_dir = '/home/ubuntu/emilia/PELICAN/pelican/simulation/simu_output'
-data_dir = '/home/ubuntu/emilia/PELICAN/pelican/simulation/simu_analysis/data'
+base_dir = '/home/ubuntu/data/simu_output'
+data_dir = '/home/ubuntu/data/data_full_prompt'
 
 out_dir = os.path.join(base_dir, 'Outputs')
 metadata_dir = os.path.join(base_dir, 'Metadata')
-csv_rows = ["varied_param","semantic_distance", "perplexity", "entropy"]
+csv_rows = ["temperature", "sampling", "context_span", "target_length","semantic_distance", "perplexity", "entropy"]
 n_timepoints = 52
 n_prompts = 4
 
@@ -22,7 +22,7 @@ for group in ["temperature", "sampling", "context_span", "target_length"]:
         data_file = os.path.join(data_dir, f"{group}-{prompt}.csv")
         with open(data_file, mode="w", newline="") as file:
             writer = csv.writer(file)
-            csv_rows[0] = group
+            # csv_rows[0] = group
             writer.writerow(csv_rows)
             
 for subject in os.listdir(metadata_dir):
@@ -68,15 +68,29 @@ for subject in os.listdir(metadata_dir):
                 if len(semantic_distance) != 4 or len(perplexity) != 4 or len(entropy) != 4:
                     continue
                 
+                # Get metadata and varied parameter values
+                row = [metadata["constants"]["temperature"], metadata["constants"]["sampling"], metadata["constants"]["context_span"], metadata["constants"]["target_length"]]
+                varied_param = metadata["varied_param"]
+                varied_param_value = timepoints[timepoint]["varied_param_value"]
+                
+                print(row)
+                
                 # Save calculated metrics to CSV
                 for prompt in range(n_prompts):
-                    data_file = os.path.join(data_dir, f"{metadata["varied_param"]}-{prompt}.csv")
+                    data_file = os.path.join(data_dir, f"{varied_param}-{prompt}.csv")
                     
                     with open(data_file, mode="a", newline="") as file:
                         writer = csv.writer(file)
+                        
+                        curr_row = row
 
-                        row = [timepoints[timepoint]["varied_param_value"], 
-                            semantic_distance[prompt], 
-                            perplexity[prompt], 
-                            entropy[prompt]]
+                        varied_param_index = csv_rows.index(varied_param)
+                        curr_row[varied_param_index] = varied_param_value
+                        curr_row.append(semantic_distance[prompt])
+                        curr_row.append(perplexity[prompt])
+                        curr_row.append(entropy[prompt])
+                        
+                        print(row)
                         writer.writerow(row)
+                        
+                        
