@@ -37,19 +37,17 @@ def load_metadata(metadata_file):
             return json.load(file)
     return None
 
-def create_metadata(subject, group_name, constants, group_data):
+def create_metadata(subject, group_name, constants, varied_param):
     """Create initial metadata for a subject and group."""
     return {
         "subject": subject,
         "group": group_name,
         "constants": constants,
-        "varied_param": group_data["varied_parameter"],
-        "mean": group_data["varied_param_mean"],
-        "variance": group_data["varied_param_variance"],
+        "varied_param": varied_param,
         "timepoints": []
     }
 
-def process_timepoint(timepoint, subject, session_id, group_name, group_dir, group_data, constants, config, setup, progress, metadata):
+def process_timepoint(timepoint, subject, session_id, group_name, group_dir, varied_param, constants, config, setup, progress, metadata):
     """Process a single timepoint for a subject and group."""
     if progress["subjects"][str(subject)]["groups"].get(group_name, {}).get(str(timepoint), False):
         print(f"Skipping timepoint {timepoint} for subject {subject} in group {group_name}, already completed.")
@@ -57,13 +55,11 @@ def process_timepoint(timepoint, subject, session_id, group_name, group_dir, gro
 
     print(f"Generating data for subject {subject}, group {group_name}, timepoint {timepoint}")
 
-    varied_param_value = generate_parameter.ParameterGenerator.timepoint_sample(
-        group_data["varied_param_mean"], group_data["varied_param_variance"]
-    )
-    parameters = {**constants, group_data["varied_parameter"]: varied_param_value}
+    varied_param_value = generate_parameter.ParameterGenerator.timepoint_sample(config, varied_param)
+    parameters = {**constants, varied_param: varied_param_value}
     parameters = generate_parameter.ParameterGenerator.clean_parameters(parameters)
 
-    wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(parameters, config.parameter_rules)
+    # wellbeing_factors = generate_parameter.ParameterGenerator.state_sample(parameters, config.parameter_rules)
     generation_arguments = generate_parameter.ParameterGenerator.generate_arguments(parameters, setup)
     text_generator = generate_text.TextGenerator(setup, config.prompts, parameters, generation_arguments)
     generated_text = text_generator.out
@@ -80,13 +76,13 @@ def process_timepoint(timepoint, subject, session_id, group_name, group_dir, gro
     metadata["timepoints"].append({
         "timepoint": timepoint,
         "varied_param_value": varied_param_value,
-        "wellbeing_factors": wellbeing_factors
+        # "wellbeing_factors": wellbeing_factors
     })
     progress["subjects"][str(subject)]["groups"].setdefault(group_name, {})[str(timepoint)] = True
 
 def process_subject(subject, session_id, config, setup, directories, progress):
     """Process a single subject across all groups and timepoints."""
-    metadata_dir = os.path.join(directories["Metadata"], f"subject_{subject}", f"a")
+    metadata_dir = os.path.join(directories["Metadata"], f"subject_{subject}")
     subject_dir = os.path.join(directories["Subjects"], f"subject_{subject}",  f"ses-{session_id}")
     os.makedirs(metadata_dir, exist_ok=True)
     
@@ -113,11 +109,11 @@ def process_subject(subject, session_id, config, setup, directories, progress):
         os.makedirs(group_metadata_dir, exist_ok=True)
         metadata_file = os.path.join(group_metadata_dir, "metadata.json")
 
-        group_data = generate_parameter.ParameterGenerator.group_sample(group_config, constants)
-        metadata = create_metadata(subject, group_name, constants, group_data)
+        varied_param = config.groups[group_name]
+        metadata = create_metadata(subject, group_name, constants, varied_param)
 
         for timepoint in range(config.timepoints):
-            process_timepoint(timepoint, subject, session_id, group_name, group_dir, group_data, constants, config, setup, progress, metadata)
+            process_timepoint(timepoint, subject, session_id, group_name, group_dir, varied_param, constants, config, setup, progress, metadata)
 
         save_json(metadata, metadata_file)
         save_json(progress, directories["ProgressFile"])
@@ -130,7 +126,8 @@ if __name__ == "__main__":
     directories = initialize_directories(config.directory)
     progress = load_or_initialize_progress(directories["ProgressFile"])
     
-    for subject in range(config.subjects):
+    for subject in range(config.subjects_start, config.subjects_end +1):
+        print(f"Processing subject: {subject}")
         for session_id in range(config.sessions):
             process_subject(subject, session_id, config, setup, directories, progress)
 

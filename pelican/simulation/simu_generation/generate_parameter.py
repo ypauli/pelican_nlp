@@ -14,44 +14,16 @@ class ParameterGenerator:
             dict: A dictionary where keys are parameter names and values are sampled constants.
         """
         constants = {
-            param: np.random.normal(
-                loc=config.global_parameter_stats[param]["mean"],
-                scale=np.sqrt(config.global_parameter_stats[param]["variance"])
+            param: np.random.uniform(
+                low=config.global_parameter_stats[param]["low"],
+                high=config.global_parameter_stats[param]["high"]
             )
             for param in config.global_parameter_stats
         }
         return constants
         
-    def group_sample(group, constants):
-        """
-        Generate a sample of constants for all parameters based on global statistics.
-
-        Args:
-            config (object): Configuration object containing global parameter statistics,
-                             with each parameter having "mean" and "variance" values.
-
-        Returns:
-            dict: A dictionary where keys are parameter names and values are sampled constants.
-        """
-        varied_param = group["varied_parameter"]
-        varied_param_mean = np.random.normal(
-            loc=group["mean_values"][varied_param],
-            scale=np.sqrt(group["variance_values"][varied_param])
-        )
-        varied_param_variance = np.abs(np.random.normal(
-            loc=group["variance_values"][varied_param],
-            scale=0.1 * group["variance_values"][varied_param]
-        ))  # Ensure variance is positive
-
-        return {
-            "constants": constants,
-            "varied_parameter": varied_param,
-            "varied_param_mean": varied_param_mean,
-            "varied_param_variance": varied_param_variance,
-        }
-        
     @staticmethod
-    def timepoint_sample(varied_param_mean, varied_param_variance):
+    def timepoint_sample(config, varied_param):
         """
         Generate a timepoint-specific value for the varied parameter.
 
@@ -62,9 +34,9 @@ class ParameterGenerator:
         Returns:
             float: Timepoint-specific value for the varied parameter.
         """
-        return np.random.normal(
-            loc=varied_param_mean,
-            scale=np.sqrt(varied_param_variance)
+        return np.random.uniform(
+            low=config.global_parameter_stats[varied_param]["low"],
+            high=config.global_parameter_stats[varied_param]["high"]
         )
     
     @staticmethod

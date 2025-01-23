@@ -5,36 +5,37 @@ class SimuConfig:
     def __init__(self):
         self.directory = "/home/ubuntu/PELICAN/pelican/simulation/simu_output"
         self.sessions = 1
-        self.subjects = 1
+        self.subjects_start = 0
+        self.subjects_end = 1
         self.timepoints = 2
         self.global_parameter_stats = {
-            "temperature": {"mean": 1.4, "variance": 0.4},
-            "sampling": {"mean": 0.85, "variance": 0.01}, # Using top-p sampling
-            "context_span": {"mean": 80, "variance": 650.79},
-            "target_length": {"mean": 120, "variance": 937}, # {"mean": 120, "variance": 937} actual generation, {"mean": 30, "variance": 0} for test
+            "temperature": {"low": 0, "high": 10},
+            "sampling": {"low": 0, "high": 1}, # Using top-p sampling
+            "context_span": {"low": 1, "high": 200},
+            "target_length": {"low": 1, "high": 200},
+        }
+        self.model_name = "jphme/em_german_leo_mistral"
+        self.prompts = {
+            "Seit letzter Woche habe ich",
+            "In meinem letzten Traum",
+            "Von hier aus bis zum nächsten Supermarkt gelangt man",
+            "Ich werde so viele Tiere aufzählen wie möglich: Pelikan,"
         }
         self.groups = {
-            "a": {
-                "varied_parameter": "temperature",
-                "mean_values": {"temperature": 1.4},
-                "variance_values": {"temperature": 0.4},
-            },
-            "b": {
-                "varied_parameter": "sampling",
-                "mean_values": {"sampling": 0.85},
-                "variance_values": {"sampling": 0.01},
-            },
-            "c": {
-                "varied_parameter": "context_span",
-                "mean_values": {"context_span": 80},
-                "variance_values": {"context_span": 650.79},
-            },
-            "d": {
-                "varied_parameter": "target_length",
-                "mean_values": {"target_length": 120},
-                "variance_values": {"target_length": 937},
-            }
+            "a": "temperature",
+            "b": "sampling",
+            "c": "context_span",
+            "d": "target_length",
         }
+        
+        
+        
+        
+        
+        
+        
+        # For state calculation, experimental use
+        
         self.parameter_weights = {
             "temperature": -0.9,
             "sampling": -1.2,
@@ -65,14 +66,3 @@ class SimuConfig:
                 ])
             )
         }
-        self.prompts = {
-            "Seit letzter Woche habe ich",
-            "Als letztes habe ich geträumt",
-            "Von hier aus bis zum nächsten Supermarkt gelangt man",
-            "Ich werde so viele Tiere aufzählen wie möglich: Pelikan,"
-            # Interactive Prompts
-            # "Dieses Bild zeigt",
-            # "Ich bin grundsätzlich zufrieden, hätte aber gerne", 
-            # "Ich wiederhole jetzt die Geschichte",
-        }
-        self.model_name = "jphme/em_german_leo_mistral"
