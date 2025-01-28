@@ -19,10 +19,17 @@ def run(csv_path):
 
 def calculate_perplexity_per_section(file_path):
     # Define the sequences to ignore
+
+    # in,-7.316165924072266,-1.8125808238983154,4.671257019042969,1
+    # Ġmeinem,-7.666807651519775,-0.36479365825653076,1.931222915649414,Ġder
+    # Ġletzten,-3.3248634338378906,-1.4288169145584106,4.814801216125488,ĠFall
+    # Ġtra,-13.4716796875,-1.5980663299560547,4.021454811096191,ĠNewsletter
+    # um,-0.07510089874267578,-0.07510089874267578,0.4702942967414856,um
+        
     sequences_to_ignore = [
         ["se", "it", "Ġletz", "ter", "Ġwo", "che", "Ġhabe", "Ġich"],
         ["von", "Ġhier", "Ġaus", "Ġbis", "Ġzum", "ĠnÃ¤chsten", "Ġsuper", "markt", "Ġgel", "ang", "t", "Ġman"],
-        ["als", "Ġletz", "tes", "Ġhabe", "Ġich", "Ġget", "r", "Ã¤", "um", "t"],
+        ["in", "Ġmeinem", "Ġletzten", "Ġtra", "um"],
         ["ich", "Ġwerde", "Ġso", "Ġviele", "Ġti", "ere", "Ġauf", "z", "Ã¤hlen", "Ġwie", "ĠmÃ¶glich", "Ġpel", "ikan"]
     ]
 
@@ -94,3 +101,5 @@ def calculate_perplexity_per_section(file_path):
         section_results[idx] = perplexity
     
     return section_results
+
+run("/home/ubuntu/emilia/pel_output_unif_test/Outputs/subject_0/ses-0/a/sub-0_ses-0_group-a_timepoint-0_results_logits.csv")
