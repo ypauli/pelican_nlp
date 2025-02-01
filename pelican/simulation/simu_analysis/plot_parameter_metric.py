@@ -5,6 +5,7 @@ import seaborn as sns
 import numpy as np
 from scipy.ndimage import gaussian_filter1d
 from sklearn.neighbors import KernelDensity
+import rpy2.robjects as ro
 
 # def run(axes, files_dir, files, parameter, metrics):
 #     for i in range(4):
@@ -37,11 +38,12 @@ def plot_parameter_metric(files_dir, files, parameters, metrics):
             df = pd.read_csv(file)
             df = df[df[parameter] >= 0]
             
+            
             if parameter == 'sampling':
                 df = df[df[parameter] <= 1]
             
             # Bin data into 10 bins and calculate bin means and midpoints
-            binned = pd.cut(df[parameter], bins=100)
+            binned = pd.cut(df[parameter], bins=20)
             bin_means = df.groupby(binned, observed=False).mean()
             bin_midpoints = [(interval.left + interval.right) / 2 for interval in binned.cat.categories]
             
@@ -58,7 +60,7 @@ def plot_parameter_metric(files_dir, files, parameters, metrics):
         # ax.legend() 
     
     plt.show()
-    # print(f"Total number of data points plotted: {total_points}")
+    print(f"Total number of data points plotted: {total_points}")
 
 
 # def plot_parameter_metric(ax, filepaths, parameter, metric):

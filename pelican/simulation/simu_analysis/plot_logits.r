@@ -3,7 +3,7 @@
 ######################################
 paramNames <- c("temperature", "sampling", "context_span", "target_length")
 paramCol <- "varied_param_value"
-filePath <- "/home/ubuntu/emilia/data_unif_old/"
+filePath <- "/home/ubuntu/emilia/data_unif_full-range/"
 
 # Define file name
 fileA <- paste0(filePath, "target_length-A.csv")
@@ -21,11 +21,19 @@ library(ggplot2)
 library(dplyr)
 library(reshape2)
 library(cowplot)
+library(tidyr)
+library(patchwork)
+
+
 
 ######################################
 ## 1) Read data 
 ######################################
-dfA <- read.csv(fileA, stringsAsFactors = FALSE)
+# Load data
+# data <- read.csv(fileA)
+
+# Check for missing values
+# data <- data %>% drop_na()
 
 ######################################
 ## 2) Helper function for group scaling
@@ -44,11 +52,17 @@ safe_scale <- function(x) {
 metrics <- c("avg_entropy_per_section", "avg_perplexity_per_section")
 plot_list <- list()
 
-for (metric in metrics) {
-  for (param in paramNames) {
+for (param in paramNames) {
+
+  fileA <- paste0(filePath, param, "-A.csv")
+  data <- read.csv(fileA)
+  # Check for missing values
+  data <- data %>% drop_na()
+
+  for (metric in metrics) {
     
-    df_melt <- dfA %>%
-      mutate(paramValue = .data[[param]]) %>%
+    df_melt <- data %>%
+      mutate(paramValue = .data[[paramCol]]) %>%
       select(paramValue, prompt_number, all_of(metric)) %>%
       melt(
         id.vars       = c("paramValue", "prompt_number"),
@@ -68,16 +82,17 @@ for (metric in metrics) {
     df_melt$gParam <- factor(df_melt$gParam)
     
     df_cor <- df_melt %>%
+      filter(!is.na(paramValue) & !is.na(value2)) %>%
       group_by(variable) %>%
       summarize(
-        cor   = cor(paramValue, value2, method="spearman", use="complete.obs"),
+        cor   = ifelse(n() > 1, cor(paramValue, value2, method="spearman", use="complete.obs"), NA),
         label = paste0("R = ", round(cor, 2))
       )
     
     plot <- ggplot(df_melt, aes(x = gParam, y = value2)) +
       stat_summary(fun = "mean", color = "black", size = 1, aes(group = 1)) +
       stat_summary(fun = "mean", color = "black", size = 2, geom = "line", linetype = "solid", aes(group = 1)) +
-      facet_grid(~variable, scales = "free") +
+      facet_wrap(~variable, scales = "free") +
       stat_summary(aes(color = factor(prompt_number), group = factor(prompt_number)),
                    fun = "mean", geom = "line", alpha = 0.5) +
       theme_bw() +
@@ -85,6 +100,7 @@ for (metric in metrics) {
       ylab("Normalized Value") +
       ggtitle(paste(metric, "vs", param)) +
       theme(
+        aspect.ratio = 0.8,
         axis.title    = element_text(size=14),
         axis.text     = element_text(size=12),
         strip.text    = element_text(size=12),
@@ -107,9 +123,10 @@ for (metric in metrics) {
 ######################################
 ## 4) Combine all plots into one image
 ######################################
-if (length(plot_list) > 0) {
-  final_plot <- plot_grid(plotlist = plot_list, nrow = ceiling(length(plot_list)/2), ncol = 2, align = "v")
-  print(final_plot)
-} else {
-  print("No valid parameter and metric combinations found.")
-}
+
+# Combine plots into two rows, where the first row contains the plots for avg_perplexity_per_section and the second row contains the plots for avg_entropy_per_section
+p1 <- plot_list[["avg_perplexity_per_section_temperature"]] + plot_list[["avg_perplexity_per_section_sampling"]] + plot_list[["avg_perplexity_per_section_context_span"]] + plot_list[["avg_perplexity_per_section_target_length"]]
+p2 <- plot_list[["avg_entropy_per_section_temperature"]] + plot_list[["avg_entropy_per_section_sampling"]] + plot_list[["avg_entropy_per_section_context_span"]] + plot_list[["avg_entropy_per_section_target_length"]]
+
+# Print the combined plot
+print(plot_list[["avg_perplexity_per_section_temperature"]])

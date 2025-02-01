@@ -122,10 +122,10 @@ def run(csv_path):
         avg_sentence_perplexity_per_section.append(sentence_perplexities)
     
     # Print or inspect results
-    print("Average Perplexity per Section:", avg_perplexity_per_section)
-    print("Average Entropy per Section:", avg_entropy_per_section)
-    print("Sentence-level Perplexity:", avg_sentence_perplexity_per_section)
-    print("Sentence-level Entropy:", avg_sentence_entropy_per_section)
+    # print("Average Perplexity per Section:", avg_perplexity_per_section)
+    # print("Average Entropy per Section:", avg_entropy_per_section)
+    # print("Sentence-level Perplexity:", avg_sentence_perplexity_per_section)
+    # print("Sentence-level Entropy:", avg_sentence_entropy_per_section)
         
     # Return the four aggregated lists
     return (
@@ -156,6 +156,7 @@ def read_sections(file_path):
     current_section = []
     
     for line in lines:
+        line = str(line)
         if line.strip() == header_line:
             # If there's an existing section, finish it
             if current_section:
@@ -211,7 +212,7 @@ def extract_prompt(df):
         if len(df) >= seq_len:
             # Check if top N tokens match
             top_tokens = list(df["token"].iloc[:seq_len])
-            top_tokens = [token.strip('"') for token in top_tokens]
+            top_tokens = [str(token).strip('"') for token in top_tokens]
             if top_tokens == sequence:
                 # Prompt found
                 prompt_part = df.iloc[:seq_len].copy()
@@ -238,7 +239,7 @@ def split_df_into_sentences(df):
         row = df.loc[idx]
         current_rows.append(row)
         # If the the token contains a ., the sentence ends
-        if "." in row["token"]:
+        if "." in str(row["token"]):
             # End of sentence
             sentence_df = pd.DataFrame(current_rows).reset_index(drop=True)
             sentences.append(sentence_df)

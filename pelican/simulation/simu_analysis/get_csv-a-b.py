@@ -6,8 +6,8 @@ import calculate_semantic_distance
 import calculate_perplexity_entropy
 
 def run_combined_analysis():
-    base_dir = '/home/ubuntu/emilia/pel_output_unif_test'
-    data_dir = '/home/ubuntu/emilia/PELICAN/pelican/simulation/simu_analysis/data'
+    base_dir = '/home/ubuntu/emilia/pel_output_unif'
+    data_dir = '/home/ubuntu/emilia/data_unif_constrained'
     out_dir = os.path.join(base_dir, 'Outputs')
     metadata_dir = os.path.join(base_dir, 'Metadata')
     
@@ -106,6 +106,15 @@ def run_combined_analysis():
             if varied_param not in valid_varied_params:
                 continue
             
+            # Get constants from metadata, if constants["temperature"] is > 3.75 and varied_param is not "temperature", skip
+            constants = metadata.get("constants", {})
+            if constants.get("temperature", 0) > 3.75 and varied_param != "temperature":
+                continue
+            
+            # if constants["sampling"] is > 0.9 and varied_param is not "sampling", skip
+            if constants.get("sampling", 0) > 0.9 and varied_param != "sampling":
+                continue
+            
             timepoints = metadata.get("timepoints", [])
             subject_id = metadata.get("subject", "")
             # group_in_metadata = metadata.get("group", "")  # "a" or "b" etc.
@@ -113,6 +122,17 @@ def run_combined_analysis():
             
             # For each timepoint, find the corresponding embeddings and logits
             for t_idx in range(n_timepoints):
+                
+                param_value = timepoints[t_idx].get("varied_param_value", None)
+                
+                # If param_value is None or if varied_param is "temperature" and param_value > 3.75, skip
+                if param_value is None or (varied_param == "temperature" and param_value > 3.75):
+                    continue
+                
+                # If varied_param is "sampling" and param_value > 0.9, skip
+                if varied_param == "sampling" and param_value > 0.9:
+                    continue
+                
                 # Build the file paths
                 embeddings_file = os.path.join(
                     out_dir, subject, "ses-0", subgroup,
@@ -149,14 +169,12 @@ def run_combined_analysis():
                 ) = calculate_perplexity_entropy.run(logits_file)
                 
                 # This script now loops over the 4 prompts for each timepoint.
-                param_value = timepoints[t_idx].get("varied_param_value", None)
-                
-                # If param_value is None, we skip (or default it).
-                if param_value is None:
-                    print("No varied_param value found at ", t_idx, "for", subject_id, subgroup)
-                    continue
-                
-                for prompt_idx in range(3):
+                for prompt_idx in range(4):
+                    
+                    if prompt_idx >= len(all_sent_cosines_list):
+                        print(f"Skipping prompt {prompt_idx}: Not enough entries in all_sent_cosines_list")
+                        continue
+                    
                     # 2) Build row for FILE A
                     #    We skip writing if ANY relevant field is zero (meaning no text after prompt).
                     a_consec  = avg_consec_list[prompt_idx]

@@ -17,7 +17,7 @@ def cosine_distance(vec1, vec2):
         return 0  # Return 0 if invalid inputs are detected
     
     try:
-        return cosine_similarity([vec1], [vec2])[0][0]
+        return 1 - cosine_similarity([vec1], [vec2])[0][0]
     except Exception:
         return 0  # Return 0 if an error occurs during computation
 
@@ -204,8 +204,8 @@ def average_sentence_distances(section_data):
         for t, emb in zip(tokens, embeddings):
             if t not in punctuation_tokens: 
                 curr_sentence.append(emb)
-            # If t i . or t contains ., we've reached the end of a sentence
-            if t == '.' or '.' in t:
+            # If t is '.' or t contains '.', we've reached the end of a sentence
+            if str(t) == '.' or '.' in str(t):
                 if curr_sentence:
                     sentences.append(np.array(curr_sentence))
                     sentence_vecs.append(np.mean(curr_sentence, axis=0))
@@ -248,9 +248,9 @@ def average_prompt_distances(section_data):
     to that prompt (both cosine and WMD).
     
     - We combine *all* prompt embeddings in the section into one 
-      big "prompt" array, then average them for a single prompt vector. 
-    - If multiple prompt sequences occur, they all contribute 
-      to the final "prompt" embedding.
+      big "prompt" array, then average them for a single prompt vector.
+    - However, if any prompt sequence ends with "pelikan,", then we use 
+      only the embedding of that final token.
     """
     all_prompt_cosine = []
     all_prompt_wmd    = []
@@ -261,19 +261,32 @@ def average_prompt_distances(section_data):
 
     for (prompt_tokens, prompt_embs, tokens, embeddings) in section_data:
         
-        # Flatten all prompt embeddings into a single array (if any)
-        if len(prompt_embs) == 0:
-            # No prompts => no prompt-based distance
-            all_prompt_cosine.append(0.0)
-            all_prompt_wmd.append(0.0)
-            continue
+        # Determine the prompt vector for the section.
+        # If any prompt sequence ends with 'pelikan' (ignoring punctuation and case),
+        # then use only that last token's embedding.
+        prompt_vector = None
+        for tokens_seq, emb_seq in zip(prompt_tokens, prompt_embs):
+            if tokens_seq[-1] == "pelikan,":
+                prompt_vector = emb_seq[-1]  # use only the last token's embedding
+                break
         
-        # Combine all prompt embeddings into one big array
-        # shape: (P, D) where P is total prompt tokens, D is embedding dim
-        prompt_arrays = [arr for arr in prompt_embs]  # each arr is shape (seq_len, D)
-        big_prompt    = np.concatenate(prompt_arrays, axis=0)  # (sum_of_seq_lens, D)
-        prompt_mean   = np.mean(big_prompt, axis=0)            # shape (D,)
-
+        if prompt_vector is None:
+            # No prompt sequence ended with 'pelikan'
+            if len(prompt_embs) == 0:
+                # No prompts => no prompt-based distance
+                all_prompt_cosine.append(0.0)
+                all_prompt_wmd.append(0.0)
+                all_prompt_sentence_cosine.append(0.0)
+                all_prompt_sentence_wmd.append(0.0)
+                continue
+            # Combine all prompt embeddings as before
+            prompt_arrays = [arr for arr in prompt_embs]  # each arr is shape (seq_len, D)
+            big_prompt    = np.concatenate(prompt_arrays, axis=0)  # (total_prompt_tokens, D)
+            prompt_vector = np.mean(big_prompt, axis=0)            # shape (D,)
+        else:
+            # When using only the last token's embedding, wrap it for WMD computation.
+            big_prompt = np.array([prompt_vector])
+        
         # Now split normal tokens into sentences
         sentences     = []
         sentence_vecs = []
@@ -282,13 +295,13 @@ def average_prompt_distances(section_data):
         for t, emb in zip(tokens, embeddings):
             if t not in punctuation_tokens:
                 curr_sentence.append(emb)
-            # If t i . or t contains ., we've reached the end of a sentence
-            if t == '.' or '.' in t:
+            # If t is '.' or contains '.', consider the sentence ended.
+            if str(t) == '.' or '.' in str(t):
                 if curr_sentence:
                     sentences.append(np.array(curr_sentence))
                     sentence_vecs.append(np.mean(curr_sentence, axis=0))
                 curr_sentence = []
-        # leftover
+        # Any leftover sentence tokens
         if curr_sentence:
             sentences.append(np.array(curr_sentence))
             sentence_vecs.append(np.mean(curr_sentence, axis=0))
@@ -301,20 +314,19 @@ def average_prompt_distances(section_data):
             all_prompt_wmd.append(0.0)
             continue
 
-        # For each sentence, compute distance to prompt
+        # For each sentence, compute distance to the prompt vector
         cos_dists = []
         wmd_dists = []
         for sent_vec, sent_arr in zip(sentence_vecs, sentences):
-            # Cosine similarity to prompt mean
-            cos_val = cosine_distance(prompt_mean, sent_vec)
+            # Cosine similarity to the prompt vector
+            cos_val = cosine_distance(prompt_vector, sent_vec)
             cos_dists.append(cos_val)
             
-            # Word-mover-like distance
-            pairwise = cdist(big_prompt, sent_arr, metric='cosine')
+            # Word-mover-like distance (ensure prompt_vector is 2D)
+            pairwise = cdist(np.array([prompt_vector]), sent_arr, metric='cosine')
             wmd_val  = np.mean(np.min(pairwise, axis=1))
             wmd_dists.append(wmd_val)
 
-        # Store average of distances for this entire section
         all_prompt_sentence_cosine.append(cos_dists)
         all_prompt_sentence_wmd.append(wmd_dists)
         
@@ -322,6 +334,7 @@ def average_prompt_distances(section_data):
         all_prompt_wmd.append(np.mean(wmd_dists))
 
     return all_prompt_sentence_cosine, all_prompt_sentence_wmd, all_prompt_cosine, all_prompt_wmd
+
 
 ##################################################
 #                    RUN
@@ -347,15 +360,15 @@ def run(csv_path):
     # 4) Compute average prompt distances (sentence 0)
     all_prompt_sentence_cosine, all_prompt_sentence_wmd, avg_prompt_cosine, avg_prompt_wmd = average_prompt_distances(section_data)
 
-    # Print results
-    print("Avg. consecutive token distances:", avg_consec)
-    print("Avg. all-pair token distances:",    avg_all_pairs)
-    print("Avg. sentence-to-sentence distances (cosine):", avg_sentence_distances)
-    print("Avg. sentence-to-sentence WMD:",               wmd_sentence_distances)
-    print("Avg. prompt-to-sentence distances (cosine):",  avg_prompt_cosine)
-    print("Avg. prompt-to-sentence WMD:",                 avg_prompt_wmd)
-    print("Avg. cosine distance from prompt for each sentence:", all_prompt_sentence_cosine)
-    print("Avg. WMD distance from prompt for each sentence:",    all_prompt_sentence_wmd)
+    # # Optionally, print results
+    # print("Avg. consecutive token distances:", avg_consec)
+    # print("Avg. all-pair token distances:",    avg_all_pairs)
+    # print("Avg. sentence-to-sentence distances (cosine):", avg_sentence_distances)
+    # print("Avg. sentence-to-sentence WMD:",               wmd_sentence_distances)
+    # print("Avg. prompt-to-sentence distances (cosine):",  avg_prompt_cosine)
+    # print("Avg. prompt-to-sentence WMD:",                 avg_prompt_wmd)
+    # print("Avg. cosine distance from prompt for each sentence:", all_prompt_sentence_cosine)
+    # print("Avg. WMD distance from prompt for each sentence:",    all_prompt_sentence_wmd)
 
     return (
         avg_consec, 
