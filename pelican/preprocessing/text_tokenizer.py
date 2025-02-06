@@ -11,6 +11,11 @@ class TextTokenizer:
     def tokenize(self, text):
         method = self.options.get('method')
 
+        if self.options.get('remove_punctuation', True):
+            text = self._remove_punctuation(text)
+        if self.options.get('lowercase', True):
+            text = text.lower()
+
         if method == 'whitespace':
             return text.split()
         if method == 'model_instance':
@@ -23,3 +28,7 @@ class TextTokenizer:
 
     def convert_IDs_to_tokens(self, chunk):
         return self.tokenizer.convert_ids_to_tokens(chunk)
+    
+    def _remove_punctuation(self, text):
+        import string
+        return text.translate(str.maketrans('', '', string.punctuation))
