@@ -1,63 +1,116 @@
+import os
 import csv
 import numpy as np
-import os
 
-def store_features_to_csv(input_data, output_file):
 
-    print('Storing results as CSV...')
-    print('The type of the input data is:', type(input_data))
+def store_features_to_csv(input_data, results_path, corpus):
+    print('📝 Storing results as CSV...')
 
-    # Determine the type of data and adjust the file name
-    if isinstance(input_data, dict) and 'embeddings' in input_data:
-        suffix = '_embeddings'
-    elif isinstance(input_data, dict) and 'tokens_logits' in input_data:
-        suffix = '_logits'
-    elif isinstance(input_data, list) and all(isinstance(d, dict) for d in input_data):
-        suffix = '_logits'  # Assuming list of dictionaries relates to logits
-    else:
-        raise ValueError("Input data must be a dictionary with 'embeddings' or 'tokens_logits', or a list of dictionaries.")
+    if not isinstance(input_data, list) or not input_data:
+        raise ValueError("❌ Input data must be a non-empty list of dictionaries.")
 
-    # Append the suffix before the file extension
-    base, ext = os.path.splitext(output_file)
-    output_file = f"{base}{suffix}{ext}"
+    # Ensure results directory exists
+    os.makedirs(results_path, exist_ok=True)
 
-    print(f"Updated file name to: {output_file}")
+    # Extract subject, session, task from the path
+    parts = results_path.split(os.sep)
+    if len(parts) < 4:
+        raise ValueError("❌ Invalid results_path format. Expected 'project/subject/session/task'.")
+    _, subject, session, task = parts[-4:]
 
-    if isinstance(input_data, dict):
-        embeddings = input_data.get('embeddings')
-        tokens = input_data.get('tokens_logits')
+    print(f'📌 Corpus: {corpus}')
 
-        print(f'Tokens: {tokens}')
-        print(f'Embeddings: {embeddings}')
+    for idx, section in enumerate(input_data):
+        if 'tokens' not in section or 'embeddings' not in section:
+            raise ValueError(f"❌ Section {idx} is missing 'tokens' or 'embeddings' key.")
 
-        if embeddings is not None:
-            if len(embeddings) != len(tokens):
-                raise ValueError("The number of embeddings must match the number of tokens.")
+        tokens = section['tokens']
+        embeddings = np.array(section['embeddings'], dtype=np.float32)
 
-        # Ensure embeddings is a numpy array for consistent handling
-        embeddings = np.array(embeddings, dtype=np.float32)
+        if len(tokens) != len(embeddings):
+            raise ValueError(f"❌ Mismatch: {len(tokens)} tokens but {len(embeddings)} embeddings.")
 
-        # Open file in append mode and write a new header before appending
-        with open(output_file, mode='a', newline='', encoding='utf-8') as file:
+        # Determine the metric name (assumes first key after 'tokens' and 'embeddings')
+        metric_keys = [key for key in section.keys() if key not in ['tokens', 'embeddings']]
+        metric_name = metric_keys[0] if metric_keys else 'embeddings'
+
+        output_filename = f"{subject}_{session}_{task}_{corpus}_{metric_name}.csv"
+        output_filepath = os.path.join(results_path, output_filename)
+
+        file_exists = os.path.exists(output_filepath)
+
+        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            header = ['Token'] + [f"Dim_{i}" for i in range(embeddings.shape[1])]
-            writer.writerow(header)
 
+            # Header with embedding dimensions
+            num_dimensions = embeddings.shape[1]
+            header = ['Token'] + [f"Dim_{i}" for i in range(num_dimensions)]
+
+            if not file_exists:
+                writer.writerow(header)
+            else:
+                writer.writerow([])  # Separate sections
+                writer.writerow([f"New Section"])
+                writer.writerow(header)
+
+            # Write token and its corresponding embedding
             for token, embedding in zip(tokens, embeddings):
                 writer.writerow([token] + embedding.tolist())
 
-    elif isinstance(input_data, list):
-        # Handle list of dictionaries
-        if not all(isinstance(d, dict) for d in input_data):
-            raise ValueError("Each item in the list must be a dictionary.")
+        print(f"✅ Data stored at: {output_filepath}")
 
-        fieldnames = list(input_data[0].keys())
 
-        # Open file in append mode and write a new header before appending
-        with open(output_file, mode='a', newline='', encoding='utf-8') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            for row in input_data:
-                writer.writerow(row)
+'''import os
+import csv
+import numpy as np
 
-    print(f"Data successfully stored to {output_file}")
+def store_features_to_csv(input_data, results_path, corpus):
+
+    print('Storing results as CSV...')
+    print(f'The input data is: {input_data}')
+
+    # Ensure the results_path exists
+    os.makedirs(results_path, exist_ok=True)
+
+    # Determine the metric name based on the first key in input_data
+    if not isinstance(input_data, dict) or not input_data:
+        raise ValueError("Input data must be a non-empty dictionary.")
+    metric = f"{next(iter(input_data.keys()))}"
+
+    # Extract subject, session, task from the path
+    parts = results_path.split(os.sep)
+    if len(parts) < 4:
+        raise ValueError("Invalid results_path format. Expected 'project/subject/session/task'.")
+    _, subject, session, task = parts[-4:]
+
+    print(f'corpus is {corpus}')
+
+    # Create the output filename
+    output_filename = f"{subject}_{session}_{task}_{corpus}_{metric}.csv"
+    output_filepath = os.path.join(results_path, output_filename)
+
+    embeddings = input_data.get('embeddings')
+
+    if embeddings is not None:
+        embeddings = np.array(embeddings, dtype=np.float32)
+
+        tokens_embeddings = input_data.get('tokens_embeddings')
+        if len(embeddings) != len(tokens_embeddings):
+            raise ValueError("The number of embeddings must match the number of tokens.")
+
+        file_exists = os.path.exists(output_filepath)
+        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            header = ['Token'] + [f"Dim_{i}" for i in range(embeddings.shape[1])]
+
+            if not file_exists:
+                writer.writerow(header)
+            else:
+                writer.writerow([])  # Insert an empty row for separation
+                writer.writerow([f"New Paragraph Section"])
+                writer.writerow(header)
+
+            for token, embedding in zip(tokens_embeddings, embeddings):
+                writer.writerow([token] + embedding.tolist())
+
+    print(f"Data successfully stored at: {output_filepath}")'''

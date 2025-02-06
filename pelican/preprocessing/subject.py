@@ -10,7 +10,7 @@ class Subject:
         self.numberOfSessions = None
 
     def __repr__(self):
-        return f"Subject(ID={self.subjectID}, num_documents={len(self.documents)})"
+        return f"Subject(ID={self.subjectID})"
 
     def add_document(self, document):
         self.documents.append(document)

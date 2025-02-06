@@ -12,11 +12,11 @@ class Corpus:
         self.config = configuration_settings
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = task
+        self.results_path = None
 
     def preprocess_all_documents(self):
         print(f'preprocessing all documents (corpus.py)')
         for document in self.documents:
-            document.create_results_csv(self.config['PATH_TO_PROJECT_FOLDER'])
             document.detect_sections()
             document.process_document(self.pipeline)
 
@@ -31,16 +31,19 @@ class Corpus:
         return
 
     def extract_logits(self):
+        from pelican.preprocessing.text_tokenizer import TextTokenizer
         print('logits extraction in progress')
         logitsExtractor = LogitsExtractor(self.config['tokenization_options_logits'].get('model_name'),
                                           self.pipeline,
                                           self.config['PATH_TO_PROJECT_FOLDER'])
         model = Model(self.config['tokenization_options_logits'].get('model_name'), self.config['PATH_TO_PROJECT_FOLDER'])
         model.load_model()
+        tokenizer = TextTokenizer(self.config['tokenization_options_logits'])
         for i in range(len(self.documents)):
+            self.documents[i].tokenize_text(tokenizer, 'logits')
             for j in range(len(self.documents[i].sections)):
                 self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens_logits[j], model)
-                store_features_to_csv(self.documents[i].logits, self.documents[i].results_path)
+                store_features_to_csv(self.documents[i].logits, self.documents[i].results_path, self.name)
             print(self.documents[i].logits)
             self.documents[i].logits = []
 
@@ -50,12 +53,11 @@ class Corpus:
         embeddingsExtractor = EmbeddingsExtractor('fastText')
         for i in range(len(self.documents)):
             print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)
-            for j in range(len(self.documents[i].cleaned_sections)):
-                self.documents[i].embeddings.append(embeddingsExtractor.process_tokens(self.documents[i].tokens_embeddings[j],
-                                                                                  self.config['window_sizes'],
-                                                                                  self.config['aggregation_functions']))
-                store_features_to_csv(self.documents[i].embeddings[j], self.documents[i].results_path)
-
+            embeddingsExtractor.process_text(self.documents[i],
+                                            self.config['tokenization_options_embeddings'],
+                                            self.config['window_sizes'],
+                                            self.config['aggregation_functions'],
+                                            speakertag=self.config['subject_speakertag'])
         return
 
     def get_corpus_info(self):
