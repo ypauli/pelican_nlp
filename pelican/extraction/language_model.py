@@ -1,9 +1,8 @@
-import os.path
+import torch
+import psutil
 
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
 from transformers import AutoModelForCausalLM
-import torch
-import psutil
 
 class Model:
     def __init__(self, model_name, project_path):
@@ -13,12 +12,25 @@ class Model:
         self.PROJECT_PATH = project_path
 
     def load_model(self):
-        self.model_instantiation()
+        """Loads and configures the model"""
+
+        if self.model_name == 'fastText':
+            import fasttext
+            fasttext.util.download_model('de', if_exists='ignore')
+            self.model_instance = fasttext.load_model('cc.de.300.bin')
+            print('FastText model loaded.')
+        elif self.model_name == 'xlm-roberta-base':
+            from transformers import AutoModel
+            self.model_instance = AutoModel.from_pretrained(self.model_name)
+            print('RoBERTa model loaded.')
+        else:
+            raise ValueError("Invalid model name.")
+
+        # Additional model setup
         self.device_map_creation()
-        offload_directory = self.PROJECT_PATH+'./offload'
-        if not os.path.isdir(offload_directory):
-            os.mkdir(offload_directory)
-        self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map, offload_dir=offload_directory)
+
+        self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
+        print('Model dispatched to appropriate devices.')
 
     def model_instantiation(self,empty_weights=False):
         if empty_weights:

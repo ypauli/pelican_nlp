@@ -43,6 +43,7 @@ def _instantiate_documents(filepath, config):
         Document(
             filepath,
             file_name,
+            fluency=config['fluency_task'],
             has_sections=config['has_multiple_sections'],
             section_identifier=config['section_identification'],
             number_of_sections=config['number_of_sections'],

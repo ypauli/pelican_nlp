@@ -2,7 +2,10 @@ from pelican.extraction.extract_logits import LogitsExtractor
 from pelican.extraction.extract_embeddings import EmbeddingsExtractor
 from pelican.preprocessing import TextPreprocessingPipeline
 from pelican.csv_functions import store_features_to_csv
-from pelican.extraction.LanguageModel import Model
+from pelican.extraction.language_model import Model
+from pelican.preprocessing.speaker_diarization import TextDiarizer
+from pelican.preprocessing.text_cleaner import TextCleaner
+
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, task=None):
@@ -47,17 +50,40 @@ class Corpus:
             print(self.documents[i].logits)
             self.documents[i].logits = []
 
-
     def extract_embeddings(self):
+        embedding_options = self.config['options_embeddings']
         print('embeddings extraction in progress')
-        embeddingsExtractor = EmbeddingsExtractor('fastText')
+        embeddingsExtractor = EmbeddingsExtractor(embedding_options,self.config['PATH_TO_PROJECT_FOLDER'])
         for i in range(len(self.documents)):
             print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)
-            embeddingsExtractor.process_text(self.documents[i],
-                                            self.config['tokenization_options_embeddings'],
-                                            self.config['window_sizes'],
-                                            self.config['aggregation_functions'],
-                                            speakertag=self.config['subject_speakertag'])
+            for key, section in self.documents[i].cleaned_sections.items():
+
+                print(f'current section is {section}')
+
+                if self.config['discourse']==True:
+                    section = TextDiarizer.parse_speaker(section, self.config['subject_speakertag'], embedding_options['keep_speakertags'])
+                    print(f'parsed section is {section}')
+                else:
+                    section = [section]
+
+                embeddings = embeddingsExtractor.extract_embeddings_Morteza(section[1])
+
+                print(f'Extracting Embeddings for section {key}')
+                embeddings = embeddingsExtractor.extract_embeddings_from_text(section)
+                self.documents[i].embeddings.append(embeddings)
+                #embeddings is a list of dictionaries
+                for utterance in embeddings:
+                    #utterance is a dictionary
+                    cleaned_dict = {}
+
+                    # Clean each token in the dictionary
+                    for token, embeddings in utterance.items():
+                        cleaned_token = TextCleaner.clean_subword_token_RoBERTa(token)
+
+                        if cleaned_token is not None:
+                            cleaned_dict[cleaned_token] = embeddings
+
+                    store_features_to_csv(cleaned_dict, self.documents[i].results_path, self.documents[i].corpus_name, 'embeddings')
         return
 
     def get_corpus_info(self):
