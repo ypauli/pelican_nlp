@@ -2,25 +2,35 @@
 # =======================================
 input_file: "text" #or 'audio'
 
-PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/KetamineStudy/KetamineStudy_ProjectFolder/" # Set default to home directory, e.g., '/home/usr/...'
+PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/FluencyTest" # Set default to home directory, e.g., '/home/usr/...'
 language: "german" # Possibly add options for German and English
 number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
-multiple_sessions: true # Set to True if multiple sessions per subject
+multiple_sessions: false # Set to True if multiple sessions per subject
 
 recompute_everything: true #If set to 'false' pelican will try to reuse previously computed results stored on your drive
 
-has_multiple_sections: true #evaluated independently
-section_identification: "Bild:" #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
-number_of_sections: 7 #if 'null' number of sections automatically detected, however, specifying number recommended if known.
+has_multiple_sections: false #evaluated independently
+section_identification: null #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
+number_of_sections: 1 #if 'null' number of sections automatically detected, however, specifying number recommended if known.
 
-task_name: "image-description" # Give name of task used for creation of the input file (e.g., ['fluency', 'interview'])
+discourse: false
+number_of_speakers: 1
+subject_speakertag: null
+
+task_name: "fluency" # Give name of task used for creation of the input file (e.g., ['fluency', 'interview'])
+fluency_task: &fluency_flag true
 corpus_names:
-  - "ketamine"
-  - "placebo" # Names of individual categories to group together
+  - "animals"
 
 metric_to_extract: "embeddings"
 extract_logits: null
-extract_embeddings: true
+extract_embeddings: null
+
+pipeline_options:
+  quality_check: false
+  clean_text: true
+  tokenize_text: false
+  normalize_text: false
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
@@ -34,10 +44,17 @@ metric_function: cosine_similarity
 aggregation_functions: mean_of_means
 
 cleaning_options:
-  general_cleaning: true # General cleaning options used for most text preprocessing, default: True.
-  remove_punctuation: true
+  general_cleaning: false # General cleaning options used for most text preprocessing, default: True.
+  remove_punctuation: false
   lowercase: true
-  remove_brackets_and_bracketcontent: true
+  remove_brackets_and_bracketcontent: false
+  remove_timestamps: false
+  timestamp_pattern_example: null #e.g. "#00:00:23-00#"
+  #Options for fluency tasks
+  fluency_task: *fluency_flag
+  word_splitter: ';'
+  remove_hyphens: true
+  remove_duplicates: true
 
 general_cleaning_options:
   strip_whitespace: true

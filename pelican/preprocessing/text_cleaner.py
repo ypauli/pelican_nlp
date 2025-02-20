@@ -1,30 +1,25 @@
 import string
 import re
+from pelican.preprocessing.fluency_cleaner import FluencyCleaner
 
 class TextCleaner:
     def __init__(self, options=None):
         self.options = options
 
-    def clean(self, text, characters_to_remove=None, num_speakers=None):
+    def clean(self, document, text, characters_to_remove=None):
 
         if self.options.get('remove_timestamps', True):
             text = self.remove_timestamps(text, self.options.get('timestamp_pattern_example'))
 
-        if self.options.get('remove_brackets_and_bracketcontent', True):
-            replacements = [
-                (r'\(.*?\)', ''),
-                (r'\<.*?\>', ''),
-                (r'\[.*?\]', ''),
-                (r'\{.*?\}', '')
-            ]
-            for old, new in replacements:
-                text = re.sub(old, new, text)
+        if characters_to_remove is not None:
+            text = self._remove_special_characters(text, characters_to_remove)
+
+        if self.options.get('fluency_task'):
+            text = self.clean_fluency_transcripts(document, text)
+
         if self.options.get('general_cleaning', True):
-            text = text.strip()
             replacements = [
                 (r'/', ''),
-                (r'…', ''),
-                (r'\.{3}', ''),
                 (r'\s+([?.!,"])',r'\1'),
                 (r'\n\s*\n', '\n'),
                 (r'\\', ''),
@@ -32,54 +27,81 @@ class TextCleaner:
             ]
             for old, new in replacements:
                 text = re.sub(old, new, text)
+            text = text.strip()
 
-        if characters_to_remove is not None:
-            self._remove_special_characters(text, characters_to_remove)
         return text
 
-    def _detect_timestamp_pattern(self, example):
-        pattern = re.escape(example)  # Escape special characters
-        pattern = re.sub(r'\d', r'\\d', pattern)  # Replace digits with \d
-        return pattern
+    def clean_fluency_transcripts(self, document, content):
+        fluencyCleaner = FluencyCleaner()
+        return fluencyCleaner.cleanFluency(document, content, self.options.get('word_splitter'), self.options.get('remove_duplicates'), self.options.get('remove_hyphens'))
 
     def remove_timestamps(self, text, example):
         #removes timestamps with specified pattern
         pattern = self._detect_timestamp_pattern(example)
         return re.sub(pattern, '', text)
 
-    def _lowercase(self, text):
-        return text.lower()
+    @staticmethod
+    def _remove_brackets_and_bracketcontent(text):
+        replacements = [
+            (r'\(.*?\)', ''),
+            (r'\<.*?\>', ''),
+            (r'\[.*?\]', ''),
+            (r'\{.*?\}', '')
+        ]
+        for old, new in replacements:
+            text = re.sub(old, new, text)
+        return text
 
-    def _remove_punctuation(self, text):
-        return text.translate(str.maketrans('', '', string.punctuation))
+    @staticmethod
+    def _detect_timestamp_pattern(example):
+        pattern = re.escape(example)  # Escape special characters
+        pattern = re.sub(r'\d', r'\\d', pattern)  # Replace digits with \d
+        return pattern
 
-    def _remove_special_characters(self, text, characters_to_remove):
+    @staticmethod
+    def _lowercase(text):
+        if isinstance(text, str):
+            return text.lower()
+        elif isinstance(text, list):
+            return [token.lower() for token in text]
+        else:
+            raise ValueError("Input to _lowercase must be either a string or a list of tokens")
+
+    @staticmethod
+    def _remove_punctuation(text):
+        if isinstance(text, str):
+            return text.translate(str.maketrans('', '', string.punctuation))
+        elif isinstance(text, list):
+            return [token.translate(str.maketrans('', '', string.punctuation)) for token in text]
+        else:
+            raise ValueError("Input to _remove_punctuation must be either a string or a list of tokens")
+
+    @staticmethod
+    def _remove_special_characters(text, characters_to_remove):
         return text.translate(str.maketrans('', '', characters_to_remove))
 
-    def clean_text_diarization_all(self, text, stopwords_list, remove_numbers=False):
+    @staticmethod
+    def remove_speaker_tags(text, speaker_tags):
+        pattern = re.compile(r'^(?:' + '|'.join(re.escape(tag) for tag in speaker_tags) + r'):\s*', re.MULTILINE)
+        return re.sub(pattern, '', text)
 
-        #This function is outdated and just like it is found in original diarization script. Do not use as is.
+    @staticmethod
+    def clean_subword_token_RoBERTa(token):
 
-        """Clean and preprocess text."""
-        text = re.sub(r"^[A-Z][0-9]?::?\s*", "", text, flags=re.MULTILINE)
-        text = text.replace("\xa0", " ")
-        text = re.sub(r'[\'"`]', "", text)
-        text = text.replace("\\", "").replace("/", "")
-        if remove_numbers:
-            text = re.sub(r"\b\d+\w*|\w*\d+\w*", "", text)
-        text = re.sub(r"\(.*?\)|\{.*?\}", "", text)
-        pattern = r"\[\s*(?:\d+\s*)?\s*(.*?)\s*(?:\d+\\s*)?\s*\]"
-        text = re.sub(pattern, r"\1", text)
+        # Remove the '▁' prefix which indicates subword boundaries (for subwords, keep as is)
+        clean_token = token.replace("▁", "")  # The '▁' symbol represents space in subword tokenization
 
-        sentences = sent_tokenize(text)
-        cleaned_sentences = []
-        for sentence in sentences:
-            words = [word for word in word_tokenize(sentence) if word.isalnum()]
-            filtered_words = [word for word in words if word not in stopwords_list]
-            if len(filtered_words) > 1:
-                cleaned_sentence = " ".join(filtered_words)
-                cleaned_sentences.append(cleaned_sentence)
+        # Handle special character encoding issues (e.g., '√§' -> 'ä', '√º' -> 'ü', etc.)
+        clean_token = clean_token.replace('√§', 'ä').replace('√º', 'ü').replace('√∂', 'ö').replace('√í', 'í')
 
-        cleaned_text = ". ".join(cleaned_sentences) + "."
-        cleaned_text = re.sub(r"\s+", " ", cleaned_text).strip()
-        return cleaned_text
+        clean_token = re.sub(r"\[.*?\]", "", clean_token)  # Remove any text inside square brackets
+        clean_token = re.sub(r"\(.*?\)", "", clean_token)  # Remove any text inside parentheses
+
+        # Remove unwanted punctuation or symbols that aren't useful for fusion
+        clean_token = re.sub(r"[^A-Za-z0-9\u00C0-\u017F\-]", "", clean_token)  # Keep only letters, numbers, and hyphens
+
+        # Remove numbers (unless part of meaningful words)
+        if clean_token.isdigit():
+            return None  # Ignore speaker labels and standalone numbers
+
+        return clean_token.strip()  # Ensure there are no extra spaces

@@ -2,9 +2,12 @@ pelican/cc.de.300.bin
 cc.de.300.bin.gz
 sample_usage.py
 config_sample.yml
+config_discourse.yml
+config_outdated.py
 pelican/TODO.txt
 
 # Ignore build and distribution directories
+fluency/
 build/
 dist/
 *.egg-info/

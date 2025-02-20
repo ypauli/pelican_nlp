@@ -1,89 +1,106 @@
 import numpy as np
-from itertools import combinations
 from concurrent.futures import ProcessPoolExecutor
-from scipy.spatial.distance import pdist, squareform
 
-from pelican.preprocessing.speaker_diarization import TextDiarizer
+from pelican.extraction.language_model import Model
 from pelican.preprocessing.text_tokenizer import TextTokenizer
+from pelican.preprocessing.text_cleaner import TextCleaner
 from pelican.csv_functions import store_features_to_csv
 
-
 class EmbeddingsExtractor:
-    def __init__(self, model_name, mode='semantic'):
-        self.model_name = model_name  # Embedding model instance (e.g., fastText, Epitran)
-        self.mode = mode  # 'semantic' or 'phonetic'
-        self.model = self._load_model()
+    def __init__(self, embeddings_configurations, project_path):
+        self.embeddings_configurations = embeddings_configurations
+        self.model_name = embeddings_configurations['model_name']  # Embedding model instance (e.g., fastText, RoBERTa)
+        self.model = Model(self.model_name, project_path)
+        self.Tokenizer = None
 
-    def _load_model(self):
-        if self.mode == 'semantic':
-            import fasttext.util
-            fasttext.util.download_model('de', if_exists='ignore')
-            model = fasttext.load_model('cc.de.300.bin')
-            print('✅ FastText model loaded.')
-        elif self.mode == 'phonetic':
-            if not self.model_name:
-                raise ValueError("❌ A phonetic model instance is required for 'phonetic' mode.")
-            model = self.model_name
-            print('✅ Phonetic model loaded.')
-        else:
-            raise ValueError("❌ Mode should be 'semantic' or 'phonetic'.")
-        return model
 
-    def get_vector(self, tokens):
-        """Compute embeddings for a list of tokens."""
+    def extract_embeddings_from_text(self, text_list):
 
-        print(f'📌 Processing embeddings for tokens: {tokens}')
+        doc_entry_list = []
 
-        embeddings = []
+        self.model.load_model()
+        model = self.model.model_instance
 
-        for token in tokens:
-            if self.mode == 'semantic':
-                embeddings.append(self.model.get_word_vector(token))
-            elif self.mode == 'phonetic':
-                ipa_transcription = self.model.transliterate(token)
-                embeddings.append(ipa_to_features(ipa_transcription))
+        self.Tokenizer = TextTokenizer(self.embeddings_configurations['tokenization_method'], self.model_name,
+                                       self.embeddings_configurations['max_length'])
+
+        for text in text_list:
+
+            print(f'The text is: {text}')
+
+            # Tokenize the input text
+            inputs = self.Tokenizer.tokenize_text(text)
+            #print(f'inputs: {inputs}')
+
+            if self.embeddings_configurations['pytorch_based_model']:
+                import torch
+                with torch.no_grad():
+                    outputs = model(**inputs)
+
+                #print(f'outputs: {outputs}')
+
+                # Get word embeddings (last hidden state)
+                word_embeddings = outputs.last_hidden_state
+
+                # Extract input_ids and convert them back to tokens
+                input_ids = inputs['input_ids'][0].tolist()
+                tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(input_ids)
+
+                print(f'Tokens backconversion: {tokens}')
+
+                embeddings = {}
+                # Now align the tokens and embeddings
+                for token, embedding in zip(tokens, word_embeddings[0]):
+                    embeddings[token]=embedding.tolist()
+
+                doc_entry_list.append(embeddings)
+
             else:
-                raise ValueError("❌ Mode should be 'semantic' or 'phonetic'.")
+                if self.model_name == 'fastText':
+                    # Assuming fastText is being used for semantic embeddings
+                    for token in tokens:
+                        embeddings.append(self.model.get_word_vector(token))
+                return np.array(embeddings)
+        return doc_entry_list
 
-        return np.array(embeddings)
+    @staticmethod
+    def extract_embeddings_Morteza(text):
+        from transformers import AutoTokenizer, AutoModel
+        import torch
 
-    def pairwise_similarities(self, embeddings, metric_function=None):
-        """Compute pairwise similarities between embeddings."""
-        if self.mode == 'semantic':
-            distance_matrix = pdist(embeddings, metric='cosine')
-            similarity_matrix = 1 - squareform(distance_matrix)
-        elif self.mode == 'phonetic':
-            num_embeddings = len(embeddings)
-            similarity_matrix = np.zeros((num_embeddings, num_embeddings))
-            for i, j in combinations(range(num_embeddings), 2):
-                sim = metric_function(embeddings[i], embeddings[j])
-                similarity_matrix[i, j] = sim
-                similarity_matrix[j, i] = sim
-        else:
-            raise ValueError("❌ Mode should be 'semantic' or 'phonetic'.")
-        return similarity_matrix
+        print(f'Text is: {text}')
+        print(f'type is: {type(text)}')
 
-    def compute_window_statistics(self, similarities, window_size, aggregation_functions=[np.mean]):
-        """Compute aggregated statistics over a given window size."""
-        num_tokens = similarities.shape[0]
-        stats = {}
+        # Load the XLM-RoBERTa model and tokenizer
+        model_name = "xlm-roberta-base"
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        print(tokenizer)
+        model = AutoModel.from_pretrained(model_name)
+        print(model)
 
-        for start in range(0, num_tokens, window_size):
-            end = min(start + window_size, num_tokens)
-            window_similarities = similarities[start:end, start:end]
-            window_values = window_similarities[np.triu_indices_from(window_similarities, k=1)]
+        # Tokenize the text and get tensor format suitable for the model
+        inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
+        print(f'inputs: {inputs}')
 
-            for func in aggregation_functions:
-                key = f'{func.__name__}_window_{window_size}'
-                stats.setdefault(key, []).append(func(window_values))
+        # Pass the inputs through the model to get the outputs
+        with torch.no_grad():
+            outputs = model(**inputs)
+        print(f'outputs: {outputs}')
 
-        return {key: np.mean(values) for key, values in stats.items()}
+        # Extract the word embeddings (last hidden state)
+        word_embeddings = outputs.last_hidden_state  # Shape: [batch_size, sequence_length, 768]
+        print(f'word embeddings: {word_embeddings}')
 
-    def _preprocess_token(self, token):
-        """Apply lowercase and punctuation removal."""
-        from pelican.preprocessing.text_cleaner import TextCleaner
-        cleaner = TextCleaner()
-        return cleaner._remove_punctuation(cleaner._lowercase(token))
+        # Get the individual token embeddings
+        tokens = tokenizer.tokenize(text)
+        print(f'tokens: {tokens}')
+        embeddings = {}
+        for token, embedding in zip(tokens, word_embeddings[0]):
+            clean_token = token
+            if clean_token:  # Ignore empty or non-relevant tokens
+                embeddings[clean_token] = embedding.tolist()  # Save the full 768-dimensional embedding
+        print(f'embeddings: {embeddings}')
+        return embeddings
 
     def process_text(self, document, embeddings_configurations, window_sizes, metric_function=None, parallel=False,
                      speakertag=None):
@@ -93,9 +110,25 @@ class EmbeddingsExtractor:
         if document.num_speakers:
             print(f'🎤 Speaker-based processing: {document.cleaned_sections}')
             for key, section in document.cleaned_sections.items():
-                speaker_tokens = self.extract_speaker_tokens(section, speakertag)
-                speaker_tokens = [self._preprocess_token(token) for token in speaker_tokens]  # ✅ Apply preprocessing
+                speaker_tokens = self.extract_speaker_tokens(section, speakertag, embeddings_configurations)
 
+                if self.model_name != 'xlm-roberta-base':
+                    speaker_tokens = [self._preprocess_token(token) for token in
+                                      speaker_tokens]  # ✅ Apply preprocessing
+
+                    # Create a new list to store cleaned tokens
+                    cleaned_speaker_tokens = []
+
+                    for token in speaker_tokens:
+                        cleaned_token = TextCleaner.clean_subword_token_RoBERTa(token)
+                        cleaned_speaker_tokens.append(cleaned_token)
+
+                    # Replace the old speaker_tokens with the cleaned ones
+                    speaker_tokens = cleaned_speaker_tokens
+
+
+                speaker_tokens = [token for token in speaker_tokens if token and token is not None]
+                print(f'speaker tokens are {speaker_tokens}')
                 embeddings = self.get_vector(speaker_tokens)
 
                 doc_entry = {
@@ -143,34 +176,3 @@ class EmbeddingsExtractor:
             document.embeddings.append(results)
 
         store_features_to_csv(document.embeddings, document.results_path, document.corpus_name)
-
-    def extract_speaker_tokens(self, text, speaker):
-        """Extracts tokens for a specific speaker."""
-        import re
-        speaker_tokens, all_tokens = [], []
-        current_speaker, utterance_buffer = None, []
-
-        for line in text.split('\n'):
-            match = re.match(r'^(\w+):\s*(.*)', line)
-            if match:
-                if current_speaker:
-                    all_tokens.extend(utterance_buffer)
-                    if current_speaker == speaker:
-                        speaker_tokens.extend(utterance_buffer)
-
-                current_speaker, content = match.groups()
-                utterance_buffer = content.split()
-            elif current_speaker:
-                utterance_buffer.extend(line.split())
-
-        if current_speaker:
-            all_tokens.extend(utterance_buffer)
-            if current_speaker == speaker:
-                speaker_tokens.extend(utterance_buffer)
-
-        return speaker_tokens
-
-    @staticmethod
-    def aggregate_window(window_values, aggregation_functions=[np.mean]):
-        """Aggregates window values using specified functions."""
-        return {func.__name__: func(window_values) for func in aggregation_functions}
