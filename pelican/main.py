@@ -28,6 +28,13 @@ class Pelican:
 
         if self.dev_mode:
             _remove_previous_derivative_dir(self.output_directory)
+        else:
+            if self.output_directory:
+                print('Warning: An output directory already exists. Continuing might invalidate previously computed results.')
+                confirm = input("Do you want to continue? Type 'yes' to proceed: ").strip().lower()
+                if confirm not in ('yes', 'y'):
+                    print("Operation aborted.")
+                    exit(1)
 
         #Check LPDS and create derivative directory
         LPDS_instance = LPDS(self.project_path)
