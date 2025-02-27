@@ -58,12 +58,12 @@ class Pelican:
 
             print(f'corpus {corpus_name} preprocessed')
 
-            if self.config['extract_logits']:
+            if self.config['metric_to_extract']=='logits':
                 print('Extracting logits...')
                 corpus.extract_logits()
                 self.empty_cuda_cache()
 
-            if self.config['extract_embeddings']:
+            if self.config['metric_to_extract']=='embeddings':
                 print('Extracting embeddings...')
                 corpus.extract_embeddings()
                 self.empty_cuda_cache()

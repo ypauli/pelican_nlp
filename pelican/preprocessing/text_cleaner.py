@@ -59,7 +59,7 @@ class TextCleaner:
         return pattern
 
     @staticmethod
-    def _lowercase(text):
+    def lowercase(text):
         if isinstance(text, str):
             return text.lower()
         elif isinstance(text, list):
@@ -68,7 +68,7 @@ class TextCleaner:
             raise ValueError("Input to _lowercase must be either a string or a list of tokens")
 
     @staticmethod
-    def _remove_punctuation(text):
+    def remove_punctuation(text):
         if isinstance(text, str):
             return text.translate(str.maketrans('', '', string.punctuation))
         elif isinstance(text, list):
