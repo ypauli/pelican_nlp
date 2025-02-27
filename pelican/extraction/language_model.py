@@ -16,6 +16,7 @@ class Model:
 
         if self.model_name == 'fastText':
             import fasttext
+            import fasttext.util
             fasttext.util.download_model('de', if_exists='ignore')
             self.model_instance = fasttext.load_model('cc.de.300.bin')
             print('FastText model loaded.')
@@ -26,11 +27,12 @@ class Model:
         else:
             raise ValueError("Invalid model name.")
 
-        # Additional model setup
-        self.device_map_creation()
+        if self.model_name == 'xlm-roberta-base':
+            # Additional model setup
+            self.device_map_creation()
 
-        self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
-        print('Model dispatched to appropriate devices.')
+            self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
+            print('Model dispatched to appropriate devices.')
 
     def model_instantiation(self,empty_weights=False):
         if empty_weights:

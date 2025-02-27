@@ -53,7 +53,7 @@ class Corpus:
     def extract_embeddings(self):
         embedding_options = self.config['options_embeddings']
         print('embeddings extraction in progress')
-        embeddingsExtractor = EmbeddingsExtractor(embedding_options,self.config['PATH_TO_PROJECT_FOLDER'])
+        embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.config['PATH_TO_PROJECT_FOLDER'])
         for i in range(len(self.documents)):
             print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)
             for key, section in self.documents[i].cleaned_sections.items():
@@ -65,8 +65,6 @@ class Corpus:
                     print(f'parsed section is {section}')
                 else:
                     section = [section]
-
-                embeddings = embeddingsExtractor.extract_embeddings_Morteza(section[1])
 
                 print(f'Extracting Embeddings for section {key}')
                 embeddings = embeddingsExtractor.extract_embeddings_from_text(section)

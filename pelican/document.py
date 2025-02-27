@@ -22,6 +22,7 @@ class Document:
         section_identifier=None,
         number_of_sections=None,
         lines=None,
+        has_section_titles=None
     ):
         self.file_path = file_path
         self.name = name
@@ -34,6 +35,7 @@ class Document:
         self.task = task
         self.num_speakers = num_speakers
         self.has_sections = has_sections
+        self.has_section_titles = has_section_titles
         self.section_identifier = section_identifier
         self.number_of_sections = number_of_sections
         self.lines = lines if lines else []
@@ -152,14 +154,18 @@ class Document:
         return sections
 
     def detect_sections(self):
-
+        print(f'detecting sections...')
         if not self.raw_text:
             raise ValueError("Raw text must be loaded before detecting sections.")
 
         lines = self.raw_text.splitlines()
         if not self.has_sections:
-            title, content = (lines[0].strip(), "\n".join(lines[1:]).strip()) if lines else ("untitled section", "")
+            if self.has_section_titles and lines:
+                title, content = (lines[0].strip(), "\n".join(lines[1:]).strip()) if lines else ("untitled section", "")
+            else:
+                title, content = "untitled section", "\n".join(lines).strip()
             self.sections = {title: content}
+            print(self.sections)
             return
 
         sections = {}
@@ -196,9 +202,14 @@ class Document:
 
         self.cleaned_sections = self.sections.copy()
         for title, content in self.sections.items():
-            self.cleaned_sections[title] = (
-                cleaner.clean(self, content)
-            )
+            if self.fluency:
+                self.cleaned_sections[title] = (
+                    cleaner.cleanFluency(self, content)
+                )
+            else:
+                self.cleaned_sections[title] = (
+                    cleaner.clean(self, content)
+                )
 
     def tokenize_text(self, tokenizer, purpose):
         if not self.cleaned_sections:
