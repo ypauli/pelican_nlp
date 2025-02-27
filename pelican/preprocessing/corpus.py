@@ -5,6 +5,7 @@ from pelican.csv_functions import store_features_to_csv
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.speaker_diarization import TextDiarizer
 from pelican.preprocessing.text_cleaner import TextCleaner
+from pelican.extraction.semantic_similarity import calculate_semantic_similarity
 
 
 class Corpus:
@@ -71,6 +72,10 @@ class Corpus:
                 self.documents[i].embeddings.append(embeddings)
                 #embeddings is a list of dictionaries
                 for utterance in embeddings:
+
+                    mean_similarity = calculate_semantic_similarity(utterance)
+                    print(f'mean similarity for utterance {utterance} is: {mean_similarity}')
+
                     #utterance is a dictionary
                     cleaned_dict = {}
 
