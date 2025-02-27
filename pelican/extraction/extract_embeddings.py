@@ -1,5 +1,6 @@
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.text_tokenizer import TextTokenizer
+from pelican.preprocessing.text_cleaner import TextCleaner
 
 class EmbeddingsExtractor:
     def __init__(self, embeddings_configurations, project_path):
@@ -52,6 +53,8 @@ class EmbeddingsExtractor:
             else:
                 if self.model_name == 'fastText':
                     for token in inputs:
+                        token = TextCleaner._remove_punctuation(token)
+                        token = TextCleaner._lowercase(token)
                         embeddings[token]=model.get_word_vector(token)
 
             doc_entry_list.append(embeddings)
