@@ -53,8 +53,8 @@ class EmbeddingsExtractor:
             else:
                 if self.model_name == 'fastText':
                     for token in inputs:
-                        token = TextCleaner._remove_punctuation(token)
-                        token = TextCleaner._lowercase(token)
+                        token = TextCleaner.remove_punctuation(token)
+                        token = TextCleaner.lowercase(token)
                         embeddings[token]=model.get_word_vector(token)
 
             doc_entry_list.append(embeddings)
