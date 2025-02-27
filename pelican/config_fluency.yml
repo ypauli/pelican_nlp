@@ -10,6 +10,7 @@ multiple_sessions: false # Set to True if multiple sessions per subject
 recompute_everything: true #If set to 'false' pelican will try to reuse previously computed results stored on your drive
 
 has_multiple_sections: false #evaluated independently
+has_section_titles: false
 section_identification: null #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
 number_of_sections: 1 #if 'null' number of sections automatically detected, however, specifying number recommended if known.
 
@@ -24,7 +25,7 @@ corpus_names:
 
 metric_to_extract: "embeddings"
 extract_logits: null
-extract_embeddings: null
+extract_embeddings: true
 
 pipeline_options:
   quality_check: false
@@ -67,8 +68,22 @@ tokenization_options_logits:
   method: "model_instance" # Options: model_instance, regex, nltk, etc.
   model_name: "DiscoResearch/Llama3-German-8B-32k" # Replace with your model instance name
 
-tokenization_options_embeddings:
-  method: "whitespace"
+options_embeddings:
+  tokenization_method: "whitespace" #or "model"
+  max_length: 512 #max sequence length
+  model_name: "fastText" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: false
+  method: "model_instance"
+  remove_punctuation: true
+  lowercase: false
+  keep_speakertags: false
+  clean_embedding_tokens: true
+  output_options:
+    exclude_special_tokens: true
+    remove_'_'_character: true
+    remove_speaker_labels: true
+    remove_punctuation_and_symbols: true
+    remove_brackets_and_content: true
 
 normalization_options:
   method: "lemmatization" #Options: lemmatization or stemming

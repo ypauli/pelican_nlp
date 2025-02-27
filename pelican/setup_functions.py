@@ -47,7 +47,8 @@ def _instantiate_documents(filepath, config):
             has_sections=config['has_multiple_sections'],
             section_identifier=config['section_identification'],
             number_of_sections=config['number_of_sections'],
-            num_speakers=config['number_of_speakers']
+            num_speakers=config['number_of_speakers'],
+            has_section_titles=config['has_section_titles']
         )
         for file_name in os.listdir(filepath)
     ]

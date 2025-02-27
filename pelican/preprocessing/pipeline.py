@@ -1,5 +1,5 @@
 from pelican.preprocessing.text_tokenizer import TextTokenizer
-from pelican.preprocessing.text_cleaner import TextCleaner
+from pelican.preprocessing.text_cleaner import TextCleaner, FluencyCleaner
 from pelican.preprocessing.text_normalizer import TextNormalizer
 
 class TextPreprocessingPipeline:
@@ -21,7 +21,10 @@ class TextPreprocessingPipeline:
 
 
     def _clean_text(self, document):
-        self.cleaner = TextCleaner(self.config['cleaning_options'])
+        if self.config['fluency_task']:
+            self.cleaner = FluencyCleaner(self.config['cleaning_options'])
+        else:
+            self.cleaner = TextCleaner(self.config['cleaning_options'])
         document.clean_text(self.cleaner)
     def _quality_check(self, document):
         return

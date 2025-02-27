@@ -108,8 +108,12 @@ class TextCleaner:
 
 class FluencyCleaner:
 
-    def cleanFluency(self, document, content, word_splitter, remove_duplicates=True, clean_hyphens=True):
+    def __init__(self, options=None):
+        self.options = options
 
+    def cleanFluency(self, document, content, remove_duplicates=True, clean_hyphens=True):
+
+        word_splitter = self.options['word_splitter']
         self.count_duplicates_and_hyphenated(document, content.split(word_splitter))
 
         content = re.sub(r'\s+', '', content).strip()
@@ -121,11 +125,9 @@ class FluencyCleaner:
             words = [word.replace('-', '') for word in words]
 
         if remove_duplicates:
-            cleaned_words = self.remove_duplicates(words)
-        else:
-            cleaned_words = words
+            words = self.remove_duplicates(words)
 
-        return word_splitter.join(cleaned_words)
+        return f'{word_splitter} '.join(words)
 
     @staticmethod
     def remove_duplicates(words):
