@@ -1,14 +1,9 @@
-import re
-from pelican.preprocessing import TextImporter
-
 import os
 import re
+from pelican.preprocessing import TextImporter
 from collections import defaultdict, OrderedDict
 
-
-#combined class with speaker diarization...
 class Document:
-    """Represents a document with multiple lines of text, metadata, and processing capabilities."""
 
     def __init__(
         self,
@@ -204,7 +199,7 @@ class Document:
         for title, content in self.sections.items():
             if self.fluency:
                 self.cleaned_sections[title] = (
-                    cleaner.cleanFluency(self, content)
+                    cleaner.clean_fluency_transcripts(self, content)
                 )
             else:
                 self.cleaned_sections[title] = (

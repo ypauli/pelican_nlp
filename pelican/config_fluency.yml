@@ -5,8 +5,8 @@ fluency_task: &fluency_flag true
 #========================================
 
 #general configurations; always adapt
-PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/FluencyTest" # Set default to home directory, e.g., '/home/usr/...'
-language: "german" # Possibly add options for German and English
+PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/FluencyTest"
+language: "german"
 
 corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
   - "animals"
@@ -14,7 +14,7 @@ corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
 
 #Optional configurations; Change with preference. However, default settings recommended
 cleaning_options:
-  general_cleaning: true #General cleaning options
+  general_cleaning: true
   #Options for fluency tasks
   fluency_task: *fluency_flag
   word_splitter: ';'
@@ -27,7 +27,7 @@ cleaning_options:
   timestamp_pattern_example: null #e.g. "#00:00:23-00#"
 
 #Specify linguistic metrics to extract
-metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
+metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits', 'semantic_similarity'
 
 options_embeddings:
   tokenization_method: "whitespace" #or "model"
@@ -35,6 +35,9 @@ options_embeddings:
   pytorch_based_model: false
   method: "model_instance"
   max_length: null
+
+  semantic_similarity: true
+  window_size: 4 #'all' or window size as integer
 #==================================================================
 
 #Extra Configurations;

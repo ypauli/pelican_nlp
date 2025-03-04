@@ -21,10 +21,7 @@ class TextPreprocessingPipeline:
 
 
     def _clean_text(self, document):
-        if self.config['fluency_task']:
-            self.cleaner = FluencyCleaner(self.config['cleaning_options'])
-        else:
-            self.cleaner = TextCleaner(self.config['cleaning_options'])
+        self.cleaner = TextCleaner(self.config['cleaning_options'])
         document.clean_text(self.cleaner)
     def _quality_check(self, document):
         return
