@@ -2,7 +2,7 @@
 # =======================================
 input_file: "text" #or 'audio'
 
-PATH_TO_PROJECT_FOLDER: "/home/ubuntu/PELICAN/pelican/simulation/simu_output" # Set default to home directory, e.g., '/home/usr/...'
+PATH_TO_PROJECT_FOLDER: "/home/ubuntu/emilia/TRANCE_data" # Set default to home directory, e.g., '/home/usr/...'
 language: "german" # Possibly add options for German and English
 number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
 multiple_sessions: true # Set to True if multiple sessions per subject
@@ -21,7 +21,7 @@ corpus_names:
   - "c" # Names of individual categories to group together
 
 extract_logits: true
-extract_embeddings: null
+extract_embeddings: true
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
 
