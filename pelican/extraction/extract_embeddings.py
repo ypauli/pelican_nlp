@@ -1,143 +1,62 @@
-import numpy as np
-from itertools import combinations
-from concurrent.futures import ProcessPoolExecutor
-from scipy.spatial.distance import pdist, squareform
+from pelican.extraction.language_model import Model
+from pelican.preprocessing.text_tokenizer import TextTokenizer
+from pelican.preprocessing.text_cleaner import TextCleaner
 
 class EmbeddingsExtractor:
-    def __init__(self, model_name, mode='semantic'):
+    def __init__(self, embeddings_configurations, project_path):
+        self.embeddings_configurations = embeddings_configurations
+        self.model_name = embeddings_configurations['model_name']  # Embedding model instance (e.g., fastText, RoBERTa)
+        self.model = Model(self.model_name, project_path)
+        self.Tokenizer = None
 
-        self.model_name = model_name #embedding model_instance (e.g., fastText, Epitran instance)
-        self.mode = mode #semantic or phonetic
-        self.model = self._load_model()
+    def extract_embeddings_from_text(self, text_list):
 
-    def _load_model(self):
-        if self.mode == 'semantic':
-            import fasttext.util
-            fasttext.util.download_model('de', if_exists='ignore')
-            model = fasttext.load_model('cc.de.300.bin')
-            print('fasttext model loaded')
-        elif self.mode == 'phonetic':
-            # Here, self.model_name is expected to be an instance of a phonetic model like Epitran.
-            if not self.model_name:
-                raise ValueError("A phonetic model instance is required for 'phonetic' mode.")
-            model = self.model_name
-            print('Phonetic model loaded.')
-        else:
-            raise ValueError("Mode should be 'semantic' or 'phonetic'.")
-        return model
+        doc_entry_list = []
 
-    def get_vector(self, tokens):
-        embeddings = []
+        self.model.load_model()
+        model = self.model.model_instance
 
-        print('Processing embeddings for all tokens...')
-        print(f'mode is {self.mode}')
-        for token in tokens:
-            if self.mode == 'semantic':
-                embeddings.append(self.model.get_word_vector(token))
-            elif self.mode == 'phonetic':
-                ipa_transcription = self.model.transliterate(token)
-                # Convert IPA transcription to feature vectors (e.g., using panphon)
-                embeddings.append(ipa_to_features(ipa_transcription))
+        self.Tokenizer = TextTokenizer(self.embeddings_configurations['tokenization_method'], self.model_name,
+                                       self.embeddings_configurations['max_length'])
+
+        for text in text_list:
+
+            print(f'The text is: {text}')
+
+            embeddings = {}
+
+            # Tokenize the input text
+            inputs = self.Tokenizer.tokenize_text(text)
+            #print(f'inputs: {inputs}')
+
+            if self.embeddings_configurations['pytorch_based_model']:
+                #e.g. RoBERTa Model
+                import torch
+                with torch.no_grad():
+                    outputs = model(**inputs)
+
+                #print(f'outputs: {outputs}')
+
+                # Get word embeddings (last hidden state)
+                word_embeddings = outputs.last_hidden_state
+
+                # Extract input_ids and convert them back to tokens
+                input_ids = inputs['input_ids'][0].tolist()
+                tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(input_ids)
+
+                print(f'Tokens backconversion: {tokens}')
+
+                # Now align the tokens and embeddings
+                for token, embedding in zip(tokens, word_embeddings[0]):
+                    embeddings[token]=embedding.tolist()
+
             else:
-                raise ValueError("Mode should be 'semantic' or 'phonetic'.")
-        return embeddings
+                if self.model_name == 'fastText':
+                    for token in inputs:
+                        token = TextCleaner.remove_punctuation(token)
+                        token = TextCleaner.lowercase(token)
+                        embeddings[token]=model.get_word_vector(token)
 
-    def compute_similarity(self, vec1, vec2, metric_function):
-        return metric_function(vec1, vec2)
+            doc_entry_list.append(embeddings)
 
-    def pairwise_similarities(self, embeddings, metric_function=None):
-
-        if self.mode == 'semantic':
-            # Compute cosine similarities
-            distance_matrix = pdist(embeddings, metric='cosine')
-            similarity_matrix = 1 - squareform(distance_matrix)
-        elif self.mode == 'phonetic':
-            # Compute similarities using the metric_function
-            num_embeddings = len(embeddings)
-            similarity_matrix = np.zeros((num_embeddings, num_embeddings))
-            for i, j in combinations(range(num_embeddings), 2):
-                sim = metric_function(embeddings[i], embeddings[j])
-                similarity_matrix[i, j] = sim
-                similarity_matrix[j, i] = sim
-        else:
-            raise ValueError("Mode should be 'semantic' or 'phonetic'")
-        return similarity_matrix
-
-    def compute_window_statistics(self, similarities, window_size, aggregation_functions=[np.mean]):
-        """
-        Compute aggregated statistics over specified window sizes.
-
-        Parameters:
-        - similarities: Numpy array of pairwise similarities.
-        - window_size: Size of the window (number of tokens_logits).
-        - aggregation_functions: List of functions to aggregate similarities.
-
-        Returns:
-        - Dictionary of aggregated statistics.
-        """
-        num_tokens = similarities.shape[0]
-        stats = {}
-        for start in range(0, num_tokens, window_size):
-            end = min(start + window_size, num_tokens)
-            window_similarities = similarities[start:end, start:end]
-            window_values = window_similarities[np.triu_indices_from(window_similarities, k=1)]
-            for func in aggregation_functions:
-                key = f'{func.__name__}_window_{window_size}'
-                stats.setdefault(key, []).append(func(window_values))
-        # Compute overall statistics
-        overall_stats = {key: np.mean(values) for key, values in stats.items()}
-        return overall_stats
-
-    def process_tokens(self, tokens, window_sizes, metric_function=None, parallel=False):
-
-        embeddings = self.get_vector(tokens)
-        embeddings = np.array(embeddings)
-
-        # Compute pairwise similarities
-        similarity_matrix = self.pairwise_similarities(embeddings, metric_function)
-
-        # Prepare results
-        results = {'embeddings': embeddings, 'tokens_logits': tokens}
-
-        # Compute statistics for each window size
-        for window_size in window_sizes:
-            if window_size <= 0 or window_size > len(tokens):
-                continue  # Skip invalid window sizes
-
-            if parallel:
-                # Use multiprocessing for window computations
-                with ProcessPoolExecutor() as executor:
-                    futures = []
-                    num_tokens = len(tokens)
-                    for start in range(0, num_tokens, window_size):
-                        end = min(start + window_size, num_tokens)
-                        window_similarities = similarity_matrix[start:end, start:end]
-                        window_values = window_similarities[np.triu_indices_from(window_similarities, k=1)]
-                        futures.append(executor.submit(self.aggregate_window, window_values))
-                    for future in futures:
-                        window_stats = future.result()
-                        for key, value in window_stats.items():
-                            results.setdefault(key, []).append(value)
-            else:
-                # Sequential processing
-                window_stats = self.compute_window_statistics(similarity_matrix, window_size)
-                results.update(window_stats)
-        return results
-
-    @staticmethod
-    def aggregate_window(window_values, aggregation_functions):
-        """
-        Aggregate window values using provided functions.
-
-        Parameters:
-        - window_values: Numpy array of similarity values in the window.
-        - aggregation_functions: List of functions to aggregate similarities.
-
-        Returns:
-        - Dictionary of aggregated values for the window.
-        """
-        stats = {}
-        for func in aggregation_functions:
-            key = func.__name__
-            stats[key] = func(window_values)
-        return stats
+        return doc_entry_list

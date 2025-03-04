@@ -10,19 +10,16 @@ class Subject:
         self.numberOfSessions = None
 
     def __repr__(self):
-        return f"Subject(ID={self.subjectID}, num_documents={len(self.documents)})"
+        return f"Subject(ID={self.subjectID})"
 
     def add_document(self, document):
         self.documents.append(document)
         document.subject = self
 
     def process_subject(self, importer, cleaner, tokenizer, normalizer):
+        print(f'Subject {self.subjectID} is being processed')
         for document in self.documents:
-            document.load_text(importer)
-            document.clean_text(cleaner, is_dialog=(
-                        document.num_speakers > 1))  # Automatically set as dialog if there are speakers
-            document.tokenize_text(tokenizer)
-            document.normalize_text(normalizer)
+            continue
 
     def get_subject_info(self):
         return f"Subject: {self.name}\nDescription: {self.description}\nNumber of files: {len(self.documents)}"

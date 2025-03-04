@@ -4,71 +4,88 @@
 import os
 import sys
 import torch.cuda
+import re
 
 from pelican.preprocessing import Corpus
-from pelican.setup_functions import subject_instatiator, _load_config, _reset_output_directory, _create_documents
+from pelican.setup_functions import subject_instantiator, _load_config, _remove_previous_derivative_dir
+from pelican.LPDS import LPDS
 
 class Pelican:
-    def __init__(self, config_path='config.yml', dev_mode=True):
+    def __init__(self, config_path='config_fluency.yml', dev_mode=True):
         self.dev_mode = dev_mode
         self.config = _load_config(config_path)
-        self.path_to_subjects = os.path.join(self.config['PATH_TO_PROJECT_FOLDER'], 'Subjects')
-        self.output_directory = os.path.join(self.config['PATH_TO_PROJECT_FOLDER'], 'Outputs')
+        self.project_path = self.config['PATH_TO_PROJECT_FOLDER']
+        self.path_to_subjects = os.path.join(self.project_path, 'subjects')
+        self.output_directory = os.path.join(self.project_path, 'derivatives')
+        self.task = self.config['task_name']
 
         if not os.path.isdir(self.path_to_subjects):
             sys.exit('Warning: Could not find subjects; check folder structure.')
 
     def run(self):
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
+
+        self.empty_cuda_cache()
 
         if self.dev_mode:
-            _reset_output_directory(self.output_directory, self.path_to_subjects)
+            _remove_previous_derivative_dir(self.output_directory)
+        else:
+            if self.output_directory:
+                print('Warning: An output directory already exists. Continuing might invalidate previously computed results.')
+                confirm = input("Do you want to continue? Type 'yes' to proceed: ").strip().lower()
+                if confirm not in ('yes', 'y'):
+                    print("Operation aborted.")
+                    exit(1)
+
+        #Check LPDS and create derivative directory
+        LPDS_instance = LPDS(self.project_path)
+        LPDS_instance.LPDS_checker()
+        LPDS_instance.derivative_dir_creator(self.config['metric_to_extract'])
 
         #Instantiate all subjects
-        subjects = subject_instatiator(self.config)
+        subjects = subject_instantiator(self.config)
+        print(f'instantiated subjects: {subjects}')
 
         for corpus_name in self.config['corpus_names']:
-            print(f'Processing corpus: {corpus_name}')
-            documents = self._process_corpus(subjects, corpus_name)
 
-            corpus = Corpus(corpus_name, documents, self.config)
+            print(f'Processing corpus: {corpus_name}')
+
+            #Identifying documents belonging to corpus
+            corpus_documents = self._identify_corpus_files(subjects, corpus_name)
+            print(f'The corpus documents are: {corpus_documents}')
+
+            corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config)
             corpus.preprocess_all_documents()
 
-            if self.config['extract_logits']:
+            print(f'corpus {corpus_name} preprocessed')
+
+            if self.config['metric_to_extract']=='logits':
                 print('Extracting logits...')
                 corpus.extract_logits()
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
+                self.empty_cuda_cache()
 
-            if self.config['extract_embeddings']:
+            if self.config['metric_to_extract']=='embeddings':
                 print('Extracting embeddings...')
                 corpus.extract_embeddings()
-                if torch.cuda.is_available():
-                    torch.cuda.empty_cache()
+                self.empty_cuda_cache()
 
             del corpus
 
-    def _process_corpus(self, subjects, corpus_name):
-        documents = []
+
+    def _identify_corpus_files(self, subjects, corpus):
+        corpus_dict = {corpus: []}
         for subject in subjects:
-            session_paths = self._get_subject_sessions(subject, corpus_name)
-            for filepath in session_paths:
-                documents.extend(_create_documents(filepath, corpus_name, self.config))
-                subject.add_document(documents[-1])  # Add only the last document
-        return documents
+            for document in subject.documents:
+                base, ext = os.path.splitext(document.name)
+                document.extension = ext
+                parts = re.split('[_]', base)
+                if len(parts) >= 4 and parts[3] == corpus:
+                    corpus_dict[corpus].append(document)
+        return corpus_dict
 
-    def _get_subject_sessions(self, subject, corpus_name):
-        if not subject.numberOfSessions:
-            subject_path = os.path.join(self.path_to_subjects, subject.subjectID, corpus_name)
-            return [subject_path] if os.path.isdir(subject_path) else []
 
-        session_dir = os.path.join(self.path_to_subjects, subject.subjectID)
-        return [
-            os.path.join(session_dir, session, corpus_name)
-            for session in os.listdir(session_dir)
-            if os.path.isdir(os.path.join(session_dir, session, corpus_name))
-        ]
+    def empty_cuda_cache(self):
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
 if __name__ == '__main__':
     Pelican().run()
