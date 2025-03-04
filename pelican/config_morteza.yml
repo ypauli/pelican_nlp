@@ -73,10 +73,10 @@ tokenization_options_logits:
   lowercase: true
 
 options_embeddings:
-  tokenization_method: "whitespace" #"model" or "whitespace"
+  tokenization_method: "model" #or "whitespace"
   max_length: 512 #max sequence length
-  model_name: "fastText" #e.g. "fastText", "xlm-roberta-base"
-  pytorch_based_model: false
+  model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: true
   method: "model_instance"
   remove_punctuation: false
   lowercase: false

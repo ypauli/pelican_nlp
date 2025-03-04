@@ -4,9 +4,8 @@ from pelican.preprocessing import TextPreprocessingPipeline
 from pelican.csv_functions import store_features_to_csv
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.speaker_diarization import TextDiarizer
-from pelican.preprocessing.text_cleaner import TextCleaner
-from pelican.extraction.semantic_similarity import calculate_semantic_similarity
-
+import pelican.preprocessing.text_cleaner as textcleaner
+from pelican.extraction.semantic_similarity import calculate_semantic_similarity, get_cosine_similarity_matrix, get_semantic_similarity_windows
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, task=None):
@@ -72,16 +71,23 @@ class Corpus:
                 self.documents[i].embeddings.append(embeddings)
                 #embeddings is a list of dictionaries
                 for utterance in embeddings:
+                    #utterance of type dict, keys tokens, entries embeddings
+                    print(f'type of utterance is {type(utterance)}')
 
-                    mean_similarity = calculate_semantic_similarity(utterance)
-                    print(f'mean similarity for utterance {utterance} is: {mean_similarity}')
+                    if self.config['options_embeddings']['semantic_similarity']:
+                        mean_similarity = calculate_semantic_similarity(utterance)
+                        print(f'mean similarity for utterance is: {mean_similarity}')
+                        cosine_similarity_matrix = get_cosine_similarity_matrix(utterance)
+                        print(f'cosine similarity matrix: {cosine_similarity_matrix}')
+                        window = get_semantic_similarity_windows(utterance, self.config['options_embeddings']['window_size'])
+                        print(window)
 
                     #utterance is a dictionary
                     cleaned_dict = {}
 
                     # Clean each token in the dictionary
                     for token, embeddings in utterance.items():
-                        cleaned_token = TextCleaner.clean_subword_token_RoBERTa(token)
+                        cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
 
                         if cleaned_token is not None:
                             cleaned_dict[cleaned_token] = embeddings
