@@ -3,14 +3,22 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 class LogitsExtractor:
-    def __init__(self, model_name, pipeline, project_path):
+    def __init__(self, options, pipeline, project_path):
 
         self.device = 'cuda' if torch.cuda.is_available()==True else 'cpu'
-        self.model_name = model_name
+        self.options = options
+        self.model_name = self.options['model_name']
         self.pipeline = pipeline
         self.PROJECT_PATH = project_path
 
-    def extract_features(self, tokens, model, chunk_size=128, overlap_size=64):
+    def extract_features(self, section, tokenizer, model):
+
+        print(f'section to tokenize: {section}')
+        tokens = tokenizer.tokenize_text(section)
+        print(tokens)
+
+        chunk_size = self.options['chunk_size']
+        overlap_size = self.options['overlap_size']
 
         input_ids = tokens.to(self.device)
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)
@@ -22,10 +30,11 @@ class LogitsExtractor:
         for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
 
             with torch.no_grad():
-                outputs = model.model_instance(input_ids=chunk)
+
+                outputs = model(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
-            tokens = self.pipeline.tokenizer_logits.convert_IDs_to_tokens(chunk.squeeze())
+            tokens = tokenizer.convert_ids_to_tokens(chunk.squeeze())
             num_tokens = len(tokens)
 
             chunk_data = []
@@ -41,7 +50,7 @@ class LogitsExtractor:
             # Loop over the tokens_logits to predict
             for j in range(start_idx, num_tokens):
                 # Compute per-token metrics
-                per_token_metrics = self._compute_per_token_metrics(logits, chunk, tokens, j)
+                per_token_metrics = self._compute_per_token_metrics(logits, chunk, tokens, j, tokenizer)
                 chunk_data.append(per_token_metrics)
 
             # Append the chunk data to the per_token_data list
@@ -50,7 +59,7 @@ class LogitsExtractor:
 
         return per_token_data
 
-    def _compute_per_token_metrics(self, logits, chunk, tokens, j):
+    def _compute_per_token_metrics(self, logits, chunk, tokens, j, tokenizer):
 
         # The model_instance predicts the token at position j using tokens_logits up to position j-1
         # Therefore, logits at position j-1 correspond to predictions for token at position j
@@ -65,7 +74,7 @@ class LogitsExtractor:
         max_token_id = max_token_id.item()
         entropy = -(token_probs * token_logprobs).sum().item()
 
-        most_likely_token = self.pipeline.tokenizer_logits.convert_IDs_to_tokens([max_token_id])[0]
+        most_likely_token = tokenizer.convert_ids_to_tokens([max_token_id])[0]
         token = tokens[j]  # The token at position j
 
         return {

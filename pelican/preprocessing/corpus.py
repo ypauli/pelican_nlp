@@ -35,20 +35,42 @@ class Corpus:
 
     def extract_logits(self):
         from pelican.preprocessing.text_tokenizer import TextTokenizer
+        logits_options = self.config['options_logits']
+        project_path = self.config['PATH_TO_PROJECT_FOLDER']
+
         print('logits extraction in progress')
-        logitsExtractor = LogitsExtractor(self.config['tokenization_options_logits'].get('model_name'),
+        model_name = logits_options['model_name']
+        logitsExtractor = LogitsExtractor(logits_options,
                                           self.pipeline,
-                                          self.config['PATH_TO_PROJECT_FOLDER'])
-        model = Model(self.config['tokenization_options_logits'].get('model_name'), self.config['PATH_TO_PROJECT_FOLDER'])
+                                          project_path)
+        model = Model(model_name, project_path)
         model.load_model()
-        tokenizer = TextTokenizer(self.config['tokenization_options_logits'])
+        model_instance = model.model_instance
+        tokenizer = TextTokenizer(logits_options['tokenization_method'], model_name=logits_options['model_name'])
         for i in range(len(self.documents)):
-            self.documents[i].tokenize_text(tokenizer, 'logits')
-            for j in range(len(self.documents[i].sections)):
-                self.documents[i].logits = logitsExtractor.extract_features(self.documents[i].tokens_logits[j], model)
-                store_features_to_csv(self.documents[i].logits, self.documents[i].results_path, self.name)
-            print(self.documents[i].logits)
-            self.documents[i].logits = []
+            print('self documents cleaned_sections: ', self.documents[i].cleaned_sections)
+            for key, section in self.documents[i].cleaned_sections.items():
+
+                print(f'current section is {section}')
+
+                if self.config['discourse'] == True:
+                    section = TextDiarizer.parse_speaker(section, self.config['subject_speakertag'],
+                                                         logits_options['keep_speakertags'])
+                    print(f'parsed section is {section}')
+                else:
+                    section = [section]
+
+                print(f'Extracting Logits for section {key}')
+
+                for part in section:
+                    print(part)
+                    logits = logitsExtractor.extract_features(part, tokenizer, model_instance)
+                    print(logits)
+                    self.documents[i].logits.append(logits)
+
+                #'logits' list of dictionaries; keys token, logprob_actual, logprob_max, entropy, most_likely_token
+                store_features_to_csv(logits, self.documents[i].results_path, self.documents[i].corpus_name,
+                                      metric='logits')
 
     def extract_embeddings(self):
         embedding_options = self.config['options_embeddings']
@@ -71,9 +93,8 @@ class Corpus:
                 self.documents[i].embeddings.append(embeddings)
                 #embeddings is a list of dictionaries
                 for utterance in embeddings:
-                    #utterance of type dict, keys tokens, entries embeddings
-                    print(f'type of utterance is {type(utterance)}')
 
+                    #utterance of type dict, keys tokens, entries embeddings
                     if self.config['options_embeddings']['semantic_similarity']:
                         mean_similarity = calculate_semantic_similarity(utterance)
                         print(f'mean similarity for utterance is: {mean_similarity}')
@@ -82,17 +103,20 @@ class Corpus:
                         window = get_semantic_similarity_windows(utterance, self.config['options_embeddings']['window_size'])
                         print(window)
 
-                    #utterance is a dictionary
-                    cleaned_dict = {}
+                    if embedding_options['clean_tokens']:
+                        #utterance is a dictionary
+                        cleaned_dict = {}
 
-                    # Clean each token in the dictionary
-                    for token, embeddings in utterance.items():
-                        cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
+                        # Clean each token in the dictionary
+                        for token, embeddings in utterance.items():
+                            cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
 
-                        if cleaned_token is not None:
-                            cleaned_dict[cleaned_token] = embeddings
+                            if cleaned_token is not None:
+                                cleaned_dict[cleaned_token] = embeddings
+                    else:
+                        cleaned_dict=utterance
 
-                    store_features_to_csv(cleaned_dict, self.documents[i].results_path, self.documents[i].corpus_name, 'embeddings')
+                    store_features_to_csv(cleaned_dict, self.documents[i].results_path, self.documents[i].corpus_name, metric='embeddings')
         return
 
     def get_corpus_info(self):

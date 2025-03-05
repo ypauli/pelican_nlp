@@ -1,4 +1,3 @@
-from transformers import AutoTokenizer
 import torch
 
 class TextTokenizer:
@@ -6,12 +5,8 @@ class TextTokenizer:
         self.tokenization_method = method
         self.model_name = model_name
         self.max_sequence_length=max_length
-        self.device_used = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        if self.tokenization_method == 'model':
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, use_fast=True)
-        else:
-            self.tokenizer = None
+        self.tokenizer = self.get_tokenizer()
 
     def tokenize_text(self, text):
 
@@ -23,11 +18,20 @@ class TextTokenizer:
         if method == 'whitespace':
             # Tokenize by whitespace
             return text.split()
-        elif method == 'model':
+        elif method == 'model_roberta':
             # Tokenize using the model's tokenizer
             return self.tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=self.max_sequence_length).to(self.device_used)
+        elif method == 'model':
+            return self.tokenizer.encode(text, return_tensors='pt')
         else:
             raise ValueError(f"Unsupported tokenization method: {method}")
 
     def convert_ids_to_tokens(self, ids):
         return self.tokenizer.convert_ids_to_tokens(ids)
+
+    def get_tokenizer(self):
+        if self.tokenization_method == 'model':
+            from transformers import AutoTokenizer
+            return AutoTokenizer.from_pretrained(self.model_name) #, use_fast=True
+        else:
+            return None

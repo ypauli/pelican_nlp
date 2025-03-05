@@ -3,7 +3,6 @@
 input_file: "text" #or 'audio'
 discourse: &discourse_flag true
 
-#PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/KetamineStudy/KetamineStudy_ProjectFolder/" # Set default to home directory, e.g., '/home/usr/...'
 PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/Morteza/"
 language: "german" # Possibly add options for German and English
 
@@ -25,9 +24,9 @@ number_of_sections: null #if 'null' number of sections automatically detected, h
 number_of_speakers: 3
 subject_speakertag: "B"
 
-metric_to_extract: "embeddings"
-extract_logits: false
-extract_embeddings: true
+metric_to_extract: "logits"
+extract_logits: true
+extract_embeddings: false
 
 pipeline_options:
   quality_check: false
@@ -36,10 +35,6 @@ pipeline_options:
   normalize_text: false
 
 tokenization: "wordLevel" # Options: 'characterLevel', 'subWordLevel'
-
-# Options for extract_logits
-chunk_size: null
-overlap_size: null
 
 # Options for extract_embeddings
 window_sizes: [2]
@@ -53,6 +48,8 @@ cleaning_options:
   remove_brackets_and_bracketcontent: true
   remove_timestamps: true
   timestamp_pattern_example: "#00:00:19-0#"
+  remove_punctuation: false
+  lowercase: false
   #Options for fluency tasks
   fluency_task: *fluency_flag
   word_splitter: null
@@ -66,11 +63,15 @@ general_cleaning_options:
   merge_newline_characters: true
   remove_backslashes: true
 
-tokenization_options_logits:
-  method: "model_instance" # Options: model_instance, regex, nltk, etc.
+options_logits:
+  chunk_size: 128
+  overlap_size: 64
+  tokenization_method: "model"
+  #method: "model_instance" # Options: model, regex, nltk, etc.
   model_name: "DiscoResearch/Llama3-German-8B-32k" # Replace with your model instance name
   remove_punctuation: true
   lowercase: true
+  keep_speakertags: true
 
 options_embeddings:
   tokenization_method: "whitespace" #"model" or "whitespace"
@@ -90,6 +91,7 @@ options_embeddings:
     remove_brackets_and_content: true
   semantic_similarity: false
   window_size: null
+  clean_tokens: false
 
 normalization_options:
   method: "lemmatization" #Options: lemmatization or stemming

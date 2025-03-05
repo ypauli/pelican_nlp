@@ -1,8 +1,6 @@
-import os
-import numpy as np
-import pandas as pd
-from pydub import AudioSegment
-from pyannote.audio import Model, Inference
+#import pandas as pd
+#from pydub import AudioSegment
+#from pyannote.audio import Model, Inference
 
 
 class AudioFeatureExtractor:
@@ -123,11 +121,11 @@ if __name__ == "__main__":
     extractor.save_embeddings(window_embeddings, "path/to/output_window.csv")
     
     
-    
-import os
+
+'''import os
 import numpy as np
 from pydub import AudioSegment
-from pyannote.audio import Model, Inference
+from pyannote.audio import Model, Inference'''
 
 
 class AudioFeatureExtractor:
