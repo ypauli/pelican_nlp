@@ -35,6 +35,7 @@ options_embeddings:
   pytorch_based_model: false
   method: "model_instance"
   max_length: null
+  clean_tokens: true
 
   semantic_similarity: true
   window_size: 4 #'all' or window size as integer

@@ -17,6 +17,12 @@ class TextCleaner:
         if self.options.get('fluency_task'):
             text = self.clean_fluency_transcripts(document, text)
 
+        if self.options.get('remove_punctuation'):
+            text = remove_punctuation(text)
+
+        if self.options.get('lowercase'):
+            text = lowercase(text)
+
         if self.options.get('general_cleaning', True):
             replacements = [
                 (r'/', ''),

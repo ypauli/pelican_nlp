@@ -11,7 +11,7 @@ class Model:
         self.device_map = None
         self.PROJECT_PATH = project_path
 
-    def load_model(self):
+    def load_model(self, empty_weights=False):
         """Loads and configures the model"""
 
         if self.model_name == 'fastText':
@@ -24,22 +24,22 @@ class Model:
             from transformers import AutoModel
             self.model_instance = AutoModel.from_pretrained(self.model_name)
             print('RoBERTa model loaded.')
+        elif self.model_name == 'DiscoResearch/Llama3-German-8B-32k':
+            if empty_weights:
+                with init_empty_weights():
+                    self.model_instance = AutoModelForCausalLM.from_pretrained(self.model_name)
+            else:
+                self.model_instance = AutoModelForCausalLM.from_pretrained(self.model_name)
+            print(f'Llama3-German-8B-32k loaded')
         else:
             raise ValueError("Invalid model name.")
 
-        if self.model_name == 'xlm-roberta-base':
+        if self.model_name == 'xlm-roberta-base' or self.model_name == 'DiscoResearch/Llama3-German-8B-32k':
             # Additional model setup
             self.device_map_creation()
 
             self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
             print('Model dispatched to appropriate devices.')
-
-    def model_instantiation(self,empty_weights=False):
-        if empty_weights:
-            with init_empty_weights():
-                self.model_instance = AutoModelForCausalLM.from_pretrained(self.model_name)
-        else:
-            self.model_instance = AutoModelForCausalLM.from_pretrained(self.model_name)
 
     def device_map_creation(self):
         #check if cuda is available

@@ -1,6 +1,5 @@
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.text_tokenizer import TextTokenizer
-from pelican.preprocessing.text_cleaner import TextCleaner
 
 class EmbeddingsExtractor:
     def __init__(self, embeddings_configurations, project_path):
