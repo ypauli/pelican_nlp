@@ -11,7 +11,7 @@ from pelican.setup_functions import subject_instantiator, _load_config, _remove_
 from pelican.LPDS import LPDS
 
 class Pelican:
-    def __init__(self, config_path='config_fluency.yml', dev_mode=True):
+    def __init__(self, config_path='config_discourse.yml', dev_mode=True):
         self.dev_mode = dev_mode
         self.config = _load_config(config_path)
         self.project_path = self.config['PATH_TO_PROJECT_FOLDER']

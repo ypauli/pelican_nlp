@@ -10,6 +10,9 @@ language: "german"
 
 corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
   - "animals"
+
+#Specify linguistic metrics to extract
+metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
 #====================================================================
 
 #Optional configurations; Change with preference. However, default settings recommended
@@ -25,9 +28,7 @@ cleaning_options:
   remove_brackets_and_bracketcontent: false #default 'false'
   remove_timestamps: false #default 'false'
   timestamp_pattern_example: null #e.g. "#00:00:23-00#"
-
-#Specify linguistic metrics to extract
-metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits', 'semantic_similarity'
+  remove_punctuation: false #Careful!: If set to true word_splitter might be removed
 
 options_embeddings:
   tokenization_method: "whitespace" #or "model"
@@ -41,7 +42,7 @@ options_embeddings:
   window_size: 4 #'all' or window size as integer
 #==================================================================
 
-#Extra Configurations;
+#Extra configurations;
 task_name: "fluency"
 
 pipeline_options:
