@@ -62,6 +62,7 @@ options_embeddings:
   semantic_similarity: false
   window_size: null
   clean_tokens: false
+  divergence_from_optimality: false
 #================================================================================
 
 #Extra configurations:
