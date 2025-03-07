@@ -39,7 +39,7 @@ options_embeddings:
   clean_tokens: true
 
   semantic_similarity: true
-  window_size: 4 #'all' or window size as integer
+  divergence_from_optimality: true
 #==================================================================
 
 #Extra configurations;
@@ -57,6 +57,16 @@ general_cleaning_options:
   remove_whitespace_before_punctuation: true
   merge_newline_characters: true
   remove_backslashes: true
+
+options_div_from_optimality:
+  window_size: 8
+  min_len: null
+  bootstrap: 10000
+  shuffle_mode: 'include0_includeN'
+  parallel_computing: false #not yet set up
+
+options_semantic_similarity:
+  window_size: 4 #'all' or window size as integer
 
 has_multiple_sections: false
 has_section_titles: false

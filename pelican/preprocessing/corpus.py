@@ -6,6 +6,7 @@ from pelican.extraction.language_model import Model
 from pelican.preprocessing.speaker_diarization import TextDiarizer
 import pelican.preprocessing.text_cleaner as textcleaner
 from pelican.extraction.semantic_similarity import calculate_semantic_similarity, get_cosine_similarity_matrix, get_semantic_similarity_windows
+from pelican.extraction.distance_from_optimality import get_divergence_from_optimality
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, task=None):
@@ -68,9 +69,9 @@ class Corpus:
                     print(logits)
                     self.documents[i].logits.append(logits)
 
-                #'logits' list of dictionaries; keys token, logprob_actual, logprob_max, entropy, most_likely_token
-                store_features_to_csv(logits, self.documents[i].results_path, self.documents[i].corpus_name,
-                                      metric='logits')
+                    #'logits' list of dictionaries; keys token, logprob_actual, logprob_max, entropy, most_likely_token
+                    store_features_to_csv(logits, self.documents[i].results_path, self.documents[i].corpus_name,
+                                          metric='logits')
 
     def extract_embeddings(self):
         embedding_options = self.config['options_embeddings']
@@ -100,8 +101,12 @@ class Corpus:
                         print(f'mean similarity for utterance is: {mean_similarity}')
                         cosine_similarity_matrix = get_cosine_similarity_matrix(utterance)
                         print(f'cosine similarity matrix: {cosine_similarity_matrix}')
-                        window = get_semantic_similarity_windows(utterance, self.config['options_embeddings']['window_size'])
+                        window = get_semantic_similarity_windows(utterance, self.config['options_semantic_similarity']['window_size'])
                         print(window)
+
+                    if self.config['options_embeddings']['divergence_from_optimality']:
+                        print(f'calculating distance from optimality...')
+                        print(f'div from optimality: {get_divergence_from_optimality(utterance, self.config["options_div_from_optimality"])}')
 
                     if embedding_options['clean_tokens']:
                         #utterance is a dictionary
