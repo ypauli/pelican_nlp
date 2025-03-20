@@ -59,7 +59,7 @@ options_embeddings:
     remove_speaker_labels: true
     remove_punctuation_and_symbols: true
     remove_brackets_and_content: true
-  semantic_similarity: false
+  semantic-similarity: false
   window_size: null
   clean_tokens: false
   divergence_from_optimality: false

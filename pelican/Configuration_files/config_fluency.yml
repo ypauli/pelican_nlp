@@ -38,7 +38,7 @@ options_embeddings:
   max_length: null
   clean_tokens: true
 
-  semantic_similarity: true
+  semantic-similarity: true
   divergence_from_optimality: true
 
 options_div_from_optimality:
@@ -48,7 +48,7 @@ options_div_from_optimality:
   shuffle_mode: 'include0_includeN'
   parallel_computing: false #not yet set up
 
-options_semantic_similarity:
+options_semantic-similarity:
   window_sizes: #'all' or window size as integer
     - 2
     - 8
@@ -56,6 +56,7 @@ options_semantic_similarity:
 
 #Extra configurations;
 task_name: "fluency"
+create_aggregation_of_results: true
 
 pipeline_options:
   quality_check: false
