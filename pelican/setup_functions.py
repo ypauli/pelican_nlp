@@ -23,7 +23,8 @@ def subject_instantiator(config):
             parts = document.file_path.split(os.sep)
             print(f'parts are: {parts}')
             subject_ID, session, task = parts[-4], parts[-3], parts[-2]
-            document.results_path = os.path.join(project_folder, 'derivatives', config['metric_to_extract'], subject_ID, session, task)
+            # Set the base results path to the subject/session/task level
+            document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, session, task)
             print(document.results_path)
 
     return subjects

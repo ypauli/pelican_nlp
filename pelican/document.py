@@ -5,52 +5,51 @@ from collections import defaultdict, OrderedDict
 
 class Document:
 
-    def __init__(
-        self,
-        file_path,
-        name,
-        fluency=None,
-        subject_ID=None,
-        task=None,
-        num_speakers=None,
-        has_sections=False,
-        section_identifier=None,
-        number_of_sections=None,
-        lines=None,
-        has_section_titles=None
-    ):
+    def __init__(self, file_path, name, **kwargs):
+        """Initialize Document object.
+        
+        Args:
+            file_path: Path to document file
+            name: Document name
+            **kwargs: Optional document attributes
+        """
         self.file_path = file_path
         self.name = name
+        self.file = os.path.join(file_path, name)
+        
+        # Initialize optional attributes
+        self.subject_ID = kwargs.get('subject_ID')
+        self.task = kwargs.get('task')
+        self.num_speakers = kwargs.get('num_speakers')
+        self.has_sections = kwargs.get('has_sections', False)
+        self.has_section_titles = kwargs.get('has_section_titles')
+        self.section_identifier = kwargs.get('section_identifier')
+        self.number_of_sections = kwargs.get('number_of_sections')
+        self.lines = kwargs.get('lines', [])
+        
+        # Derived attributes
+        self.has_segments = self.task == "discourse"
+        self.segments = [] if self.has_segments else ["default"] * len(self.lines)
+        
+        # Initialize processing attributes
+        self._init_processing_attributes()
+        self._init_document_metrics()
+
+    def _init_processing_attributes(self):
+        """Initialize attributes related to text processing."""
         self.results_path = None
         self.results_file = None
-        self.file = os.path.join(file_path, name)
         self.extension = None
         self.corpus_name = self.extract_corpus_name()
-        self.subject_ID = subject_ID
-        self.task = task
-        self.num_speakers = num_speakers
-        self.has_sections = has_sections
-        self.has_section_titles = has_section_titles
-        self.section_identifier = section_identifier
-        self.number_of_sections = number_of_sections
-        self.lines = lines if lines else []
-        self.has_segments = task == "discourse"
-        self.segments = [] if self.has_segments else ["default"] * len(self.lines)
         self.session = None
-
         self.sections = {}
         self.section_metrics = {}
-        self.length_in_lines = len(self.lines)
-        self.length_in_words = sum(line.length_in_words for line in self.lines)
-
+        
+        # Load raw text
         self.importer = TextImporter(self.file_path)
         self.raw_text = self.importer.load_text(self.file)
-
-        self.fluency = fluency
-        self.number_of_duplicates = None
-        self.number_of_hyphenated_words=None
-
-        # Processing attributes
+        
+        # Text processing state
         self.cleaned_sections = {}
         self.tokens_logits = []
         self.tokens_embeddings = []
@@ -59,6 +58,14 @@ class Document:
         self.logits = []
         self.embeddings = []
         self.acoustic_features = None
+
+    def _init_document_metrics(self):
+        """Initialize document metrics."""
+        self.length_in_lines = len(self.lines)
+        self.length_in_words = sum(line.length_in_words for line in self.lines)
+        self.fluency = None
+        self.number_of_duplicates = None
+        self.number_of_hyphenated_words = None
 
     def __repr__(self):
         return f"file_name={self.name}"

@@ -7,34 +7,49 @@ class TextCleaner:
         self.options = options
 
     def clean(self, document, text, characters_to_remove=None):
-
+        """Clean text based on configured options.
+        
+        Args:
+            document: Document object containing metadata
+            text: Text to clean
+            characters_to_remove: Optional string of characters to remove
+        Returns:
+            Cleaned text string
+        """
         if self.options.get('remove_timestamps', True):
             text = remove_timestamps(text, self.options.get('timestamp_pattern_example'))
 
-        if characters_to_remove is not None:
+        if characters_to_remove:  # Simplified condition
             text = _remove_special_characters(text, characters_to_remove)
 
-        if self.options.get('fluency_task'):
-            text = self.clean_fluency_transcripts(document, text)
+        # Consolidate conditional blocks for better readability
+        cleaning_operations = [
+            ('fluency_task', lambda: self.clean_fluency_transcripts(document, text)),
+            ('remove_punctuation', lambda: remove_punctuation(text)),
+            ('lowercase', lambda: lowercase(text))
+        ]
 
-        if self.options.get('remove_punctuation'):
-            text = remove_punctuation(text)
-
-        if self.options.get('lowercase'):
-            text = lowercase(text)
+        for option, operation in cleaning_operations:
+            if self.options.get(option):
+                text = operation()
 
         if self.options.get('general_cleaning', True):
             replacements = [
                 (r'/', ''),
-                (r'\s+([?.!,"])',r'\1'),
+                (r'\s+([?.!,"])', r'\1'),
                 (r'\n\s*\n', '\n'),
                 (r'\\', ''),
                 (' +', ' ')
             ]
-            for old, new in replacements:
-                text = re.sub(old, new, text)
-            text = text.strip()
+            text = self._apply_replacements(text, replacements)
 
+        return text.strip()
+
+    @staticmethod
+    def _apply_replacements(text, replacements):
+        """Apply a list of regex replacements to text."""
+        for old, new in replacements:
+            text = re.sub(old, new, text)
         return text
 
     def clean_fluency_transcripts(self, document, content):
@@ -49,15 +64,22 @@ class FluencyCleaner:
         self.options = options
 
     def cleanFluency(self, document, content):
-
+        """Clean fluency task transcripts.
+        
+        Args:
+            document: Document object containing metadata
+            content: Text content to clean
+        Returns:
+            Cleaned text string
+        """
         word_splitter = self.options['word_splitter']
-        self.count_duplicates_and_hyphenated(document, content.split(word_splitter))
+        words = content.split(word_splitter)
+        self.count_duplicates_and_hyphenated(document, words)
 
         content = re.sub(r'\s+', '', content).strip()
-
-        # Split and clean words
         words = [word for word in content.split(word_splitter) if word]
 
+        # Apply cleaning operations based on options
         if self.options['remove_hyphens']:
             words = [word.replace('-', '') for word in words]
         if self.options['remove_duplicates']:
@@ -65,10 +87,7 @@ class FluencyCleaner:
         if self.options['lowercase']:
             words = lowercase(words)
 
-        #if not removing word_splitter from tokens
-        #return ' '.join(word + word_splitter for word in words)
-
-        return f' '.join(words)
+        return ' '.join(words)
 
     @staticmethod
     def remove_duplicates(words):
@@ -140,21 +159,32 @@ def remove_speaker_tags(text, speaker_tags):
     return re.sub(pattern, '', text)
 
 def clean_subword_token_RoBERTa(token):
-
-    # Remove the '▁' prefix which indicates subword boundaries (for subwords, keep as is)
-    clean_token = token.replace("▁", "")  # The '▁' symbol represents space in subword tokenization
-
-    # Handle special character encoding issues (e.g., '√§' -> 'ä', '√º' -> 'ü', etc.)
-    clean_token = clean_token.replace('√§', 'ä').replace('√º', 'ü').replace('√∂', 'ö').replace('√í', 'í')
-
-    clean_token = re.sub(r"\[.*?\]", "", clean_token)  # Remove any text inside square brackets
-    clean_token = re.sub(r"\(.*?\)", "", clean_token)  # Remove any text inside parentheses
-
-    # Remove unwanted punctuation or symbols that aren't useful for fusion
-    clean_token = re.sub(r"[^A-Za-z0-9\u00C0-\u017F\-]", "", clean_token)  # Keep only letters, numbers, and hyphens
-
-    # Remove numbers (unless part of meaningful words)
-    if clean_token.isdigit():
-        return None  # Ignore speaker labels and standalone numbers
-
-    return clean_token.strip()  # Ensure there are no extra spaces
+    """Clean RoBERTa subword tokens.
+    
+    Args:
+        token: String token to clean
+    Returns:
+        Cleaned token or None if token should be ignored
+    """
+    # Special character mappings
+    char_mappings = {
+        '√§': 'ä',
+        '√º': 'ü',
+        '√∂': 'ö',
+        '√í': 'í'
+    }
+    
+    # Remove subword boundary marker
+    clean_token = token.replace("▁", "")
+    
+    # Replace special characters
+    for old, new in char_mappings.items():
+        clean_token = clean_token.replace(old, new)
+    
+    # Remove bracketed content
+    clean_token = re.sub(r"\[.*?\]|\(.*?\)", "", clean_token)
+    
+    # Keep only letters, numbers, and hyphens
+    clean_token = re.sub(r"[^A-Za-z0-9\u00C0-\u017F\-]", "", clean_token)
+    
+    return None if clean_token.isdigit() else clean_token.strip()
