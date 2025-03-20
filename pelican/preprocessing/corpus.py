@@ -95,14 +95,32 @@ class Corpus:
                 #embeddings is a list of dictionaries
                 for utterance in embeddings:
 
+                    print(f'current utterance keys: {utterance.keys()}')
                     #utterance of type dict, keys tokens, entries embeddings
                     if self.config['options_embeddings']['semantic_similarity']:
-                        mean_similarity = calculate_semantic_similarity(utterance)
+                        consecutive_similarities, mean_similarity = calculate_semantic_similarity(utterance)
                         print(f'mean similarity for utterance is: {mean_similarity}')
                         cosine_similarity_matrix = get_cosine_similarity_matrix(utterance)
-                        print(f'cosine similarity matrix: {cosine_similarity_matrix}')
-                        window = get_semantic_similarity_windows(utterance, self.config['options_semantic_similarity']['window_size'])
-                        print(window)
+
+                        # Create dictionary for consecutive similarities
+                        consecutive_sim_data = {
+                            'consecutive_similarities': consecutive_similarities,
+                            'mean_similarity': mean_similarity
+                        }
+
+                        # Store consecutive similarities
+                        store_features_to_csv(consecutive_sim_data, self.documents[i].results_path,
+                                              self.documents[i].corpus_name, metric='consecutive_similarities')
+
+                        # Store cosine similarity matrix
+                        store_features_to_csv(cosine_similarity_matrix, self.documents[i].results_path,
+                                              self.documents[i].corpus_name, metric='cosine_similarity_matrix')
+
+                        for window_size in self.config['options_semantic_similarity']['window_sizes']:
+                            window = get_semantic_similarity_windows(utterance, window_size)
+                            store_features_to_csv(window, self.documents[i].results_path,
+                                                  self.documents[i].corpus_name,
+                                                  metric=f'semantic_similarity_window_{window_size}')
 
                     if self.config['options_embeddings']['divergence_from_optimality']:
                         print(f'calculating distance from optimality...')

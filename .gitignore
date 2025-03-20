@@ -4,7 +4,8 @@ sample_usage.py
 pelican/TODO.txt
 
 # Ignore build and distribution directories
-fluency/
+Silvia_files/
+Nils_backup/
 build/
 dist/
 *.egg-info/

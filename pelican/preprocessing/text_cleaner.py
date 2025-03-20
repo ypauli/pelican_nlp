@@ -65,6 +65,9 @@ class FluencyCleaner:
         if self.options['lowercase']:
             words = lowercase(words)
 
+        #if not removing word_splitter from tokens
+        #return ' '.join(word + word_splitter for word in words)
+
         return f' '.join(words)
 
     @staticmethod
