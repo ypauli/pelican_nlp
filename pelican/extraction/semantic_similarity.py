@@ -3,26 +3,30 @@ import scipy
 from scipy.spatial.distance import cdist
 import pandas as pd
 
-def calculate_semantic_similarity(embedding_vectors, word_by_word_similarity=False):
-    tokens = list(embedding_vectors.keys())
+def calculate_semantic_similarity(embedding_vectors):
+
     vectors = list(embedding_vectors.values())
 
-    similarities = get_pairwise_similarities(vectors)
-    mean_similarity = np.nanmean(similarities)
+    consecutive_similarities = get_consecutive_vector_similarities(vectors)
+    print(f'consec similarities: {consecutive_similarities}')
+    mean_similarity = np.nanmean(consecutive_similarities)
 
-    if word_by_word_similarity:
-        word_similarities = [item for sublist in zip(tokens[1:], similarities) for item in sublist]
-        return mean_similarity, word_similarities
+    return consecutive_similarities, mean_similarity
 
-    return mean_similarity
-
-def get_pairwise_similarities(vectors):
+def get_consecutive_vector_similarities(vectors):
     return [1 - scipy.spatial.distance.cosine(vectors[i - 1], vectors[i]) for i in range(1, len(vectors))]
 
 def get_cosine_similarity_matrix(embedding_vectors):
+    #print(f'embedding_vectors for cosine-similarity-matrix: {embedding_vectors}')
     vectors = list(embedding_vectors.values())
     similarity_matrix = 1 - cdist(vectors, vectors, 'cosine')
     np.fill_diagonal(similarity_matrix, np.nan)
+
+    #upper_triangle_indices = np.triu_indices_from(similarity_matrix)
+    #similarity_matrix[upper_triangle_indices] = np.nan
+
+
+    #print(f'similarity matrix: {similarity_matrix}')
     return similarity_matrix
 
 def get_semantic_similarity_windows(embedding_vectors, window_size):
