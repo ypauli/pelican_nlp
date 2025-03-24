@@ -7,9 +7,12 @@ fluency_task: &fluency_flag true
 #general configurations; always adapt
 PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/FluencyTest"
 language: "german"
+multiple_sessions: &session_flag false
 
 corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
   - "animals"
+  - "clothes"
+  - "food"
 
 #Specify linguistic metrics to extract
 metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
@@ -39,9 +42,9 @@ options_embeddings:
   clean_tokens: true
 
   semantic-similarity: true
-  divergence_from_optimality: true
+  distance-from-randomness: false
 
-options_div_from_optimality:
+options_dis_from_randomness:
   window_size: 8
   min_len: null
   bootstrap: 10000
@@ -77,13 +80,20 @@ section_identification: null
 number_of_sections: 1
 number_of_speakers: 1
 discourse: false
-
-create_aggregation_of_results: true
 #================================================================
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
 recompute_everything: true
 
 number_of_subjects: null
-multiple_sessions: null
+
+# Filename components configuration
+filename_components:
+  subject: true    # mandatory
+  session: *session_flag
+  task: true       # mandatory
+  task_addition: false
+  corpus: true    # typically true for fluency tasks (e.g., "animals", "clothes")
+  metric: true
+  additional_tags: []
 

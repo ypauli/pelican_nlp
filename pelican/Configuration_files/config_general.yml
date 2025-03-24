@@ -87,3 +87,11 @@ options_embeddings:
 
 normalization_options:
   method: "lemmatization" #Options: lemmatization or stemming
+
+# Filename components configuration
+filename_components:
+  subject: true  # mandatory
+  session: false
+  task: true    # mandatory
+  corpus: true
+  additional_tags: []  # optional list of additional tags to include in filename

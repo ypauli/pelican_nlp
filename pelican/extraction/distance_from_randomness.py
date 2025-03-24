@@ -6,9 +6,7 @@ from typing import Dict, List, Any
 DistanceMatrix = np.ndarray
 EmbeddingDict = Dict[str, Dict[str, List[Any]]]
 
-def get_divergence_from_optimality(embeddings, config, parallel=False):
-
-    print(f'all embeddings dict: {embeddings}')
+def get_distance_from_randomness(embeddings, config, parallel=False):
 
     if parallel:
         print(f'parallel computing not yet set up... '
@@ -26,12 +24,8 @@ def get_divergence_from_optimality(embeddings, config, parallel=False):
 
 def optimality(embeddings_dict, min_len, bootstrap, shuffle_mode):
 
-    print(f'embeddings dict: {embeddings_dict}')
-
     words = list(embeddings_dict.keys())
     embeddings = list(embeddings_dict.values())
-    print(f'words: {words}')
-    print(f'embeddings: {embeddings}')
 
     answer_res = []
     answer_len = len(words)
