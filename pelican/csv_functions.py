@@ -2,113 +2,156 @@ import os
 import csv
 import numpy as np
 
-def store_features_to_csv(input_data, results_path, corpus, metric):
-    # Get the base derivatives path (up to 'derivatives' folder)
-    derivatives_path = os.path.dirname(os.path.dirname(os.path.dirname(results_path)))
+def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
+    """Store various types of features to CSV files with consistent formatting.
+    
+    Args:
+        input_data: The data to be stored in CSV format
+        derivatives_dir: Base directory for all derivatives
+        doc_class: Document class containing subject, session (optional), task, and task_addition (optional) info
+        metric: Type of metric being stored
+    """
+    # Get the appropriate metric folder
+    metric_folder = metric
+    
+    # Build base filename parts from doc_class
+    filename_parts = [
+        doc_class.subject_ID,
+        doc_class.task,
+        doc_class.corpus_name
+    ]
+    
+    # Add session to filename if it exists
+    if hasattr(doc_class, 'session') and doc_class.session:
+        filename_parts.insert(1, doc_class.session)
+    
+    # Join the base parts with underscores
+    filename = "_".join(filename_parts)
+    
+    # Add task_addition with underscore if it exists
+    if hasattr(doc_class, 'task_addition') and doc_class.task_addition:
+        filename += f"_{doc_class.task_addition}"
+    
+    # Add the metric with an underscore
+    filename += f"_{metric}.csv"
 
-    # Determine the appropriate metric folder path
-    if metric.startswith('semantic-similarity') or metric in ['consecutive-similarities', 'cosine-similarity-matrix']:
-        metric_folder = 'semantic-similarity'
-    else:
-        metric_folder = 'embeddings'
+    # Build the full path
+    path_components = [
+        derivatives_dir,
+        metric_folder,
+        doc_class.subject_ID,
+    ]
 
-    # Extract subject, session, task from the original path
-    parts = results_path.split(os.sep)
-    if len(parts) < 4:
-        raise ValueError("Invalid results_path format. Expected 'project/subject/session/task'.")
-    _, subject, session, task = parts[-4:]
+    # Add session to path if it exists
+    if hasattr(doc_class, 'session') and doc_class.session:
+        path_components.append(doc_class.session)
 
-    # Construct the new results path
-    final_results_path = os.path.join(derivatives_path, metric_folder, subject, session, task)
-
-    # Ensure results directory exists
+    path_components.append(doc_class.task)
+    
+    # Create directory and get final filepath
+    final_results_path = os.path.join(*path_components)
     os.makedirs(final_results_path, exist_ok=True)
-
-    output_filename = f"{subject}_{session}_{task}_{corpus}_{metric}.csv"
-    output_filepath = os.path.join(final_results_path, output_filename)
+    
+    output_filepath = os.path.join(final_results_path, filename)
     file_exists = os.path.exists(output_filepath)
-
-    if metric=='embeddings':
-        if not isinstance(input_data, dict) or not input_data:
-            raise ValueError("Input data must be a non-empty dictionary.")
-
-        # Input data: keys are tokens, values are their corresponding embeddings
-        tokens = list(input_data.keys())
-        metric_values = np.array(list(input_data.values()), dtype=np.float32)
-
-        # Ensure token count and embedding shape match
-        if len(tokens) != len(metric_values):
-            raise ValueError(f"Mismatch: {len(tokens)} tokens but {len(metric_values)} metric values.")
-
-        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-
-            # Get number of embedding dimensions
-            num_dimensions = metric_values.shape[1]
-            header = ['Token'] + [f"Dim_{i}" for i in range(num_dimensions)]
-
-            if not file_exists:
-                writer.writerow(header)
-            else:
-                writer.writerow([])  # Separate sections
-                writer.writerow([f"New Section"])
-                writer.writerow(header)
-
-            # Write token and its corresponding embedding
-            for token, embedding in zip(tokens, metric_values):
+    
+    # Write data based on metric type
+    with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        
+        if metric == 'embeddings':
+            if not isinstance(input_data, dict) or not input_data:
+                raise ValueError("Input data must be a non-empty dictionary.")
+            
+            tokens = list(input_data.keys())
+            embeddings = np.array(list(input_data.values()), dtype=np.float32)
+            
+            if len(tokens) != len(embeddings):
+                raise ValueError(f"Mismatch: {len(tokens)} tokens but {len(embeddings)} embeddings.")
+            
+            header = ['Token'] + [f"Dim_{i}" for i in range(embeddings.shape[1])]
+            _write_csv_header(writer, header, file_exists)
+            
+            for token, embedding in zip(tokens, embeddings):
                 writer.writerow([token] + embedding.tolist())
 
-    elif metric == 'consecutive-similarities':
-        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            if not file_exists:
-                writer.writerow(['Index', 'Consecutive_Similarity', 'Mean_Similarity'])
-            else:
-                writer.writerow([])  # Separate sections
-                writer.writerow(['New Section'])
-                writer.writerow(['Index', 'Consecutive_Similarity', 'Mean_Similarity'])
-
-            for idx, sim in enumerate(input_data['consecutive_similarities']):
-                writer.writerow([idx, sim, input_data['mean_similarity']])
-
-    elif metric == 'cosine-similarity-matrix':
-        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            if not file_exists:
-                writer.writerow(['Matrix'])
-            else:
-                writer.writerow([])  # Separate sections
-                writer.writerow(['New Section'])
-
-            # Write the matrix
+        elif metric == 'cosine-similarity-matrix':
+            _write_csv_header(writer, ['Matrix'], file_exists)
             for row in input_data:
                 writer.writerow(row)
+                
+        elif metric.startswith('semantic-similarity-window-'):
+            header = ['Metric', 'Similarity_Score']
+            _write_csv_header(writer, header, file_exists)
+            
+            for metric_name, score in input_data.items():
+                writer.writerow([metric_name, score])
 
-    elif metric.startswith('semantic-similarity-window-'):
-        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            if not file_exists:
-                writer.writerow(['Metric', 'Similarity_Score'])
-            else:
-                writer.writerow([])  # Separate sections
-                writer.writerow(['New Section'])
-                writer.writerow(['Metric', 'Similarity_Score'])
+        elif metric == 'distance-from-randomness':
+            header = ['window_index', 'all_pairs_average', 'actual_dist', 'average_dist', 'std_dist']
+            _write_csv_header(writer, header, file_exists)
 
-            metrics = list(input_data.keys())
-            for metric in metrics:
-                writer.writerow([metric, input_data[metric]])
+            # Input data is a dictionary with 'section' key containing list of window results
+            for window_result in input_data['section']:
+                writer.writerow([
+                    window_result['window_index'],
+                    window_result['all_pairs_average'],
+                    window_result['actual_dist'],
+                    window_result['average_dist'],
+                    window_result['std_dist']
+                ])
 
-    elif metric=='logits':
-        with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            header = list(input_data[0].keys()) if input_data else []
-
-            if not file_exists:
-                writer.writerow(header)
-            else:
-                writer.writerow([])  # Separate sections
-                writer.writerow([f"New Section"])
-                writer.writerow(header)
-
+        elif metric == 'logits':
+            if not input_data:
+                return
+            header = list(input_data[0].keys())
+            _write_csv_header(writer, header, file_exists)
+            
             for entry in input_data:
                 writer.writerow(entry.values())
+
+
+def _build_filename_parts(path_parts, corpus, metric, config=None):
+    """Helper function to build filename components."""
+    filename_config = config.get('filename_components', {}) if config else {}
+
+    # Extract mandatory components
+    if len(path_parts) < 3:
+        raise ValueError("Invalid path format. Expected at least 'project/subject/task'.")
+
+    subject = path_parts[-3]
+    task = path_parts[-1]
+
+    # Build filename components
+    parts = [subject]
+
+    # Add optional session
+    if filename_config.get('session', False) and len(path_parts) >= 4:
+        parts.append(path_parts[-3])
+
+    parts.append(task)
+
+    # Add optional components
+    if filename_config.get('corpus', True):
+        parts.append(corpus)
+    parts.extend(filename_config.get('additional_tags', []))
+    parts.append(metric)
+
+    return parts
+
+
+def _get_metric_folder(metric):
+    """Determine the appropriate metric folder."""
+    if metric.startswith('semantic-similarity') or metric in ['consecutive-similarities', 'cosine-similarity-matrix']:
+        return 'semantic-similarity'
+    return 'embeddings'
+
+
+def _write_csv_header(writer, header, file_exists):
+    """Write CSV header with section separation if file exists."""
+    if not file_exists:
+        writer.writerow(header)
+    else:
+        writer.writerow([])  # Separate sections
+        writer.writerow(['New Section'])
+        writer.writerow(header)

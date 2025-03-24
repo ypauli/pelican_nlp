@@ -13,19 +13,25 @@ def subject_instantiator(config):
 
     # Identifying all subject files
     for subject in subjects:
-        session_paths = _get_subject_sessions(subject, project_folder)
-        for session_path in session_paths:
-            file_path = os.path.join(session_path, config['task_name']) + '/'
-            subject.documents.extend(_instantiate_documents(file_path, config))
+        if config['multiple_sessions']:
+            paths = _get_subject_sessions(subject, project_folder)
+        else:
+            paths = [os.path.join(path_to_subjects, subject.subjectID)]
+
+        for path in paths:
+            file_path = os.path.join(path, config['task_name'])
+            subject.documents.extend(_instantiate_documents(file_path, subject.subjectID, config))
         print(f'all identified subject documents for subject {subject.subjectID}: {subject.documents}')
         for document in subject.documents:
-            print(f'file_path is: {document.file_path}')
             parts = document.file_path.split(os.sep)
-            print(f'parts are: {parts}')
-            subject_ID, session, task = parts[-4], parts[-3], parts[-2]
-            # Set the base results path to the subject/session/task level
-            document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, session, task)
-            print(document.results_path)
+            
+            # Adjust path components based on whether session exists
+            if config.get('multiple_sessions', False):
+                subject_ID, session, task = parts[-4], parts[-3], parts[-2]
+                document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, session, task)
+            else:
+                subject_ID, task = parts[-3], parts[-2]
+                document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, task)
 
     return subjects
 
@@ -39,11 +45,13 @@ def _get_subject_sessions(subject, project_path):
     subject.numberOfSessions = len(session_paths)
     return session_paths
 
-def _instantiate_documents(filepath, config):
+def _instantiate_documents(filepath, subject, config):
     return [
         Document(
             filepath,
             file_name,
+            subject_ID = subject,
+            task=config['task_name'],
             fluency=config['fluency_task'],
             has_sections=config['has_multiple_sections'],
             section_identifier=config['section_identification'],
@@ -67,4 +75,3 @@ def _load_config(config_path):
             return yaml.safe_load(stream)
     except yaml.YAMLError as exc:
         sys.exit(f"Error loading configuration: {exc}")
-

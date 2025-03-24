@@ -37,8 +37,6 @@ class Document:
 
     def _init_processing_attributes(self):
         """Initialize attributes related to text processing."""
-        self.results_path = None
-        self.results_file = None
         self.extension = None
         self.corpus_name = self.extract_corpus_name()
         self.session = None
