@@ -49,4 +49,4 @@ class EmbeddingsExtractor:
 
             doc_entry_list.append(embeddings)
 
-        return doc_entry_list
+        return doc_entry_list, len(inputs)

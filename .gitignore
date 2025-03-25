@@ -2,10 +2,10 @@ pelican/cc.de.300.bin
 cc.de.300.bin.gz
 sample_usage.py
 pelican/TODO.txt
-
-# Ignore build and distribution directories
 Silvia_files/
 Nils_backup/
+
+# Ignore build and distribution directories
 build/
 dist/
 *.egg-info/

@@ -16,6 +16,7 @@ corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
 
 #Specify linguistic metrics to extract
 metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
+output_document_information: true
 #====================================================================
 
 #Optional configurations; Change with preference. However, default settings recommended
@@ -80,6 +81,14 @@ section_identification: null
 number_of_sections: 1
 number_of_speakers: 1
 discourse: false
+
+document_information_output:
+  parameters:
+    - subject_ID
+    - task
+    - fluency_word_count
+    - corpus_name
+
 #================================================================
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
@@ -96,4 +105,6 @@ filename_components:
   corpus: true    # typically true for fluency tasks (e.g., "animals", "clothes")
   metric: true
   additional_tags: []
+
+
 

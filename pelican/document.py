@@ -26,6 +26,8 @@ class Document:
         self.section_identifier = kwargs.get('section_identifier')
         self.number_of_sections = kwargs.get('number_of_sections')
         self.lines = kwargs.get('lines', [])
+        self.new_parameter = kwargs.get('new_parameter')
+        self.another_metric = kwargs.get('another_metric')
         
         # Derived attributes
         self.has_segments = self.task == "discourse"
@@ -48,6 +50,7 @@ class Document:
         self.raw_text = self.importer.load_text(self.file)
         
         # Text processing state
+        self.fluency_word_count = None
         self.cleaned_sections = {}
         self.tokens_logits = []
         self.tokens_embeddings = []
