@@ -66,6 +66,9 @@ class Pelican:
         if self.config.get('create_aggregation_of_results', True):
             corpus.create_corpus_results_consolidation_csv()
 
+        if self.config['output_document_information']:
+            corpus.create_document_information_csv()
+
         del corpus
 
     def _LPDS(self):

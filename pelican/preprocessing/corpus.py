@@ -12,7 +12,7 @@ import pandas as pd
 import re
 
 class Corpus:
-    def __init__(self, corpus_name, documents, configuration_settings, task=None):
+    def __init__(self, corpus_name, documents, configuration_settings):
         """Initialize Corpus object.
         
         Args:
@@ -26,7 +26,7 @@ class Corpus:
         self.config = configuration_settings
         self.derivative_dir = self.config['PATH_TO_PROJECT_FOLDER']+'/derivatives'
         self.pipeline = TextPreprocessingPipeline(self.config)
-        self.task = task
+        self.task = configuration_settings['task_name']
         self.results_path = None
 
     def preprocess_all_documents(self):
@@ -47,7 +47,7 @@ class Corpus:
         print("Creating aggregated results files per metric...")
         
         try:
-            derivatives_path = os.path.dirname(os.path.dirname(os.path.dirname(self.documents[0].results_path)))
+            derivatives_path = os.path.dirname(os.path.dirname(self.documents[0].results_path))
         except (AttributeError, IndexError):
             print("Error: No valid results path found in documents")
             return
@@ -164,8 +164,11 @@ class Corpus:
                 else:
                     section = [section]
 
-                embeddings = embeddingsExtractor.extract_embeddings_from_text(section)
+                embeddings, token_count = embeddingsExtractor.extract_embeddings_from_text(section)
                 self.documents[i].embeddings.append(embeddings)
+
+                if self.task == 'fluency':
+                    self.documents[i].fluency_word_count = token_count
                 
                 for utterance in embeddings:
                     print(f'Processing utterance (length: {len(utterance)} tokens)')
@@ -218,8 +221,44 @@ class Corpus:
                                           metric='embeddings')
         return
 
-    def get_corpus_info(self):
-        info = []
-        for subject in self.documents:
-            info.append(subject.get_subject_info())
-        return '\n'.join(info)
+    def create_document_information_csv(self):
+        """Create CSV file with summarized document parameters based on config specifications."""
+        print("Creating document information summary...")
+        
+        try:
+            derivatives_path = os.path.dirname(os.path.dirname(self.documents[0].results_path))
+        except (AttributeError, IndexError):
+            print("Error: No valid results path found in documents")
+            return
+        
+        # Create document_information folder inside aggregations
+        doc_info_path = os.path.join(derivatives_path, 'aggregations', 'document_information')
+        os.makedirs(doc_info_path, exist_ok=True)
+        
+        # Define output file path
+        output_file = os.path.join(doc_info_path, f'{self.name}_document-information.csv')
+        
+        # Get parameters to include from config
+        parameters_to_include = self.config.get('document_information_output', {}).get('parameters', [])
+        
+        if not parameters_to_include:
+            print("Warning: No parameters specified in config for document information output")
+            return
+        
+        # Get document information based on specified parameters
+        document_info = []
+        for doc in self.documents:
+            # Get all attributes using vars()
+            attrs = vars(doc)
+            # Filter based on specified parameters
+            info = {
+                param: attrs.get(param) 
+                for param in parameters_to_include 
+                if param in attrs
+            }
+            document_info.append(info)
+        
+        # Convert to DataFrame and save to CSV
+        df = pd.DataFrame(document_info)
+        df.to_csv(output_file, index=False)
+        print(f"Document information saved to: {output_file}")
