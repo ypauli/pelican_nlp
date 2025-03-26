@@ -11,7 +11,7 @@ from pelican.setup_functions import subject_instantiator, _load_config, _remove_
 from pelican.LPDS import LPDS
 
 # Constants
-DEFAULT_CONFIG_PATH = 'Configuration_files/config_fluency.yml'
+DEFAULT_CONFIG_PATH = 'Configuration_files/config_audio.yml'
 VALID_METRICS = {'logits', 'embeddings'}
 
 class Pelican:
@@ -53,23 +53,35 @@ class Pelican:
             self._process_corpus(corpus_name, subjects)
 
     def _process_corpus(self, corpus_name: str, subjects: List) -> None:
+
         """Process a single corpus including preprocessing and metric extraction."""
         print(f'Processing corpus: {corpus_name}')
-        
+
         corpus_documents = self._identify_corpus_files(subjects, corpus_name)
         corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config)
-        corpus.preprocess_all_documents()
-        print(f'Corpus {corpus_name} is preprocessed')
 
-        self._extract_metrics(corpus)
+        if self.config['input_file']=='text':
+            corpus.preprocess_all_documents()
+            print(f'Corpus {corpus_name} is preprocessed')
 
-        if self.config.get('create_aggregation_of_results', True):
-            corpus.create_corpus_results_consolidation_csv()
+            self._extract_metrics(corpus)
 
-        if self.config['output_document_information']:
-            corpus.create_document_information_csv()
+            if self.config['create_aggregation_of_results']:
+                corpus.create_corpus_results_consolidation_csv()
+
+            if self.config['output_document_information']:
+                corpus.create_document_information_csv()
+
+
+        elif self.config['input_file']=='audio':
+            if self.config['opensmile_feature_extraction']:
+                corpus.extract_opensmile_features()
+
+            if self.config['prosogram_extraction']:
+                corpus.extract_prosogram()
 
         del corpus
+
 
     def _LPDS(self):
         # Initialize LPDS and create derivative directory

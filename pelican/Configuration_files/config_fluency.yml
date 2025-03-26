@@ -24,7 +24,7 @@ cleaning_options:
   general_cleaning: true
   #Options for fluency tasks
   fluency_task: *fluency_flag
-  word_splitter: ';'
+  word_splitter: ';' #default split with ',' add different word_splitter if necessary
   remove_hyphens: true
   remove_duplicates: true #care sem similarity does not work with false
   lowercase: true
@@ -93,7 +93,6 @@ document_information_output:
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
 recompute_everything: true
-
 number_of_subjects: null
 
 # Filename components configuration

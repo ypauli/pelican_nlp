@@ -73,11 +73,29 @@ class FluencyCleaner:
             Cleaned text string
         """
         word_splitter = self.options['word_splitter']
-        words = content.split(word_splitter)
+        # First split by word_splitter if defined
+        if word_splitter:
+            words = content.split(word_splitter)
+            # Further split each chunk by commas
+            temp_words = []
+            for chunk in words:
+                temp_words.extend(chunk.split(','))
+            words = temp_words
+        else:
+            # If no word_splitter defined, just split by commas
+            words = content.split(',')
+            
         self.count_duplicates_and_hyphenated(document, words)
 
         content = re.sub(r'\s+', '', content).strip()
-        words = [word for word in content.split(word_splitter) if word]
+        # Apply the same splitting logic for the cleaned content
+        if word_splitter:
+            words = []
+            for chunk in content.split(word_splitter):
+                words.extend(chunk.split(','))
+        else:
+            words = content.split(',')
+        words = [word for word in words if word]
 
         # Apply cleaning operations based on options
         if self.options['remove_hyphens']:

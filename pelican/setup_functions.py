@@ -1,6 +1,5 @@
 import os
 from pelican.preprocessing import Subject
-from pelican.document import Document
 import shutil
 import yaml
 import sys
@@ -46,21 +45,38 @@ def _get_subject_sessions(subject, project_path):
     return session_paths
 
 def _instantiate_documents(filepath, subject, config):
-    return [
-        Document(
-            filepath,
-            file_name,
-            subject_ID = subject,
-            task=config['task_name'],
-            fluency=config['fluency_task'],
-            has_sections=config['has_multiple_sections'],
-            section_identifier=config['section_identification'],
-            number_of_sections=config['number_of_sections'],
-            num_speakers=config['number_of_speakers'],
-            has_section_titles=config['has_section_titles']
-        )
-        for file_name in os.listdir(filepath)
-    ]
+
+    if config['input_file']=='text':
+        from pelican.document import Document
+        return [
+            Document(
+                filepath,
+                file_name,
+                subject_ID = subject,
+                task=config['task_name'],
+                fluency=config['fluency_task'],
+                has_sections=config['has_multiple_sections'],
+                section_identifier=config['section_identification'],
+                number_of_sections=config['number_of_sections'],
+                num_speakers=config['number_of_speakers'],
+                has_section_titles=config['has_section_titles']
+            )
+            for file_name in os.listdir(filepath)
+        ]
+
+    elif config['input_file']=='audio':
+        from pelican.audio_document import AudioFile
+        return [
+            AudioFile(
+                filepath,
+                file_name,
+                subject_ID=subject,
+                task=config['task_name'],
+                fluency=config['fluency_task'],
+                num_speakers=config['number_of_speakers'],
+            )
+            for file_name in os.listdir(filepath)
+        ]
 
 def _remove_previous_derivative_dir(output_directory):
     if os.path.isdir(output_directory):
