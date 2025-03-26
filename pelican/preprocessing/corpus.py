@@ -1,12 +1,8 @@
-from pelican.extraction.extract_logits import LogitsExtractor
-from pelican.extraction.extract_embeddings import EmbeddingsExtractor
 from pelican.preprocessing import TextPreprocessingPipeline
 from pelican.csv_functions import store_features_to_csv
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.speaker_diarization import TextDiarizer
 import pelican.preprocessing.text_cleaner as textcleaner
-from pelican.extraction.semantic_similarity import calculate_semantic_similarity, get_cosine_similarity_matrix, get_semantic_similarity_windows
-from pelican.extraction.distance_from_randomness import get_distance_from_randomness
 import os
 import pandas as pd
 import re
@@ -30,7 +26,7 @@ class Corpus:
         self.results_path = None
 
     def preprocess_all_documents(self):
-        """Process all documents and create aggregated results."""
+        """Preprocess all documents"""
         print('Preprocessing all documents...')
         for document in self.documents:
             document.detect_sections()
@@ -113,6 +109,7 @@ class Corpus:
             print("No results to aggregate")
 
     def extract_logits(self):
+        from pelican.extraction.extract_logits import LogitsExtractor
         from pelican.preprocessing.text_tokenizer import TextTokenizer
         logits_options = self.config['options_logits']
         project_path = self.config['PATH_TO_PROJECT_FOLDER']
@@ -152,6 +149,8 @@ class Corpus:
                                           metric='logits')
 
     def extract_embeddings(self):
+        from pelican.extraction.extract_embeddings import EmbeddingsExtractor
+
         embedding_options = self.config['options_embeddings']
         print('Embeddings extraction in progress...')
         embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.config['PATH_TO_PROJECT_FOLDER'])
@@ -174,7 +173,8 @@ class Corpus:
                     print(f'Processing utterance (length: {len(utterance)} tokens)')
                     
                     if self.config['options_embeddings']['semantic-similarity']:
-
+                        from pelican.extraction.semantic_similarity import calculate_semantic_similarity, \
+                            get_cosine_similarity_matrix, get_semantic_similarity_windows
                         consecutive_similarities, mean_similarity = calculate_semantic_similarity(utterance)
                         print(f'Mean semantic similarity: {mean_similarity:.4f}')
 
@@ -201,6 +201,7 @@ class Corpus:
                                                   metric=f'semantic-similarity-window-{window_size}')
 
                     if self.config['options_embeddings']['distance-from-randomness']:
+                        from pelican.extraction.distance_from_randomness import get_distance_from_randomness
                         divergence = get_distance_from_randomness(utterance, self.config["options_dis_from_randomness"])
                         print(f'Divergence from optimality metrics: {divergence}')
                         store_features_to_csv(divergence,
@@ -221,6 +222,13 @@ class Corpus:
                                           metric='embeddings')
         return
 
+    def extract_opensmile_features(self):
+        from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+        for i in range(len(self.documents)):
+            results = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
+            print('results obtained')
+    def extract_prosogram(self):
+        from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
     def create_document_information_csv(self):
         """Create CSV file with summarized document parameters based on config specifications."""
         print("Creating document information summary...")

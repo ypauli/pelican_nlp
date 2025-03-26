@@ -40,8 +40,8 @@ class Document:
     def _init_processing_attributes(self):
         """Initialize attributes related to text processing."""
         self.extension = None
-        self.corpus_name = self.extract_corpus_name()
         self.session = None
+        self.corpus_name = self.extract_corpus_name()
         self.sections = {}
         self.section_metrics = {}
         
@@ -72,28 +72,13 @@ class Document:
         return f"file_name={self.name}"
 
     def extract_corpus_name(self):
-        parts = self.name.split('_')
-        if len(parts) >= 3:  # Ensure there are enough parts
-            return parts[3].split('.')[0]  # Corpus is at index 3 (0-based), return corpus without possible filetype
-        else:
-            raise ValueError("Filename format is incorrect. Expected at least 5 parts.")
 
-    def create_results_path(self, project_path):
-        """Generates a results CSV for a given document."""
-        relative_path = os.path.relpath(self.file_path, project_path) + '/'
-        first_slash_index = relative_path.find('/')
-        modified_relative_path = relative_path[first_slash_index + 1:]
-        output_path = os.path.join(project_path, 'Outputs', modified_relative_path)
-        filename_no_extension = os.path.splitext(self.name)[0]
-        self.results_path = os.path.join(output_path, f"{filename_no_extension}_results.csv")
-        print(self.results_path)
-
-        # Ensure the output directory exists
-        os.makedirs(os.path.dirname(self.results_path), exist_ok=True)
-
-        # Create the CSV file
-        with open(self.results_path, 'w') as file:
-            pass
+        if not self.session:
+            parts = self.name.split('_')
+            if len(parts) >= 3:  # Ensure there are enough parts
+                return parts[3].split('.')[0]  # Corpus is at index 3 (0-based), return corpus without possible filetype
+            else:
+                raise ValueError("Filename format is incorrect. Expected at least 5 parts.")
 
     def add_line(self, line):
         self.lines.append(line)

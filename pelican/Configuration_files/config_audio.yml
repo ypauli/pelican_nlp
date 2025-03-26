@@ -3,22 +3,22 @@
 
 # Basic Settings
 # -------------
-input_file: "text"  # Options: 'text' or 'audio'
-PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/FluencyTest"
-language: "german"  # Options: 'german', 'english'
+input_file: "audio"  # Options: 'text' or 'audio'
+PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/Silvia"
+language: "dutch"  # Options: 'german', 'english'
 recompute_everything: true  # If false, reuses previously computed results
 
 # Task Configuration
 # -----------------
-task_name: "fluency"  # Options: 'fluency', 'interview'
-fluency_task: &fluency_flag true  # Flag for fluency-specific settings
+task_name: "monologue"  # Options: 'fluency', 'interview'
+fluency_task: &fluency_flag false  # Flag for fluency-specific settings
 discourse: &discourse_flag false  # Flag for discourse-specific settings
 corpus_names:  # List of task corpora
-  - "animals"
+  - "interv-removed"
 
 # Session and Subject Settings
 # --------------------------
-multiple_sessions: false
+multiple_sessions: true
 number_of_subjects: null  # If null, auto-detected
 number_of_speakers: 1
 subject_speakertag: null  # Speaker tag for subject (e.g., "B")
@@ -38,11 +38,25 @@ pipeline_options:
   tokenize_text: false
   normalize_text: false
 
+# Audio Processing
+# ---------------
+opensmile_feature_extraction: true
+prosogram_extraction: false
+
+opensmile_configurations:
+  always_2d: true
+  duration: null
+  offset: null
+
+  feature_set: opensmile.FeatureSet.eGeMAPSv02
+  feature_level: opensmile.FeatureLevel.Functionals
+
+
 # Metric Extraction
 # ---------------
-metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
-extract_logits: null
-extract_embeddings: true
+metric_to_extract: null  # Options: 'embeddings', 'logits'
+extract_logits: false
+extract_embeddings: false
 
 # Cleaning Options
 # --------------

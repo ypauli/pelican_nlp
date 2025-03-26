@@ -1,12 +1,11 @@
 import audiofile
-import opensmile
 import pandas as pd
 
 class AudioFeatureExtraction:
 
     @staticmethod
     def opensmile_extraction(file, opensmile_configurations):
-
+        import opensmile
         print(f'audio file is: {file}')
 
         result = {}
