@@ -60,19 +60,15 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
         writer = csv.writer(file)
         
         if metric == 'embeddings':
-            if not isinstance(input_data, dict) or not input_data:
-                raise ValueError("Input data must be a non-empty dictionary.")
+            if not isinstance(input_data, list) or not input_data:
+                raise ValueError("Input data must be a non-empty list of tuples.")
             
-            tokens = list(input_data.keys())
-            embeddings = np.array(list(input_data.values()), dtype=np.float32)
-            
-            if len(tokens) != len(embeddings):
-                raise ValueError(f"Mismatch: {len(tokens)} tokens but {len(embeddings)} embeddings.")
-            
-            header = ['Token'] + [f"Dim_{i}" for i in range(embeddings.shape[1])]
+            # Get the dimensionality from the first embedding
+            embedding_dim = len(input_data[0][1])
+            header = ['Token'] + [f"Dim_{i}" for i in range(embedding_dim)]
             _write_csv_header(writer, header, file_exists)
             
-            for token, embedding in zip(tokens, embeddings):
+            for token, embedding in input_data:
                 writer.writerow([token] + embedding.tolist())
 
         elif metric == 'cosine-similarity-matrix':
@@ -109,6 +105,39 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             
             for entry in input_data:
                 writer.writerow(entry.values())
+
+        elif metric == 'opensmile-features':
+            if not input_data:
+                return
+                
+            # Get all column names from the first entry
+            csv_columns = list(input_data[0].keys()) if isinstance(input_data, list) else list(input_data.keys())
+            
+            # Only write header if file doesn't exist
+            if not file_exists:
+                writer.writerow(csv_columns)
+            
+            # Handle both list of dictionaries and single dictionary cases
+            if isinstance(input_data, list):
+                for entry in input_data:
+                    # Create a new array for the row data
+                    row_data = []
+                    for column in csv_columns:
+                        # Convert numerical values to float
+                        value = entry[column]
+                        if isinstance(value, (int, float)):
+                            value = float(value)
+                        row_data.append(value)
+                    writer.writerow(row_data)
+            else:
+                # Handle single dictionary case
+                row_data = []
+                for column in csv_columns:
+                    value = input_data[column]
+                    if isinstance(value, (int, float)):
+                        value = float(value)
+                    row_data.append(value)
+                writer.writerow(row_data)
 
 
 def _build_filename_parts(path_parts, corpus, metric, config=None):

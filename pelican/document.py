@@ -32,6 +32,7 @@ class Document:
         # Derived attributes
         self.has_segments = self.task == "discourse"
         self.segments = [] if self.has_segments else ["default"] * len(self.lines)
+        self.sections = None
         
         # Initialize processing attributes
         self._init_processing_attributes()
@@ -41,7 +42,7 @@ class Document:
         """Initialize attributes related to text processing."""
         self.extension = None
         self.session = None
-        self.corpus_name = self.extract_corpus_name()
+        self.corpus_name = None
         self.sections = {}
         self.section_metrics = {}
         
@@ -51,6 +52,7 @@ class Document:
         
         # Text processing state
         self.fluency_word_count = None
+        self.fluency_duplicate_count = None
         self.cleaned_sections = {}
         self.tokens_logits = []
         self.tokens_embeddings = []
@@ -70,15 +72,6 @@ class Document:
 
     def __repr__(self):
         return f"file_name={self.name}"
-
-    def extract_corpus_name(self):
-
-        if not self.session:
-            parts = self.name.split('_')
-            if len(parts) >= 3:  # Ensure there are enough parts
-                return parts[3].split('.')[0]  # Corpus is at index 3 (0-based), return corpus without possible filetype
-            else:
-                raise ValueError("Filename format is incorrect. Expected at least 5 parts.")
 
     def add_line(self, line):
         self.lines.append(line)

@@ -26,8 +26,8 @@ cleaning_options:
   fluency_task: *fluency_flag
   word_splitter: ';' #default split with ',' add different word_splitter if necessary
   remove_hyphens: true
-  remove_duplicates: true #care sem similarity does not work with false
-  lowercase: true
+  remove_duplicates: false
+  lowercase: false
   #Optional cleaning
   remove_brackets_and_bracketcontent: false #default 'false'
   remove_timestamps: false #default 'false'

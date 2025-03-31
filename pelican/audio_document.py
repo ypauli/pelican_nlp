@@ -10,6 +10,7 @@ class AudioFile:
         self.subject_ID = kwargs.get('subject_ID')
         self.task = kwargs.get('task')
         self.num_speakers = kwargs.get('num_speakers')
+        self.corpus_name = None
 
         self.opensmile_results = None
         self.prosogram_features = None
