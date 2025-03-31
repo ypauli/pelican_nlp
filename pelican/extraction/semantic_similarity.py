@@ -4,7 +4,8 @@ from scipy.spatial.distance import cdist
 import pandas as pd
 
 def calculate_semantic_similarity(embedding_vectors):
-    vectors = list(embedding_vectors.values())
+    # Extract just the vectors from the list of tuples
+    vectors = [vector for _, vector in embedding_vectors]
     consecutive_similarities = get_consecutive_vector_similarities(vectors)
     mean_similarity = np.nanmean(consecutive_similarities)
     return consecutive_similarities, mean_similarity
@@ -13,14 +14,15 @@ def get_consecutive_vector_similarities(vectors):
     return [1 - scipy.spatial.distance.cosine(vectors[i - 1], vectors[i]) for i in range(1, len(vectors))]
 
 def get_cosine_similarity_matrix(embedding_vectors):
-    vectors = list(embedding_vectors.values())
+    # Extract just the vectors from the list of tuples
+    vectors = [vector for _, vector in embedding_vectors]
     similarity_matrix = 1 - cdist(vectors, vectors, 'cosine')
     np.fill_diagonal(similarity_matrix, np.nan)
     return similarity_matrix
 
 def get_semantic_similarity_windows(embedding_vectors, window_size):
-    tokens = list(embedding_vectors.keys())
-    vectors = list(embedding_vectors.values())
+    # Extract tokens and vectors from the list of tuples
+    tokens, vectors = zip(*embedding_vectors)
 
     # Early return if not enough tokens
     if len(tokens) < 2:
@@ -37,10 +39,9 @@ def get_semantic_similarity_windows(embedding_vectors, window_size):
     # Collect window statistics
     window_statistics = []
     for i in range(len(tokens) - window_size + 1):
-        window_tokens = {token: vector for token, vector in zip(tokens[i:i + window_size], 
-                                                              vectors[i:i + window_size])}
-        if window_tokens:  # Make sure window is not empty
-            sim_matrix = get_cosine_similarity_matrix(window_tokens)
+        window_vectors = list(zip(tokens[i:i + window_size], vectors[i:i + window_size]))
+        if window_vectors:  # Make sure window is not empty
+            sim_matrix = get_cosine_similarity_matrix(window_vectors)
             window_statistics.append(calculate_window_statistics(sim_matrix))
     
     # Handle case where no valid windows were found

@@ -11,8 +11,7 @@ from pelican.setup_functions import subject_instantiator, _load_config, _remove_
 from pelican.LPDS import LPDS
 
 # Constants
-DEFAULT_CONFIG_PATH = 'Configuration_files/config_audio.yml'
-VALID_METRICS = {'logits', 'embeddings'}
+DEFAULT_CONFIG_PATH = 'Configuration_files/config_fluency.yml'
 
 class Pelican:
     """Main class for the Pelican project handling document processing and metric extraction.
@@ -60,6 +59,9 @@ class Pelican:
         corpus_documents = self._identify_corpus_files(subjects, corpus_name)
         corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config)
 
+        for document in corpus_documents[corpus_name]:
+            document.corpus_name = corpus_name
+
         if self.config['input_file']=='text':
             corpus.preprocess_all_documents()
             print(f'Corpus {corpus_name} is preprocessed')
@@ -99,7 +101,7 @@ class Pelican:
             print('Extracting embeddings...')
             corpus.extract_embeddings()
         else:
-            raise ValueError(f"Unsupported metric: {metric}. Must be one of {VALID_METRICS}")
+            raise ValueError(f"Unsupported metric: {metric}")
         
         self._clear_gpu_memory()
 
@@ -110,8 +112,10 @@ class Pelican:
             for document in subject.documents:
                 name = Path(document.name)
                 document.extension = name.suffix
-                parts = name.stem.split('_')
-                if len(parts) >= 4 and parts[3] == corpus:
+                # Split by both '_' and '.' to get all parts
+                parts = name.stem.replace('.', '_').split('_')
+                # Check if corpus name appears in any part
+                if corpus in parts:
                     corpus_dict[corpus].append(document)
         return corpus_dict
 

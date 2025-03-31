@@ -211,12 +211,15 @@ class Corpus:
 
                     # Process tokens without printing intermediate results
                     if embedding_options['clean_tokens']:
-                        cleaned_dict = {token: embeddings for token, embeddings in utterance.items()
-                                     if (cleaned_token := textcleaner.clean_subword_token_RoBERTa(token)) is not None}
+                        cleaned_embeddings = []
+                        for token, embedding in utterance:
+                            cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
+                            if cleaned_token is not None:
+                                cleaned_embeddings.append((cleaned_token, embedding))
                     else:
-                        cleaned_dict = utterance
+                        cleaned_embeddings = utterance
 
-                    store_features_to_csv(cleaned_dict,
+                    store_features_to_csv(cleaned_embeddings,
                                           self.derivative_dir,
                                           self.documents[i],
                                           metric='embeddings')
@@ -227,8 +230,17 @@ class Corpus:
         for i in range(len(self.documents)):
             results = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
             print('results obtained')
+            store_features_to_csv(results,
+                                  self.derivative_dir,
+                                  self.documents[i],
+                                  metric='opensmile-features')
+
     def extract_prosogram(self):
         from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+        for i in range(len(self.documents)):
+            results = AudioFeatureExtraction.extract_prosogram_profile(self.documents[i].file)
+            print('prosogram obtained')
+
     def create_document_information_csv(self):
         """Create CSV file with summarized document parameters based on config specifications."""
         print("Creating document information summary...")

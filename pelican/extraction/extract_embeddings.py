@@ -44,8 +44,9 @@ class EmbeddingsExtractor:
 
             else:
                 if self.model_name == 'fastText':
+                    embeddings = []
                     for token in inputs:
-                        embeddings[token]=self.model_instance.get_word_vector(token)
+                        embeddings.append((token, self.model_instance.get_word_vector(token)))
 
             doc_entry_list.append(embeddings)
 

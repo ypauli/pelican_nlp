@@ -5,7 +5,9 @@ class AudioFeatureExtraction:
 
     @staticmethod
     def opensmile_extraction(file, opensmile_configurations):
+        print(f'opensmile extraction in progress...')
         import opensmile
+
         print(f'audio file is: {file}')
 
         result = {}
@@ -33,21 +35,38 @@ class AudioFeatureExtraction:
         for feature in smile.feature_names:
             result[feature] = output[feature]
 
-        print(result)
+        print(f'opensmile restults: {result}')
         return result
 
     @staticmethod
-    def extract_prosogram_profile(file, praat_configurations):
+    def extract_prosogram_profile(file):
+        """
+        Extract prosodic features using prosogram through parselmouth.
+        
+        Args:
+            file (str): Path to the speech file.
+            
+        Returns:
+            profile (DataFrame): Prosogram analysis results
+        """
         import parselmouth
+        from pelican.Praat_setup import PROSOGRAM_SCRIPT
         try:
             sound = parselmouth.Sound(file)
-            result = parselmouth.praat.run_file(praat_configurations['praat_path']+'prosomain.praat', sound)
-
-            # Convert result into a DataFrame (assuming it's tab-separated text output)
+            # Common Prosogram parameters
+            result = parselmouth.praat.run_file(
+                PROSOGRAM_SCRIPT,
+                arguments=[sound, "save=yes", "draw=no"],
+                capture_output=True
+            )
+            
+            # Convert result into a DataFrame with the same format
             profile = pd.read_csv(pd.compat.StringIO(result), sep="\t")
-
+            
             return profile
 
         except Exception as e:
-            print(f"Error processing {file}: {e}")
+            print(f"Error processing {file}")
+            print(f"Full error message: {str(e)}")
+            raise  # This will show the full stack trace
             return None

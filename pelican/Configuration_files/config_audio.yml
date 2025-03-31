@@ -41,7 +41,7 @@ pipeline_options:
 # Audio Processing
 # ---------------
 opensmile_feature_extraction: true
-prosogram_extraction: false
+prosogram_extraction: true
 
 opensmile_configurations:
   always_2d: true

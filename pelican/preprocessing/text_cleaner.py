@@ -97,6 +97,9 @@ class FluencyCleaner:
             words = content.split(',')
         words = [word for word in words if word]
 
+        word_counter = Counter(words)
+        document.fluency_duplicate_count = sum(count - 1 for count in word_counter.values() if count > 1)
+
         # Apply cleaning operations based on options
         if self.options['remove_hyphens']:
             words = [word.replace('-', '') for word in words]
