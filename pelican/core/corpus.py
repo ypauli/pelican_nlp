@@ -1,5 +1,5 @@
 from pelican.preprocessing import TextPreprocessingPipeline
-from pelican.csv_functions import store_features_to_csv
+from pelican.utils.csv_functions import store_features_to_csv
 from pelican.extraction.language_model import Model
 from pelican.preprocessing.speaker_diarization import TextDiarizer
 import pelican.preprocessing.text_cleaner as textcleaner
@@ -171,10 +171,12 @@ class Corpus:
                 
                 for utterance in embeddings:
                     print(f'Processing utterance (length: {len(utterance)} tokens)')
+                    print(f'utterance: {utterance}')
+                    print(f'utterance tokens: {utterance.keys()}')
                     
                     if self.config['options_embeddings']['semantic-similarity']:
                         from pelican.extraction.semantic_similarity import calculate_semantic_similarity, \
-                            get_cosine_similarity_matrix, get_semantic_similarity_windows
+                            get_semantic_similarity_windows
                         consecutive_similarities, mean_similarity = calculate_semantic_similarity(utterance)
                         print(f'Mean semantic similarity: {mean_similarity:.4f}')
 
@@ -210,14 +212,25 @@ class Corpus:
                                               metric='distance-from-randomness')
 
                     # Process tokens without printing intermediate results
-                    if embedding_options['clean_tokens']:
+                    if embedding_options['clean_embedding_tokens']:
                         cleaned_embeddings = []
-                        for token, embedding in utterance:
-                            cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
-                            if cleaned_token is not None:
-                                cleaned_embeddings.append((cleaned_token, embedding))
+                        if isinstance(utterance, dict):
+                            # Handle dictionary case (PyTorch models)
+                            for token, embedding in utterance.items():
+                                if 'xlm-roberta-base' in self.config['options_embeddings']['model_name'].lower():
+                                    cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
+                                else:
+                                    cleaned_token = textcleaner.clean_token_generic(token)
+                                if cleaned_token is not None:
+                                    cleaned_embeddings.append((cleaned_token, embedding))
+                        else:
+                            # Handle list of tuples case (fastText)
+                            for token, embedding in utterance:
+                                cleaned_token = textcleaner.clean_token_generic(token)
+                                if cleaned_token is not None:
+                                    cleaned_embeddings.append((cleaned_token, embedding))
                     else:
-                        cleaned_embeddings = utterance
+                        cleaned_embeddings = utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
 
                     store_features_to_csv(cleaned_embeddings,
                                           self.derivative_dir,
@@ -228,12 +241,14 @@ class Corpus:
     def extract_opensmile_features(self):
         from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
         for i in range(len(self.documents)):
-            results = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
+            results, recording_length = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
+            self.documents[i].recording_length = recording_length  # Store the recording length
+            results['subject_ID'] = self.documents[i].subject_ID  # Set the subject ID
             print('results obtained')
             store_features_to_csv(results,
-                                  self.derivative_dir,
-                                  self.documents[i],
-                                  metric='opensmile-features')
+                                self.derivative_dir,
+                                self.documents[i],
+                                metric='opensmile-features')
 
     def extract_prosogram(self):
         from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction

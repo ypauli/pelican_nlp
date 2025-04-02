@@ -69,7 +69,14 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             _write_csv_header(writer, header, file_exists)
             
             for token, embedding in input_data:
-                writer.writerow([token] + embedding.tolist())
+                # Handle both list and tensor/array types
+                if hasattr(embedding, 'tolist'):
+                    embedding_list = embedding.tolist()
+                elif isinstance(embedding, list):
+                    embedding_list = embedding
+                else:
+                    raise ValueError(f"Embedding must be either a list or have tolist() method, got {type(embedding)}")
+                writer.writerow([token] + embedding_list)
 
         elif metric == 'cosine-similarity-matrix':
             _write_csv_header(writer, ['Matrix'], file_exists)
