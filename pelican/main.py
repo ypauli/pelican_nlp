@@ -1,33 +1,39 @@
-# Main project file
-# Created 1.10.24 by Yves Pauli
-# =============================
+#!/usr/bin/env python3
+"""
+Pelican Project
+===============
+
+Pelican is a tool developed to enable consistent and reproducible language processing.
+Main entry point for the Pelican project handling document processing and metric extraction.
+
+Author: Yves Pauli
+Created: 2024-01-10
+Version: 1.0.0
+
+Copyright (c) 2024 Yves Pauli
+License: Attribution-NonCommercial 4.0 International
+All rights reserved.
+"""
+
 from pathlib import Path
 from typing import Dict, List
 import torch.cuda
 import sys
 
-from pelican.preprocessing import Corpus
-from pelican.setup_functions import subject_instantiator, _load_config, _remove_previous_derivative_dir
-from pelican.LPDS import LPDS
+from pelican.core.corpus import Corpus
+from pelican.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
+from pelican.preprocessing.LPDS import LPDS
 
 # Constants
-DEFAULT_CONFIG_PATH = 'Configuration_files/config_fluency.yml'
+DEFAULT_CONFIG_PATH = 'configuration_files/config_morteza.yml'
 
 class Pelican:
-    """Main class for the Pelican project handling document processing and metric extraction.
-    
-    Attributes:
-        dev_mode (bool): Whether to run in development mode
-        config (dict): Configuration settings loaded from yaml file
-        project_path (Path): Root path of the project
-        path_to_subjects (Path): Path to subject files
-        output_directory (Path): Path for output derivatives
-        task (str): Name of the task being performed
-    """
+
+    """Main class for the Pelican project handling document processing and metric extraction."""
     
     def __init__(self, config_path: str = DEFAULT_CONFIG_PATH, dev_mode: bool = True) -> None:
         self.dev_mode = dev_mode
-        self.config = _load_config(config_path)
+        self.config = load_config(config_path)
         self.project_path = Path(self.config['PATH_TO_PROJECT_FOLDER'])
         self.path_to_subjects = self.project_path / 'subjects'
         self.output_directory = self.project_path / 'derivatives'
@@ -122,7 +128,7 @@ class Pelican:
     def _handle_output_directory(self) -> None:
         """Handle the output directory based on dev mode."""
         if self.dev_mode:
-            _remove_previous_derivative_dir(self.output_directory)
+            remove_previous_derivative_dir(self.output_directory)
         elif self.output_directory.exists():
             self._prompt_for_continuation()
 

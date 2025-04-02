@@ -6,7 +6,8 @@ class EmbeddingsExtractor:
         self.embeddings_configurations = embeddings_configurations
         self.model_name = embeddings_configurations['model_name']  # Embedding model instance (e.g., fastText, RoBERTa)
         self.model = Model(self.model_name, project_path)
-        self.Tokenizer = None
+        self.Tokenizer = TextTokenizer(self.embeddings_configurations['tokenization_method'], self.model_name,
+                                       self.embeddings_configurations['max_length'])
 
         self.model.load_model()
         self.model_instance = self.model.model_instance
@@ -15,15 +16,13 @@ class EmbeddingsExtractor:
 
         doc_entry_list = []
 
-        self.Tokenizer = TextTokenizer(self.embeddings_configurations['tokenization_method'], self.model_name,
-                                       self.embeddings_configurations['max_length'])
-
         for text in text_list:
 
             embeddings = {}
 
             # Tokenize the input text
             inputs = self.Tokenizer.tokenize_text(text)
+            print(f'inputs are: {inputs}')
 
             if self.embeddings_configurations['pytorch_based_model']:
                 #e.g. RoBERTa Model

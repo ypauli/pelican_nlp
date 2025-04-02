@@ -73,7 +73,7 @@ tokenization_options_logits:
   lowercase: true
 
 options_embeddings:
-  tokenization_method: "model" #or "whitespace"
+  tokenization_method: "model_roberta" #or "whitespace", "model"
   max_length: 512 #max sequence length
   model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
   pytorch_based_model: true
@@ -91,7 +91,13 @@ options_embeddings:
   semantic_similarity: false
   window_size: null
 
+  semantic-similarity: false
+  distance-from-randomness: false
+
 normalization_options:
   method: "lemmatization" #Options: lemmatization or stemming
+
+create_aggregation_of_results: false
+output_document_information: false
 
 

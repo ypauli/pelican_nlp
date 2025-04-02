@@ -7,7 +7,7 @@ input_file: "audio"  # Options: 'text' or 'audio'
 PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/Silvia"
 language: "dutch"  # Options: 'german', 'english'
 recompute_everything: true  # If false, reuses previously computed results
-
+output_document_information: true
 # Task Configuration
 # -----------------
 task_name: "monologue"  # Options: 'fluency', 'interview'
@@ -41,7 +41,7 @@ pipeline_options:
 # Audio Processing
 # ---------------
 opensmile_feature_extraction: true
-prosogram_extraction: true
+prosogram_extraction: false
 
 opensmile_configurations:
   always_2d: true
@@ -143,3 +143,8 @@ filename_components:
   corpus: true
   metric: true
   additional_tags: []
+
+document_information_output:
+  parameters:
+    - subject_ID
+    - recording_length

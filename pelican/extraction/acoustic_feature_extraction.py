@@ -10,7 +10,6 @@ class AudioFeatureExtraction:
 
         print(f'audio file is: {file}')
 
-        result = {}
         signal, sampling_rate = audiofile.read(
             file,
             always_2d=True,
@@ -21,36 +20,36 @@ class AudioFeatureExtraction:
         # extract eGeMAPSv02 feature set
         smile = opensmile.Smile(
             feature_set=opensmile.FeatureSet.eGeMAPSv02,
-            feature_level=opensmile.FeatureLevel.Functionals,
+            feature_level=opensmile.FeatureLevel.Functionals
         )
-        print(smile.feature_names)
 
         output = smile.process_signal(
             signal,
             sampling_rate
         )
-        print(output)
 
-        result['p_nr'] = file[0:4]
+        # Create result dictionary with only the values we want
+        result = {}
+        result['subject_ID'] = None  # This will be set by the calling function
         for feature in smile.feature_names:
-            result[feature] = output[feature]
+            # Extract just the numerical value from the output
+            result[feature] = float(output[feature].values[0])
 
-        print(f'opensmile restults: {result}')
-        return result
+        # Get recording length from the index
+        recording_length = output.index[0][1].total_seconds()  # This gets the end time from the MultiIndex
+
+        return result, recording_length
 
     @staticmethod
     def extract_prosogram_profile(file):
         """
         Extract prosodic features using prosogram through parselmouth.
-        
-        Args:
-            file (str): Path to the speech file.
-            
+
         Returns:
             profile (DataFrame): Prosogram analysis results
         """
         import parselmouth
-        from pelican.Praat_setup import PROSOGRAM_SCRIPT
+        from pelican.praat import PROSOGRAM_SCRIPT
         try:
             sound = parselmouth.Sound(file)
             # Common Prosogram parameters

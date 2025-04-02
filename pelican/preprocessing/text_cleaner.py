@@ -57,7 +57,6 @@ class TextCleaner:
         return fluencyCleaner.cleanFluency(document, content)
 
 
-
 class FluencyCleaner:
 
     def __init__(self, options=None):
@@ -209,3 +208,17 @@ def clean_subword_token_RoBERTa(token):
     clean_token = re.sub(r"[^A-Za-z0-9\u00C0-\u017F\-]", "", clean_token)
     
     return None if clean_token.isdigit() else clean_token.strip()
+
+
+def clean_token_generic(token):
+    """Generic token cleaning method for non-RoBERTa models.
+    This is a placeholder that should be implemented based on specific model needs.
+
+    Args:
+        token: String token to clean
+    Returns:
+        Cleaned token or None if token should be ignored
+    """
+    # TODO: Implement proper cleaning logic for other models
+    # For now, just return the token as is if it's not empty or None
+    return token.strip() if token and token.strip() else None

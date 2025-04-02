@@ -40,7 +40,7 @@ options_embeddings:
   pytorch_based_model: false
   method: "model_instance"
   max_length: null
-  clean_tokens: true
+  clean_embedding_tokens: true
 
   semantic-similarity: true
   distance-from-randomness: false
@@ -85,9 +85,8 @@ discourse: false
 document_information_output:
   parameters:
     - subject_ID
-    - task
     - fluency_word_count
-    - corpus_name
+    - fluency_duplicate_count
 
 #================================================================
 

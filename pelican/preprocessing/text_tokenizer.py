@@ -8,6 +8,8 @@ class TextTokenizer:
 
         self.tokenizer = self.get_tokenizer()
 
+        self.device_used = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     def tokenize_text(self, text):
 
         method = self.tokenization_method
@@ -30,7 +32,7 @@ class TextTokenizer:
         return self.tokenizer.convert_ids_to_tokens(ids)
 
     def get_tokenizer(self):
-        if self.tokenization_method == 'model':
+        if self.tokenization_method == 'model' or self.tokenization_method == 'model_roberta':
             from transformers import AutoTokenizer
             return AutoTokenizer.from_pretrained(self.model_name) #, use_fast=True
         else:

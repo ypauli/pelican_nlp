@@ -1,5 +1,5 @@
 import os
-from pelican.preprocessing import Subject
+from pelican.core.subject import Subject
 import shutil
 import yaml
 import sys
@@ -47,7 +47,7 @@ def _get_subject_sessions(subject, project_path):
 def _instantiate_documents(filepath, subject, config):
 
     if config['input_file']=='text':
-        from pelican.document import Document
+        from pelican.core.document import Document
         return [
             Document(
                 filepath,
@@ -65,7 +65,7 @@ def _instantiate_documents(filepath, subject, config):
         ]
 
     elif config['input_file']=='audio':
-        from pelican.audio_document import AudioFile
+        from pelican.core.audio_document import AudioFile
         return [
             AudioFile(
                 filepath,
@@ -78,14 +78,14 @@ def _instantiate_documents(filepath, subject, config):
             for file_name in os.listdir(filepath)
         ]
 
-def _remove_previous_derivative_dir(output_directory):
+def remove_previous_derivative_dir(output_directory):
     if os.path.isdir(output_directory):
         shutil.rmtree(output_directory)
 
 def ignore_files(directory, files):
     return [f for f in files if os.path.isfile(os.path.join(directory, f))]
 
-def _load_config(config_path):
+def load_config(config_path):
     try:
         with open(config_path, 'r') as stream:
             return yaml.safe_load(stream)
