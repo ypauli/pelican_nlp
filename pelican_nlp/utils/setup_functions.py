@@ -65,7 +65,7 @@ def _instantiate_documents(filepath, subject, config):
         ]
 
     elif config['input_file']=='audio':
-        from pelican.core.audio_document import AudioFile
+        from pelican_nlp.core.audio_document import AudioFile
         return [
             AudioFile(
                 filepath,
