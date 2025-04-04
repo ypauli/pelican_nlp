@@ -19,20 +19,36 @@ from pathlib import Path
 from typing import Dict, List
 import torch.cuda
 import sys
+import os
 
 from pelican_nlp.core.corpus import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing.LPDS import LPDS
 
 # Constants
-DEFAULT_CONFIG_PATH = 'configuration_files/config_morteza.yml'
+# DEFAULT_CONFIG_PATH = 'configuration_files/config_morteza.yml'
 
 class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
     
-    def __init__(self, config_path: str = DEFAULT_CONFIG_PATH, dev_mode: bool = True) -> None:
+    def __init__(self, config_path: str = None, dev_mode: bool = True) -> None:
         self.dev_mode = dev_mode
+        
+        # If no config path is provided, use the default config from package
+        if config_path is None:
+            package_dir = Path(__file__).parent
+            default_config = package_dir / 'configuration_files' / 'config_fluency.yml'
+            if default_config.exists():
+                config_path = str(default_config)
+                print(f"Using default configuration file: {config_path}")
+            else:
+                sys.exit('Error: Default configuration file not found in package.')
+        
+        # Verify the provided path is a YAML file
+        elif not config_path.endswith(('.yml', '.yaml')):
+            sys.exit('Error: Configuration file must be a YAML file (*.yml or *.yaml)')
+        
         self.config = load_config(config_path)
         self.project_path = Path(self.config['PATH_TO_PROJECT_FOLDER'])
         self.path_to_subjects = self.project_path / 'subjects'
@@ -190,7 +206,6 @@ class Pelican:
     def _clear_gpu_memory() -> None:
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
-
 
 
 if __name__ == '__main__':
