@@ -1,3 +1,8 @@
+"""
+This module provides the Subject class, each instance representing one subject.
+The Subject class stores all subject specific information and a list of corresponding documents.
+"""
+
 class Subject:
     def __init__(self, subjectID, description=None):
 

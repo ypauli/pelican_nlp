@@ -4,6 +4,8 @@ utils/sample_usage.py
 TODO.txt
 Silvia_files/
 Nils_backup/
+configuration_files/config_morteza.yml
+configuration_files/config_audio.yml
 
 # Ignore build and distribution directories
 build/
