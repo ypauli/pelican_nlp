@@ -1,5 +1,5 @@
 import os
-from pelican.core.subject import Subject
+from pelican_nlp.core.subject import Subject
 import shutil
 import yaml
 import sys
@@ -47,7 +47,7 @@ def _get_subject_sessions(subject, project_path):
 def _instantiate_documents(filepath, subject, config):
 
     if config['input_file']=='text':
-        from pelican.core.document import Document
+        from pelican_nlp.core.document import Document
         return [
             Document(
                 filepath,

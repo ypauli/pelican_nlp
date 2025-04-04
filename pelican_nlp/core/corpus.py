@@ -6,12 +6,11 @@ steps applied and results should be aggregated.
 This class contains the pipelines for homogenous processing and metric extraction of all grouped files.
 """
 
-
-from pelican.preprocessing import TextPreprocessingPipeline
-from pelican.utils.csv_functions import store_features_to_csv
-from pelican.extraction.language_model import Model
-from pelican.preprocessing.speaker_diarization import TextDiarizer
-import pelican.preprocessing.text_cleaner as textcleaner
+from pelican_nlp.preprocessing import TextPreprocessingPipeline
+from pelican_nlp.utils.csv_functions import store_features_to_csv
+from pelican_nlp.extraction.language_model import Model
+from pelican_nlp.preprocessing.speaker_diarization import TextDiarizer
+import pelican_nlp.preprocessing.text_cleaner as textcleaner
 import os
 import pandas as pd
 import re
@@ -110,8 +109,8 @@ class Corpus:
             print("No results to aggregate")
 
     def extract_logits(self):
-        from pelican.extraction.extract_logits import LogitsExtractor
-        from pelican.preprocessing.text_tokenizer import TextTokenizer
+        from pelican_nlp.extraction.extract_logits import LogitsExtractor
+        from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
         logits_options = self.config['options_logits']
         project_path = self.config['PATH_TO_PROJECT_FOLDER']
 
@@ -150,7 +149,7 @@ class Corpus:
                                           metric='logits')
 
     def extract_embeddings(self):
-        from pelican.extraction.extract_embeddings import EmbeddingsExtractor
+        from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
 
         embedding_options = self.config['options_embeddings']
         print('Embeddings extraction in progress...')
@@ -173,7 +172,7 @@ class Corpus:
                 for utterance in embeddings:
 
                     if self.config['options_embeddings']['semantic-similarity']:
-                        from pelican.extraction.semantic_similarity import calculate_semantic_similarity, \
+                        from pelican_nlp.extraction.semantic_similarity import calculate_semantic_similarity, \
                             get_semantic_similarity_windows
                         consecutive_similarities, mean_similarity = calculate_semantic_similarity(utterance)
                         print(f'Mean semantic similarity: {mean_similarity:.4f}')
@@ -201,7 +200,7 @@ class Corpus:
                                                   metric=f'semantic-similarity-window-{window_size}')
 
                     if self.config['options_embeddings']['distance-from-randomness']:
-                        from pelican.extraction.distance_from_randomness import get_distance_from_randomness
+                        from pelican_nlp.extraction.distance_from_randomness import get_distance_from_randomness
                         divergence = get_distance_from_randomness(utterance, self.config["options_dis_from_randomness"])
                         print(f'Divergence from optimality metrics: {divergence}')
                         store_features_to_csv(divergence,
@@ -237,7 +236,7 @@ class Corpus:
         return
 
     def extract_opensmile_features(self):
-        from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+        from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
         for i in range(len(self.documents)):
             results, recording_length = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
             self.documents[i].recording_length = recording_length  # Store the recording length
@@ -249,7 +248,7 @@ class Corpus:
                                 metric='opensmile-features')
 
     def extract_prosogram(self):
-        from pelican.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+        from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
         for i in range(len(self.documents)):
             results = AudioFeatureExtraction.extract_prosogram_profile(self.documents[i].file)
             print('prosogram obtained')

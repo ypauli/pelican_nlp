@@ -1,6 +1,6 @@
-from pelican.preprocessing.text_tokenizer import TextTokenizer
-from pelican.preprocessing.text_cleaner import TextCleaner, FluencyCleaner
-from pelican.preprocessing.text_normalizer import TextNormalizer
+from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
+from pelican_nlp.preprocessing.text_cleaner import TextCleaner, FluencyCleaner
+from pelican_nlp.preprocessing.text_normalizer import TextNormalizer
 
 class TextPreprocessingPipeline:
     """Pipeline for text preprocessing operations."""
