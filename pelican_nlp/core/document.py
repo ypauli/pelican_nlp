@@ -5,7 +5,7 @@ The Document class stores all document specific information.
 
 import os
 import re
-from pelican.preprocessing import TextImporter
+from pelican_nlp.preprocessing import TextImporter
 from collections import defaultdict, OrderedDict
 
 class Document:
