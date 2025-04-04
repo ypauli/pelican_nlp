@@ -1,0 +1,1 @@
+from .main import Pelican_nlp  # Now importing Pelican
