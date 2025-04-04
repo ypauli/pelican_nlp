@@ -15,7 +15,7 @@ corpus_names:
 number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
 multiple_sessions: false # Set to True if multiple sessions per subject
 
-recompute_everything: true #If set to 'false' pelican will try to reuse previously computed results stored on your drive
+recompute_everything: true #If set to 'false' pelican-nlp will try to reuse previously computed results stored on your drive
 
 has_multiple_sections: false #evaluated independently
 has_section_titles: false

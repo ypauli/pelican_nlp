@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PELICAN.iml" filepath="$PROJECT_DIR$/.idea/PELICAN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PELICAN-nlp.iml" filepath="$PROJECT_DIR$/.idea/PELICAN-nlp.iml" />
     </modules>
   </component>
 </project>
