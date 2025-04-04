@@ -1,3 +1,12 @@
+"""
+This module provides the Corpus class, which aggregates documents where the same processing
+steps applied and results should be aggregated.
+(e.g. all fluency files from task 'animals' or all image-descriptions from the same image)
+
+This class contains the pipelines for homogenous processing and metric extraction of all grouped files.
+"""
+
+
 from pelican.preprocessing import TextPreprocessingPipeline
 from pelican.utils.csv_functions import store_features_to_csv
 from pelican.extraction.language_model import Model
@@ -9,14 +18,6 @@ import re
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings):
-        """Initialize Corpus object.
-        
-        Args:
-            corpus_name: Name of the corpus
-            documents: List of Document objects
-            configuration_settings: Dictionary of configuration options
-            task: Optional task identifier
-        """
         self.name = corpus_name
         self.documents = documents
         self.config = configuration_settings
@@ -170,10 +171,7 @@ class Corpus:
                     self.documents[i].fluency_word_count = token_count
                 
                 for utterance in embeddings:
-                    print(f'Processing utterance (length: {len(utterance)} tokens)')
-                    print(f'utterance: {utterance}')
-                    print(f'utterance tokens: {utterance.keys()}')
-                    
+
                     if self.config['options_embeddings']['semantic-similarity']:
                         from pelican.extraction.semantic_similarity import calculate_semantic_similarity, \
                             get_semantic_similarity_windows

@@ -38,21 +38,36 @@ class Pelican:
         self.path_to_subjects = self.project_path / 'subjects'
         self.output_directory = self.project_path / 'derivatives'
         self.task = self.config['task_name']
-
+        
+        # Add test configuration
+        self.test_config = {
+            'run_all': True,  # Run all tests by default
+            'test_paths': ['tests'],  # Default test directory
+            'markers': [],  # Specific test markers to run
+            'skip_slow': True,  # Skip slow tests by default
+        }
+        
         if not self.path_to_subjects.is_dir():
             sys.exit('Error: Could not find subjects directory; check folder structure.')
 
     def run(self) -> None:
         """Execute the main processing pipeline."""
         self._clear_gpu_memory()
+
+        '''
+        #run unittests in dev_mode; not yet implemented
+        if self.dev_mode:
+            self._run_tests()
+        '''
+
         self._handle_output_directory()
-
-        #Check/Create LPDS
+        
+        # Check/Create LPDS
         self._LPDS()
-
-        #Instantiate all subjects
+        
+        # Instantiate all subjects
         subjects = subject_instantiator(self.config)
-
+        
         # Process each corpus
         for corpus_name in self.config['corpus_names']:
             self._process_corpus(corpus_name, subjects)
@@ -92,7 +107,7 @@ class Pelican:
 
 
     def _LPDS(self):
-        # Initialize LPDS and create derivative directory
+        """Initialize LPDS and create derivative directory"""
         lpds = LPDS(self.project_path, self.config['multiple_sessions'])
         lpds.LPDS_checker()
         lpds.derivative_dir_creator()
@@ -132,6 +147,36 @@ class Pelican:
         elif self.output_directory.exists():
             self._prompt_for_continuation()
 
+    def _run_tests(self) -> None:
+        # Run unittests to test implemented functions... not yet in use
+        """Run test suite in development mode with configurable options."""
+        import pytest
+        print("Running tests in development mode...")
+
+        # Build pytest arguments
+        pytest_args = ["-v", "--no-header"]
+
+        # Add test paths
+        pytest_args.extend(self.test_config['test_paths'])
+
+        # Add markers if specified
+        for marker in self.test_config['markers']:
+            pytest_args.extend(["-m", marker])
+
+        # Skip slow tests if configured
+        if self.test_config['skip_slow']:
+            pytest_args.extend(["-m", "not slow"])
+
+        # Run pytest with constructed arguments
+        result = pytest.main(pytest_args)
+
+        # Handle test results
+        if result != 0:
+            print("Tests failed. Aborting execution.")
+            sys.exit(1)
+
+        print("All tests passed. Continuing with execution.\n")
+
     @staticmethod
     def _prompt_for_continuation() -> None:
         """Prompt user for continuation if output directory exists."""
@@ -143,9 +188,10 @@ class Pelican:
 
     @staticmethod
     def _clear_gpu_memory() -> None:
-        """Clear CUDA cache if GPU is available."""
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+
+
 
 if __name__ == '__main__':
     Pelican().run()

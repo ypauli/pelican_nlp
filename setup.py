@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='pelican',
+    name='pelican-nlp',
     version='1.0.0',
     description='Preprocessing and Extraction of Linguistic Information for Computational Analysis',
     url='https://github.com/ypauli/PELICAN',
     author='Yves Pauli',
     author_email='yves.pauli@gmail.com',
-    license='BSD 2-clause',
+    license='Attribution-NonCommercial 4.0 International',
     packages=find_packages(),  # Automatically include all subpackages
     install_requires=[
         'numpy',

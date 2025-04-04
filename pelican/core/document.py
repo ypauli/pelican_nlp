@@ -1,3 +1,8 @@
+"""
+This module provides the Document class, each instance representing one file within a corpus.
+The Document class stores all document specific information.
+"""
+
 import os
 import re
 from pelican.preprocessing import TextImporter
