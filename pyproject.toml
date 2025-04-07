@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pelican-nlp"
+version = "0.1.0"
+description = "Preprocessing and Extraction of Linguistic Information for Computational Analysis"
+authors = [
+    {name = "Yves Pauli", email = "yves.pauli@gmail.com"},
+]
+license = {text = "Attribution-NonCommercial 4.0 International"}
+readme = "README.rst"
+requires-python = ">=3.6"
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "accelerate==1.1.1",
+    "audiofile==1.5.1",
+    "chardet==4.0.0",
+    "docx2txt==0.8",
+    "editdistance==0.8.1",
+    "epitran==1.26.0",
+    "fasttext==0.9.3",
+    "librosa==0.11.0",
+    "matplotlib==3.10.1",
+    "nltk==3.8.1",
+    "numpy==2.2.4",
+    "opensmile==2.5.1",
+    "pandas==2.2.3",
+    "panphon==0.21.2",
+    "parselmouth==1.1.1",
+    "psutil==6.1.0",
+    "pydub==0.25.1",
+    "PyQt5==5.15.11",
+    "pyqtgraph==0.13.7",
+    "pytest==8.3.4",
+    "PyYAML==6.0.2",
+    "scikit_learn==1.6.1",
+    "scipy==1.15.2",
+    "seaborn==0.13.2",
+    "soundfile==0.13.1",
+    "spacy==3.7.2",
+    "statsmodels==0.14.4",
+    "striprtf==0.0.28",
+    "torch==2.5.1",
+    "torchaudio==2.5.1",
+    "tqdm==4.66.5",
+    "transformers==4.46.3",
+    "uroman==1.3.1.1"
+]
+
+[project.urls]
+Homepage = "https://github.com/ypauli/PELICAN-nlp"
+Repository = "https://github.com/ypauli/PELICAN-nlp"
+
+[tool.setuptools]
+packages = ["pelican_nlp"] 

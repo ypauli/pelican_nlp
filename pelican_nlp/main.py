@@ -19,7 +19,6 @@ from pathlib import Path
 from typing import Dict, List
 import torch.cuda
 import sys
-import os
 
 from pelican_nlp.core.corpus import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
@@ -55,7 +54,7 @@ class Pelican:
         self.output_directory = self.project_path / 'derivatives'
         self.task = self.config['task_name']
         
-        # Add test configuration
+        # Add test configuration, TESTS NOT YET IMPLEMENTED
         self.test_config = {
             'run_all': True,  # Run all tests by default
             'test_paths': ['tests'],  # Default test directory

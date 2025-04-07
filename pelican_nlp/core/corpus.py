@@ -208,7 +208,7 @@ class Corpus:
                                               self.documents[i],
                                               metric='distance-from-randomness')
 
-                    # Process tokens without printing intermediate results
+                    # Process tokens
                     if embedding_options['clean_embedding_tokens']:
                         cleaned_embeddings = []
                         if isinstance(utterance, dict):
