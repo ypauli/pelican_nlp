@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pelican-nlp',
-    version='1.0.0',
+    version='0.1.0',
     description='Preprocessing and Extraction of Linguistic Information for Computational Analysis',
     url='https://github.com/ypauli/PELICAN-nlp',
     author='Yves Pauli',
