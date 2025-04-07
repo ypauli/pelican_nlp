@@ -20,9 +20,9 @@ from typing import Dict, List
 import torch.cuda
 import sys
 
-from pelican_nlp.core.corpus import Corpus
-from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
-from pelican_nlp.preprocessing.LPDS import LPDS
+from .core.corpus import Corpus
+from .utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
+from .preprocessing.LPDS import LPDS
 
 # Constants
 # DEFAULT_CONFIG_PATH = 'configuration_files/config_morteza.yml'

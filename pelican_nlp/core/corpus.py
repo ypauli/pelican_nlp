@@ -6,11 +6,11 @@ steps applied and results should be aggregated.
 This class contains the pipelines for homogenous processing and metric extraction of all grouped files.
 """
 
-from pelican_nlp.preprocessing import TextPreprocessingPipeline
-from pelican_nlp.utils.csv_functions import store_features_to_csv
-from pelican_nlp.extraction.language_model import Model
-from pelican_nlp.preprocessing.speaker_diarization import TextDiarizer
-import pelican_nlp.preprocessing.text_cleaner as textcleaner
+from ..preprocessing import TextPreprocessingPipeline
+from ..utils.csv_functions import store_features_to_csv
+from ..extraction.language_model import Model
+from ..preprocessing.speaker_diarization import TextDiarizer
+from ..preprocessing import text_cleaner as textcleaner
 import os
 import pandas as pd
 import re

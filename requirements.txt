@@ -1,36 +1,36 @@
-accelerate==1.1.1
-audiofile==1.5.1
-chardet==4.0.0
-docx2txt==0.8
-editdistance==0.8.1
-epitran==1.26.0
-fasttext==0.9.3
-librosa==0.11.0
-matplotlib==3.10.1
-nltk==3.8.1
-numpy==2.2.4
-opensmile==2.5.1
-pandas==2.2.3
-panphon==0.21.2
-parselmouth==1.1.1
-pelican==1.0.0
-psutil==6.1.0
-pydub==0.25.1
-PyQt5==5.15.11
-pyqtgraph==0.13.7
-pytest==8.3.4
-PyYAML==6.0.2
-PyYAML==6.0.2
-scikit_learn==1.6.1
-scipy==1.15.2
-seaborn==0.13.2
-setuptools==75.1.0
-soundfile==0.13.1
-spacy==3.7.2
-statsmodels==0.14.4
-striprtf==0.0.28
-torch==2.5.1
-torchaudio==2.5.1
-tqdm==4.66.5
-transformers==4.46.3
-uroman==1.3.1.1
+# Core dependencies
+numpy>=1.23.0,<2.0.0
+pandas>=1.5.0,<2.0.0
+PyYAML>=6.0.2
+torch>=2.5.1
+
+# Text processing
+spacy>=3.7.2,<3.9.0
+transformers>=4.37.2,<4.42.0
+docx2txt>=0.8
+striprtf>=0.0.28
+chardet>=4.0.0
+
+# Machine learning and data science
+scikit_learn>=1.6.1
+scipy>=1.15.2
+fasttext>=0.9.3
+
+# Visualization
+matplotlib>=3.10.1
+seaborn>=0.13.2
+
+# Utilities
+accelerate>=1.1.1
+editdistance>=0.8.1
+psutil>=6.1.0
+tqdm>=4.66.5
+
+# Testing
+pytest>=8.3.4
+
+# Statistics
+statsmodels>=0.14.4
+
+# Language models
+# de-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.7.0/de_core_news_sm-3.7.0-py3-none-any.whl

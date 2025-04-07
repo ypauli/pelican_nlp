@@ -34,6 +34,10 @@ class TextTokenizer:
     def get_tokenizer(self):
         if self.tokenization_method == 'model' or self.tokenization_method == 'model_roberta':
             from transformers import AutoTokenizer
-            return AutoTokenizer.from_pretrained(self.model_name) #, use_fast=True
+            return AutoTokenizer.from_pretrained(
+                self.model_name,
+                trust_remote_code=False,  # Don't execute arbitrary model code
+                use_safetensors=True
+            )
         else:
             return None
