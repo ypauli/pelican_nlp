@@ -36,6 +36,9 @@ Usage
 
 To use the pelican_nlp package:
 
+Adapt your configuration file to your needs.
+ALWAYS change the specified project folder location.
+
 .. code-block:: python
 
     from pelican_nlp.main import Pelican
@@ -75,19 +78,8 @@ Features
 Examples
 ========
 
-Here's a detailed usage example:
-
-.. code-block:: python
-
-    from package_name import SomeClass
-
-    configuration_file = "config_fluency.yml"
-    pelican.run(configuration_file)
-
-*Link to config_fluency.yml*
-
-Sample folder for data collection of the semantic fluency task:
-*Link to sample_folder*
+You can find example setups in the [`examples/`](https://github.com/ypauli/PELICAN-nlp/examples) folder.
+ALWAYS change the path to the project folder specified in the configuration file to your specific project location.
 
 Contributing
 ============
