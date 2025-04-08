@@ -1,5 +1,5 @@
 # Version and metadata
-__version__ = "0.1.1"
+from ._version import __version__
 __author__ = "Yves Pauli"
 
 try:

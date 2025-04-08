@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pelican_nlp"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Preprocessing and Extraction of Linguistic Information for Computational Analysis"
 readme = "README.rst"
 requires-python = ">=3.10"
@@ -62,4 +62,7 @@ include-package-data = true
 pelican_nlp = "pelican_nlp"
 
 [options]
-zip_safe = false 
+zip_safe = false
+
+[tool.setuptools.dynamic]
+version = {attr = "pelican_nlp._version.__version__"} 
