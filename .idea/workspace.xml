@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="561d1adb-82da-424d-a56f-a602fbe1dddd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PELICAN-nlp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PELICAN-nlp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MANIFEST.in" beforeDir="false" afterPath="$PROJECT_DIR$/MANIFEST.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/README.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pelican_nlp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pelican_nlp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pelican_nlp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pelican_nlp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pelican_nlp/preprocessing/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pelican_nlp/preprocessing/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pelican_nlp/extraction/extract_embeddings.py" beforeDir="false" afterPath="$PROJECT_DIR$/pelican_nlp/extraction/extract_embeddings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

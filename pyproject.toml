@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pelican_nlp"
-version = "0.1.11"
+version = "0.1.0"
 description = "Preprocessing and Extraction of Linguistic Information for Computational Analysis"
 readme = "README.rst"
 requires-python = ">=3.10"
