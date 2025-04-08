@@ -1,5 +1,3 @@
 include README.rst
 include LICENSE
 include requirements.txt
-recursive-include pelican_nlp/configuration_files *.yml
-recursive-include pelican_nlp/sample_configuration_files *.yml 

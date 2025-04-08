@@ -1,5 +1,5 @@
 # Version and metadata
-__version__ = "0.1.1"
+__version__ = "0.1.11"
 __author__ = "Yves Pauli"
 
 try:
