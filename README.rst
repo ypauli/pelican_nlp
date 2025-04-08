@@ -61,6 +61,7 @@ Text and audio files should follow this naming convention:
 - extension: file extension (e.g., txt / pdf / docx / rtf), mandatory
 
 Example filenames:
+
 - sub-01_ses-01_interview_schizophrenia.rtf
 - sub-03_ses-02_fluency_semantic_animals.docx
 
