@@ -62,7 +62,7 @@ Text and audio files should follow this naming convention:
 
 Example filenames:
 
-- sub-01_ses-01_interview_schizophrenia.rtf
+- sub-01_interview_schizophrenia.rtf
 - sub-03_ses-02_fluency_semantic_animals.docx
 
 To optimize performance, close other programs and limit GPU usage during language processing.
