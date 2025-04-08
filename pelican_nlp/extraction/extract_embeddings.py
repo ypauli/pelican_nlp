@@ -25,10 +25,15 @@ class EmbeddingsExtractor:
             print(f'inputs are: {inputs}')
 
             if self.embeddings_configurations['pytorch_based_model']:
-                #e.g. RoBERTa Model
+                #e.g. RoBERTa Model or Llama Model
                 import torch
                 with torch.no_grad():
-                    outputs = self.model_instance(**inputs)
+                    if 'llama' in self.model_name.lower():
+                        # Handle Llama models which expect input_ids directly
+                        outputs = self.model_instance(input_ids=inputs['input_ids'])
+                    else:
+                        # Handle RoBERTa and other models that accept **inputs
+                        outputs = self.model_instance(**inputs)
 
                 # Get word embeddings (last hidden state)
                 word_embeddings = outputs.last_hidden_state
