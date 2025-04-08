@@ -4,3 +4,4 @@ from .text_cleaner import TextCleaner
 from .text_tokenizer import TextTokenizer
 from .text_normalizer import TextNormalizer
 from .pipeline import TextPreprocessingPipeline
+from .LPDS import LPDS

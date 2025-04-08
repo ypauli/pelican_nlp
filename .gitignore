@@ -6,6 +6,7 @@ Silvia_files/
 Nils_backup/
 configuration_files/
 praat/
+simu/
 
 # Ignore build and distribution directories
 build/

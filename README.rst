@@ -1,15 +1,15 @@
 ====================================
-PELICAN-nlp
+PELICAN_nlp
 ====================================
 
-PELICAN-nlp stands for "Preprocessing and Extraction of Linguistic Information for Computational Analysis - Natural Language Processing". This package enables the creation of standardized and reproducible language processing pipelines, extracting linguistic features from various tasks like discourse, fluency, and image descriptions.
+PELICAN_nlp stands for "Preprocessing and Extraction of Linguistic Information for Computational Analysis - Natural Language Processing". This package enables the creation of standardized and reproducible language processing pipelines, extracting linguistic features from various tasks like discourse, fluency, and image descriptions.
 
 .. image:: https://img.shields.io/pypi/v/package-name.svg
     :target: https://pypi.org/project/package-name/
     :alt: PyPI version
 
 .. image:: https://img.shields.io/github/license/username/package-name.svg
-    :target: https://github.com/ypauli/PELICAN/blob/main/LICENSE
+    :target: https://github.com/ypauli/PELICAN-nlp/blob/main/LICENSE
     :alt: License
 
 .. image:: https://img.shields.io/pypi/pyversions/package-name.svg
@@ -23,25 +23,26 @@ Install the package using pip:
 
 .. code-block:: bash
 
-    pip install pelican-nlp
+    pip install pelican_nlp
 
 For the latest development version:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/ypauli/PELICAN.git
+    pip install git+https://github.com/ypauli/PELICAN_nlp.git
 
 Usage
 =====
 
-To use the pelican-nlp package:
+To use the pelican_nlp package:
 
 .. code-block:: python
 
-    import pelican-nlp as pelican
+    from pelican_nlp.main import Pelican
 
     configuration_file = "/path/to/your/config/file"
-    pelican.run(configuration_file)
+    pelican = Pelican(configuration_file)
+    pelican.run()
 
 For reliable operation, data must be stored in the *Language Processing Data Structure (LPDS)* format, inspired by brain imaging data structure conventions.
 
