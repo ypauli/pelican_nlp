@@ -29,7 +29,7 @@ For the latest development version:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/ypauli/PELICAN_nlp.git
+    pip install https://github.com/yourusername/yourrepo/releases/tag/v0.1.0-alpha
 
 Usage
 =====
