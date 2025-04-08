@@ -1,3 +1,27 @@
 include README.rst
 include LICENSE
 include requirements.txt
+include pyproject.toml
+
+# Include documentation
+include CONTRIBUTING.md
+include CHANGES
+recursive-include docs *
+
+# Include examples
+recursive-include examples *.py *.yml *.yaml *.txt
+
+# Include test files
+recursive-include tests *.py
+
+# Include package data
+recursive-include pelican_nlp *.py *.json *.yml *.yaml
+
+# Exclude cache and build files
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude .git*
+global-exclude .DS_Store
+
+exclude .gitignore
