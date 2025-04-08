@@ -51,7 +51,7 @@ For reliable operation, data must be stored in the *Language Processing Data Str
 
 Text and audio files should follow this naming convention:
 
-subjectID_sessionID_task_task-supplement_corpus.extension
+[subjectID]_[sessionID]_[task]_[task-supplement]_[corpus].[extension]
 
 - subjectID: ID of subject (e.g., sub-01), mandatory
 - sessionID: ID of session (e.g., ses-01), if available
