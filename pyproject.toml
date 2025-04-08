@@ -49,10 +49,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ypauli/PELICAN_nlp"
-Repository = "https://github.com/ypauli/PELICAN_nlp"
-Documentation = "https://github.com/ypauli/PELICAN_nlp#readme"
-"Bug Tracker" = "https://github.com/ypauli/PELICAN_nlp/issues"
+Homepage = "https://github.com/ypauli/pelican_nlp"
+Repository = "https://github.com/ypauli/pelican_nlp"
+Documentation = "https://github.com/ypauli/pelican_nlp#readme"
+"Bug Tracker" = "https://github.com/ypauli/pelican_nlp/issues"
 
 [tool.setuptools]
 packages = ["pelican_nlp"]
