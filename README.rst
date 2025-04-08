@@ -79,7 +79,7 @@ Features
 Examples
 ========
 
-You can find example setups in the [`examples/`](https://github.com/ypauli/pelican_nlp/examples) folder.
+You can find example setups in the [`examples/`](https://github.com/ypauli/pelican_nlp/tree/main/examples) folder.
 ALWAYS change the path to the project folder specified in the configuration file to your specific project location.
 
 Contributing
