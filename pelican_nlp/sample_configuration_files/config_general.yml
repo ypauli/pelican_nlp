@@ -4,7 +4,6 @@
 # Basic Settings
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
-PATH_TO_PROJECT_FOLDER: "/path/to/your/project"
 language: "german"
 recompute_everything: true  # If false, reuses previously computed results
 

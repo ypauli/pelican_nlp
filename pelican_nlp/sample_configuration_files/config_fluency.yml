@@ -5,7 +5,6 @@ fluency_task: &fluency_flag true
 #========================================
 
 #general configurations; always adapt
-PATH_TO_PROJECT_FOLDER: "/path/to/your/project"
 language: "german"
 multiple_sessions: &session_flag false
 
