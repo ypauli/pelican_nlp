@@ -54,6 +54,9 @@ Repository = "https://github.com/ypauli/pelican_nlp"
 Documentation = "https://github.com/ypauli/pelican_nlp#readme"
 "Bug Tracker" = "https://github.com/ypauli/pelican_nlp/issues"
 
+[project.scripts]
+pelican-run = "pelican_nlp.cli:main"
+
 [tool.setuptools]
 packages = ["pelican_nlp"]
 include-package-data = true
