@@ -5,7 +5,6 @@ discourse: &discourse_flag true
 #=====================================
 
 #general configurations; always adapt
-PATH_TO_PROJECT_FOLDER: "/path/to/your/project"
 language: "german" # Possibly add options for German and English
 
 task_name: "interview" # Give name of task used for creation of the input file (e.g., ['fluency', 'interview'])

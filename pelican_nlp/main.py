@@ -24,9 +24,6 @@ from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
 
-# Constants
-# DEFAULT_CONFIG_PATH = 'configuration_files/config_morteza.yml'
-
 class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
@@ -47,9 +44,9 @@ class Pelican:
         # Verify the provided path is a YAML file
         elif not config_path.endswith(('.yml', '.yaml')):
             sys.exit('Error: Configuration file must be a YAML file (*.yml or *.yaml)')
-        
+
         self.config = load_config(config_path)
-        self.project_path = Path(self.config['PATH_TO_PROJECT_FOLDER'])
+        self.project_path = Path(config_path).resolve().parent
         self.path_to_subjects = self.project_path / 'subjects'
         self.output_directory = self.project_path / 'derivatives'
         self.task = self.config['task_name']
@@ -81,7 +78,7 @@ class Pelican:
         self._LPDS()
         
         # Instantiate all subjects
-        subjects = subject_instantiator(self.config)
+        subjects = subject_instantiator(self.config, self.project_path)
         
         # Process each corpus
         for corpus_name in self.config['corpus_names']:
@@ -93,7 +90,7 @@ class Pelican:
         print(f'Processing corpus: {corpus_name}')
 
         corpus_documents = self._identify_corpus_files(subjects, corpus_name)
-        corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config)
+        corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config, self.project_path)
 
         for document in corpus_documents[corpus_name]:
             document.corpus_name = corpus_name

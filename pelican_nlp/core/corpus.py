@@ -16,11 +16,12 @@ import pandas as pd
 import re
 
 class Corpus:
-    def __init__(self, corpus_name, documents, configuration_settings):
+    def __init__(self, corpus_name, documents, configuration_settings, project_folder):
         self.name = corpus_name
         self.documents = documents
         self.config = configuration_settings
-        self.derivative_dir = self.config['PATH_TO_PROJECT_FOLDER']+'/derivatives'
+        self.project_folder = project_folder
+        self.derivative_dir = project_folder / 'derivatives'
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = configuration_settings['task_name']
         self.results_path = None
@@ -112,14 +113,13 @@ class Corpus:
         from pelican_nlp.extraction.extract_logits import LogitsExtractor
         from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
         logits_options = self.config['options_logits']
-        project_path = self.config['PATH_TO_PROJECT_FOLDER']
 
         print('logits extraction in progress')
         model_name = logits_options['model_name']
         logitsExtractor = LogitsExtractor(logits_options,
                                           self.pipeline,
-                                          project_path)
-        model = Model(model_name, project_path)
+                                          self.project_folder)
+        model = Model(model_name, self.project_folder)
         model.load_model()
         model_instance = model.model_instance
         tokenizer = TextTokenizer(logits_options['tokenization_method'], model_name=logits_options['model_name'])
@@ -153,7 +153,7 @@ class Corpus:
 
         embedding_options = self.config['options_embeddings']
         print('Embeddings extraction in progress...')
-        embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.config['PATH_TO_PROJECT_FOLDER'])
+        embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.project_folder)
         for i in range(len(self.documents)):
             for key, section in self.documents[i].cleaned_sections.items():
                 print(f'Processing section {key}')

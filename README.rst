@@ -39,13 +39,30 @@ To use the pelican_nlp package:
 Adapt your configuration file to your needs.
 ALWAYS change the specified project folder location.
 
+Save configuration file to main project directory.
+
+Run from command line:
+
+Navigate to main project directory in command line and enter the following command (Note: Folder must contain your subjects folder and your configuration.yml file):
+
+.. code-block:: bash
+
+    pelican-run
+
+
+Run with python script:
+
+Create python file with IDE of your choice (e.g. Visual Studio Code, Pycharm, etc.) and copy the following code into the file:
+
 .. code-block:: python
 
     from pelican_nlp.main import Pelican
 
-    configuration_file = "/path/to/your/config/file"
+    configuration_file = "/path/to/your/config/file.yml"
     pelican = Pelican(configuration_file)
     pelican.run()
+
+Replace "/path/to/your/config/file" with the path to your configuration file located in your main project folder.
 
 For reliable operation, data must be stored in the *Language Processing Data Structure (LPDS)* format, inspired by brain imaging data structure conventions.
 

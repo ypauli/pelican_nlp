@@ -4,8 +4,7 @@ import shutil
 import yaml
 import sys
 
-def subject_instantiator(config):
-    project_folder = config['PATH_TO_PROJECT_FOLDER']
+def subject_instantiator(config, project_folder):
     path_to_subjects = os.path.join(project_folder, 'subjects')
     print('Instantiating Subjects...')
     subjects = [Subject(subject) for subject in os.listdir(path_to_subjects)]
