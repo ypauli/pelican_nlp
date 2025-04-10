@@ -5,7 +5,6 @@ fluency_task: &fluency_flag true
 #========================================
 
 #general configurations; always adapt
-PATH_TO_PROJECT_FOLDER: "/home/yvespauli/PycharmProjects/pelican_testing"
 language: "german"
 multiple_sessions: &session_flag false
 

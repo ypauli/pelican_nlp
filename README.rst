@@ -23,7 +23,7 @@ Create conda environment
 
 .. code-block:: bash
 
-    conda create -n pelican-nlp python=3.10
+    conda create -n pelican-nlp -c defaults python=3.10
 
 Activate environment
 
