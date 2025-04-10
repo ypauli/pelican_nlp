@@ -5,7 +5,7 @@
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
 language: "german"
-recompute_everything: true  # If false, reuses previously computed results
+recompute_everything: true #If false will give warning if output folder already exists
 
 # Task Configuration
 # -----------------
@@ -20,7 +20,7 @@ corpus_names:  # List of task corpora
 multiple_sessions: false
 number_of_subjects: null  # If null, auto-detected
 number_of_speakers: 1
-subject_speakertag: null  # Speaker tag for subject (e.g., "B")
+subject_speakertag: null  # Speaker tag for subject (e.g., "B"), only for discourse
 
 # Document Structure
 # ----------------

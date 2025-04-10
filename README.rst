@@ -19,6 +19,18 @@ pelican_nlp stands for "Preprocessing and Extraction of Linguistic Information f
 Installation
 ============
 
+Create conda environment
+
+.. code-block:: bash
+
+    conda create -n pelican-nlp python=3.10
+
+Activate environment
+
+.. code-block:: bash
+
+    conda activate pelican-nlp
+
 Install the package using pip:
 
 .. code-block:: bash
@@ -34,12 +46,12 @@ For the latest development version:
 Usage
 =====
 
-To use the pelican_nlp package:
+To run pelican_nlp you need a configuration.yml file in your project directory, which specifies the configurations used for your project.
+Sample configuration files can be found on the pelican_nlp github repository: https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files
 
-Adapt your configuration file to your needs.
-ALWAYS change the specified project folder location.
+Adapt your configuration file to your needs and save your personal configuration.yml file to your main project directory.
 
-Save configuration file to main project directory.
+Running pelican_nlp with your configurations can be done directly from the command line interface or via Python script.
 
 Run from command line:
 
@@ -47,13 +59,16 @@ Navigate to main project directory in command line and enter the following comma
 
 .. code-block:: bash
 
+    conda activate pelican-nlp
     pelican-run
 
 
 Run with python script:
 
 Create python file with IDE of your choice (e.g. Visual Studio Code, Pycharm, etc.) and copy the following code into the file:
+Make sure to use the previously created conda environment 'pelican-nlp' for your project.
 
+Run the following Python code:
 .. code-block:: python
 
     from pelican_nlp.main import Pelican
@@ -96,8 +111,7 @@ Features
 Examples
 ========
 
-You can find example setups in the [`examples/`](https://github.com/ypauli/pelican_nlp/tree/main/examples) folder.
-ALWAYS change the path to the project folder specified in the configuration file to your specific project location.
+You can find example setups on the github repository in the 'examples` folder: https://github.com/ypauli/pelican_nlp/tree/main/examples
 
 Contributing
 ============
