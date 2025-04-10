@@ -24,6 +24,8 @@ from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
 
+project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
+
 class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
@@ -31,7 +33,7 @@ class Pelican:
     def __init__(self, config_path: str = None, dev_mode: bool = True) -> None:
         self.dev_mode = dev_mode
         
-        # If no config path is provided, use the default config from package
+        # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
             package_dir = Path(__file__).parent
             default_config = package_dir / 'configuration_files' / 'config_fluency.yml'
@@ -205,4 +207,4 @@ class Pelican:
 
 
 if __name__ == '__main__':
-    Pelican().run()
+    Pelican(project_path).run()
