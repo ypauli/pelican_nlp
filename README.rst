@@ -111,7 +111,7 @@ Features
 Examples
 ========
 
-You can find example setups on the github repository in the 'examples` folder: https://github.com/ypauli/pelican_nlp/tree/main/examples
+You can find example setups on the github repository in the `examples <https://github.com/ypauli/pelican_nlp/tree/main/examples>`_ folder:
 
 Contributing
 ============
