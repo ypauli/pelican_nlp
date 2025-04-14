@@ -1,5 +1,6 @@
 import torch
 import psutil
+import os
 
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
 from transformers import AutoModelForCausalLM
@@ -17,8 +18,31 @@ class Model:
         if self.model_name == 'fastText':
             import fasttext
             import fasttext.util
-            fasttext.util.download_model('de', if_exists='ignore')
-            self.model_instance = fasttext.load_model('cc.de.300.bin')
+            
+            # Create a model directory if it doesn't exist
+            model_dir = os.path.join(os.path.expanduser('~'), '.fasttext')
+            os.makedirs(model_dir, exist_ok=True)
+            
+            # Set the model path using proper OS path joining
+            model_path = os.path.join(model_dir, 'cc.de.300.bin')
+            
+            # Download only if model doesn't exist
+            if not os.path.exists(model_path):
+                try:
+                    fasttext.util.download_model('de', if_exists='ignore')
+                except OSError:
+                    # Direct download fallback for Windows
+                    import urllib.request
+                    url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.de.300.bin.gz'
+                    urllib.request.urlretrieve(url, model_path + '.gz')
+                    # Decompress the file
+                    import gzip
+                    with gzip.open(model_path + '.gz', 'rb') as f_in:
+                        with open(model_path, 'wb') as f_out:
+                            f_out.write(f_in.read())
+                    os.remove(model_path + '.gz')
+            
+            self.model_instance = fasttext.load_model(model_path)
             print('FastText model loaded.')
         elif self.model_name == 'xlm-roberta-base':
             from transformers import AutoModel
