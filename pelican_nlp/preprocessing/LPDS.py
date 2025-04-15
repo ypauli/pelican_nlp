@@ -1,6 +1,8 @@
 import re
 import os
 
+from pelican_nlp.config import debug_print
+
 class LPDS:
     def __init__(self, project_folder, multiple_sessions):
         self.project_folder = project_folder
@@ -18,7 +20,7 @@ class LPDS:
         suggested_files = ["dataset_description.json", "README", "CHANGES", "participants.tsv"]
         for file in suggested_files:
             if not os.path.isfile(os.path.join(self.project_folder, file)):
-                print(f"Warning: Missing suggested file '{file}' in the project folder.")
+                debug_print(f"Warning: Missing suggested file '{file}' in the project folder.")
 
         # Check for the 'subjects' folder
         if not os.path.isdir(self.subjects_folder):
@@ -38,15 +40,16 @@ class LPDS:
             if self.multiple_sessions:
                 session_folders = [f for f in os.listdir(subject_path) if
                                    os.path.isdir(os.path.join(subject_path, f))]
-                if not session_folders:
+                if session_folders:
+                    if 'ses-01' not in session_folders:
+                        print(f"Warning: Ideally, the session folders should follow the naming convention 'ses-x'.")
+                else:
                     print(f"Warning: No session folders found in '{subject_folder}'.")
-                if 'ses-01' not in session_folders:
-                    print(f"Warning: Ideally, the session folders should follow the naming convention 'ses-x'.")
 
             # Check for optional subject_metadata file
             metadata_file = os.path.join(subject_path, "subject_metadata")
             if not os.path.isfile(metadata_file):
-                #print(f"Note: Optional 'subject_metadata' file is missing in '{subject_folder}'.")
+                debug_print(f"Note: Optional 'subject_metadata' file is missing in '{subject_folder}'.")
                 continue
 
             session_folders = subject_folder
@@ -68,7 +71,7 @@ class LPDS:
                         else:
                             pattern = fr"^{subject_folder}_{task_folder}.*"
                         if not re.match(pattern, file):
-                            print(f"Warning: File '{file}' in '{task_folder}' does not follow the LPDS naming conventions")
+                            debug_print(f"Warning: File '{file}' in '{task_folder}' does not follow the LPDS naming conventions")
 
     def derivative_dir_creator(self):
         # Create the 'derivatives' folder if it doesn't exist

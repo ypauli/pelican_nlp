@@ -49,7 +49,7 @@ class AudioFeatureExtraction:
             profile (DataFrame): Prosogram analysis results
         """
         import parselmouth
-        from pelican.praat import PROSOGRAM_SCRIPT
+        from pelican_nlp.praat import PROSOGRAM_SCRIPT
         try:
             sound = parselmouth.Sound(file)
             # Common Prosogram parameters

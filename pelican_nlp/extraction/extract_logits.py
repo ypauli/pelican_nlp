@@ -2,6 +2,8 @@ import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 
+from pelican_nlp.config import debug_print
+
 class LogitsExtractor:
     def __init__(self, options, pipeline, project_path):
 
@@ -13,9 +15,9 @@ class LogitsExtractor:
 
     def extract_features(self, section, tokenizer, model):
 
-        print(f'section to tokenize: {section}')
+        debug_print(f'section to tokenize: {section}')
         tokens = tokenizer.tokenize_text(section)
-        print(tokens)
+        debug_print(tokens)
 
         chunk_size = self.options['chunk_size']
         overlap_size = self.options['overlap_size']

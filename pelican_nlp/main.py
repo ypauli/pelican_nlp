@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Pelican Project
-===============
+Pelican-nlp Project
+===================
 
-Pelican is a tool developed to enable consistent and reproducible language processing.
+Pelican-nlp is a tool developed to enable consistent and reproducible language processing.
 Main entry point for the Pelican project handling document processing and metric extraction.
 
 Author: Yves Pauli
@@ -23,6 +23,7 @@ import sys
 from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
+from pelican_nlp.config import set_debug_mode, is_debug_mode
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 
@@ -32,6 +33,8 @@ class Pelican:
     
     def __init__(self, config_path: str = None, dev_mode: bool = True) -> None:
         self.dev_mode = dev_mode
+        # Set global debug mode
+        set_debug_mode(dev_mode)
         
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
