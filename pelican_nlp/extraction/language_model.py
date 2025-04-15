@@ -1,6 +1,7 @@
 import torch
 import psutil
 import os
+import shutil
 
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
 from transformers import AutoModelForCausalLM
@@ -26,24 +27,53 @@ class Model:
             # Set the model path using proper OS path joining
             model_path = os.path.join(model_dir, 'cc.de.300.bin')
             
-            # Download only if model doesn't exist
-            if not os.path.exists(model_path):
+            # Download only if model doesn't exist or is invalid
+            need_download = True
+            if os.path.exists(model_path):
                 try:
+                    self.model_instance = fasttext.load_model(model_path)
+                    need_download = False
+                except ValueError:
+                    print(f"Existing model file is corrupted, re-downloading...")
+                    os.remove(model_path)
+            
+            if need_download:
+                print("Downloading FastText model...")
+                try:
+                    # Try the built-in FastText downloader first
                     fasttext.util.download_model('de', if_exists='ignore')
-                except OSError:
-                    # Direct download fallback for Windows
+                    # Find the downloaded file in current directory
+                    downloaded_file = 'cc.de.300.bin'
+                    if os.path.exists(downloaded_file):
+                        # Move the file to the correct location
+                        shutil.move(downloaded_file, model_path)
+                    else:
+                        raise FileNotFoundError("FastText downloader didn't create the expected file")
+                except (OSError, ValueError, FileNotFoundError) as e:
+                    print(f"FastText downloader failed, using direct download: {str(e)}")
+                    # Direct download fallback
                     import urllib.request
                     url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.de.300.bin.gz'
-                    urllib.request.urlretrieve(url, model_path + '.gz')
+                    print(f"Downloading from {url}...")
+                    temp_gz_path = model_path + '.gz'
+                    urllib.request.urlretrieve(url, temp_gz_path)
+                    
                     # Decompress the file
+                    print("Decompressing model file...")
                     import gzip
-                    with gzip.open(model_path + '.gz', 'rb') as f_in:
+                    with gzip.open(temp_gz_path, 'rb') as f_in:
                         with open(model_path, 'wb') as f_out:
                             f_out.write(f_in.read())
-                    os.remove(model_path + '.gz')
+                    os.remove(temp_gz_path)
+                    print("Model decompressed successfully")
+                
+                # Verify the downloaded model
+                try:
+                    self.model_instance = fasttext.load_model(model_path)
+                except ValueError as e:
+                    raise ValueError(f"Failed to load downloaded model: {str(e)}. Please try removing {model_path} and running again.")
             
-            self.model_instance = fasttext.load_model(model_path)
-            print('FastText model loaded.')
+            print(f'FastText model loaded successfully from {model_path}')
         elif self.model_name == 'xlm-roberta-base':
             from transformers import AutoModel
             self.model_instance = AutoModel.from_pretrained(
@@ -80,7 +110,7 @@ class Model:
     def device_map_creation(self):
         #check if cuda is available
         if not torch.cuda.is_available():
-            print('Careful: Cuda not available, using CPU. This will be very slow.')
+            print('Careful: Cuda not available, using CPU. This can be slow. Consider running pipeline on different device')
         else:
             print(f'{torch.cuda.get_device_name(0)} available.')
 

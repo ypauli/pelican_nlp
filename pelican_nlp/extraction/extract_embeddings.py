@@ -1,6 +1,8 @@
 from pelican_nlp.extraction.language_model import Model
 from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
 
+from pelican_nlp.config import debug_print
+
 class EmbeddingsExtractor:
     def __init__(self, embeddings_configurations, project_path):
         self.embeddings_configurations = embeddings_configurations
@@ -22,7 +24,7 @@ class EmbeddingsExtractor:
 
             # Tokenize the input text
             inputs = self.Tokenizer.tokenize_text(text)
-            print(f'inputs are: {inputs}')
+            debug_print(f'inputs are: {inputs}')
 
             if self.embeddings_configurations['pytorch_based_model']:
                 #e.g. RoBERTa Model or Llama Model

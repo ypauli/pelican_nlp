@@ -15,6 +15,8 @@ import os
 import pandas as pd
 import re
 
+from pelican_nlp.config import debug_print
+
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, project_folder):
         self.name = corpus_name
@@ -28,7 +30,7 @@ class Corpus:
 
     def preprocess_all_documents(self):
         """Preprocess all documents"""
-        print('Preprocessing all documents...')
+        print(f'Preprocessing all documents of corpus {self.name}...')
         for document in self.documents:
             document.detect_sections()
             document.process_document(self.pipeline)
@@ -115,6 +117,7 @@ class Corpus:
         logits_options = self.config['options_logits']
 
         print('logits extraction in progress')
+
         model_name = logits_options['model_name']
         logitsExtractor = LogitsExtractor(logits_options,
                                           self.pipeline,
@@ -156,7 +159,7 @@ class Corpus:
         embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.project_folder)
         for i in range(len(self.documents)):
             for key, section in self.documents[i].cleaned_sections.items():
-                print(f'Processing section {key}')
+                debug_print(f'Processing section {key}')
                 
                 if self.config['discourse']:
                     section = TextDiarizer.parse_speaker(section, self.config['subject_speakertag'], embedding_options['keep_speakertags'])
@@ -175,7 +178,7 @@ class Corpus:
                         from pelican_nlp.extraction.semantic_similarity import calculate_semantic_similarity, \
                             get_semantic_similarity_windows
                         consecutive_similarities, mean_similarity = calculate_semantic_similarity(utterance)
-                        print(f'Mean semantic similarity: {mean_similarity:.4f}')
+                        debug_print(f'Mean semantic similarity: {mean_similarity:.4f}')
 
                         for window_size in self.config['options_semantic-similarity']['window_sizes']:
                             window_stats = get_semantic_similarity_windows(utterance, window_size)
@@ -187,7 +190,7 @@ class Corpus:
                                     'std_of_window_stds': window_stats[3],
                                     'mean_of_window_medians': window_stats[4]
                                 }
-                                print(f'Window {window_size} stats - mean: {window_stats[0]:.4f}, std: {window_stats[1]:.4f}, median: {window_stats[4]:.4f}')
+                                debug_print(f'Window {window_size} stats - mean: {window_stats[0]:.4f}, std: {window_stats[1]:.4f}, median: {window_stats[4]:.4f}')
                             else:
                                 window_data = {
                                     'mean': window_stats[0] if isinstance(window_stats, tuple) else window_stats,
@@ -202,7 +205,7 @@ class Corpus:
                     if self.config['options_embeddings']['distance-from-randomness']:
                         from pelican_nlp.extraction.distance_from_randomness import get_distance_from_randomness
                         divergence = get_distance_from_randomness(utterance, self.config["options_dis_from_randomness"])
-                        print(f'Divergence from optimality metrics: {divergence}')
+                        debug_print(f'Divergence from optimality metrics: {divergence}')
                         store_features_to_csv(divergence,
                                               self.derivative_dir,
                                               self.documents[i],
@@ -241,7 +244,7 @@ class Corpus:
             results, recording_length = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
             self.documents[i].recording_length = recording_length  # Store the recording length
             results['subject_ID'] = self.documents[i].subject_ID  # Set the subject ID
-            print('results obtained')
+            print('opensmile results obtained')
             store_features_to_csv(results,
                                 self.derivative_dir,
                                 self.documents[i],
@@ -293,4 +296,4 @@ class Corpus:
         # Convert to DataFrame and save to CSV
         df = pd.DataFrame(document_info)
         df.to_csv(output_file, index=False)
-        print(f"Document information saved to: {output_file}")
+        debug_print(f"Document information saved to: {output_file}")
