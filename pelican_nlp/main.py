@@ -23,7 +23,9 @@ import sys
 from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
-from pelican_nlp.config import set_debug_mode, is_debug_mode
+from pelican_nlp.utils.filename_parser import parse_lpds_filename
+
+from config import debug_print
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 
@@ -31,10 +33,9 @@ class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
     
-    def __init__(self, config_path: str = None, dev_mode: bool = True) -> None:
+    def __init__(self, config_path: str = None, dev_mode: bool = False) -> None:
+
         self.dev_mode = dev_mode
-        # Set global debug mode
-        set_debug_mode(dev_mode)
         
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
@@ -86,23 +87,25 @@ class Pelican:
         subjects = subject_instantiator(self.config, self.project_path)
         
         # Process each corpus
-        for corpus_name in self.config['corpus_names']:
-            self._process_corpus(corpus_name, subjects)
+        for corpus_value in self.config['corpus_values']:
+            self._process_corpus(self.config['corpus_key'], corpus_value, subjects)
 
-    def _process_corpus(self, corpus_name: str, subjects: List) -> None:
-
+    def _process_corpus(self, corpus_key: str, corpus_value: str, subjects: List) -> None:
         """Process a single corpus including preprocessing and metric extraction."""
-        print(f'Processing corpus: {corpus_name}')
 
-        corpus_documents = self._identify_corpus_files(subjects, corpus_name)
-        corpus = Corpus(corpus_name, corpus_documents[corpus_name], self.config, self.project_path)
+        corpus_entity = corpus_key + '-' + corpus_value
+        print(f'Processing corpus: {corpus_entity}')
+        debug_print(subjects, corpus_entity)
+        corpus_documents = self._identify_corpus_files(subjects, corpus_entity)
+        debug_print(len(corpus_documents))
+        corpus = Corpus(corpus_entity, corpus_documents[corpus_entity], self.config, self.project_path)
 
-        for document in corpus_documents[corpus_name]:
-            document.corpus_name = corpus_name
+        for document in corpus_documents[corpus_entity]:
+            document.corpus_name = corpus_entity
 
         if self.config['input_file']=='text':
             corpus.preprocess_all_documents()
-            print(f'Corpus {corpus_name} is preprocessed')
+            print(f'Corpus {corpus_key} is preprocessed')
 
             self._extract_metrics(corpus)
 
@@ -143,18 +146,34 @@ class Pelican:
         
         self._clear_gpu_memory()
 
-    def _identify_corpus_files(self, subjects: List, corpus: str) -> Dict:
-        """Identify and group files belonging to a specific corpus."""
-        corpus_dict = {corpus: []}
-        for subject in subjects:
-            for document in subject.documents:
-                name = Path(document.name)
-                document.extension = name.suffix
-                # Split by both '_' and '.' to get all parts
-                parts = name.stem.replace('.', '_').split('_')
-                # Check if corpus name appears in any part
-                if corpus in parts:
-                    corpus_dict[corpus].append(document)
+    def _identify_corpus_files(self, subjects: List, entity: str) -> Dict:
+        """Identify and group files based on specified entity-value pair."""
+        debug_print(f'identifying corpus files')
+        corpus_dict = {entity: []}
+        debug_print(len(subjects))
+        
+        # Check if entity is in key-value format
+        if '-' in entity:
+            key, value = entity.split('-', 1)
+            
+            for subject in subjects:
+                debug_print(subject.documents)
+                for document in subject.documents:
+                    entities = parse_lpds_filename(document.name)
+                    debug_print(entities)
+                    if key in entities and str(entities[key]) == value:
+                        corpus_dict[entity].append(document)
+        else:
+            # Entity is just a value, check all keys
+            for subject in subjects:
+                debug_print(subject.documents)
+                for document in subject.documents:
+                    entities = parse_lpds_filename(document.name)
+                    debug_print(entities)
+                    # Convert all values to strings for comparison
+                    if any(str(val) == entity for val in entities.values()):
+                        corpus_dict[entity].append(document)
+        
         return corpus_dict
 
     def _handle_output_directory(self) -> None:
@@ -210,4 +229,4 @@ class Pelican:
 
 
 if __name__ == '__main__':
-    Pelican(project_path).run()
+    Pelican(project_path, dev_mode=True).run()

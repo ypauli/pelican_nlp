@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def parse_bids_filename(filename):
+def parse_lpds_filename(filename):
     """Parse LPDS-style filename into entity-value pairs."""
 
     entities = {}
@@ -15,8 +15,8 @@ def parse_bids_filename(filename):
     # Parse each entity-value pair
     for part in parts:
         if '-' in part:
-            entity, value = part.split('-', 1)
-            entities[entity] = value
+            key, value = part.split('-', 1)
+            entities[key] = value
         else:
             entities['suffix'] = part
             

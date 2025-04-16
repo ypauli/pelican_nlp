@@ -1,58 +1,66 @@
 import os
 import csv
-import numpy as np
+from .filename_parser import parse_lpds_filename
+from pelican_nlp.config import debug_print
 
 def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
-    """Store various types of features to CSV files with consistent formatting.
-    
-    Args:
-        input_data: The data to be stored in CSV format
-        derivatives_dir: Base directory for all derivatives
-        doc_class: Document class containing subject, session (optional), task, and task_addition (optional) info
-        metric: Type of metric being stored
-    """
-    # Get the appropriate metric folder
-    metric_folder = metric
-    
-    # Build base filename parts from doc_class
-    filename_parts = [
-        doc_class.subject_ID,
-        doc_class.task,
-        doc_class.corpus_name
-    ]
-    
-    # Add session to filename if it exists
-    if hasattr(doc_class, 'session') and doc_class.session:
-        filename_parts.insert(1, doc_class.session)
-    
-    # Join the base parts with underscores
-    filename = "_".join(filename_parts)
-    
-    # Add task_addition with underscore if it exists
-    if hasattr(doc_class, 'task_addition') and doc_class.task_addition:
-        filename += f"_{doc_class.task_addition}"
-    
-    # Add the metric with an underscore
-    filename += f"_{metric}.csv"
+    """Store various types of features to CSV files with consistent formatting."""
 
-    # Build the full path
+    # Parse entities from the document name
+    entities = parse_lpds_filename(doc_class.name)
+    
+    # Get the base filename without extension and current suffix
+    base_filename = os.path.splitext(doc_class.name)[0]  # Remove extension
+    
+    # If there's a suffix in the entities, remove it from the base filename
+    if 'suffix' in entities:
+        # Remove the current suffix
+        base_filename = base_filename.replace(f"_{entities['suffix']}", "")
+    
+    # Create the new filename with the metric as suffix
+    filename = f"{base_filename}_{metric}.csv"
+    
+    # Extract core information from entities for directory structure
+    subject_ID = f"sub-{entities['sub']}" if 'sub' in entities else None
+    if not subject_ID:
+        raise ValueError(f"Missing required 'sub' entity in filename: {doc_class.name}")
+    
+    session = f"ses-{entities['ses']}" if 'ses' in entities else None
+    task = f"task-{entities['task']}" if 'task' in entities else None
+    
+    # Build the full path components
     path_components = [
         derivatives_dir,
-        metric_folder,
-        doc_class.subject_ID,
+        metric,  # Use metric as the folder name
+        subject_ID,
     ]
 
     # Add session to path if it exists
-    if hasattr(doc_class, 'session') and doc_class.session:
-        path_components.append(doc_class.session)
+    if session:
+        path_components.append(session)
 
-    path_components.append(doc_class.task)
+    # Add task to path if it exists
+    if task:
+        path_components.append(task)
     
     # Create directory and get final filepath
-    final_results_path = os.path.join(*path_components)
+    # Ensure all components have compatible types by using str() conversion
+    base_path = os.path.join(str(derivatives_dir), str(metric), str(subject_ID))
+    
+    # Build path incrementally with explicit type conversion
+    if session:
+        final_results_path = os.path.join(base_path, str(session))
+    else:
+        final_results_path = base_path
+        
+    if task:
+        final_results_path = os.path.join(final_results_path, str(task))
+
+
+    debug_print(final_results_path)
     os.makedirs(final_results_path, exist_ok=True)
     
-    output_filepath = os.path.join(final_results_path, filename)
+    output_filepath = os.path.join(final_results_path, str(filename))
     file_exists = os.path.exists(output_filepath)
     
     # Write data based on metric type
@@ -145,6 +153,8 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                         value = float(value)
                     row_data.append(value)
                 writer.writerow(row_data)
+
+    return output_filepath
 
 
 def _build_filename_parts(path_parts, corpus, metric, config=None):
