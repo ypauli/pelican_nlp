@@ -1,81 +1,107 @@
 import os
-from pelican_nlp.core.subject import Subject
 import shutil
 import yaml
 import sys
+from pelican_nlp.core.subject import Subject
+from .filename_parser import parse_lpds_filename
+from ..config import debug_print
+
 
 def subject_instantiator(config, project_folder):
     path_to_subjects = os.path.join(project_folder, 'subjects')
     print('Instantiating Subjects...')
-    subjects = [Subject(subject) for subject in os.listdir(path_to_subjects)]
+    
+    # Get all subject directories that match sub-* pattern
+    subjects = [
+        Subject(subject_dir) 
+        for subject_dir in os.listdir(path_to_subjects)
+    ]
 
     # Identifying all subject files
     for subject in subjects:
-        if config['multiple_sessions']:
-            paths = _get_subject_sessions(subject, project_folder)
-        else:
-            paths = [os.path.join(path_to_subjects, subject.subjectID)]
+        # Get subject ID from directory name (e.g., 'sub-01' -> '01')
+        subject.subjectID = subject.name.split('-')[1]
+        
+        # Find all files for this subject recursively
+        subject_path = os.path.join(path_to_subjects, subject.name)
+        all_files = []
+        for root, _, files in os.walk(subject_path):
+            all_files.extend([os.path.join(root, f) for f in files])
+        
+        # Filter files by task name from config
+        task_files = []
+        for file_path in all_files:
+            filename = os.path.basename(file_path)
+            entities = parse_lpds_filename(filename)
+            if entities.get('task') == config['task_name']:
+                task_files.append((file_path, filename))
 
-        for path in paths:
-            file_path = os.path.join(path, config['task_name'])
-            subject.documents.extend(_instantiate_documents(file_path, subject.subjectID, config))
-        print(f'all identified subject documents for subject {subject.subjectID}: {subject.documents}')
+        # Instantiate documents for matching files
+        for file_path, filename in task_files:
+            entities = parse_lpds_filename(filename)
+            document = _instantiate_document(file_path, filename, entities, config)
+            subject.documents.append(document)
+
+        debug_print(f'all identified subject documents for subject {subject.subjectID}: {subject.documents}')
+        
+        # Set up results paths for each document
         for document in subject.documents:
-            parts = document.file_path.split(os.sep)
+            entities = parse_lpds_filename(document.name)
             
-            # Adjust path components based on whether session exists
-            if config.get('multiple_sessions', False):
-                subject_ID, session, task = parts[-4], parts[-3], parts[-2]
-                document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, session, task)
-            else:
-                subject_ID, task = parts[-3], parts[-2]
-                document.results_path = os.path.join(project_folder, 'derivatives', subject_ID, task)
+            # Build derivatives path based on entities
+            derivatives_parts = [project_folder, 'derivatives']
+            
+            # Always include subject
+            derivatives_parts.append(f"sub-{entities['sub']}")
+            
+            # Add session if present
+            if 'ses' in entities:
+                derivatives_parts.append(f"ses-{entities['ses']}")
+            
+            # Add task
+            derivatives_parts.append(f"task-{entities['task']}")
+            
+            document.results_path = os.path.join(*derivatives_parts)
 
     return subjects
 
-def _get_subject_sessions(subject, project_path):
-    session_dir = os.path.join(os.path.join(project_path, 'subjects'), subject.subjectID)
-    session_paths = [
-        os.path.join(session_dir, session)
-        for session in os.listdir(session_dir)
-        if os.path.isdir(os.path.join(session_dir, session))
-    ]
-    subject.numberOfSessions = len(session_paths)
-    return session_paths
+def _instantiate_document(filepath, filename, entities, config):
+    """Create appropriate document instance based on config and entities"""
 
-def _instantiate_documents(filepath, subject, config):
+    common_kwargs = {
+        'file_path': os.path.dirname(filepath),
+        'name': filename,
+        'subject_ID': entities.get('sub'),
+        'task': entities.get('task'),
+        # Check for specific entities that might indicate document type
+        'fluency': 'cat' in entities and entities['cat'] == 'semantic',
+        'num_speakers': config['number_of_speakers'],
+    }
 
-    if config['input_file']=='text':
+    if config['input_file'] == 'text':
         from pelican_nlp.core.document import Document
-        return [
-            Document(
-                filepath,
-                file_name,
-                subject_ID = subject,
-                task=config['task_name'],
-                fluency=config['fluency_task'],
-                has_sections=config['has_multiple_sections'],
-                section_identifier=config['section_identification'],
-                number_of_sections=config['number_of_sections'],
-                num_speakers=config['number_of_speakers'],
-                has_section_titles=config['has_section_titles']
-            )
-            for file_name in os.listdir(filepath)
-        ]
-
-    elif config['input_file']=='audio':
+        return Document(
+            **common_kwargs,
+            # Use entities for section information if available, fall back to config
+            has_sections=bool(entities.get('sections', config['has_multiple_sections'])),
+            section_identifier=config['section_identification'],
+            number_of_sections=config['number_of_sections'],
+            has_section_titles=config['has_section_titles'],
+            # Add any additional entities as attributes
+            session=entities.get('ses'),
+            acquisition=entities.get('acq'),
+            category=entities.get('cat'),
+            run=entities.get('run'),
+        )
+    elif config['input_file'] == 'audio':
         from pelican_nlp.core.audio_document import AudioFile
-        return [
-            AudioFile(
-                filepath,
-                file_name,
-                subject_ID=subject,
-                task=config['task_name'],
-                fluency=config['fluency_task'],
-                num_speakers=config['number_of_speakers'],
-            )
-            for file_name in os.listdir(filepath)
-        ]
+        return AudioFile(
+            **common_kwargs,
+            # Add audio-specific entities
+            recording_type=entities.get('rec'),
+            channel=entities.get('ch'),
+            run=entities.get('run'),
+        )
 
 def remove_previous_derivative_dir(output_directory):
     if os.path.isdir(output_directory):

@@ -20,10 +20,12 @@ from pelican_nlp.config import debug_print
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, project_folder):
         self.name = corpus_name
+        self.key = corpus_name.split('-')[0]
+        self.value = corpus_name.split('-')[1]
         self.documents = documents
         self.config = configuration_settings
         self.project_folder = project_folder
-        self.derivative_dir = project_folder / 'derivatives'
+        self.derivatives_dir = project_folder / 'derivatives'
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = configuration_settings['task_name']
         self.results_path = None
@@ -45,21 +47,15 @@ class Corpus:
         """Create separate aggregated results CSV files for each metric."""
         print("Creating aggregated results files per metric...")
         
-        try:
-            derivatives_path = os.path.dirname(os.path.dirname(self.documents[0].results_path))
-        except (AttributeError, IndexError):
-            print("Error: No valid results path found in documents")
-            return
-        
         # Create aggregations folder
-        aggregation_path = os.path.join(derivatives_path, 'aggregations')
+        aggregation_path = os.path.join(self.derivatives_dir, 'aggregations')
         os.makedirs(aggregation_path, exist_ok=True)
         
         # Initialize results dictionary with metrics as keys
         results_by_metric = {}
         
         # Walk through all directories in derivatives
-        for root, dirs, files in os.walk(derivatives_path):
+        for root, dirs, files in os.walk(self.derivatives_dir):
             # Skip the aggregations directory itself
             if 'aggregations' in root:
                 continue
@@ -147,7 +143,7 @@ class Corpus:
 
                     #'logits' list of dictionaries; keys token, logprob_actual, logprob_max, entropy, most_likely_token
                     store_features_to_csv(logits,
-                                          self.derivative_dir,
+                                          self.derivatives_dir,
                                           self.documents[i],
                                           metric='logits')
 
@@ -157,7 +153,10 @@ class Corpus:
         embedding_options = self.config['options_embeddings']
         print('Embeddings extraction in progress...')
         embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.project_folder)
+        debug_print(len(self.documents))
         for i in range(len(self.documents)):
+
+            debug_print(f'cleaned sections: {self.documents[i].cleaned_sections}')
             for key, section in self.documents[i].cleaned_sections.items():
                 debug_print(f'Processing section {key}')
                 
@@ -198,7 +197,7 @@ class Corpus:
                                 }
                             
                             store_features_to_csv(window_data,
-                                                  self.derivative_dir,
+                                                  self.derivatives_dir,
                                                   self.documents[i],
                                                   metric=f'semantic-similarity-window-{window_size}')
 
@@ -207,7 +206,7 @@ class Corpus:
                         divergence = get_distance_from_randomness(utterance, self.config["options_dis_from_randomness"])
                         debug_print(f'Divergence from optimality metrics: {divergence}')
                         store_features_to_csv(divergence,
-                                              self.derivative_dir,
+                                              self.derivatives_dir,
                                               self.documents[i],
                                               metric='distance-from-randomness')
 
@@ -233,7 +232,7 @@ class Corpus:
                         cleaned_embeddings = utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
 
                     store_features_to_csv(cleaned_embeddings,
-                                          self.derivative_dir,
+                                          self.derivatives_dir,
                                           self.documents[i],
                                           metric='embeddings')
         return
@@ -246,9 +245,9 @@ class Corpus:
             results['subject_ID'] = self.documents[i].subject_ID  # Set the subject ID
             print('opensmile results obtained')
             store_features_to_csv(results,
-                                self.derivative_dir,
-                                self.documents[i],
-                                metric='opensmile-features')
+                                  self.derivatives_dir,
+                                  self.documents[i],
+                                  metric='opensmile-features')
 
     def extract_prosogram(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
@@ -260,14 +259,8 @@ class Corpus:
         """Create CSV file with summarized document parameters based on config specifications."""
         print("Creating document information summary...")
         
-        try:
-            derivatives_path = os.path.dirname(os.path.dirname(self.documents[0].results_path))
-        except (AttributeError, IndexError):
-            print("Error: No valid results path found in documents")
-            return
-        
         # Create document_information folder inside aggregations
-        doc_info_path = os.path.join(derivatives_path, 'aggregations', 'document_information')
+        doc_info_path = os.path.join(self.derivatives_dir, 'aggregations', 'document_information')
         os.makedirs(doc_info_path, exist_ok=True)
         
         # Define output file path
