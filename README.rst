@@ -2,12 +2,18 @@
 PELICAN_nlp
 ====================================
 
-.. image:: docs/images/pelican_logo.png
+.. |logo| image:: docs/images/pelican_logo.png
     :alt: PELICAN_nlp Logo
-    :width: 300px
-    :align: center
+    :width: 150px
 
-pelican_nlp stands for "Preprocessing and Extraction of Linguistic Information for Computational Analysis - Natural Language Processing". This package enables the creation of standardized and reproducible language processing pipelines, extracting linguistic features from various tasks like discourse, fluency, and image descriptions.
++------------+-------------------------------------------------------------------+
+| |logo|     | pelican_nlp stands for "Preprocessing and Extraction of Linguistic|
+|            | Information for Computational Analysis - Natural Language         |
+|            | Processing". This package enables the creation of standardized and|
+|            | reproducible language processing pipelines, extracting linguistic |
+|            | features from various tasks like discourse, fluency, and image    |
+|            | descriptions.                                                     |
++------------+-------------------------------------------------------------------+
 
 .. image:: https://img.shields.io/pypi/v/package-name.svg
     :target: https://pypi.org/project/pelican_nlp/
