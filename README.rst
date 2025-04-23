@@ -19,9 +19,9 @@ pelican_nlp
     :target: https://pypi.org/project/pelican_nlp/
     :alt: PyPI version
 
-.. image:: https://img.shields.io/github/license/ypauli/pelican_nlp.svg
+.. image:: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
     :target: https://github.com/ypauli/pelican_nlp/blob/main/LICENSE
-    :alt: License
+    :alt: License CC BY-NC 4.0
 
 .. image:: https://img.shields.io/pypi/pyversions/pelican_nlp.svg
     :target: https://pypi.org/project/pelican_nlp/
