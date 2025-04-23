@@ -4,7 +4,7 @@ PELICAN_nlp
 
 .. |logo| image:: docs/images/pelican_logo.png
     :alt: PELICAN_nlp Logo
-    :width: 200px
+    :width: 250px
 
 +------------+-------------------------------------------------------------------+
 | |logo|     | pelican_nlp stands for "Preprocessing and Extraction of Linguistic|
