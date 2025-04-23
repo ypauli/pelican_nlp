@@ -15,15 +15,15 @@ pelican_nlp
 |            | descriptions.                                                     |
 +------------+-------------------------------------------------------------------+
 
-.. image:: https://img.shields.io/pypi/v/package-name.svg
+.. image:: https://img.shields.io/pypi/v/pelican_nlp.svg
     :target: https://pypi.org/project/pelican_nlp/
     :alt: PyPI version
 
-.. image:: https://img.shields.io/github/license/username/package-name.svg
+.. image:: https://img.shields.io/github/license/ypauli/pelican_nlp.svg
     :target: https://github.com/ypauli/pelican_nlp/blob/main/LICENSE
     :alt: License
 
-.. image:: https://img.shields.io/pypi/pyversions/package-name.svg
+.. image:: https://img.shields.io/pypi/pyversions/pelican_nlp.svg
     :target: https://pypi.org/project/pelican_nlp/
     :alt: Supported Python Versions
 
