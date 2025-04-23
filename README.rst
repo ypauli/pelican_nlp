@@ -1,5 +1,5 @@
 ====================================
-PELICAN_nlp
+pelican_nlp
 ====================================
 
 .. |logo| image:: docs/images/pelican_logo.png
