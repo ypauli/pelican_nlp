@@ -24,7 +24,8 @@ class TextTokenizer:
             # Tokenize using the model's tokenizer
             return self.tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=self.max_sequence_length).to(self.device_used)
         elif method == 'model':
-            return self.tokenizer.encode(text, return_tensors='pt')
+            # For model method, return token IDs directly
+            return self.tokenizer.encode(text, add_special_tokens=True)
         else:
             raise ValueError(f"Unsupported tokenization method: {method}")
 
@@ -34,10 +35,14 @@ class TextTokenizer:
     def get_tokenizer(self):
         if self.tokenization_method == 'model' or self.tokenization_method == 'model_roberta':
             from transformers import AutoTokenizer
+            if not self.model_name:
+                raise ValueError("model_name must be provided for model-based tokenization methods")
             return AutoTokenizer.from_pretrained(
                 self.model_name,
                 trust_remote_code=False,  # Don't execute arbitrary model code
                 use_safetensors=True
             )
-        else:
+        elif self.tokenization_method == 'whitespace':
             return None
+        else:
+            raise ValueError(f"Unsupported tokenization method: {self.tokenization_method}")

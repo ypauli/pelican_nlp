@@ -35,13 +35,60 @@ class EmbeddingsExtractor:
                         outputs = self.model_instance(input_ids=inputs['input_ids'])
                     else:
                         # Handle RoBERTa and other models that accept **inputs
-                        outputs = self.model_instance(**inputs)
+                        if isinstance(inputs, dict):
+                            # Ensure inputs are on the same device as the model
+                            inputs = {k: v.to(self.model_instance.device) for k, v in inputs.items()}
+                            debug_print(f"Model inputs: {inputs}")
+                            outputs = self.model_instance(**inputs, output_hidden_states=True)
+                        else:
+                            debug_print(f"Input type: {type(inputs)}")
+                            debug_print(f"Input content: {inputs}")
+                            
+                            # If inputs is a list of strings, convert to token IDs first
+                            if isinstance(inputs, list):
+                                if isinstance(inputs[0], str):
+                                    # Convert tokens to IDs
+                                    token_ids = self.Tokenizer.tokenizer.convert_tokens_to_ids(inputs)
+                                    debug_print(f"Token IDs: {token_ids}")
+                                    inputs = torch.tensor([token_ids], device=self.model_instance.device)
+                                else:
+                                    # If it's already a list of numbers, convert directly
+                                    inputs = torch.tensor([inputs], device=self.model_instance.device)
+                            else:
+                                # If it's already a tensor, just move to device
+                                inputs = inputs.to(self.model_instance.device)
+                            
+                            debug_print(f"Final tensor shape: {inputs.shape}")
+                            
+                            # Ensure proper shape
+                            if len(inputs.shape) == 1:
+                                inputs = inputs.unsqueeze(0)  # Add batch dimension
+                            
+                            # Create attention mask
+                            attention_mask = torch.ones_like(inputs)
+                            debug_print(f"Model inputs - input_ids: {inputs.shape}, attention_mask: {attention_mask.shape}")
+                            outputs = self.model_instance(input_ids=inputs, attention_mask=attention_mask, output_hidden_states=True)
+                            debug_print(f"Model outputs type: {type(outputs)}")
+                            debug_print(f"Model outputs attributes: {dir(outputs)}")
 
                 # Get word embeddings (last hidden state)
-                word_embeddings = outputs.last_hidden_state
+                if outputs is None:
+                    raise ValueError("Model returned None output")
+                
+                if hasattr(outputs, 'hidden_states') and outputs.hidden_states is not None:
+                    word_embeddings = outputs.hidden_states[-1]
+                    debug_print(f"Using hidden_states, shape: {word_embeddings.shape}")
+                elif hasattr(outputs, 'last_hidden_state'):
+                    word_embeddings = outputs.last_hidden_state
+                    debug_print(f"Using last_hidden_state, shape: {word_embeddings.shape}")
+                else:
+                    raise ValueError(f"Model output has neither hidden_states nor last_hidden_state. Available attributes: {dir(outputs)}")
 
                 # Extract input_ids and convert them back to tokens
-                input_ids = inputs['input_ids'][0].tolist()
+                if isinstance(inputs, dict):
+                    input_ids = inputs['input_ids'][0].tolist()
+                else:
+                    input_ids = inputs[0].tolist()
                 tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(input_ids)
 
                 # Now align the tokens and embeddings

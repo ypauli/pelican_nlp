@@ -7,12 +7,15 @@ discourse: &discourse_flag true
 #general configurations; always adapt
 language: "german" # Possibly add options for German and English
 
-task_name: "interview" # Give name of task used for creation of the input file (e.g., ['fluency', 'interview'])
-corpus_names:
+task_name: "interview"
+
+#Create analysis corpus, group files based on corpus entity.
+corpus_key: "acq"
+corpus_values: #group names
   - "placebo"
   - "schizophrenia"
 
-metric_to_extract: "embeddings" #Possible options: 'logits' or 'embeddings'
+metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
 
 number_of_speakers: 3
 subject_speakertag: "B"
@@ -24,7 +27,7 @@ cleaning_options:
   general_cleaning: true # General cleaning options used for most text preprocessing, default: True.
   remove_brackets_and_bracketcontent: true
   remove_timestamps: true
-  timestamp_pattern_example: "#00:00:19-0#"
+  timestamp_pattern_example: "#00:00:19-00#"
   remove_punctuation: false
   lowercase: false
   #Options for fluency tasks
@@ -44,10 +47,10 @@ options_logits:
   keep_speakertags: true
 
 options_embeddings:
-  tokenization_method: "whitespace" #"model" or "whitespace"
+  tokenization_method: "model" #"model" or "whitespace"
   max_length: 512 #max sequence length
-  model_name: "fastText" #e.g. "fastText", "xlm-roberta-base"
-  pytorch_based_model: false
+  model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: true
   method: "model_instance"
   remove_punctuation: false
   lowercase: false
@@ -60,6 +63,7 @@ options_embeddings:
     remove_punctuation_and_symbols: true
     remove_brackets_and_content: true
   semantic-similarity: false
+  distance-from-randomness: false
   window_size: null
   clean_tokens: false
   divergence_from_optimality: false
@@ -92,6 +96,9 @@ aggregation_functions: mean_of_means
 normalization_options:
   method: "lemmatization" #Options: lemmatization or stemming
 #================================================================
+
+create_aggregation_of_results: false
+output_document_information: false
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
 number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected

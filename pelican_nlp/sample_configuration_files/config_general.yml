@@ -5,33 +5,38 @@
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
 language: "german"
-recompute_everything: true #If false will give warning if output folder already exists
+recompute_everything: true  # If false will give warning if output folder already exists
 
 # Task Configuration
 # -----------------
-task_name: # Name of task used for creation of data
+task_name: null  # Name of task used for creation of data
 fluency_task: &fluency_flag false  # Flag for fluency-specific settings
 discourse: &discourse_flag false  # Flag for discourse-specific settings
-corpus_names:  # List of task corpora
+
+# Corpus Configuration
+# ------------------
+corpus_key: null # Entity key to group files for analysis
+corpus_values:  # Corresponding entity values found in dataset
   - "healthy-control"
+  - "placebo"
 
 # Session and Subject Settings
 # --------------------------
 multiple_sessions: false
 number_of_subjects: null  # If null, auto-detected
-number_of_speakers: 1
+number_of_speakers: 1 # Specify amount of speakers for discourse files
 subject_speakertag: null  # Speaker tag for subject (e.g., "B"), only for discourse
 
 # Document Structure
 # ----------------
 has_multiple_sections: false
 has_section_titles: false
-section_identification: null  # e.g., "Section:"
-number_of_sections: 1  # If null, auto-detected
+section_identification: null  # e.g., "Section:", in case of multiple sections
+number_of_sections: null  # If null, auto-detected, specify for multiple sections to check section detection
 
 # Processing Pipeline
 # -----------------
-pipeline_options:
+pipeline_options: # Just for data preprocessing without metric extraction
   quality_check: false
   clean_text: true
   tokenize_text: false
@@ -40,18 +45,17 @@ pipeline_options:
 # Metric Extraction
 # ---------------
 metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
-extract_logits: null
-extract_embeddings: true
+output_document_information: true
 
 # Cleaning Options
 # --------------
 cleaning_options:
-  general_cleaning: true
+  general_cleaning: true # General cleaning applied to most datasets, check specifications in section "general_cleaning_options"
   remove_punctuation: false
   lowercase: true
   remove_brackets_and_bracketcontent: false
   remove_timestamps: false
-  timestamp_pattern_example: null  # e.g., "#00:00:23-00#"
+  timestamp_pattern_example: null  # e.g., "#00:00:23-00#", only if remove_timestamps = True
   # Fluency-specific options
   fluency_task: *fluency_flag
   word_splitter: ';'
@@ -118,6 +122,14 @@ options_dis_from_randomness:
 normalization_options:
   method: "lemmatization"  # Options: 'lemmatization', 'stemming'
 
+# Document Information Output
+# -------------------------
+document_information_output:
+  parameters:
+    - subject_ID
+    - fluency_word_count
+    - fluency_duplicate_count
+
 # Filename Configuration
 # --------------------
 filename_components:
@@ -125,6 +137,10 @@ filename_components:
   session: false
   task: true       # mandatory
   task_addition: false
-  corpus: true     #mandatory
+  corpus: true     # mandatory
   metric: true
   additional_tags: []
+
+# Additional Settings
+# -----------------
+create_aggregation_of_results: true

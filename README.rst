@@ -2,8 +2,8 @@
 pelican_nlp
 ====================================
 
-.. |logo| image:: docs/images/pelican_logo.png
-    :alt: PELICAN_nlp Logo
+.. |logo| image:: https://raw.githubusercontent.com/ypauli/pelican_nlp/main/docs/images/pelican_logo.png
+    :alt: pelican_nlp Logo
     :width: 200px
 
 +------------+-------------------------------------------------------------------+
@@ -26,6 +26,10 @@ pelican_nlp
 .. image:: https://img.shields.io/pypi/pyversions/pelican_nlp.svg
     :target: https://pypi.org/project/pelican_nlp/
     :alt: Supported Python Versions
+
+.. image:: https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg
+    :target: https://github.com/ypauli/pelican_nlp/blob/main/CONTRIBUTING.md
+    :alt: Contributions Welcome
 
 Installation
 ============
