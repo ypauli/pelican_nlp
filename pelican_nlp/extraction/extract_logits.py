@@ -22,7 +22,12 @@ class LogitsExtractor:
         chunk_size = self.options['chunk_size']
         overlap_size = self.options['overlap_size']
 
-        input_ids = tokens.to(self.device)
+        # Convert list of token IDs to tensor if needed
+        if isinstance(tokens, list):
+            input_ids = torch.tensor([tokens], device=self.device)
+        else:
+            input_ids = tokens.to(self.device)
+            
         chunks = self._split_into_chunks(input_ids, chunk_size, overlap_size)
 
         per_token_data = []

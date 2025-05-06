@@ -6,7 +6,7 @@ For consistency of pipeline, DO NOT CHANGE.
 """
 
 # Debug flag
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 def debug_print(*args, **kwargs):
     """Print only if debug mode is enabled."""

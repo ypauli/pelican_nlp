@@ -25,9 +25,10 @@ from pelican_nlp.utils.setup_functions import subject_instantiator, load_config,
 from pelican_nlp.preprocessing import LPDS
 from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
-from config import debug_print
+from pelican_nlp.config import debug_print
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
+#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
 
 class Pelican:
 

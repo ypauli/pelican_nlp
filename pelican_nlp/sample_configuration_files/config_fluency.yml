@@ -8,7 +8,8 @@ fluency_task: &fluency_flag true
 language: "german"
 multiple_sessions: &session_flag false
 
-corpus_names: #names of fluency tasks (e.g. "animals", "clothes")
+corpus_key: "acq"
+corpus_values: #names of fluency tasks (e.g. "animals", "clothes")
   - "animals"
   - "clothes"
   - "food"
@@ -102,6 +103,4 @@ filename_components:
   corpus: true    # typically true for fluency tasks (e.g., "animals", "clothes")
   metric: true
   additional_tags: []
-
-
 

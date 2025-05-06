@@ -4,7 +4,7 @@ import os
 import shutil
 
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
-from transformers import AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoModel
 
 class Model:
     def __init__(self, model_name, project_path):
@@ -75,7 +75,6 @@ class Model:
             
             print(f'FastText model loaded successfully from {model_path}')
         elif self.model_name == 'xlm-roberta-base':
-            from transformers import AutoModel
             self.model_instance = AutoModel.from_pretrained(
                 self.model_name,
                 trust_remote_code=trust_remote_code,
