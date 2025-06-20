@@ -4,7 +4,7 @@ import yaml
 import sys
 from pelican_nlp.core.subject import Subject
 from .filename_parser import parse_lpds_filename
-from ..config import debug_print
+from pelican_nlp.config import debug_print
 
 
 def subject_instantiator(config, project_folder):

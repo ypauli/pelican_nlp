@@ -4,39 +4,35 @@
 # Basic Settings
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
-language: "german"
-recompute_everything: true  # If false will give warning if output folder already exists
+language: "german"  # Options: 'german', 'english'
+recompute_everything: true  # If false, reuses previously computed results
 
 # Task Configuration
 # -----------------
-task_name: null  # Name of task used for creation of data
+task_name: "image-description"  # Options: 'fluency', 'interview'
 fluency_task: &fluency_flag false  # Flag for fluency-specific settings
 discourse: &discourse_flag false  # Flag for discourse-specific settings
-
-# Corpus Configuration
-# ------------------
-corpus_key: null # Entity key to group files for analysis
-corpus_values:  # Corresponding entity values found in dataset
-  - "healthy-control"
+corpus_names:  # List of task corpora
   - "placebo"
+  - "drug"
 
 # Session and Subject Settings
 # --------------------------
-multiple_sessions: false
+multiple_sessions: true
 number_of_subjects: null  # If null, auto-detected
-number_of_speakers: 1 # Specify amount of speakers for discourse files
-subject_speakertag: null  # Speaker tag for subject (e.g., "B"), only for discourse
+number_of_speakers: 1
+subject_speakertag: null  # Speaker tag for subject (e.g., "B")
 
 # Document Structure
 # ----------------
-has_multiple_sections: false
-has_section_titles: false
-section_identification: null  # e.g., "Section:", in case of multiple sections
-number_of_sections: null  # If null, auto-detected, specify for multiple sections to check section detection
+has_multiple_sections: true
+has_section_titles: true
+section_identification: "Bild:"  # e.g., "Section:"
+number_of_sections: null  # If null, auto-detected
 
 # Processing Pipeline
 # -----------------
-pipeline_options: # Just for data preprocessing without metric extraction
+pipeline_options:
   quality_check: false
   clean_text: true
   tokenize_text: false
@@ -45,22 +41,23 @@ pipeline_options: # Just for data preprocessing without metric extraction
 # Metric Extraction
 # ---------------
 metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
-output_document_information: true
+extract_logits: null
+extract_embeddings: true
 
 # Cleaning Options
 # --------------
 cleaning_options:
-  general_cleaning: true # General cleaning applied to most datasets, check specifications in section "general_cleaning_options"
+  general_cleaning: true
   remove_punctuation: false
-  lowercase: true
-  remove_brackets_and_bracketcontent: false
+  lowercase: false
+  remove_brackets_and_bracketcontent: true
   remove_timestamps: false
-  timestamp_pattern_example: null  # e.g., "#00:00:23-00#", only if remove_timestamps = True
+  timestamp_pattern_example: null  # e.g., "#00:00:23-00#"
   # Fluency-specific options
   fluency_task: *fluency_flag
   word_splitter: ';'
-  remove_hyphens: true
-  remove_duplicates: true
+  remove_hyphens: false
+  remove_duplicates: false
 
 general_cleaning_options:
   strip_whitespace: true
@@ -72,19 +69,20 @@ general_cleaning_options:
 # Embedding Options
 # ---------------
 options_embeddings:
-  tokenization_method: "whitespace"  # Options: 'whitespace', 'model'
-  model_name: "fastText"  # Options: 'fastText', 'xlm-roberta-base'
-  pytorch_based_model: false
+  tokenization_method: "model_roberta" #or "whitespace", "model"
+  max_length: 512 #max sequence length
+  model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: true
   method: "model_instance"
   max_length: 512
   clean_embedding_tokens: true
-  remove_punctuation_embeddings: false
-  lowercase_embeddings: false
+  remove_punctuation: false
+  lowercase: false
   keep_speakertags: false
-  semantic-similarity: true
+  semantic-similarity: false
   window_size: null
   clean_tokens: true
-  divergence_from_optimality: false
+  distance-from-randomness: false
   output_options:
     exclude_special_tokens: true
     remove_'_'_character: true
@@ -122,14 +120,6 @@ options_dis_from_randomness:
 normalization_options:
   method: "lemmatization"  # Options: 'lemmatization', 'stemming'
 
-# Document Information Output
-# -------------------------
-document_information_output:
-  parameters:
-    - subject_ID
-    - fluency_word_count
-    - fluency_duplicate_count
-
 # Filename Configuration
 # --------------------
 filename_components:
@@ -137,10 +127,9 @@ filename_components:
   session: false
   task: true       # mandatory
   task_addition: false
-  corpus: true     # mandatory
+  corpus: true
   metric: true
   additional_tags: []
-
-# Additional Settings
-# -----------------
-create_aggregation_of_results: true
+  
+create_aggregation_of_results: false
+output_document_information: false

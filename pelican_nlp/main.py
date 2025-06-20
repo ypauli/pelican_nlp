@@ -25,7 +25,7 @@ from pelican_nlp.utils.setup_functions import subject_instantiator, load_config,
 from pelican_nlp.preprocessing import LPDS
 from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
-from pelican_nlp.config import debug_print
+from pelican_nlp.config import debug_print, RUN_TESTS, run_tests
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
@@ -41,12 +41,12 @@ class Pelican:
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
             package_dir = Path(__file__).parent
-            default_config = package_dir / 'configuration_files' / 'config_fluency.yml'
+            default_config = package_dir / 'sample_configuration_files' / 'config_fluency.yml'
             if default_config.exists():
                 config_path = str(default_config)
                 print(f"Using default configuration file: {config_path}")
             else:
-                sys.exit('Error: Default configuration file not found in package.')
+                sys.exit('Error: Default configuration file not found in sample_configuration_files folder.')
         
         # Verify the provided path is a YAML file
         elif not config_path.endswith(('.yml', '.yaml')):
@@ -72,12 +72,6 @@ class Pelican:
     def run(self) -> None:
         """Execute the main processing pipeline."""
         self._clear_gpu_memory()
-
-        '''
-        #run unittests in dev_mode; not yet implemented
-        if self.dev_mode:
-            self._run_tests()
-        '''
 
         self._handle_output_directory()
         
@@ -230,4 +224,8 @@ class Pelican:
 
 
 if __name__ == '__main__':
-    Pelican(project_path, dev_mode=True).run()
+    if RUN_TESTS:
+        print("Running tests...")
+        run_tests()
+    else:
+        Pelican(project_path, dev_mode=True).run()
