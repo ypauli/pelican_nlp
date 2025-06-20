@@ -15,9 +15,9 @@ corpus_values: #group names
   - "placebo"
   - "schizophrenia"
 
-metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
+metric_to_extract: "embeddings" #Possible options: 'logits' or 'embeddings'
 
-number_of_speakers: 3
+number_of_speakers: 2
 subject_speakertag: "B"
 #=========================================================
 
@@ -41,7 +41,7 @@ options_logits:
   overlap_size: 64
   tokenization_method: "model"
   #method: "model_instance" # Options: model, regex, nltk, etc.
-  model_name: "DiscoResearch/Llama3-German-8B-32k" # Replace with your model instance name
+  model_name: "xlm-roberta-base" #Replace with your model instance name, e.g. "DiscoResearch/Llama3-German-8B-32k"
   remove_punctuation: true
   lowercase: true
   keep_speakertags: true
