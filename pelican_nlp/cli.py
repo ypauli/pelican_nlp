@@ -10,21 +10,23 @@ def main():
         run_tests()
         return
 
-    # Get the package directory's sample_configuration_files folder
-    package_dir = Path(__file__).parent
-    config_dir = package_dir / 'sample_configuration_files'
+    # Look for configuration files in the current working directory
+    config_dir = Path.cwd()
     
-    if not config_dir.exists():
-        print("sample_configuration_files directory not found in package directory.")
-        return
-        
-    config_files = [f for f in os.listdir(config_dir) if f.endswith(".yml")]
+    print(f"Looking for configuration files in: {config_dir}")
+    
+    config_files = [f for f in os.listdir(config_dir) if f.endswith((".yml", ".yaml"))]
+    
     if not config_files:
-        print("No .yml configuration file found in the sample_configuration_files directory.")
+        print("No .yml or .yaml configuration file found in the current directory.")
+        print("Please ensure you have a configuration file in your current working directory.")
         return
 
     if len(config_files) > 1:
-        print("More than one configuration file found in sample_configuration_files directory - please specify which one to use")
+        print("Warning: Multiple configuration files found in current directory:")
+        for i, file in enumerate(config_files, 1):
+            print(f"  {i}. {file}")
+        print("Please ensure only one configuration file is present in the current directory.")
         return
 
     config_file = str(config_dir / config_files[0])
