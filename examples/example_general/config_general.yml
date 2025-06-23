@@ -5,7 +5,6 @@
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
 language: "german"
-recompute_everything: true  # If false will give warning if output folder already exists
 
 # Task Configuration
 # -----------------
