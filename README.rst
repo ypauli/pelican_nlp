@@ -38,7 +38,7 @@ Create conda environment
 
 .. code-block:: bash
 
-    conda create -n pelican-nlp -c defaults python=3.10
+    conda create --name pelican-nlp --channel defaults python=3.10
 
 Activate environment
 
@@ -50,7 +50,7 @@ Install the package using pip:
 
 .. code-block:: bash
 
-    pip install pelican_nlp
+    pip install pelican-nlp
 
 For the latest development version:
 
@@ -61,58 +61,75 @@ For the latest development version:
 Usage
 =====
 
-To run pelican_nlp you need a configuration.yml file in your project directory, which specifies the configurations used for your project.
-Sample configuration files can be found on the pelican_nlp github repository: https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files
+To run ``pelican_nlp``, you need a ``configuration.yml`` file in your main project directory. This file defines the settings and parameters used for your project.
 
-Adapt your configuration file to your needs and save your personal configuration.yml file to your main project directory.
+Sample configuration files are available here:
+`https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files <https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files>`_
 
-Running pelican_nlp with your configurations can be done directly from the command line interface or via Python script.
+1. Adapt a sample configuration to your needs.
+2. Save your personalized ``configuration.yml`` in the root of your project directory.
 
-Run from command line:
+Running pelican_nlp
+-------------------
 
-Navigate to main project directory in command line and enter the following command (Note: Folder must contain your subjects folder and your configuration.yml file):
+You can run ``pelican_nlp`` via the command line or a Python script.
+
+**From the command line**:
+
+Navigate to your project directory (must contain your ``participants/`` folder and ``configuration.yml``), then run:
 
 .. code-block:: bash
 
     conda activate pelican-nlp
     pelican-run
 
-
-Run with python script:
-
-Create python file with IDE of your choice (e.g. Visual Studio Code, Pycharm, etc.) and copy the following code into the file:
-Make sure to use the previously created conda environment 'pelican-nlp' for your project.
-
-Run the following Python code:
-.. code-block:: python
-
-    from pelican_nlp.main import Pelican
-
-    configuration_file = "/path/to/your/config/file.yml"
-    pelican = Pelican(configuration_file)
-    pelican.run()
-
-Replace "/path/to/your/config/file" with the path to your configuration file located in your main project folder.
-
-For reliable operation, data must be stored in the *Language Processing Data Structure (LPDS)* format, inspired by brain imaging data structure conventions.
-
-Text and audio files should follow this naming convention:
-
-[subjectID]_[sessionID]_[task]_[task-supplement]_[corpus].[extension]
-
-- subjectID: ID of subject (e.g., sub-01), mandatory
-- sessionID: ID of session (e.g., ses-01), if available
-- task: task used for file creation, mandatory
-- task-supplement: additional information regarding the task, if available
-- corpus: (e.g., healthy-control / patient) specify files belonging to the same group, mandatory
-- extension: file extension (e.g., txt / pdf / docx / rtf), mandatory
-
-Example filenames:
-
-- sub-01_interview_schizophrenia.rtf
-- sub-03_ses-02_fluency_semantic_animals.docx
-
 To optimize performance, close other programs and limit GPU usage during language processing.
+
+Data Format Requirements: LPDS
+------------------------------
+
+For reliable operation, your data must follow the *Language Processing Data Structure (LPDS)*, inspired by brain imaging data structures like BIDS.
+
+Main Concepts (Quick Guide)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **Project Root**: Contains a ``participants/`` folder plus optional files like ``participants.tsv``, ``dataset_description.json``, and ``README``.
+- **Participants**: Each participant has a folder named ``part-<ID>`` (e.g., ``part-01``).
+- **Sessions (Optional)**: For longitudinal studies, use ``ses-<ID>`` subfolders inside each participant folder.
+- **Tasks/Contexts**: Each session (or directly in the participant folder for non-longitudinal studies) includes subfolders for specific tasks (e.g., ``interview``, ``fluency``, ``image-description``).
+- **Data Files**: Named with structured metadata, e.g.:
+  ``part-01_ses-01_task-fluency_cat-semantic_acq-baseline_transcript.txt``
+
+Filename Structure
+~~~~~~~~~~~~~~~~~~
+
+Filenames follow this format::
+
+    part-<id>[_ses-<id>]_task-<label>[_<key>-<value>...][_suffix].<extension>
+
+- **Required Entities**: ``part``, ``task``
+- **Optional Entities**: ``ses``, ``cat``, ``acq``, ``proc``, ``metric``, ``model``, ``run``, ``group``, ``param``
+- **Suffix Examples**: ``transcript``, ``audio``, ``embeddings``, ``logits``, ``annotations``
+
+Example Project Structure
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+    my_project/
+    ├── participants/
+    │   ├── part-01/
+    │   │   └── ses-01/
+    │   │       └── interview/
+    │   │           └── part-01_ses-01_task-interview_transcript.txt
+    │   └── part-02/
+    │       └── fluency/
+    │           └── part-02_task-fluency_audio.wav
+    ├── configuration.yml
+    ├── dataset_description.json
+    ├── participants.tsv
+    └── README.md
+
 
 Features
 ========
