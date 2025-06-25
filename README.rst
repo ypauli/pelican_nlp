@@ -108,7 +108,7 @@ Filenames follow this format::
     part-<id>[_ses-<id>]_task-<label>[_<key>-<value>...][_suffix].<extension>
 
 - **Required Entities**: ``part``, ``task``
-- **Optional Entities**: ``ses``, ``cat``, ``acq``, ``proc``, ``metric``, ``model``, ``run``, ``group``, ``param``
+- **Optional Entities Examples**: ``ses``, ``cat``, ``acq``, ``proc``, ``metric``, ``model``, ``run``, ``group``, ``param``
 - **Suffix Examples**: ``transcript``, ``audio``, ``embeddings``, ``logits``, ``annotations``
 
 Example Project Structure

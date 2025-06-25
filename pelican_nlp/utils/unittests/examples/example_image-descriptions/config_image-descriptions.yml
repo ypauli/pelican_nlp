@@ -5,23 +5,23 @@
 # -------------
 input_file: "text"  # Options: 'text' or 'audio'
 language: "german"  # Options: 'german', 'english'
-recompute_everything: true  # If false, reuses previously computed results
 
 # Task Configuration
 # -----------------
 task_name: "image-description"  # Options: 'fluency', 'interview'
 fluency_task: &fluency_flag false  # Flag for fluency-specific settings
 discourse: &discourse_flag false  # Flag for discourse-specific settings
-corpus_names:  # List of task corpora
+corpus_key: "acq"
+corpus_values:  # group names
   - "placebo"
   - "drug"
 
-# Session and Subject Settings
+# Session and Participant Settings
 # --------------------------
 multiple_sessions: true
-number_of_subjects: null  # If null, auto-detected
+number_of_participants: null  # If null, auto-detected
 number_of_speakers: 1
-subject_speakertag: null  # Speaker tag for subject (e.g., "B")
+participant_speakertag: null  # Speaker tag for participant (e.g., "B")
 
 # Document Structure
 # ----------------
@@ -123,7 +123,7 @@ normalization_options:
 # Filename Configuration
 # --------------------
 filename_components:
-  subject: true    # mandatory
+  participant: true    # mandatory
   session: false
   task: true       # mandatory
   task_addition: false

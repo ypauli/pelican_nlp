@@ -19,12 +19,12 @@ corpus_values:  # Corresponding entity values found in dataset
   - "healthy-control"
   - "placebo"
 
-# Session and Subject Settings
+# Session and participant Settings
 # --------------------------
 multiple_sessions: false
-number_of_subjects: null  # If null, auto-detected
+number_of_participants: null  # If null, auto-detected
 number_of_speakers: 1 # Specify amount of speakers for discourse files
-subject_speakertag: null  # Speaker tag for subject (e.g., "B"), only for discourse
+participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only for discourse
 
 # Document Structure
 # ----------------
@@ -125,14 +125,14 @@ normalization_options:
 # -------------------------
 document_information_output:
   parameters:
-    - subject_ID
+    - participant_ID
     - fluency_word_count
     - fluency_duplicate_count
 
 # Filename Configuration
 # --------------------
 filename_components:
-  subject: true    # mandatory
+  participant: true    # mandatory
   session: false
   task: true       # mandatory
   task_addition: false

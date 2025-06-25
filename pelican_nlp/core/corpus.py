@@ -39,8 +39,8 @@ class Corpus:
 
     def get_all_processed_texts(self):
         result = {}
-        for subject in self.documents:
-            result[subject.name] = subject.get_processed_texts()
+        for participant in self.documents:
+            result[participant.name] = participant.get_processed_texts()
         return result
 
     def create_corpus_results_consolidation_csv(self):
@@ -67,7 +67,7 @@ class Corpus:
                 file_path = os.path.join(root, file)
                 try:
                     df = pd.read_csv(file_path)
-                    subject_key = os.path.basename(file).split('_')[0]
+                    participant_key = os.path.basename(file).split('_')[0]
                     
                     # Determine metric type from file path
                     if 'semantic-similarity-window' in file:
@@ -81,9 +81,9 @@ class Corpus:
                     if metric not in results_by_metric:
                         results_by_metric[metric] = {}
                     
-                    # Initialize subject dict if not exists
-                    if subject_key not in results_by_metric[metric]:
-                        results_by_metric[metric][subject_key] = {}
+                    # Initialize participant dict if not exists
+                    if participant_key not in results_by_metric[metric]:
+                        results_by_metric[metric][participant_key] = {}
                     
                     # Process based on metric type
                     if metric == 'semantic-similarity':
@@ -91,7 +91,7 @@ class Corpus:
                         for _, row in df.iterrows():
                             if 'Metric' in df.columns and 'Similarity_Score' in df.columns:
                                 metric_name = f"window_{window_size}_{row['Metric']}"
-                                results_by_metric[metric][subject_key][metric_name] = row['Similarity_Score']
+                                results_by_metric[metric][participant_key][metric_name] = row['Similarity_Score']
 
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
@@ -127,7 +127,7 @@ class Corpus:
             for key, section in self.documents[i].cleaned_sections.items():
 
                 if self.config['discourse'] == True:
-                    section = TextDiarizer.parse_speaker(section, self.config['subject_speakertag'],
+                    section = TextDiarizer.parse_speaker(section, self.config['participant_speakertag'],
                                                          logits_options['keep_speakertags'])
                     #print(f'parsed section is {section}')
                 else:
@@ -161,7 +161,7 @@ class Corpus:
                 debug_print(f'Processing section {key}')
                 
                 if self.config['discourse']:
-                    section = TextDiarizer.parse_speaker(section, self.config['subject_speakertag'], embedding_options['keep_speakertags'])
+                    section = TextDiarizer.parse_speaker(section, self.config['participant_speakertag'], embedding_options['keep_speakertags'])
                 else:
                     section = [section]
 
@@ -242,7 +242,7 @@ class Corpus:
         for i in range(len(self.documents)):
             results, recording_length = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
             self.documents[i].recording_length = recording_length  # Store the recording length
-            results['subject_ID'] = self.documents[i].subject_ID  # Set the subject ID
+            results['participant_ID'] = self.documents[i].participant_ID  # Set the participant ID
             print('opensmile results obtained')
             store_features_to_csv(results,
                                   self.derivatives_dir,

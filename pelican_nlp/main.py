@@ -21,11 +21,11 @@ import torch.cuda
 import sys
 
 from pelican_nlp.core import Corpus
-from pelican_nlp.utils.setup_functions import subject_instantiator, load_config, remove_previous_derivative_dir
+from pelican_nlp.utils.setup_functions import participant_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
 from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
-from pelican_nlp.config import debug_print, RUN_TESTS, run_tests
+from pelican_nlp.config import debug_print, RUN_TESTS
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
@@ -34,9 +34,14 @@ class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
     
-    def __init__(self, config_path: str = None, dev_mode: bool = False) -> None:
+    def __init__(self, config_path: str = None, dev_mode: bool = False, test_mode: bool = False) -> None:
 
         self.dev_mode = dev_mode
+        self.test_mode = test_mode
+        
+        # If in test mode, skip normal initialization
+        if test_mode:
+            return
         
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
@@ -54,7 +59,7 @@ class Pelican:
 
         self.config = load_config(config_path)
         self.project_path = Path(config_path).resolve().parent
-        self.path_to_subjects = self.project_path / 'subjects'
+        self.path_to_participants = self.project_path / 'participants'
         self.output_directory = self.project_path / 'derivatives'
         self.task = self.config['task_name']
         
@@ -66,8 +71,8 @@ class Pelican:
             'skip_slow': True,  # Skip slow tests by default
         }
         
-        if not self.path_to_subjects.is_dir():
-            sys.exit('Error: Could not find subjects directory; check folder structure.')
+        if not self.path_to_participants.is_dir():
+            sys.exit('Error: Could not find participants directory; check folder structure.')
 
     def run(self) -> None:
         """Execute the main processing pipeline."""
@@ -78,20 +83,20 @@ class Pelican:
         # Check/Create LPDS
         self._LPDS()
         
-        # Instantiate all subjects
-        subjects = subject_instantiator(self.config, self.project_path)
+        # Instantiate all participants
+        participants = participant_instantiator(self.config, self.project_path)
         
         # Process each corpus
         for corpus_value in self.config['corpus_values']:
-            self._process_corpus(self.config['corpus_key'], corpus_value, subjects)
+            self._process_corpus(self.config['corpus_key'], corpus_value, participants)
 
-    def _process_corpus(self, corpus_key: str, corpus_value: str, subjects: List) -> None:
+    def _process_corpus(self, corpus_key: str, corpus_value: str, participants: List) -> None:
         """Process a single corpus including preprocessing and metric extraction."""
 
         corpus_entity = corpus_key + '-' + corpus_value
         print(f'Processing corpus: {corpus_entity}')
-        debug_print(subjects, corpus_entity)
-        corpus_documents = self._identify_corpus_files(subjects, corpus_entity)
+        debug_print(participants, corpus_entity)
+        corpus_documents = self._identify_corpus_files(participants, corpus_entity)
         debug_print(len(corpus_documents))
         corpus = Corpus(corpus_entity, corpus_documents[corpus_entity], self.config, self.project_path)
 
@@ -141,28 +146,28 @@ class Pelican:
         
         self._clear_gpu_memory()
 
-    def _identify_corpus_files(self, subjects: List, entity: str) -> Dict:
+    def _identify_corpus_files(self, participants: List, entity: str) -> Dict:
         """Identify and group files based on specified entity-value pair."""
         debug_print(f'identifying corpus files')
         corpus_dict = {entity: []}
-        debug_print(len(subjects))
+        debug_print(len(participants))
         
         # Check if entity is in key-value format
         if '-' in entity:
             key, value = entity.split('-', 1)
             
-            for subject in subjects:
-                debug_print(subject.documents)
-                for document in subject.documents:
+            for participant in participants:
+                debug_print(participant.documents)
+                for document in participant.documents:
                     entities = parse_lpds_filename(document.name)
                     debug_print(entities)
                     if key in entities and str(entities[key]) == value:
                         corpus_dict[entity].append(document)
         else:
             # Entity is just a value, check all keys
-            for subject in subjects:
-                debug_print(subject.documents)
-                for document in subject.documents:
+            for participant in participants:
+                debug_print(participant.documents)
+                for document in participant.documents:
                     entities = parse_lpds_filename(document.name)
                     debug_print(entities)
                     # Convert all values to strings for comparison
@@ -178,35 +183,84 @@ class Pelican:
         elif self.output_directory.exists():
             self._prompt_for_continuation()
 
-    def _run_tests(self) -> None:
-        # Run unittests to test implemented functions... not yet in use
-        """Run test suite in development mode with configurable options."""
-        import pytest
-        print("Running tests in development mode...")
+    def run_tests(self):
+        """Run all example tests from utils/unittests/examples folders."""
+        from pathlib import Path
+        import subprocess
+        import os
+        import tempfile
+        import shutil
 
-        # Build pytest arguments
-        pytest_args = ["-v", "--no-header"]
+        print("Running tests from utils/unittests/examples...")
+        
+        # Get the path to the examples directory
+        examples_dir = Path(__file__).parent / "utils" / "unittests" / "examples"
+        print(examples_dir)
 
-        # Add test paths
-        pytest_args.extend(self.test_config['test_paths'])
-
-        # Add markers if specified
-        for marker in self.test_config['markers']:
-            pytest_args.extend(["-m", marker])
-
-        # Skip slow tests if configured
-        if self.test_config['skip_slow']:
-            pytest_args.extend(["-m", "not slow"])
-
-        # Run pytest with constructed arguments
-        result = pytest.main(pytest_args)
-
-        # Handle test results
-        if result != 0:
-            print("Tests failed. Aborting execution.")
-            sys.exit(1)
-
-        print("All tests passed. Continuing with execution.\n")
+        if not examples_dir.exists():
+            print(f"Examples directory not found: {examples_dir}")
+            return
+        
+        # Create a temporary directory for test outputs
+        test_dir = tempfile.mkdtemp()
+        
+        try:
+            # Find all example directories
+            example_dirs = [d for d in examples_dir.iterdir() if d.is_dir() and d.name.startswith('example_')]
+            
+            if not example_dirs:
+                print("No example directories found")
+                return
+            
+            print(f"Found {len(example_dirs)} example directories")
+            
+            # Run each example
+            for example_dir in example_dirs:
+                example_name = example_dir.name.replace('example_', '')
+                print(f"\nTesting {example_name} example...")
+                
+                # Find the config file
+                config_files = list(example_dir.glob(f"config_{example_name}.yml"))
+                if not config_files:
+                    print(f"No config file found for {example_name}")
+                    continue
+                
+                config_file = config_files[0]
+                output_dir = Path(test_dir) / example_name
+                output_dir.mkdir(exist_ok=True)
+                
+                # Change to the example directory and run the pipeline
+                original_dir = os.getcwd()
+                try:
+                    os.chdir(example_dir)
+                    print(f"Running pipeline in {example_dir}")
+                    
+                    # Run the pipeline
+                    result = subprocess.run(
+                        ["pelican-run", "--config", str(config_file), "--output", str(output_dir)],
+                        capture_output=True,
+                        text=True,
+                        timeout=300  # 5 minute timeout
+                    )
+                    
+                    if result.returncode == 0:
+                        print(f"✓ {example_name} test completed successfully")
+                    else:
+                        print(f"✗ {example_name} test failed")
+                        print(f"Error: {result.stderr}")
+                        
+                except subprocess.TimeoutExpired:
+                    print(f"✗ {example_name} test timed out after 5 minutes")
+                except Exception as e:
+                    print(f"✗ {example_name} test failed with error: {str(e)}")
+                finally:
+                    os.chdir(original_dir)
+            
+            print("\nAll tests completed")
+            
+        finally:
+            # Clean up temporary directory
+            shutil.rmtree(test_dir)
 
     @staticmethod
     def _prompt_for_continuation() -> None:
@@ -226,6 +280,6 @@ class Pelican:
 if __name__ == '__main__':
     if RUN_TESTS:
         print("Running tests...")
-        run_tests()
+        Pelican(test_mode=True).run_tests()
     else:
         Pelican(project_path, dev_mode=True).run()
