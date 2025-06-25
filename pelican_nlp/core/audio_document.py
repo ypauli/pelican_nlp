@@ -7,7 +7,7 @@ class AudioFile:
         self.file = os.path.join(file_path, name)
 
         #Initialize optional attributes
-        self.subject_ID = kwargs.get('subject_ID')
+        self.participant_ID = kwargs.get('participant_ID')
         self.task = kwargs.get('task')
         self.num_speakers = kwargs.get('num_speakers')
         self.corpus_name = None

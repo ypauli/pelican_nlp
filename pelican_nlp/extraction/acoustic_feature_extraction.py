@@ -30,7 +30,7 @@ class AudioFeatureExtraction:
 
         # Create result dictionary with only the values we want
         result = {}
-        result['subject_ID'] = None  # This will be set by the calling function
+        result['participant_ID'] = None  # This will be set by the calling function
         for feature in smile.feature_names:
             # Extract just the numerical value from the output
             result[feature] = float(output[feature].values[0])

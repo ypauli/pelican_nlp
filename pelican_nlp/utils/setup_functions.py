@@ -2,30 +2,30 @@ import os
 import shutil
 import yaml
 import sys
-from pelican_nlp.core.subject import Subject
+from pelican_nlp.core.participant import Participant
 from .filename_parser import parse_lpds_filename
 from pelican_nlp.config import debug_print
 
 
-def subject_instantiator(config, project_folder):
-    path_to_subjects = os.path.join(project_folder, 'subjects')
-    print('Instantiating Subjects...')
+def participant_instantiator(config, project_folder):
+    path_to_participants = os.path.join(project_folder, 'participants')
+    print('Instantiating Participants...')
     
-    # Get all subject directories that match sub-* pattern
-    subjects = [
-        Subject(subject_dir) 
-        for subject_dir in os.listdir(path_to_subjects)
+    # Get all participant directories that match part-* pattern
+    participants = [
+        Participant(participant_dir) 
+        for participant_dir in os.listdir(path_to_participants)
     ]
 
-    # Identifying all subject files
-    for subject in subjects:
-        # Get subject ID from directory name (e.g., 'sub-01' -> '01')
-        subject.subjectID = subject.name.split('-')[1]
+    # Identifying all participant files
+    for participant in participants:
+        # Get participant ID from directory name (e.g., 'part-01' -> '01')
+        participant.participantID = participant.name.split('-')[1]
         
-        # Find all files for this subject recursively
-        subject_path = os.path.join(path_to_subjects, subject.name)
+        # Find all files for this participant recursively
+        participant_path = os.path.join(path_to_participants, participant.name)
         all_files = []
-        for root, _, files in os.walk(subject_path):
+        for root, _, files in os.walk(participant_path):
             all_files.extend([os.path.join(root, f) for f in files])
         
         # Filter files by task name from config
@@ -40,19 +40,19 @@ def subject_instantiator(config, project_folder):
         for file_path, filename in task_files:
             entities = parse_lpds_filename(filename)
             document = _instantiate_document(file_path, filename, entities, config)
-            subject.documents.append(document)
+            participant.documents.append(document)
 
-        debug_print(f'all identified subject documents for subject {subject.subjectID}: {subject.documents}')
+        debug_print(f'all identified participant documents for participant {participant.participantID}: {participant.documents}')
         
         # Set up results paths for each document
-        for document in subject.documents:
+        for document in participant.documents:
             entities = parse_lpds_filename(document.name)
             
             # Build derivatives path based on entities
             derivatives_parts = [project_folder, 'derivatives']
             
-            # Always include subject
-            derivatives_parts.append(f"sub-{entities['sub']}")
+            # Always include participant
+            derivatives_parts.append(f"part-{entities['part']}")
             
             # Add session if present
             if 'ses' in entities:
@@ -63,7 +63,7 @@ def subject_instantiator(config, project_folder):
             
             document.results_path = os.path.join(*derivatives_parts)
 
-    return subjects
+    return participants
 
 def _instantiate_document(filepath, filename, entities, config):
     """Create appropriate document instance based on config and entities"""
@@ -71,7 +71,7 @@ def _instantiate_document(filepath, filename, entities, config):
     common_kwargs = {
         'file_path': os.path.dirname(filepath),
         'name': filename,
-        'subject_ID': entities.get('sub'),
+        'participant_ID': entities.get('part'),
         'task': entities.get('task'),
         # Check for specific entities that might indicate document type
         'fluency': 'cat' in entities and entities['cat'] == 'semantic',

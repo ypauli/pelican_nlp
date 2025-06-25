@@ -2,4 +2,4 @@
 from .corpus import Corpus
 from .document import Document
 from .audio_document import AudioFile
-from .subject import Subject
+from .participant import Participant

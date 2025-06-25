@@ -7,9 +7,9 @@ class LPDS:
     def __init__(self, project_folder, multiple_sessions):
         self.project_folder = project_folder
         self.multiple_sessions = multiple_sessions
-        self.subjects_folder = os.path.join(self.project_folder, "subjects")
-        self.subject_folders = [f for f in os.listdir(self.subjects_folder) if
-                                os.path.isdir(os.path.join(self.subjects_folder, f))]
+        self.participants_folder = os.path.join(self.project_folder, "participants")
+        self.participant_folders = [f for f in os.listdir(self.participants_folder) if
+                                os.path.isdir(os.path.join(self.participants_folder, f))]
 
     def LPDS_checker(self):
         # Check if the main project folder exists
@@ -22,41 +22,41 @@ class LPDS:
             if not os.path.isfile(os.path.join(self.project_folder, file)):
                 debug_print(f"Warning: Missing suggested file '{file}' in the project folder.")
 
-        # Check for the 'subjects' folder
-        if not os.path.isdir(self.subjects_folder):
-            raise FileNotFoundError("Error: The 'subjects' folder is missing in the project folder.")
+        # Check for the 'participants' folder
+        if not os.path.isdir(self.participants_folder):
+            raise FileNotFoundError("Error: The 'participants' folder is missing in the project folder.")
 
-        # Check if there is at least one subfolder in 'subjects', ideally named 'sub-01'
-        if not self.subject_folders:
-            raise FileNotFoundError("Error: No subject subfolders found in the 'subjects' folder.")
-        if 'sub-01' not in self.subject_folders:
-            print("Warning: Ideally, subject folders should follow the naming convention 'sub-x'.")
+        # Check if there is at least one subfolder in 'participants', ideally named 'part-01'
+        if not self.participant_folders:
+            raise FileNotFoundError("Error: No participant subfolders found in the 'participants' folder.")
+        if 'part-01' not in self.participant_folders:
+            print("Warning: Ideally, participant folders should follow the naming convention 'part-x'.")
 
-        # Iterate through subject subfolders
-        for subject_folder in self.subject_folders:
-            subject_path = os.path.join(self.subjects_folder, subject_folder)
+        # Iterate through participant subfolders
+        for participant_folder in self.participant_folders:
+            participant_path = os.path.join(self.participants_folder, participant_folder)
 
             # Check for session folders if project has sessions
             if self.multiple_sessions:
-                session_folders = [f for f in os.listdir(subject_path) if
-                                   os.path.isdir(os.path.join(subject_path, f))]
+                session_folders = [f for f in os.listdir(participant_path) if
+                                   os.path.isdir(os.path.join(participant_path, f))]
                 if session_folders:
                     if 'ses-01' not in session_folders:
                         print(f"Warning: Ideally, the session folders should follow the naming convention 'ses-x'.")
                 else:
-                    print(f"Warning: No session folders found in '{subject_folder}'.")
+                    print(f"Warning: No session folders found in '{participant_folder}'.")
 
-            # Check for optional subject_metadata file
-            metadata_file = os.path.join(subject_path, "subject_metadata")
+            # Check for optional participant_metadata file
+            metadata_file = os.path.join(participant_path, "participant_metadata")
             if not os.path.isfile(metadata_file):
-                debug_print(f"Note: Optional 'subject_metadata' file is missing in '{subject_folder}'.")
+                debug_print(f"Note: Optional 'participant_metadata' file is missing in '{participant_folder}'.")
                 continue
 
-            session_folders = subject_folder
+            session_folders = participant_folder
 
-            # Iterate through current level folders (subjects or sessions)
+            # Iterate through current level folders (participants or sessions)
             for session_folder in session_folders:
-                session_path = os.path.join(subject_path, session_folder)
+                session_path = os.path.join(participant_path, session_folder)
                 task_folders = [f for f in os.listdir(session_path) if os.path.isdir(os.path.join(session_path, f))]
 
                 # Check for tasks inside session folder
@@ -67,9 +67,9 @@ class LPDS:
                     # Check naming convention for files in the task folder
                     for file in task_files:
                         if self.multiple_sessions:
-                            pattern = fr"^{subject_folder}_{session_folder}_{task_folder}.*"
+                            pattern = fr"^{participant_folder}_{session_folder}_{task_folder}.*"
                         else:
-                            pattern = fr"^{subject_folder}_{task_folder}.*"
+                            pattern = fr"^{participant_folder}_{task_folder}.*"
                         if not re.match(pattern, file):
                             debug_print(f"Warning: File '{file}' in '{task_folder}' does not follow the LPDS naming conventions")
 

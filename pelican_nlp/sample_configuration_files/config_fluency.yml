@@ -84,7 +84,7 @@ discourse: false
 
 document_information_output:
   parameters:
-    - subject_ID
+    - participant_ID
     - fluency_word_count
     - fluency_duplicate_count
 
@@ -92,11 +92,11 @@ document_information_output:
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
 recompute_everything: true
-number_of_subjects: null
+number_of_participants: null
 
 # Filename components configuration
 filename_components:
-  subject: true    # mandatory
+  participant: true    # mandatory
   session: *session_flag
   task: true       # mandatory
   task_addition: false

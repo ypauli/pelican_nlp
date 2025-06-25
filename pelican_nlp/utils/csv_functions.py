@@ -21,9 +21,9 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
     filename = f"{base_filename}_{metric}.csv"
     
     # Extract core information from entities for directory structure
-    subject_ID = f"sub-{entities['sub']}" if 'sub' in entities else None
-    if not subject_ID:
-        raise ValueError(f"Missing required 'sub' entity in filename: {doc_class.name}")
+    participant_ID = f"part-{entities['part']}" if 'part' in entities else None
+    if not participant_ID:
+        raise ValueError(f"Missing required 'part' entity in filename: {doc_class.name}")
     
     session = f"ses-{entities['ses']}" if 'ses' in entities else None
     task = f"task-{entities['task']}" if 'task' in entities else None
@@ -32,7 +32,7 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
     path_components = [
         derivatives_dir,
         metric,  # Use metric as the folder name
-        subject_ID,
+        participant_ID,
     ]
 
     # Add session to path if it exists
@@ -45,7 +45,7 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
     
     # Create directory and get final filepath
     # Ensure all components have compatible types by using str() conversion
-    base_path = os.path.join(str(derivatives_dir), str(metric), str(subject_ID))
+    base_path = os.path.join(str(derivatives_dir), str(metric), str(participant_ID))
     
     # Build path incrementally with explicit type conversion
     if session:
@@ -163,13 +163,13 @@ def _build_filename_parts(path_parts, corpus, metric, config=None):
 
     # Extract mandatory components
     if len(path_parts) < 3:
-        raise ValueError("Invalid path format. Expected at least 'project/subject/task'.")
+        raise ValueError("Invalid path format. Expected at least 'project/participant/task'.")
 
-    subject = path_parts[-3]
+    participant = path_parts[-3]
     task = path_parts[-1]
 
     # Build filename components
-    parts = [subject]
+    parts = [participant]
 
     # Add optional session
     if filename_config.get('session', False) and len(path_parts) >= 4:

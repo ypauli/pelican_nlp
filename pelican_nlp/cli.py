@@ -1,13 +1,13 @@
 import os
 from pathlib import Path
 from pelican_nlp.main import Pelican
-from pelican_nlp.config import RUN_TESTS, run_tests
+from pelican_nlp.config import RUN_TESTS
 
 def main():
     # Run tests if enabled
     if RUN_TESTS:
         print("Running tests...")
-        run_tests()
+        Pelican(test_mode=True).run_tests()
         return
 
     # Look for configuration files in the current working directory

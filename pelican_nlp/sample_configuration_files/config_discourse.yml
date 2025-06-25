@@ -18,7 +18,7 @@ corpus_values: #group names
 metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
 
 number_of_speakers: 3
-subject_speakertag: "B"
+participant_speakertag: "B"
 #=========================================================
 
 #Optional configurations; Change with preference. However, default settings recommended
@@ -101,8 +101,8 @@ create_aggregation_of_results: false
 output_document_information: false
 
 #Detail configurations; Changes optional, mostly used for quality checking / error handling
-number_of_subjects: null # Specify number of subjects; if 'null', number of subjects is automatically detected
-multiple_sessions: false # Set to True if multiple sessions per subject
+number_of_participants: null # Specify number of participants; if 'null', number of participants is automatically detected
+multiple_sessions: false # Set to True if multiple sessions per participant
 
 recompute_everything: true #If set to 'false' pelican-nlp will try to reuse previously computed results stored on your drive
 
