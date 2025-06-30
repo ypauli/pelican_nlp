@@ -186,8 +186,6 @@ class Pelican:
     def run_tests(self):
         """Run all example tests from utils/unittests/examples folders."""
         from pathlib import Path
-        import subprocess
-        import os
         import tempfile
         import shutil
 
@@ -224,37 +222,28 @@ class Pelican:
                 if not config_files:
                     print(f"No config file found for {example_name}")
                     continue
-                
+                elif len(config_files)>1:
+                    print(f"More than one config file in {example_name} directory.")
+                    continue
+
                 config_file = config_files[0]
                 output_dir = Path(test_dir) / example_name
                 output_dir.mkdir(exist_ok=True)
                 
-                # Change to the example directory and run the pipeline
-                original_dir = os.getcwd()
+                # Run the pipeline directly using the Pelican class
                 try:
-                    os.chdir(example_dir)
-                    print(f"Running pipeline in {example_dir}")
+                    print(f"Running pipeline for {example_name}...")
+                    
+                    # Create a Pelican instance with the config file
+                    pelican = Pelican(str(config_file))
                     
                     # Run the pipeline
-                    result = subprocess.run(
-                        ["pelican-run", "--config", str(config_file), "--output", str(output_dir)],
-                        capture_output=True,
-                        text=True,
-                        timeout=300  # 5 minute timeout
-                    )
+                    pelican.run()
                     
-                    if result.returncode == 0:
-                        print(f"✓ {example_name} test completed successfully")
-                    else:
-                        print(f"✗ {example_name} test failed")
-                        print(f"Error: {result.stderr}")
-                        
-                except subprocess.TimeoutExpired:
-                    print(f"✗ {example_name} test timed out after 5 minutes")
+                    print(f"✓ {example_name} test completed successfully")
+
                 except Exception as e:
                     print(f"✗ {example_name} test failed with error: {str(e)}")
-                finally:
-                    os.chdir(original_dir)
             
             print("\nAll tests completed")
             
