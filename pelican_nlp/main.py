@@ -211,7 +211,8 @@ class Pelican:
                 return
             
             print(f"Found {len(example_dirs)} example directories")
-            
+
+            success_counter=0
             # Run each example
             for example_dir in example_dirs:
                 example_name = example_dir.name.replace('example_', '')
@@ -239,14 +240,16 @@ class Pelican:
                     
                     # Run the pipeline
                     pelican.run()
-                    
+
                     print(f"✓ {example_name} test completed successfully")
+                    success_counter += 1
 
                 except Exception as e:
                     print(f"✗ {example_name} test failed with error: {str(e)}")
             
             print("\nAll tests completed")
-            
+            print(f"{success_counter} out of {len(example_dirs)} tests ran successfully")
+
         finally:
             # Clean up temporary directory
             shutil.rmtree(test_dir)
