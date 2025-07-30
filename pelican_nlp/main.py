@@ -29,6 +29,7 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 
 project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
+#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_imgdesc/config_imgdesc.yml'
 
 class Pelican:
 
@@ -38,10 +39,6 @@ class Pelican:
 
         self.dev_mode = dev_mode
         self.test_mode = test_mode
-        
-        # If in test mode, skip normal initialization
-        if test_mode:
-            return
         
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
