@@ -9,7 +9,7 @@ For consistency of pipeline, DO NOT CHANGE.
 DEBUG_MODE = True
 
 # Test flag - set to True to run all example tests
-RUN_TESTS = False
+RUN_TESTS = True
 
 def debug_print(*args, **kwargs):
     """Print only if debug mode is enabled."""

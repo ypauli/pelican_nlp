@@ -40,6 +40,10 @@ class Pelican:
         self.dev_mode = dev_mode
         self.test_mode = test_mode
         
+        # Skip config loading and project setup for test mode
+        if test_mode:
+            return
+        
         # If no config path is provided, use the default config from package; used for dev-mode
         if config_path is None:
             package_dir = Path(__file__).parent
@@ -190,11 +194,13 @@ class Pelican:
         
         # Get the path to the examples directory
         examples_dir = Path(__file__).parent / "utils" / "unittests" / "examples"
-        print(examples_dir)
 
         if not examples_dir.exists():
             print(f"Examples directory not found: {examples_dir}")
             return
+        
+        # Sync config files from sample_configuration_files to example directories
+        self._sync_config_files()
         
         # Create a temporary directory for test outputs
         test_dir = tempfile.mkdtemp()
@@ -215,7 +221,7 @@ class Pelican:
                 example_name = example_dir.name.replace('example_', '')
                 print(f"\nTesting {example_name} example...")
                 
-                # Find the config file
+                # Find the config file in the example directory
                 config_files = list(example_dir.glob(f"config_{example_name}.yml"))
                 if not config_files:
                     print(f"No config file found for {example_name}")
@@ -232,7 +238,7 @@ class Pelican:
                 try:
                     print(f"Running pipeline for {example_name}...")
                     
-                    # Create a Pelican instance with the config file
+                    # Create a Pelican instance with the config file from the example directory
                     pelican = Pelican(str(config_file))
                     
                     # Run the pipeline
@@ -250,6 +256,37 @@ class Pelican:
         finally:
             # Clean up temporary directory
             shutil.rmtree(test_dir)
+
+    def _sync_config_files(self):
+        """Sync configuration files from sample_configuration_files to example directories."""
+        from pathlib import Path
+        import shutil
+        
+        sample_config_dir = Path(__file__).parent / "sample_configuration_files"
+        examples_dir = Path(__file__).parent / "utils" / "unittests" / "examples"
+        
+        if not sample_config_dir.exists():
+            print(f"Sample configuration directory not found: {sample_config_dir}")
+            return
+        
+        print("Syncing configuration files from sample_configuration_files to example directories...")
+        
+        # Find all example directories
+        example_dirs = [d for d in examples_dir.iterdir() if d.is_dir() and d.name.startswith('example_')]
+        
+        for example_dir in example_dirs:
+            example_name = example_dir.name.replace('example_', '')
+            source_config = sample_config_dir / f"config_{example_name}.yml"
+            target_config = example_dir / f"config_{example_name}.yml"
+            
+            if source_config.exists():
+                try:
+                    shutil.copy2(source_config, target_config)
+                    print(f"✓ Synced config_{example_name}.yml to {example_dir.name}")
+                except Exception as e:
+                    print(f"✗ Failed to sync config_{example_name}.yml: {str(e)}")
+            else:
+                print(f"⚠ Source config file not found: {source_config}")
 
     @staticmethod
     def _prompt_for_continuation() -> None:

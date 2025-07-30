@@ -8,7 +8,7 @@ language: "german"  # Options: 'german', 'english'
 
 # Task Configuration
 # -----------------
-task_name: "image-description"  # Options: 'fluency', 'interview'
+task_name: "imgdesc"  # Options: 'fluency', 'interview'
 fluency_task: &fluency_flag false  # Flag for fluency-specific settings
 discourse: &discourse_flag false  # Flag for discourse-specific settings
 corpus_key: "acq"
