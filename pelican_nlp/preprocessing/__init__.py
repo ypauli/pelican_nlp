@@ -5,3 +5,4 @@ from .text_tokenizer import TextTokenizer
 from .text_normalizer import TextNormalizer
 from .pipeline import TextPreprocessingPipeline
 from .LPDS import LPDS
+from .section_identificator import SectionIdentificator
