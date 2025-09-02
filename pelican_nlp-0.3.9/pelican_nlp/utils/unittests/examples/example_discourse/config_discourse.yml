@@ -1,0 +1,109 @@
+# Configuration file for discourse protocols
+#=======================================
+input_file: "text" #or 'audio'
+discourse: &discourse_flag true
+#=====================================
+
+#general configurations; always adapt
+language: "german" # Possibly add options for German and English
+
+task_name: "interview"
+
+#Create analysis corpus, group files based on corpus entity.
+corpus_key: "acq"
+corpus_values: #group names
+  - "placebo"
+  - "schizophrenia"
+
+metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
+
+number_of_speakers: 3
+participant_speakertag: "B"
+#=========================================================
+
+#Optional configurations; Change with preference. However, default settings recommended
+fluency_task: &fluency_flag false
+cleaning_options:
+  general_cleaning: true # General cleaning options used for most text preprocessing, default: True.
+  remove_brackets_and_bracketcontent: true
+  remove_timestamps: true
+  timestamp_pattern_example: "#00:00:19-00#"
+  remove_punctuation: false
+  lowercase: false
+  #Options for fluency tasks
+  fluency_task: *fluency_flag
+  word_splitter: null
+  remove_hyphens: null
+  remove_duplicates: null
+
+options_logits:
+  chunk_size: 128
+  overlap_size: 64
+  tokenization_method: "model"
+  #method: "model_instance" # Options: model, regex, nltk, etc.
+  model_name: "DiscoResearch/Llama3-German-8B-32k" # Replace with your model instance name
+  remove_punctuation: true
+  lowercase: true
+  keep_speakertags: true
+
+options_embeddings:
+  tokenization_method: "model" #"model" or "whitespace"
+  max_length: 512 #max sequence length
+  model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: true
+  method: "model_instance"
+  remove_punctuation: false
+  lowercase: false
+  keep_speakertags: true
+  clean_embedding_tokens: true
+  output_options:
+    exclude_special_tokens: true
+    remove_'_'_character: true
+    remove_speaker_labels: true
+    remove_punctuation_and_symbols: true
+    remove_brackets_and_content: true
+  semantic-similarity: false
+  distance-from-randomness: false
+  window_size: null
+  clean_tokens: false
+  divergence_from_optimality: false
+#================================================================================
+
+#Extra configurations:
+pipeline_options:
+  quality_check: false
+  clean_text: true
+  tokenize_text: false
+  normalize_text: false
+
+general_cleaning_options:
+  strip_whitespace: true
+  merge_multiple_whitespaces: true
+  remove_whitespace_before_punctuation: true
+  merge_newline_characters: true
+  remove_backslashes: true
+
+has_multiple_sections: false #evaluated independently
+has_section_titles: false
+section_identification: null #e.g. "Section:", 'null' if file does not have multiple sections, use pattern that is unlikely to appear in rest of transcript
+number_of_sections: null #if 'null' number of sections automatically detected, however, specifying number recommended if known.
+
+# Options for extract_embeddings
+window_sizes: [2]
+metric_function: cosine_similarity
+aggregation_functions: mean_of_means
+
+normalization_options:
+  method: "lemmatization" #Options: lemmatization or stemming
+#================================================================
+
+create_aggregation_of_results: false
+output_document_information: false
+
+#Detail configurations; Changes optional, mostly used for quality checking / error handling
+number_of_participants: null # Specify number of participants; if 'null', number of participants is automatically detected
+multiple_sessions: false # Set to True if multiple sessions per participant
+
+recompute_everything: true #If set to 'false' pelican-nlp will try to reuse previously computed results stored on your drive
+
+
