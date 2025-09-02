@@ -1,0 +1,106 @@
+# Configuration file for fluency task
+# =======================================
+input_file: "text" #or 'audio'
+fluency_task: &fluency_flag true
+#========================================
+
+#general configurations; always adapt
+language: "german"
+multiple_sessions: &session_flag false
+
+corpus_key: "acq"
+corpus_values: #names of fluency tasks (e.g. "animals", "clothes")
+  - "animals"
+  - "clothes"
+  - "food"
+
+#Specify linguistic metrics to extract
+metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
+output_document_information: true
+#====================================================================
+
+#Optional configurations; Change with preference. However, default settings recommended
+cleaning_options:
+  general_cleaning: true
+  #Options for fluency tasks
+  fluency_task: *fluency_flag
+  word_splitter: ';' #default split with ',' add different word_splitter if necessary
+  remove_hyphens: true
+  remove_duplicates: false
+  lowercase: false
+  #Optional cleaning
+  remove_brackets_and_bracketcontent: false #default 'false'
+  remove_timestamps: false #default 'false'
+  timestamp_pattern_example: null #e.g. "#00:00:23-00#"
+  remove_punctuation: false #Careful!: If set to true word_splitter might be removed
+
+options_embeddings:
+  tokenization_method: "whitespace" #or "model"
+  model_name: "fastText" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: false
+  method: "model_instance"
+  max_length: null
+  clean_embedding_tokens: true
+
+  semantic-similarity: true
+  distance-from-randomness: false
+
+options_dis_from_randomness:
+  window_size: 8
+  min_len: null
+  bootstrap: 10000
+  shuffle_mode: 'include0_includeN'
+  parallel_computing: false #not yet set up
+
+options_semantic-similarity:
+  window_sizes: #'all' or window size as integer
+    - 2
+    - 8
+#==================================================================
+
+#Extra configurations;
+task_name: "fluency"
+create_aggregation_of_results: true
+
+pipeline_options:
+  quality_check: false
+  clean_text: true
+  tokenize_text: false
+  normalize_text: false
+
+general_cleaning_options:
+  strip_whitespace: true
+  merge_multiple_whitespaces: true
+  remove_whitespace_before_punctuation: true
+  merge_newline_characters: true
+  remove_backslashes: true
+
+has_multiple_sections: false
+has_section_titles: false
+section_identification: null
+number_of_sections: 1
+number_of_speakers: 1
+discourse: false
+
+document_information_output:
+  parameters:
+    - participant_ID
+    - fluency_word_count
+    - fluency_duplicate_count
+
+#================================================================
+
+#Detail configurations; Changes optional, mostly used for quality checking / error handling
+recompute_everything: true
+number_of_participants: null
+
+# Filename components configuration
+filename_components:
+  participant: true    # mandatory
+  session: *session_flag
+  task: true       # mandatory
+  task_addition: false
+  corpus: true    # typically true for fluency tasks (e.g., "animals", "clothes")
+  metric: true
+  additional_tags: []
+

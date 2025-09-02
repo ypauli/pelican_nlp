@@ -45,7 +45,11 @@ dependencies = [
     "pytest>=8.3.4",
     "statsmodels>=0.14.4",
     "datasets==3.3.2",
-    "huggingface_hub==0.29.2"
+    "huggingface_hub==0.29.2",
+    "audiofile>=1.5.1",
+    "soundfile>=0.13.1",
+    "opensmile>=2.6.0",
+    "praat-parselmouth>=0.4.6"
 ]
 
 [project.urls]
