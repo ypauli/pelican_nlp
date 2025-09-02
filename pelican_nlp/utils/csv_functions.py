@@ -154,6 +154,44 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                     row_data.append(value)
                 writer.writerow(row_data)
 
+        elif metric == 'prosogram-features':
+            if input_data is None or (hasattr(input_data, 'empty') and input_data.empty):
+                return
+                
+            # Handle pandas DataFrame (main case)
+            if hasattr(input_data, 'to_csv'):
+                # Only write header if file doesn't exist
+                if not file_exists:
+                    # Write column headers
+                    writer.writerow(input_data.columns.tolist())
+                
+                # Write data rows
+                for _, row in input_data.iterrows():
+                    writer.writerow(row.tolist())
+            
+            # Handle dictionary of multiple files (fallback case)
+            elif isinstance(input_data, dict):
+                # Write each file type as a separate section
+                for file_type, data in input_data.items():
+                    if not file_exists:
+                        writer.writerow([f"File_Type: {file_type}"])
+                    
+                    if hasattr(data, 'to_csv'):  # DataFrame
+                        if not file_exists:
+                            writer.writerow(data.columns.tolist())
+                        for _, row in data.iterrows():
+                            writer.writerow(row.tolist())
+                    else:  # Text data
+                        if not file_exists:
+                            writer.writerow([f"Content: {file_type}"])
+                        # Write text content line by line
+                        for line in str(data).split('\n'):
+                            if line.strip():
+                                writer.writerow([line.strip()])
+                    
+                    if not file_exists:
+                        writer.writerow([])  # Empty line between sections
+
     return output_filepath
 
 

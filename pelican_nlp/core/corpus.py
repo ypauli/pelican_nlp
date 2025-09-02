@@ -6,13 +6,13 @@ steps applied and results should be aggregated.
 This class contains the pipelines for homogenous processing and metric extraction of all grouped files.
 """
 
+import os
+import pandas as pd
 from ..preprocessing import TextPreprocessingPipeline
 from ..utils.csv_functions import store_features_to_csv
 from ..extraction.language_model import Model
 from ..preprocessing.speaker_diarization import TextDiarizer
 from ..preprocessing import text_cleaner as textcleaner
-import os
-import pandas as pd
 import re
 
 from pelican_nlp.config import debug_print
@@ -251,9 +251,18 @@ class Corpus:
 
     def extract_prosogram(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+        from pelican_nlp.utils.csv_functions import store_features_to_csv
         for i in range(len(self.documents)):
-            results = AudioFeatureExtraction.extract_prosogram_profile(self.documents[i].file)
+            # Create the output directory for this document's prosogram files
+            output_dir = os.path.join(self.derivatives_dir, 'prosogram-features', 
+                                    f"part-{self.documents[i].participant_ID}")
+            
+            results = AudioFeatureExtraction.extract_prosogram_profile(
+                self.documents[i].file, 
+                output_dir=output_dir
+            )
             print('prosogram obtained')
+
 
     def create_document_information_csv(self):
         """Create CSV file with summarized document parameters based on config specifications."""
