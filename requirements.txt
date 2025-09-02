@@ -104,3 +104,8 @@ seaborn>=0.13.2
 editdistance>=0.8.1
 pytest>=8.3.4
 statsmodels>=0.14.4
+
+audiofile>=1.5.1
+soundfile>=0.13.1
+opensmile>=2.6.0
+praat-parselmouth>=0.4.6
