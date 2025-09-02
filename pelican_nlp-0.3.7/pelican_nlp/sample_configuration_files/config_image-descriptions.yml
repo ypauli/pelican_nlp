@@ -1,0 +1,135 @@
+# Master Configuration File
+# ========================
+
+# Basic Settings
+# -------------
+input_file: "text"  # Options: 'text' or 'audio'
+language: "german"  # Options: 'german', 'english'
+
+# Task Configuration
+# -----------------
+task_name: "imgdesc"  # Options: 'fluency', 'interview'
+fluency_task: &fluency_flag false  # Flag for fluency-specific settings
+discourse: &discourse_flag false  # Flag for discourse-specific settings
+corpus_key: "acq"
+corpus_values:  # group names
+  - "placebo"
+  - "drug"
+
+# Session and Participant Settings
+# --------------------------
+multiple_sessions: true
+number_of_participants: null  # If null, auto-detected
+number_of_speakers: 1
+participant_speakertag: null  # Speaker tag for participant (e.g., "B")
+
+# Document Structure
+# ----------------
+has_multiple_sections: true
+has_section_titles: true
+section_identification: "Bild:"  # e.g., "Section:"
+number_of_sections: null  # If null, auto-detected
+
+# Processing Pipeline
+# -----------------
+pipeline_options:
+  quality_check: false
+  clean_text: true
+  tokenize_text: false
+  normalize_text: false
+
+# Metric Extraction
+# ---------------
+metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
+extract_logits: null
+extract_embeddings: true
+
+# Cleaning Options
+# --------------
+cleaning_options:
+  general_cleaning: true
+  remove_punctuation: false
+  lowercase: false
+  remove_brackets_and_bracketcontent: true
+  remove_timestamps: false
+  timestamp_pattern_example: null  # e.g., "#00:00:23-00#"
+  # Fluency-specific options
+  fluency_task: *fluency_flag
+  word_splitter: ';'
+  remove_hyphens: false
+  remove_duplicates: false
+
+general_cleaning_options:
+  strip_whitespace: true
+  merge_multiple_whitespaces: true
+  remove_whitespace_before_punctuation: true
+  merge_newline_characters: true
+  remove_backslashes: true
+
+# Embedding Options
+# ---------------
+options_embeddings:
+  tokenization_method: "model_roberta" #or "whitespace", "model"
+  max_length: 512 #max sequence length
+  model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
+  pytorch_based_model: true
+  method: "model_instance"
+  max_length: 512
+  clean_embedding_tokens: true
+  remove_punctuation: false
+  lowercase: false
+  keep_speakertags: false
+  semantic-similarity: false
+  window_size: null
+  clean_tokens: true
+  distance-from-randomness: false
+  output_options:
+    exclude_special_tokens: true
+    remove_'_'_character: true
+    remove_speaker_labels: true
+    remove_punctuation_and_symbols: true
+    remove_brackets_and_content: true
+
+# Logits Options
+# -------------
+options_logits:
+  chunk_size: 128
+  overlap_size: 64
+  tokenization_method: "model"
+  model_name: "DiscoResearch/Llama3-German-8B-32k"
+  remove_punctuation: true
+  lowercase: true
+  keep_speakertags: true
+
+# Analysis Options
+# --------------
+options_semantic-similarity:
+  window_sizes:  # 'all' or window size as integer
+    - 2
+    - 8
+
+options_dis_from_randomness:
+  window_size: 8
+  min_len: null
+  bootstrap: 10000
+  shuffle_mode: 'include0_includeN'
+  parallel_computing: false
+
+# Normalization Options
+# -------------------
+normalization_options:
+  method: "lemmatization"  # Options: 'lemmatization', 'stemming'
+
+# Filename Configuration
+# --------------------
+filename_components:
+  participant: true    # mandatory
+  session: false
+  task: true       # mandatory
+  task_addition: false
+  corpus: true
+  metric: true
+  additional_tags: []
+  
+create_aggregation_of_results: false
+output_document_information: false

@@ -1,0 +1,145 @@
+# Master Configuration File
+# ========================
+
+# Basic Settings
+# -------------
+input_file: "text"  # Options: 'text' or 'audio'
+language: "german"
+
+# Task Configuration
+# -----------------
+task_name: null  # Name of task used for creation of data
+fluency_task: &fluency_flag false  # Flag for fluency-specific settings
+discourse: &discourse_flag false  # Flag for discourse-specific settings
+
+# Corpus Configuration
+# ------------------
+corpus_key: null # Entity key to group files for analysis
+corpus_values:  # Corresponding entity values found in dataset
+  - "healthy-control"
+  - "placebo"
+
+# Session and participant Settings
+# --------------------------
+multiple_sessions: false
+number_of_participants: null  # If null, auto-detected
+number_of_speakers: 1 # Specify amount of speakers for discourse files
+participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only for discourse
+
+# Document Structure
+# ----------------
+has_multiple_sections: false
+has_section_titles: false
+section_identification: null  # e.g., "Section:", in case of multiple sections
+number_of_sections: null  # If null, auto-detected, specify for multiple sections to check section detection
+
+# Processing Pipeline
+# -----------------
+pipeline_options: # Just for data preprocessing without metric extraction
+  quality_check: false
+  clean_text: true
+  tokenize_text: false
+  normalize_text: false
+
+# Metric Extraction
+# ---------------
+metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
+output_document_information: true
+
+# Cleaning Options
+# --------------
+cleaning_options:
+  general_cleaning: true # General cleaning applied to most datasets, check specifications in section "general_cleaning_options"
+  remove_punctuation: false
+  lowercase: true
+  remove_brackets_and_bracketcontent: false
+  remove_timestamps: false
+  timestamp_pattern_example: null  # e.g., "#00:00:23-00#", only if remove_timestamps = True
+  # Fluency-specific options
+  fluency_task: *fluency_flag
+  word_splitter: ';'
+  remove_hyphens: true
+  remove_duplicates: true
+
+general_cleaning_options:
+  strip_whitespace: true
+  merge_multiple_whitespaces: true
+  remove_whitespace_before_punctuation: true
+  merge_newline_characters: true
+  remove_backslashes: true
+
+# Embedding Options
+# ---------------
+options_embeddings:
+  tokenization_method: "whitespace"  # Options: 'whitespace', 'model'
+  model_name: "fastText"  # Options: 'fastText', 'xlm-roberta-base'
+  pytorch_based_model: false
+  method: "model_instance"
+  max_length: 512
+  clean_embedding_tokens: true
+  remove_punctuation: false
+  lowercase: false
+  keep_speakertags: false
+  semantic-similarity: true
+  window_size: null
+  clean_tokens: true
+  divergence_from_optimality: false
+  output_options:
+    exclude_special_tokens: true
+    remove_'_'_character: true
+    remove_speaker_labels: true
+    remove_punctuation_and_symbols: true
+    remove_brackets_and_content: true
+
+# Logits Options
+# -------------
+options_logits:
+  chunk_size: 128
+  overlap_size: 64
+  tokenization_method: "model"
+  model_name: "DiscoResearch/Llama3-German-8B-32k"
+  remove_punctuation: true
+  lowercase: true
+  keep_speakertags: true
+
+# Analysis Options
+# --------------
+options_semantic-similarity:
+  window_sizes:  # 'all' or window size as integer
+    - 2
+    - 8
+
+options_dis_from_randomness:
+  window_size: 8
+  min_len: null
+  bootstrap: 10000
+  shuffle_mode: 'include0_includeN'
+  parallel_computing: false
+
+# Normalization Options
+# -------------------
+normalization_options:
+  method: "lemmatization"  # Options: 'lemmatization', 'stemming'
+
+# Document Information Output
+# -------------------------
+document_information_output:
+  parameters:
+    - participant_ID
+    - fluency_word_count
+    - fluency_duplicate_count
+
+# Filename Configuration
+# --------------------
+filename_components:
+  participant: true    # mandatory
+  session: false
+  task: true       # mandatory
+  task_addition: false
+  corpus: true     # mandatory
+  metric: true
+  additional_tags: []
+
+# Additional Settings
+# -----------------
+create_aggregation_of_results: true
