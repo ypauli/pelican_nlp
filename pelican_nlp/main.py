@@ -27,9 +27,10 @@ from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
 from pelican_nlp.config import debug_print, RUN_TESTS
 
-project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
+#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_imgdesc/config_imgdesc.yml'
+project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_acousticfeatures/config_acousticfeatures.yml'
 
 class Pelican:
 
@@ -63,15 +64,7 @@ class Pelican:
         self.path_to_participants = self.project_path / 'participants'
         self.output_directory = self.project_path / 'derivatives'
         self.task = self.config['task_name']
-        
-        # Add test configuration, TESTS NOT YET IMPLEMENTED
-        self.test_config = {
-            'run_all': True,  # Run all tests by default
-            'test_paths': ['tests'],  # Default test directory
-            'markers': [],  # Specific test markers to run
-            'skip_slow': True,  # Skip slow tests by default
-        }
-        
+
         if not self.path_to_participants.is_dir():
             sys.exit('Error: Could not find participants directory; check folder structure.')
 

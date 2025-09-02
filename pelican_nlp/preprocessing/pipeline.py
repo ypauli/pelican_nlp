@@ -12,7 +12,7 @@ class TextPreprocessingPipeline:
             config: Dictionary of configuration options
         """
         self.config = config
-        self.pipeline_options = config['pipeline_options']
+        self.pipeline_options = config.get('pipeline_options')
         self.cleaner = None
         self.normalizer = None
         self.tokenizer = None
