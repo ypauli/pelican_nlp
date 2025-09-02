@@ -275,11 +275,11 @@ class Pelican:
             if source_config.exists():
                 try:
                     shutil.copy2(source_config, target_config)
-                    print(f"✓ Synced config_{example_name}.yml to {example_dir.name}")
+                    print(f"Synced config_{example_name}.yml to {example_dir.name}")
                 except Exception as e:
-                    print(f"✗ Failed to sync config_{example_name}.yml: {str(e)}")
+                    print(f"Failed to sync config_{example_name}.yml: {str(e)}")
             else:
-                print(f"⚠ Source config file not found: {source_config}")
+                print(f"Source config file not found: {source_config}")
 
     @staticmethod
     def _prompt_for_continuation() -> None:
