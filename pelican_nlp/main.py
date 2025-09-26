@@ -30,7 +30,10 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
 #project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_imgdesc/config_imgdesc.yml'
-project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_acousticfeatures/config_acousticfeatures.yml'
+#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_acousticfeatures/config_acousticfeatures.yml'
+
+#project_path = '/home/yvespauli/PycharmProjects/perplexity_generated/config_perplexity.yml'
+project_path = '/home/yvespauli/PycharmProjects/perplexity_velas/config_perplexity.yml'
 
 class Pelican:
 
@@ -128,15 +131,15 @@ class Pelican:
 
     def _extract_metrics(self, corpus: Corpus) -> None:
         """Extract specified metrics from the corpus."""
-        metric = self.config['metric_to_extract']
-        if metric == 'logits':
-            print('Extracting logits...')
-            corpus.extract_logits()
-        elif metric == 'embeddings':
-            print('Extracting embeddings...')
-            corpus.extract_embeddings()
-        else:
-            raise ValueError(f"Unsupported metric: {metric}")
+        for metric in self.config['metrics_to_extract']:
+            if metric == 'logits':
+                print('Extracting logits...')
+                corpus.extract_logits()
+            elif metric == 'embeddings':
+                print('Extracting embeddings...')
+                corpus.extract_embeddings()
+            else:
+                raise ValueError(f"Unsupported metric: {metric}")
         
         self._clear_gpu_memory()
 

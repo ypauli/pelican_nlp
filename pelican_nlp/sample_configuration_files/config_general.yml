@@ -43,7 +43,7 @@ pipeline_options: # Just for data preprocessing without metric extraction
 
 # Metric Extraction
 # ---------------
-metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
+metrics_to_extract: ["embeddings"]  # Options: 'embeddings', 'logits'
 output_document_information: true
 
 # Cleaning Options
@@ -82,7 +82,6 @@ options_embeddings:
   keep_speakertags: false
   semantic-similarity: true
   window_size: null
-  clean_tokens: true
   divergence_from_optimality: false
   output_options:
     exclude_special_tokens: true
