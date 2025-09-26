@@ -15,7 +15,7 @@ corpus_values: #group names
   - "placebo"
   - "schizophrenia"
 
-metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
+metrics_to_extract: ["logits"] #Possible options: 'logits' or 'embeddings'
 
 number_of_speakers: 3
 participant_speakertag: "B"
@@ -65,7 +65,6 @@ options_embeddings:
   semantic-similarity: false
   distance-from-randomness: false
   window_size: null
-  clean_tokens: false
   divergence_from_optimality: false
 #================================================================================
 

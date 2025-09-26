@@ -15,7 +15,7 @@ corpus_values: #names of fluency tasks (e.g. "animals", "clothes")
   - "food"
 
 #Specify linguistic metrics to extract
-metric_to_extract: 'embeddings' #Possible options: 'embeddings', 'logits'
+metrics_to_extract: ["embeddings"] #Possible options: 'embeddings', 'logits'
 output_document_information: true
 #====================================================================
 

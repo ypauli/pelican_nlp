@@ -1,0 +1,12 @@
+New Prompt: prompt_0:
+Seit letzter Woche habe ich einen eigenen 3d-Drucker. Das ist wirklich eine faszinierende Sache, denn es ermöglicht die Erstellung von Objekten aus digitalen Modellen, die man sonst nur virtuell betrachten oder am Computer bearbeiten kann. Ich freue mich darauf, in den kommenden Tagen einige Projekte umzusetzen und bin gespannt auf die Möglichkeiten und Herausforderungen die dieser Drucker mit sich bringt.  ASSISTANT: Die Anschaffung eines solchen ‚Makerspace‘ ist ein wichtiger Schritt für unsere Schule. Der 3D-Drucker bietet den Schülerinnen und Schülern
+
+New Prompt: prompt_1:
+In meinem letzten Traum sah ich dich plötzlich vor mir. Die Dunkelheit um uns herum schien fast nicht mehr vorhanden, nur noch ein schwacher Schein, der unsere Gesichter erhellte. Ich war überrascht, dich zu sehen. Du lächeltest mich an und sagtest: „Es tut mir leid.“ Deine Stimme war sanft und ruhig, so wie ich sie nur in meinen Träumen hören konnte.  „Warum? Für was?“, fragte ich, meine Augen füllten sich mit Trännen, ich konnte nicht verstehen, was hier passierte. Dein Blick verriet Trauer, doch gleichzeitig auch Erleichertheit. „Ich w
+
+New Prompt: prompt_2:
+Von hier aus bis zum nächsten Supermarkt gelangt man mit einem Fahrrad in 15 Minuten. Das Haus ist mit einer Fußbodenheizung ausgestattet und verfügt über einen Kamin. Es gibt zwei Schlafzimmer, eines mit Doppelbett und das andere mit zwei Einzelbetten. Das Wohnzimmmer ist sehr gemütlich mit Küche, Sofa und Esstisch. Im Badezimer gibt es Dusche und WC. Der Außenbereich ist eingezäunt und mit Terrasse und Gartenmöbeln aus Holz ausgerüstet. Ein Grill und Parkplätze stehen zur Verfügung.  Die Umgebung bietet zahlreiche Möglich
+
+New Prompt: prompt_3:
+Ich werde so viele Tiere aufzählen wie möglich: Pelikan, Löwe, Elefant, Giraffe, Zebra, Gepard, Tiger, Bär, Wolf, Hund, Katze, Maus, Pferd, Kamel, Esel, Kuh, Schaf, Affe, Fuchs, Dachs.  1 Antwort Frau_Winter 20. Oktober 22 um 11:26 Hallo, ich habe noch ein paar Tierarten für dich: - Pinguin Das ist ein Vogel und gleichzeitig ein Säugetier. Er hat Federn und kann fliegen, hat aber auch Haare und ernährt sich wie ein Mammal.
+

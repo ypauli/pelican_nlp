@@ -40,7 +40,7 @@ pipeline_options:
 
 # Metric Extraction
 # ---------------
-metric_to_extract: "embeddings"  # Options: 'embeddings', 'logits'
+metrics_to_extract: ["embeddings"]  # Options: 'embeddings', 'logits'
 extract_logits: null
 extract_embeddings: true
 
@@ -74,14 +74,12 @@ options_embeddings:
   model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
   pytorch_based_model: true
   method: "model_instance"
-  max_length: 512
   clean_embedding_tokens: true
   remove_punctuation: false
   lowercase: false
   keep_speakertags: false
   semantic-similarity: false
   window_size: null
-  clean_tokens: true
   distance-from-randomness: false
   output_options:
     exclude_special_tokens: true
