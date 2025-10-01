@@ -5,7 +5,7 @@ class TextImporter:
         self.file_path = file_path
 
     def load_text(self, file_path):
-        # Possible file formats txt and docx, expand if necessary
+        # Possible file formats txt, docx, rtf, and pdf, expand if necessary
         ext = os.path.splitext(file_path)[-1].lower()
 
         if ext == '.txt':
@@ -14,6 +14,8 @@ class TextImporter:
             return self._load_docx(file_path)
         elif ext == '.rtf':
             return self._load_rtf(file_path)
+        elif ext == '.pdf':
+            return self._load_pdf(file_path)
         else:
             raise ValueError(f"Unsupported file format: {ext}")
 
@@ -40,3 +42,13 @@ class TextImporter:
             rtf_content = file.read()
 
         return rtf_to_text(rtf_content)
+
+    def _load_pdf(self, file_path):
+        """Read PDF file and extract its text content."""
+        import PyPDF2
+        text = ""
+        with open(file_path, 'rb') as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            for page in pdf_reader.pages:
+                text += page.extract_text() + "\n"
+        return text.strip()
