@@ -98,6 +98,7 @@ yaml==0.2.5
 docx2txt==0.9
 striprtf>=0.0.29
 chardet>=4.0.0
+PyPDF2>=3.0.0
 scikit_learn>=1.6.1
 matplotlib>=3.10.0
 seaborn>=0.13.2

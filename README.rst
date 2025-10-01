@@ -52,19 +52,13 @@ Install the package using pip:
 
     pip install pelican-nlp
 
-For the latest development version:
-
-.. code-block:: bash
-
-    pip install https://github.com/ypauli/pelican_nlp/releases/tag/v0.1.2-alpha
-
 Usage
 =====
 
 To run ``pelican_nlp``, you need a ``configuration.yml`` file in your main project directory. This file defines the settings and parameters used for your project.
 
 Sample configuration files are available here:
-`https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files <https://github.com/ypauli/pelican_nlp/tree/main/sample_configuration_files>`_
+`https://github.com/ypauli/pelican_nlp/tree/main/examples <https://github.com/ypauli/pelican_nlp/tree/main/examples>`_
 
 1. Adapt a sample configuration to your needs.
 2. Save your personalized ``configuration.yml`` in the root of your project directory.
