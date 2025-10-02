@@ -7,13 +7,59 @@ from .filename_parser import parse_lpds_filename
 from pelican_nlp.config import debug_print
 
 
+def is_hidden_or_system_file(filename):
+    """
+    Check if a file is a hidden or system file that should be ignored.
+    
+    Args:
+        filename (str): The filename to check
+        
+    Returns:
+        bool: True if the file should be ignored, False otherwise
+    """
+    # Check for common hidden/system files
+    hidden_files = {
+        '.DS_Store',  # macOS
+        'Thumbs.db',  # Windows
+        '.Spotlight-V100',  # macOS Spotlight
+        '.Trashes',  # macOS Trash
+        '.fseventsd',  # macOS file system events
+        '.VolumeIcon.icns',  # macOS volume icon
+        '.com.apple.timemachine.donotpresent',  # macOS Time Machine
+        'desktop.ini',  # Windows
+        '.directory',  # KDE
+        '.localized',  # macOS
+        '.metadata_never_index',  # macOS Spotlight
+        '.parentlock',  # macOS
+        '.symlinks',  # macOS
+        '.TemporaryItems',  # macOS
+        '.VolumeIcon.icns',  # macOS
+        '._*',  # macOS resource fork files
+    }
+    
+    # Check if filename matches any hidden file pattern
+    if filename in hidden_files:
+        return True
+    
+    # Check if filename starts with a dot (hidden files on Unix-like systems)
+    if filename.startswith('.'):
+        return True
+    
+    # Check if filename starts with underscore followed by dot (macOS resource forks)
+    if filename.startswith('._'):
+        return True
+    
+    return False
+
+
 def participant_instantiator(config, project_folder):
     path_to_participants = os.path.join(project_folder, 'participants')
     
-    # Get all participant directories that match part-* pattern
+    # Get all participant directories that match part-* pattern, filtering out hidden files
     participants = [
         Participant(participant_dir) 
         for participant_dir in os.listdir(path_to_participants)
+        if not is_hidden_or_system_file(participant_dir)
     ]
 
     # Identifying all participant files
@@ -25,7 +71,9 @@ def participant_instantiator(config, project_folder):
         participant_path = os.path.join(path_to_participants, participant.name)
         all_files = []
         for root, _, files in os.walk(participant_path):
-            all_files.extend([os.path.join(root, f) for f in files])
+            # Filter out hidden/system files
+            filtered_files = [f for f in files if not is_hidden_or_system_file(f)]
+            all_files.extend([os.path.join(root, f) for f in filtered_files])
         
         # Filter files by task name from config
         task_files = []

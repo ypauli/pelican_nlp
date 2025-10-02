@@ -2,6 +2,7 @@ import re
 import os
 
 from pelican_nlp.config import debug_print
+from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
 
 class LPDS:
     def __init__(self, project_folder, multiple_sessions):
@@ -9,7 +10,8 @@ class LPDS:
         self.multiple_sessions = multiple_sessions
         self.participants_folder = os.path.join(self.project_folder, "participants")
         self.participant_folders = [f for f in os.listdir(self.participants_folder) if
-                                os.path.isdir(os.path.join(self.participants_folder, f))]
+                                os.path.isdir(os.path.join(self.participants_folder, f)) and
+                                not is_hidden_or_system_file(f)]
 
     def LPDS_checker(self):
         # Check if the main project folder exists
@@ -39,7 +41,8 @@ class LPDS:
             # Check for session folders if project has sessions
             if self.multiple_sessions:
                 session_folders = [f for f in os.listdir(participant_path) if
-                                   os.path.isdir(os.path.join(participant_path, f))]
+                                   os.path.isdir(os.path.join(participant_path, f)) and
+                                   not is_hidden_or_system_file(f)]
                 if session_folders:
                     if 'ses-01' not in session_folders:
                         print(f"Warning: Ideally, the session folders should follow the naming convention 'ses-x'.")
@@ -57,12 +60,14 @@ class LPDS:
             # Iterate through current level folders (participants or sessions)
             for session_folder in session_folders:
                 session_path = os.path.join(participant_path, session_folder)
-                task_folders = [f for f in os.listdir(session_path) if os.path.isdir(os.path.join(session_path, f))]
+                task_folders = [f for f in os.listdir(session_path) if os.path.isdir(os.path.join(session_path, f)) and
+                               not is_hidden_or_system_file(f)]
 
                 # Check for tasks inside session folder
                 for task_folder in task_folders:
                     task_path = os.path.join(session_path, task_folder)
-                    task_files = [f for f in os.listdir(task_path) if os.path.isfile(os.path.join(task_path, f))]
+                    task_files = [f for f in os.listdir(task_path) if os.path.isfile(os.path.join(task_path, f)) and
+                                 not is_hidden_or_system_file(f)]
 
                     # Check naming convention for files in the task folder
                     for file in task_files:

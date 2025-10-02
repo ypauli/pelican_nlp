@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from pelican_nlp.main import Pelican
 from pelican_nlp.config import RUN_TESTS
+from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
 
 def main():
     # Run tests if enabled
@@ -12,7 +13,7 @@ def main():
 
     # Look for configuration files in the current working directory
     config_dir = Path.cwd()
-    config_files = [f for f in os.listdir(config_dir) if f.endswith((".yml", ".yaml"))]
+    config_files = [f for f in os.listdir(config_dir) if f.endswith((".yml", ".yaml")) and not is_hidden_or_system_file(f)]
     
     if not config_files:
         print("Error: No .yml or .yaml configuration file found in the current directory.")
