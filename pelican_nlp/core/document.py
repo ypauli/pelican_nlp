@@ -4,6 +4,8 @@ The Document class stores all document specific information.
 """
 
 import os
+
+from pelican_nlp.config import debug_print
 from pelican_nlp.preprocessing import TextImporter, SectionIdentificator
 from collections import defaultdict
 
@@ -148,7 +150,7 @@ class Document:
         if not self.section_identificator.validate_sections(self.sections):
             raise ValueError("Section validation failed.")
         
-        print(self.sections)
+        debug_print(self.sections)
 
     def process_document(self, pipeline):
         print(f"Processing document: {self.name}")
@@ -170,6 +172,8 @@ class Document:
                 )
 
     def tokenize_text(self, tokenizer, purpose):
+        print("tokenizing text")
+
         if not self.cleaned_sections:
             raise ValueError("Text must be cleaned before tokenizing.")
 
@@ -181,6 +185,8 @@ class Document:
                 self.tokens_embeddings.append(tokens)
 
     def normalize_text(self, normalizer):
+        print("normalizing text")
+
         if not self.tokens_logits:
             raise ValueError("Text must be tokenized before normalization.")
 

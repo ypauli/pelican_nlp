@@ -5,7 +5,7 @@ This file is not the configuration.yml file created for the users adaptations.
 For consistency of pipeline, DO NOT CHANGE.
 """
 
-# Debug flag - set to False for cleaner output
+# Debug flag
 DEBUG_MODE = False
 
 # Test flag - set to True to run all example tests

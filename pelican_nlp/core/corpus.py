@@ -16,6 +16,7 @@ from ..preprocessing import text_cleaner as textcleaner
 import re
 
 from pelican_nlp.config import debug_print
+from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
 
 class Corpus:
     def __init__(self, corpus_name, documents, configuration_settings, project_folder):
@@ -31,7 +32,7 @@ class Corpus:
         self.results_path = None
 
     def preprocess_all_documents(self):
-        """Preprocess all documents"""
+        print("preprocessing all documents")
         for document in self.documents:
             document.detect_sections()
             document.process_document(self.pipeline)
@@ -58,7 +59,9 @@ class Corpus:
             if 'aggregations' in root:
                 continue
                 
-            for file in files:
+            # Filter out hidden/system files
+            filtered_files = [f for f in files if not is_hidden_or_system_file(f)]
+            for file in filtered_files:
                 if not file.endswith('.csv'):
                     continue
                     
@@ -108,8 +111,10 @@ class Corpus:
     def extract_logits(self):
         from pelican_nlp.extraction.extract_logits import LogitsExtractor
         from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
-        logits_options = self.config['options_logits']
 
+        print("Extracting Logits...")
+
+        logits_options = self.config['options_logits']
 
         model_name = logits_options['model_name']
         logitsExtractor = LogitsExtractor(logits_options,
@@ -143,6 +148,8 @@ class Corpus:
 
     def extract_embeddings(self):
         from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
+
+        print("Extracting Embeddings...")
 
         embedding_options = self.config['options_embeddings']
         embeddingsExtractor = EmbeddingsExtractor(embedding_options, self.project_folder)
@@ -232,6 +239,9 @@ class Corpus:
 
     def extract_opensmile_features(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
+
+        print("Extracting openSMILE features...")
+
         for i in range(len(self.documents)):
             results, recording_length = AudioFeatureExtraction.opensmile_extraction(self.documents[i].file, self.config['opensmile_configurations'])
             self.documents[i].recording_length = recording_length  # Store the recording length
@@ -244,6 +254,9 @@ class Corpus:
     def extract_prosogram(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
         from pelican_nlp.utils.csv_functions import store_features_to_csv
+
+        print("Extracting Prosogram...")
+
         for i in range(len(self.documents)):
             # Create the output directory for this document's prosogram files
             output_dir = os.path.join(self.derivatives_dir, 'prosogram-features', 

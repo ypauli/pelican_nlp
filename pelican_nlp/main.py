@@ -27,13 +27,12 @@ from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
 from pelican_nlp.config import debug_print, RUN_TESTS
 
-# Example project paths (commented out for production)
-#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_fluency/config_fluency.yml'
-#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_discourse/config_discourse.yml'
-#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_imgdesc/config_imgdesc.yml'
-#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_acousticfeatures/config_acousticfeatures.yml'
-#project_path = '/home/yvespauli/PycharmProjects/perplexity_generated/config_perplexity.yml'
-#project_path = '/home/yvespauli/PycharmProjects/perplexity_velas/config_perplexity.yml'
+# Example project paths pointing to current workspace examples
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_fluency/config_fluency.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_discourse/config_discourse.yml'
+project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_general/config_general.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_perplexity/config_perplexity.yml'
 
 class Pelican:
 
@@ -47,19 +46,6 @@ class Pelican:
         # Skip config loading and project setup for test mode
         if test_mode:
             return
-        
-        # If no config path is provided, use the default config from package; used for dev-mode
-        if config_path is None:
-            package_dir = Path(__file__).parent
-            default_config = package_dir / 'sample_configuration_files' / 'config_fluency.yml'
-            if default_config.exists():
-                config_path = str(default_config)
-            else:
-                sys.exit('Error: Default configuration file not found in sample_configuration_files folder.')
-        
-        # Verify the provided path is a YAML file
-        elif not config_path.endswith(('.yml', '.yaml')):
-            sys.exit('Error: Configuration file must be a YAML file (*.yml or *.yaml)')
 
         self.config = load_config(config_path)
         self.project_path = Path(config_path).resolve().parent
@@ -80,13 +66,14 @@ class Pelican:
         self._LPDS()
         
         # Instantiate all participants
+        print("Instantiating all participants")
         participants = participant_instantiator(self.config, self.project_path)
         
         # Process each corpus
         for corpus_value in self.config['corpus_values']:
             self._process_corpus(self.config['corpus_key'], corpus_value, participants)
-        
-        print("Pipeline ran successfully")
+
+        print("Pipeline ran successfully!")
 
     def _process_corpus(self, corpus_key: str, corpus_value: str, participants: List) -> None:
         """Process a single corpus including preprocessing and metric extraction."""
@@ -301,4 +288,4 @@ if __name__ == '__main__':
         Pelican(test_mode=True).run_tests()
     else:
         # For direct execution, use default config
-        Pelican(dev_mode=True).run()
+        Pelican(project_path, dev_mode=True).run()
