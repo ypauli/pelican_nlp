@@ -11,6 +11,9 @@ recursive-include docs *
 # Include examples
 recursive-include examples *.py *.yml *.yaml *.txt
 
+prune examples/perplexity
+prune examples/transcription
+
 # Include test files
 recursive-include tests *.py
 

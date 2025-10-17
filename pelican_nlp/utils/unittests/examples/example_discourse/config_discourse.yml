@@ -18,7 +18,7 @@ corpus_values: #group names
 metric_to_extract: "logits" #Possible options: 'logits' or 'embeddings'
 
 number_of_speakers: 3
-participant_speakertag: "B"
+participant_speakertag: ["B", "T"]  # Speaker tags for participant (e.g., ["B", "T"] for multiple tags)
 #=========================================================
 
 #Optional configurations; Change with preference. However, default settings recommended

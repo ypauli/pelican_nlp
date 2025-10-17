@@ -21,7 +21,7 @@ corpus_values:  # group names
 multiple_sessions: true
 number_of_participants: null  # If null, auto-detected
 number_of_speakers: 1
-participant_speakertag: null  # Speaker tag for participant (e.g., "B")
+participant_speakertag: null  # Speaker tag(s) for participant (e.g., "B" or ["B", "T"])
 
 # Document Structure
 # ----------------

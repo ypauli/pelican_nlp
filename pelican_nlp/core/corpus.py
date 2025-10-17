@@ -129,7 +129,9 @@ class Corpus:
             for key, section in self.documents[i].cleaned_sections.items():
 
                 if self.config['discourse'] == True:
-                    section = TextDiarizer.parse_speaker(section, self.config['participant_speakertag'],
+                    # Handle both single speaker tag and multiple speaker tags
+                    participant_speakertag = self.config['participant_speakertag']
+                    section = TextDiarizer.parse_speaker(section, participant_speakertag,
                                                          logits_options['keep_speakertags'])
                     #print(f'parsed section is {section}')
                 else:
@@ -175,7 +177,9 @@ class Corpus:
                 debug_print(f'Processing section {key}')
                 
                 if self.config['discourse']:
-                    section = TextDiarizer.parse_speaker(section, self.config['participant_speakertag'], embedding_options['keep_speakertags'])
+                    # Handle both single speaker tag and multiple speaker tags
+                    participant_speakertag = self.config['participant_speakertag']
+                    section = TextDiarizer.parse_speaker(section, participant_speakertag, embedding_options['keep_speakertags'])
                 else:
                     section = [section]
 

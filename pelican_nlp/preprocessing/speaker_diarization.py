@@ -22,12 +22,31 @@ class TextDiarizer:
         return speaker_tags
 
     @staticmethod
-    def parse_speaker(text, speaker_tag, keep_speakertag=False):
-
-        pattern = rf"{re.escape(speaker_tag)}:\s*(.*?)(?=\n\s*\w+:|\Z)"
-        matches = re.findall(pattern, text, re.DOTALL)
-
-        if keep_speakertag:
-            return [f"{speaker_tag}: {match.strip()}" for match in matches]
-        else:
-            return [match.strip() for match in matches]
+    def parse_speaker(text, speaker_tags, keep_speakertag=False):
+        """
+        Parse speaker content from text using one or multiple speaker tags.
+        
+        Args:
+            text: The text to parse
+            speaker_tags: Single speaker tag (str) or list of speaker tags (list)
+            keep_speakertag: Whether to keep the speaker tag in the output
+            
+        Returns:
+            List of speaker utterances
+        """
+        # Handle both single tag and multiple tags
+        if isinstance(speaker_tags, str):
+            speaker_tags = [speaker_tags]
+        
+        all_matches = []
+        
+        for speaker_tag in speaker_tags:
+            pattern = rf"{re.escape(speaker_tag)}:\s*(.*?)(?=\n\s*\w+:|\Z)"
+            matches = re.findall(pattern, text, re.DOTALL)
+            
+            if keep_speakertag:
+                all_matches.extend([f"{speaker_tag}: {match.strip()}" for match in matches])
+            else:
+                all_matches.extend([match.strip() for match in matches])
+        
+        return all_matches
