@@ -27,7 +27,8 @@ from pelican_nlp.utils.filename_parser import parse_lpds_filename
 
 from pelican_nlp.config import debug_print, RUN_TESTS
 
-# Example project paths pointing to current workspace examples
+# Project path pointing to current workspace example configuration file.
+# Used if run in programming environment instead of terminal.
 project_path = '/home/yvespauli/PycharmProjects/velas_interview2/config_velas_semsim.yml'
 
 class Pelican:
