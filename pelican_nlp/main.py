@@ -29,6 +29,7 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 
 # Project path pointing to current workspace example configuration file.
 # Used if pipeline is run in programming environment instead of terminal.
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_transcription/config_transcription.yml'
 project_path = '/home/yvespauli/PycharmProjects/velas_interview2/config_velas_semsim.yml'
 
 class Pelican:

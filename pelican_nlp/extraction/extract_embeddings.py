@@ -112,8 +112,9 @@ class EmbeddingsExtractor:
                 tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(input_ids)
 
                 # Now align the tokens and embeddings
+                embeddings = []
                 for token, embedding in zip(tokens, word_embeddings[0]):
-                    embeddings[token]=embedding.tolist()
+                    embeddings.append((token, embedding.tolist()))
 
             else:
                 if self.model_name == 'fastText':

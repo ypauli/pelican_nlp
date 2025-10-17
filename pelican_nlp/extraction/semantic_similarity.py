@@ -4,6 +4,10 @@ from scipy.spatial.distance import cdist
 import pandas as pd
 
 def calculate_semantic_similarity(embedding_vectors):
+    # Check if embedding_vectors is empty
+    if not embedding_vectors:
+        return [], np.nan
+    
     # Extract just the vectors from the list of tuples
     vectors = [vector for _, vector in embedding_vectors]
     consecutive_similarities = get_consecutive_vector_similarities(vectors)
@@ -44,6 +48,10 @@ def get_cosine_similarity_matrix(embedding_vectors):
     return sim
 
 def get_semantic_similarity_windows(embedding_vectors, window_size):
+    # Check if embedding_vectors is empty
+    if not embedding_vectors:
+        return np.nan, np.nan, np.nan, np.nan, np.nan
+    
     # Extract tokens and vectors from the list of tuples
     tokens, vectors = zip(*embedding_vectors)
 
@@ -88,6 +96,10 @@ def get_sentence_wise_similarity(embedding_vectors):
     Groups tokens by sentence boundaries (., !, ?) and computes similarity between sentences.
     """
     import re
+    
+    # Check if embedding_vectors is empty
+    if not embedding_vectors:
+        return np.nan, np.nan, np.nan, np.nan, np.nan
     
     # Extract tokens and vectors from the list of tuples
     tokens, vectors = zip(*embedding_vectors)

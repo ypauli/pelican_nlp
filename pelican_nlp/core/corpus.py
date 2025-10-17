@@ -249,10 +249,12 @@ class Corpus:
                     else:
                         cleaned_embeddings = utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
 
-                    store_features_to_csv(cleaned_embeddings,
-                                          self.derivatives_dir,
-                                          self.documents[i],
-                                          metric='embeddings')
+                    # Only store embeddings if they are not empty
+                    if cleaned_embeddings:
+                        store_features_to_csv(cleaned_embeddings,
+                                              self.derivatives_dir,
+                                              self.documents[i],
+                                              metric='embeddings')
         return
 
     def transcribe_audio(self):
