@@ -41,9 +41,7 @@ pipeline_options:
 
 # Metric Extraction
 # ---------------
-metrics_to_extract: ["embeddings", "logits"]  # Options: 'embeddings', 'logits'
-extract_logits: null
-extract_embeddings: true
+metrics_to_extract: ["logits", "perplexity"]  # Options: 'embeddings', 'logits', 'perplexity'
 
 # Cleaning Options
 # --------------
@@ -99,6 +97,19 @@ options_logits:
   remove_punctuation: true
   lowercase: true
   keep_speakertags: true
+
+# Perplexity Options
+# -----------------
+options_perplexity:
+  # Perplexity calculation options
+  calculate_section_perplexity: true
+  calculate_sentence_perplexity: true
+  # Prompt sequences to ignore (will be treated as Sentence 0)
+  ignore_sequences:
+    - ["se", "it", "Ġletz", "ter", "Ġwo", "che", "Ġhabe", "Ġich"]
+    - ["von", "Ġhier", "Ġaus", "Ġbis", "Ġzum", "ĠnÃ¤chsten", "Ġsuper", "markt", "Ġgel", "ang", "t", "Ġman"]
+    - ["in", "Ġmeinem", "Ġletzten", "Ġtra", "um"]
+    - ['ich', 'Ġwerde', 'Ġso', 'Ġviele', 'Ġti', 'ere', 'Ġauf', 'z', 'Ã¤hlen', 'Ġwie', 'ĠmÃ¶glich', ':', 'Ġpel']
 
 # Analysis Options
 # --------------

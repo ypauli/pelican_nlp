@@ -192,6 +192,15 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                     if not file_exists:
                         writer.writerow([])  # Empty line between sections
 
+        elif metric in ['perplexity-section', 'perplexity-sentence']:
+            if not input_data:
+                return
+            header = list(input_data[0].keys())
+            _write_csv_header(writer, header, file_exists)
+            
+            for entry in input_data:
+                writer.writerow(entry.values())
+
     return output_filepath
 
 

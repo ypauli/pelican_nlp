@@ -24,6 +24,7 @@ class TextCleaner:
 
         # Consolidate conditional blocks for better readability
         cleaning_operations = [
+            ('remove_brackets_and_bracketcontent', lambda: _remove_brackets_and_bracketcontent(text)),
             ('fluency_task', lambda: self.clean_fluency_transcripts(document, text)),
             ('remove_punctuation', lambda: remove_punctuation(text)),
             ('lowercase', lambda: lowercase(text))

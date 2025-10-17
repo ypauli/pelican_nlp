@@ -28,11 +28,7 @@ from pelican_nlp.utils.filename_parser import parse_lpds_filename
 from pelican_nlp.config import debug_print, RUN_TESTS
 
 # Example project paths pointing to current workspace examples
-#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_fluency/config_fluency.yml'
-#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_discourse/config_discourse.yml'
-project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
-#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_general/config_general.yml'
-#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_perplexity/config_perplexity.yml'
+project_path = '/home/yvespauli/PycharmProjects/velas_interview2/config_velas_semsim.yml'
 
 class Pelican:
 
@@ -99,6 +95,10 @@ class Pelican:
                 corpus.create_document_information_csv()
 
         elif self.config['input_file']=='audio':
+
+            if self.config['transcription']:
+                corpus.transcribe_audio()
+
             if self.config['opensmile_feature_extraction']:
                 corpus.extract_opensmile_features()
 
@@ -121,6 +121,8 @@ class Pelican:
                 corpus.extract_logits()
             elif metric == 'embeddings':
                 corpus.extract_embeddings()
+            elif metric == 'perplexity':
+                corpus.extract_perplexity()
             else:
                 raise ValueError(f"Unsupported metric: {metric}")
         

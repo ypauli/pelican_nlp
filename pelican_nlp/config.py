@@ -6,7 +6,7 @@ For consistency of pipeline, DO NOT CHANGE.
 """
 
 # Debug flag
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 # Test flag - set to True to run all example tests
 RUN_TESTS = False

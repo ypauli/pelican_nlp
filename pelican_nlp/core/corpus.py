@@ -146,6 +146,20 @@ class Corpus:
                                           self.documents[i],
                                           metric='logits')
 
+    def extract_perplexity(self):
+        """Extract perplexity metrics from logits data."""
+        from pelican_nlp.extraction.extract_perplexity import PerplexityExtractor
+
+        print("Extracting Perplexity...")
+
+        perplexity_options = self.config['options_perplexity']
+        perplexityExtractor = PerplexityExtractor(perplexity_options, self.project_folder)
+
+        for i in range(len(self.documents)):
+            # Process each logits entry for this document
+            for logits_data in self.documents[i].logits:
+                perplexityExtractor.extract_perplexity_from_document(self.documents[i], logits_data)
+
     def extract_embeddings(self):
         from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
 
@@ -237,6 +251,102 @@ class Corpus:
                                           metric='embeddings')
         return
 
+    def transcribe_audio(self):
+        """
+        Transcribes audio files using the transcription pipeline.
+        Saves transcription results to derivatives/transcription/ subdirectory.
+        """
+        from pelican_nlp.preprocessing.transcription import process_single_audio_file
+        import os
+        from pathlib import Path
+        
+        print("Starting audio transcription...")
+        
+        # Create transcription subdirectory in derivatives
+        transcription_dir = os.path.join(self.derivatives_dir, 'transcription')
+        os.makedirs(transcription_dir, exist_ok=True)
+        
+        # Get transcription parameters from config
+        transcription_config = self.config.get('transcription', {})
+        
+        # Use configuration values with fallbacks to existing config or defaults
+        hf_token = transcription_config.get('hf_token', '')
+        if not hf_token:
+            print("Warning: No Hugging Face token provided. Speaker diarization will not work.")
+            print("Please add 'hf_token: your_token_here' to the transcription section of your config.")
+        
+        num_speakers = transcription_config.get('num_speakers', self.config.get('number_of_speakers', 2))
+        min_silence_len = transcription_config.get('min_silence_len', 1000)
+        silence_thresh = transcription_config.get('silence_thresh', -30)
+        min_length = transcription_config.get('min_length', 90000)
+        max_length = transcription_config.get('max_length', 150000)
+        timestamp_source = transcription_config.get('timestamp_source', 'whisper_alignments')
+        
+        # Get diarization parameters from config
+        diarizer_params = transcription_config.get('diarizer_params', {
+            "segmentation": {
+                "min_duration_off": 0.0,
+            },
+            "clustering": {
+                "method": "centroid",
+                "min_cluster_size": 12,
+                "threshold": 0.8,
+            }
+        })
+        
+        print(f"Transcription settings:")
+        print(f"  - Number of speakers: {num_speakers}")
+        print(f"  - Min silence length: {min_silence_len}ms")
+        print(f"  - Silence threshold: {silence_thresh}dBFS")
+        print(f"  - Chunk length range: {min_length}-{max_length}ms")
+        print(f"  - Timestamp source: {timestamp_source}")
+        
+        # Process each audio document
+        for i, document in enumerate(self.documents):
+            if hasattr(document, 'file') and document.file:
+                print(f"\nProcessing document {i+1}/{len(self.documents)}: {document.file}")
+                
+                # Check if audio file exists
+                if not os.path.exists(document.file):
+                    print(f"Error: Audio file not found at {document.file}")
+                    continue
+                
+                try:
+                    # Process the single audio file
+                    processed_document = process_single_audio_file(
+                        audio_file=document,
+                        hf_token=hf_token,
+                        diarizer_params=diarizer_params,
+                        num_speakers=num_speakers,
+                        min_silence_len=min_silence_len,
+                        silence_thresh=silence_thresh,
+                        min_length=min_length,
+                        max_length=max_length,
+                        timestamp_source=timestamp_source
+                    )
+                    
+                    # Save transcription results to JSON file
+                    transcription_file = os.path.join(
+                        transcription_dir, 
+                        f"{Path(document.file).stem}_all_outputs.json"
+                    )
+                    processed_document.save_as_json(transcription_file)
+                    
+                    # Store transcription file path in the document
+                    document.transcription_file = transcription_file
+                    
+                    print(f"Transcription completed and saved to: {transcription_file}")
+                    
+                except Exception as e:
+                    print(f"Error transcribing {document.file}: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    continue
+            else:
+                print(f"No audio file found for document {i}")
+        
+        print(f"\nAudio transcription completed. Processed {len(self.documents)} documents.")
+
     def extract_opensmile_features(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
 
@@ -266,7 +376,6 @@ class Corpus:
                 self.documents[i].file, 
                 output_dir=output_dir
             )
-
 
     def create_document_information_csv(self):
         """Create CSV file with summarized document parameters based on config specifications."""
