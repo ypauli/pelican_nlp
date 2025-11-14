@@ -25,6 +25,12 @@ class LogitsExtractor:
         # Convert list of token IDs to tensor if needed
         if isinstance(tokens, list):
             input_ids = torch.tensor([tokens], device=self.device)
+        elif hasattr(tokens, 'input_ids'):
+            # Handle BatchEncoding objects (from model_roberta tokenization)
+            input_ids = tokens['input_ids'].to(self.device)
+        elif isinstance(tokens, dict) and 'input_ids' in tokens:
+            # Handle dictionary with input_ids key
+            input_ids = tokens['input_ids'].to(self.device)
         else:
             input_ids = tokens.to(self.device)
             
@@ -41,7 +47,23 @@ class LogitsExtractor:
                 outputs = model(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
 
-            tokens = tokenizer.convert_ids_to_tokens(chunk.squeeze())
+            # Safely convert chunk to list of token IDs, ensuring we don't create 0-d tensor
+            # Remove batch dimension if present (chunk should be [1, seq_len] from _split_into_chunks)
+            if chunk.dim() == 2 and chunk.size(0) == 1:
+                # Remove batch dimension: [1, seq_len] -> [seq_len]
+                chunk_ids = chunk[0]  # Use indexing instead of squeeze to avoid 0-d issues
+            elif chunk.dim() == 1:
+                chunk_ids = chunk
+            else:
+                # Fallback: ensure it's at least 1D
+                chunk_ids = chunk.view(-1) if chunk.numel() > 0 else torch.tensor([], dtype=chunk.dtype, device=chunk.device)
+            
+            # Convert to list - tolist() on 1D tensor always returns a list
+            chunk_ids_list = chunk_ids.tolist()
+            # Double-check: ensure it's always a list (handle any edge cases)
+            if not isinstance(chunk_ids_list, list):
+                chunk_ids_list = [chunk_ids_list]
+            tokens = tokenizer.convert_ids_to_tokens(chunk_ids_list)
             num_tokens = len(tokens)
 
             chunk_data = []
@@ -94,7 +116,13 @@ class LogitsExtractor:
 
     def _split_into_chunks(self, input_ids, chunk_size, overlap_size):
 
-        input_ids = input_ids.squeeze()
+        # Squeeze batch dimension if present, but ensure we keep at least 1D
+        if input_ids.dim() > 1:
+            input_ids = input_ids.squeeze()
+        # Ensure input_ids is at least 1D (handle edge case where squeeze removed all dimensions)
+        if input_ids.dim() == 0:
+            input_ids = input_ids.unsqueeze(0)
+        
         input_length = input_ids.size(0)
         stride = chunk_size - overlap_size
         chunks = []

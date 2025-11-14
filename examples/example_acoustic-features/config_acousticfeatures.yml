@@ -1,0 +1,43 @@
+# Master Configuration File
+# ========================
+
+# Basic Settings
+# -------------
+input_file: "audio"  # Options: 'text' or 'audio'
+language: "dutch"
+
+# Task Configuration
+# -----------------
+task_name: interview  # Name of task used for creation of data
+fluency_task: &fluency_flag false  # Flag for fluency-specific settings
+discourse: &discourse_flag false  # Flag for discourse-specific settings
+
+# Corpus Configuration
+# ------------------
+corpus_key: task # Entity key to group files for analysis
+corpus_values:  # Corresponding entity values found in dataset
+  - "interview"
+
+# Session and participant Settings
+# --------------------------
+multiple_sessions: false
+number_of_participants: null  # If null, auto-detected
+number_of_speakers: 1 # Specify amount of speakers for discourse files
+participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only for discourse
+
+#Acoustic Features Options
+#-----------------------
+
+opensmile_feature_extraction: true
+prosogram_extraction: true
+
+opensmile_configurations:
+  always_2d: true
+  duration: null
+  offset: null
+
+  feature_set: opensmile.FeatureSet.eGeMAPSv02
+  feature_level: opensmile.FeatureLevel.Functionals
+  
+transcription: false
+

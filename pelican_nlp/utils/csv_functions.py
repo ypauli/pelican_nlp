@@ -91,7 +91,7 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             for row in input_data:
                 writer.writerow(row)
                 
-        elif metric.startswith('semantic-similarity-window-'):
+        elif metric.startswith('semantic-similarity-window-') or metric == 'semantic-similarity-sentence':
             header = ['Metric', 'Similarity_Score']
             _write_csv_header(writer, header, file_exists)
             

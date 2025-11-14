@@ -7,7 +7,9 @@ This class contains the pipelines for homogenous processing and metric extractio
 """
 
 import os
+import io
 import pandas as pd
+import numpy as np
 from ..preprocessing import TextPreprocessingPipeline
 from ..utils.csv_functions import store_features_to_csv
 from ..extraction.language_model import Model
@@ -43,15 +45,15 @@ class Corpus:
             result[participant.name] = participant.get_processed_texts()
         return result
 
-    def create_corpus_results_consolidation_csv(self):
-        """Create separate aggregated results CSV files for each metric."""
+    def create_corpus_results_consolidation_csv(self) -> None:
+        """Create comprehensive aggregated results CSV files for semantic similarity metrics."""
         
         # Create aggregations folder
         aggregation_path = os.path.join(self.derivatives_dir, 'aggregations')
         os.makedirs(aggregation_path, exist_ok=True)
         
-        # Initialize results dictionary with metrics as keys
-        results_by_metric = {}
+        # Initialize semantic similarity aggregation data
+        semantic_similarity_data = {}
         
         # Walk through all directories in derivatives
         for root, dirs, files in os.walk(self.derivatives_dir):
@@ -67,46 +69,204 @@ class Corpus:
                     
                 file_path = os.path.join(root, file)
                 try:
-                    df = pd.read_csv(file_path)
                     participant_key = os.path.basename(file).split('_')[0]
                     
-                    # Determine metric type from file path
-                    if 'semantic-similarity-window' in file:
-                        metric = 'semantic-similarity'
-                    elif 'distance-from-randomness' in file:
-                        metric = 'distance-from-randomness'
-                    else:
-                        continue
-                    
-                    # Initialize metric dict if not exists
-                    if metric not in results_by_metric:
-                        results_by_metric[metric] = {}
-                    
                     # Initialize participant dict if not exists
-                    if participant_key not in results_by_metric[metric]:
-                        results_by_metric[metric][participant_key] = {}
+                    if participant_key not in semantic_similarity_data:
+                        semantic_similarity_data[participant_key] = {
+                            'window_2_data': [],
+                            'window_8_data': [],
+                            'sentence_data': []
+                        }
                     
-                    # Process based on metric type
-                    if metric == 'semantic-similarity':
-                        window_size = re.search(r'window-(\d+)', file).group(1)
-                        for _, row in df.iterrows():
-                            if 'Metric' in df.columns and 'Similarity_Score' in df.columns:
-                                metric_name = f"window_{window_size}_{row['Metric']}"
-                                results_by_metric[metric][participant_key][metric_name] = row['Similarity_Score']
+                    # Process semantic similarity files
+                    if 'semantic-similarity-window-2' in file:
+                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['window_2_data'])
+                    elif 'semantic-similarity-window-8' in file:
+                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['window_8_data'])
+                    elif ('semantic-similarity-sentence' in file) or ('semantic-similarity-window-sentence' in file):
+                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['sentence_data'])
 
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
                     continue
         
-        # Save separate aggregated results for each metric
-        for metric, metric_results in results_by_metric.items():
-            if metric_results:
-                output_file = os.path.join(aggregation_path, f'{self.name}_{metric}_aggregated_results.csv')
-                pd.DataFrame(metric_results).T.to_csv(output_file)
-                print(f"Aggregated results for {metric} saved to: {output_file}")
+        # Create comprehensive aggregation
+        if semantic_similarity_data:
+            self._create_semantic_similarity_aggregation(semantic_similarity_data, aggregation_path)
+        else:
+            print("No semantic similarity results to aggregate")
+    
+    def _process_semantic_similarity_file(self, file_path, data_list):
+        """Process a semantic similarity CSV file (single or multi-section) and add per-section dicts to data list."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                raw = f.read()
+        except Exception:
+            return
+
+        # Some files contain multiple sections separated by 'New Section' with repeated headers
+        if 'New Section' in raw:
+            sections = [s.strip() for s in raw.split('New Section')]
+            for section in sections:
+                if not section:
+                    continue
+                # Ensure section starts with header
+                if not section.startswith('Metric,'):
+                    # Try to find header within the section text
+                    header_pos = section.find('Metric,Similarity_Score')
+                    if header_pos == -1:
+                        continue
+                    section = section[header_pos:]
+                try:
+                    df = pd.read_csv(io.StringIO(section))
+                except Exception:
+                    continue
+                if 'Metric' not in df.columns or 'Similarity_Score' not in df.columns:
+                    continue
+                file_data = {}
+                for _, row in df.iterrows():
+                    metric = row.get('Metric')
+                    if pd.isna(metric) or metric == 'Metric':
+                        continue
+                    score = pd.to_numeric(row.get('Similarity_Score'), errors='coerce')
+                    if pd.isna(score):
+                        continue
+                    file_data[metric] = score
+                if file_data:
+                    data_list.append(file_data)
+        else:
+            # Standard single-section file
+            try:
+                df = pd.read_csv(file_path)
+            except Exception:
+                return
+            if 'Metric' in df.columns and 'Similarity_Score' in df.columns:
+                file_data = {}
+                for _, row in df.iterrows():
+                    metric = row.get('Metric')
+                    if pd.isna(metric) or metric == 'Metric':
+                        continue
+                    score = pd.to_numeric(row.get('Similarity_Score'), errors='coerce')
+                    if pd.isna(score):
+                        continue
+                    file_data[metric] = score
+                if file_data:
+                    data_list.append(file_data)
+    
+    def _create_semantic_similarity_aggregation(self, semantic_similarity_data, aggregation_path):
+        """Create comprehensive semantic similarity aggregation."""
+        aggregated_results = {}
+        
+        for participant, data in semantic_similarity_data.items():
+            participant_results = {}
             
-        if not results_by_metric:
-            print("No results to aggregate")
+            # Process window 2 data
+            if data['window_2_data']:
+                participant_results.update(self._aggregate_window_data(data['window_2_data'], 'window_2'))
+            
+            # Process window 8 data
+            if data['window_8_data']:
+                participant_results.update(self._aggregate_window_data(data['window_8_data'], 'window_8'))
+            
+            # Process sentence data
+            if data['sentence_data']:
+                participant_results.update(self._aggregate_sentence_data(data['sentence_data']))
+            
+            aggregated_results[participant] = participant_results
+        
+        # Save aggregated results
+        if aggregated_results:
+            output_file = os.path.join(aggregation_path, f'{self.name}_semantic-similarity_comprehensive_aggregation.csv')
+            df = pd.DataFrame(aggregated_results).T
+            df.to_csv(output_file)
+            print(f"Comprehensive semantic similarity aggregation saved to: {output_file}")
+    
+    def _aggregate_window_data(self, window_data_list, window_name):
+        """Aggregate window-based semantic similarity data."""
+        results = {}
+        
+        debug_print(f"\n[_aggregate_window_data] === START: window_name={window_name} ===")
+        debug_print(f"[_aggregate_window_data] Number of files to aggregate: {len(window_data_list)}")
+        
+        if not window_data_list:
+            debug_print(f"[_aggregate_window_data] WARNING: Empty window_data_list, returning empty results")
+            return results
+        
+        # Extract all metrics from all files for this participant
+        all_metrics = {}
+        for file_idx, file_data in enumerate(window_data_list):
+            debug_print(f"[_aggregate_window_data] Processing file {file_idx+1}/{len(window_data_list)}: {len(file_data)} metrics")
+            for metric, value in file_data.items():
+                if metric not in all_metrics:
+                    all_metrics[metric] = []
+                all_metrics[metric].append(value)
+                debug_print(f"  [_aggregate_window_data] Metric '{metric}': value={value} (NaN: {pd.isna(value)})")
+        
+        debug_print(f"[_aggregate_window_data] Total unique metrics: {len(all_metrics)}")
+        debug_print(f"[_aggregate_window_data] Metrics: {list(all_metrics.keys())}")
+        
+        # Calculate aggregations
+        for metric, values in all_metrics.items():
+            debug_print(f"\n[_aggregate_window_data] Processing metric: '{metric}'")
+            debug_print(f"  [_aggregate_window_data] Total values: {len(values)}")
+            debug_print(f"  [_aggregate_window_data] Raw values: {values}")
+            
+            # Filter out NaN values
+            valid_values = [v for v in values if not pd.isna(v)]
+            nan_count = len(values) - len(valid_values)
+            
+            debug_print(f"  [_aggregate_window_data] Valid values: {len(valid_values)}, NaN values: {nan_count}")
+            debug_print(f"  [_aggregate_window_data] Valid values list: {valid_values}")
+            
+            if valid_values:
+                # Average per window over all windows
+                avg_value = np.mean(valid_values)
+                debug_print(f"  [_aggregate_window_data] Calculated average: {avg_value}")
+                
+                results[f'{window_name}_avg_per_window_{metric}'] = avg_value
+                results[f'{window_name}_avg_per_sentence_{metric}'] = avg_value
+                results[f'{window_name}_avg_per_response_{metric}'] = avg_value
+                
+                debug_print(f"  [_aggregate_window_data] Set result key: '{window_name}_avg_per_window_{metric}' = {avg_value}")
+            else:
+                debug_print(f"  [_aggregate_window_data] WARNING: All values are NaN for metric '{metric}'!")
+                debug_print(f"  [_aggregate_window_data] NOT setting result key (will cause <null> in output)")
+        
+        debug_print(f"[_aggregate_window_data] Final results keys: {list(results.keys())}")
+        debug_print(f"[_aggregate_window_data] === END: window_name={window_name} ===\n")
+        
+        return results
+    
+    def _aggregate_sentence_data(self, sentence_data_list):
+        """Aggregate sentence-level semantic similarity data."""
+        results = {}
+        
+        if not sentence_data_list:
+            return results
+        
+        # Extract all metrics from all files for this participant
+        all_metrics = {}
+        for file_data in sentence_data_list:
+            for metric, value in file_data.items():
+                if metric not in all_metrics:
+                    all_metrics[metric] = []
+                all_metrics[metric].append(value)
+        
+        # Calculate aggregations
+        for metric, values in all_metrics.items():
+            # Filter out NaN values
+            valid_values = [v for v in values if not pd.isna(v)]
+            
+            if valid_values:
+                # Average over all sentences of a participant
+                results[f'sentence_avg_over_all_sentences_{metric}'] = np.mean(valid_values)
+                
+                # Average per response over all sentences
+                # (This is the same as average over all sentences since each file represents one response/section)
+                results[f'sentence_avg_per_response_{metric}'] = np.mean(valid_values)
+        
+        return results
 
     def extract_logits(self):
         from pelican_nlp.extraction.extract_logits import LogitsExtractor
@@ -183,7 +343,7 @@ class Corpus:
                 else:
                     section = [section]
 
-                embeddings, token_count = embeddingsExtractor.extract_embeddings_from_text(section)
+                embeddings, token_count = embeddingsExtractor.extract_embeddings_from_text(section, embedding_options)
                 self.documents[i].embeddings.append(embeddings)
 
                 if self.task == 'fluency':
@@ -198,7 +358,9 @@ class Corpus:
                         debug_print(f'Mean semantic similarity: {mean_similarity:.4f}')
 
                         for window_size in self.config['options_semantic-similarity']['window_sizes']:
+                            debug_print(f'\n[extract_embeddings] Processing window_size={window_size} for document: {self.documents[i].name}')
                             window_stats = get_semantic_similarity_windows(utterance, window_size)
+                            
                             if isinstance(window_stats, tuple) and len(window_stats) == 5:
                                 window_data = {
                                     'mean_of_window_means': window_stats[0],
@@ -207,17 +369,43 @@ class Corpus:
                                     'std_of_window_stds': window_stats[3],
                                     'mean_of_window_medians': window_stats[4]
                                 }
-                                debug_print(f'Window {window_size} stats - mean: {window_stats[0]:.4f}, std: {window_stats[1]:.4f}, median: {window_stats[4]:.4f}')
+                                debug_print(f'[extract_embeddings] Window {window_size} stats - mean: {window_stats[0]:.4f}, std: {window_stats[1]:.4f}, median: {window_stats[4]:.4f}')
+                                debug_print(f'[extract_embeddings] Window {window_size} data to store: {window_data}')
+                                
+                                # Check for NaN values
+                                nan_metrics = [k for k, v in window_data.items() if pd.isna(v)]
+                                if nan_metrics:
+                                    debug_print(f'[extract_embeddings] WARNING: Window {window_size} has NaN values for metrics: {nan_metrics}')
                             else:
                                 window_data = {
                                     'mean': window_stats[0] if isinstance(window_stats, tuple) else window_stats,
                                     'std': window_stats[1] if isinstance(window_stats, tuple) and len(window_stats) > 1 else None
                                 }
+                                debug_print(f'[extract_embeddings] Window {window_size} data (non-standard format): {window_data}')
                             
+                            debug_print(f'[extract_embeddings] Storing window {window_size} data to CSV...')
                             store_features_to_csv(window_data,
                                                   self.derivatives_dir,
                                                   self.documents[i],
                                                   metric=f'semantic-similarity-window-{window_size}')
+                            debug_print(f'[extract_embeddings] Stored window {window_size} data to CSV')
+                        
+                        # Calculate and store sentence-level semantic similarity
+                        sentence_stats = get_semantic_similarity_windows(utterance, 'sentence')
+                        if isinstance(sentence_stats, tuple) and len(sentence_stats) == 5:
+                            sentence_data = {
+                                'mean_of_window_means': sentence_stats[0],
+                                'std_of_window_means': sentence_stats[1],
+                                'mean_of_window_stds': sentence_stats[2],
+                                'std_of_window_stds': sentence_stats[3],
+                                'mean_of_window_medians': sentence_stats[4]
+                            }
+                            debug_print(f'Sentence similarity stats - mean: {sentence_stats[0]:.4f}, std: {sentence_stats[1]:.4f}, median: {sentence_stats[4]:.4f}')
+                            
+                            store_features_to_csv(sentence_data,
+                                                  self.derivatives_dir,
+                                                  self.documents[i],
+                                                  metric='semantic-similarity-sentence')
 
                     if self.config['options_embeddings']['distance-from-randomness']:
                         from pelican_nlp.extraction.distance_from_randomness import get_distance_from_randomness
