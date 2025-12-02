@@ -55,7 +55,7 @@ from pelican_nlp.core.audio_document import AudioFile
 from pelican_nlp.config import load_config
 
 # Load configuration
-config = load_config("config_transcription.yml")
+config = load_config("config_cogmap.yml")
 
 # Create audio document
 audio_doc = AudioFile(

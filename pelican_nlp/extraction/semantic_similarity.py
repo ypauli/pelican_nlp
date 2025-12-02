@@ -2,7 +2,60 @@ import numpy as np
 import scipy
 from scipy.spatial.distance import cdist
 import pandas as pd
+import string
 from pelican_nlp.config import debug_print
+
+SPECIAL_TOKENS = {'<s>', '</s>', '<pad>', '<unk>'}
+
+def _is_punctuation_token(token):
+    token_str = str(token)
+    if token_str in SPECIAL_TOKENS:
+        return True
+    token_core = token_str.replace('▁', '').strip()
+    if token_core == '':
+        return True
+    return all(char in string.punctuation for char in token_core)
+
+def filter_punctuation_tokens(embedding_vectors):
+    filtered = []
+    removed = 0
+    for token, vector in embedding_vectors:
+        if _is_punctuation_token(token):
+            removed += 1
+            continue
+        filtered.append((token, vector))
+    if removed > 0:
+        debug_print(f"[filter_punctuation_tokens] Removed {removed} punctuation token(s)")
+    return filtered
+
+def _token_to_text_piece(token_str):
+    token_str = str(token_str)
+    if not token_str:
+        return '', False
+    has_word_boundary = token_str.startswith('▁')
+    core = token_str.lstrip('▁')
+    return core, has_word_boundary
+
+def _clean_token_text(token):
+    core, _ = _token_to_text_piece(token)
+    return core
+
+def tokens_to_text(tokens):
+    text = ''
+    for token in tokens:
+        core, has_boundary = _token_to_text_piece(token)
+        if not core:
+            continue
+        if has_boundary:
+            if core in string.punctuation:
+                text += core
+            else:
+                if text and not text.endswith(' '):
+                    text += ' '
+                text += core
+        else:
+            text += core
+    return ' '.join(text.split())
 
 def calculate_semantic_similarity(embedding_vectors):
     # Check if embedding_vectors is empty
@@ -73,14 +126,38 @@ def get_cosine_similarity_matrix(embedding_vectors):
     
     return sim
 
-def get_semantic_similarity_windows(embedding_vectors, window_size):
+def _format_window_detail(index, tokens, stats):
+    """Helper to build a detail entry for a sliding window."""
+    return {
+        'window_index': index,
+        'start_token': _clean_token_text(tokens[0]) if tokens else None,
+        'end_token': _clean_token_text(tokens[-1]) if tokens else None,
+        'token_span': tokens_to_text(tokens),
+        'mean': stats[0],
+        'std': stats[1],
+        'median': stats[2]
+    }
+
+def _nan_summary():
+    return (np.nan, np.nan, np.nan, np.nan, np.nan)
+
+def get_semantic_similarity_windows(embedding_vectors, window_size, return_details=False, exclude_punctuation=False):
     debug_print(f"\n[get_semantic_similarity_windows] === START: window_size={window_size} ===")
     
     # Check if embedding_vectors is empty
     if not embedding_vectors:
         debug_print(f"[get_semantic_similarity_windows] ERROR: Empty embedding_vectors, returning NaN")
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
     
+    # Optionally filter punctuation tokens (except for sentence processing where punctuation is needed)
+    if exclude_punctuation and window_size != 'sentence':
+        embedding_vectors = filter_punctuation_tokens(embedding_vectors)
+        if not embedding_vectors:
+            debug_print("[get_semantic_similarity_windows] All tokens removed after punctuation filtering")
+            summary = _nan_summary()
+            return (summary, []) if return_details else summary
+
     # Extract tokens and vectors from the list of tuples
     tokens, vectors = zip(*embedding_vectors)
     debug_print(f"[get_semantic_similarity_windows] Total tokens: {len(tokens)}")
@@ -89,30 +166,33 @@ def get_semantic_similarity_windows(embedding_vectors, window_size):
     # Early return if not enough tokens
     if len(tokens) < 2:
         debug_print(f"[get_semantic_similarity_windows] ERROR: Not enough tokens ({len(tokens)} < 2), returning NaN")
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
 
     # Handle sentence-wise similarity
     if window_size == 'sentence':
         debug_print(f"[get_semantic_similarity_windows] Processing sentence-wise similarity")
-        return get_sentence_wise_similarity(embedding_vectors)
+        return get_sentence_wise_similarity(embedding_vectors, return_details=return_details, exclude_punctuation=exclude_punctuation)
 
     # Early return if window size is larger than sequence
     if window_size > len(tokens):
         debug_print(f"[get_semantic_similarity_windows] ERROR: Window size ({window_size}) > token count ({len(tokens)}), returning NaN")
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
 
     if window_size == 'all':
         debug_print(f"[get_semantic_similarity_windows] Processing 'all' window size")
         cosine_similarity_matrix = get_cosine_similarity_matrix(embedding_vectors)
         result = calculate_window_statistics(cosine_similarity_matrix, skip_std=False)
         debug_print(f"[get_semantic_similarity_windows] Result for 'all': {result}")
-        return result
+        return (result, []) if return_details else result
 
     # Collect window statistics
     num_windows = len(tokens) - window_size + 1
     debug_print(f"[get_semantic_similarity_windows] Processing {num_windows} windows of size {window_size}")
     
     window_statistics = []
+    window_details = [] if return_details else None
     nan_window_count = 0
     
     for i in range(num_windows):
@@ -127,6 +207,9 @@ def get_semantic_similarity_windows(embedding_vectors, window_size):
             skip_std = (window_size == 2)
             stats = calculate_window_statistics(sim_matrix, skip_std=skip_std)
             window_statistics.append(stats)
+            if return_details:
+                detail = _format_window_detail(i + 1, window_tokens, stats)
+                window_details.append(detail)
             
             # Check if this window returned all NaN
             if all(pd.isna(v) for v in stats):
@@ -140,7 +223,8 @@ def get_semantic_similarity_windows(embedding_vectors, window_size):
     # Handle case where no valid windows were found
     if not window_statistics:
         debug_print(f"[get_semantic_similarity_windows] ERROR: No valid windows found, returning NaN")
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, window_details or []) if return_details else summary
         
     # Unzip the statistics
     window_means, window_stds, window_medians = zip(*window_statistics)
@@ -187,9 +271,11 @@ def get_semantic_similarity_windows(embedding_vectors, window_size):
     result = (final_mean, final_std_of_means, final_mean_of_stds, final_std_of_stds, final_mean_of_medians)
     debug_print(f"[get_semantic_similarity_windows] === END: window_size={window_size}, result={result} ===\n")
     
+    if return_details:
+        return result, window_details or []
     return result
 
-def get_sentence_wise_similarity(embedding_vectors):
+def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclude_punctuation=False):
     """
     Calculate semantic similarity grouped by sentences.
     Groups tokens by sentence boundaries (., !, ?) and computes similarity between sentences.
@@ -198,7 +284,8 @@ def get_sentence_wise_similarity(embedding_vectors):
     
     # Check if embedding_vectors is empty
     if not embedding_vectors:
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
     
     # Extract tokens and vectors from the list of tuples
     tokens, vectors = zip(*embedding_vectors)
@@ -216,7 +303,8 @@ def get_sentence_wise_similarity(embedding_vectors):
         if len(tokens) < 2:
             return np.nan, np.nan, np.nan, np.nan, np.nan
         # Otherwise, treat as single sentence and return NaN (no inter-sentence similarity)
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
     
     # Group tokens by sentences
     sentences = []
@@ -239,8 +327,14 @@ def get_sentence_wise_similarity(embedding_vectors):
     
     # Need at least 2 sentences for inter-sentence similarity
     if len(sentences) < 2:
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
     
+    # Optionally remove punctuation within each sentence
+    if exclude_punctuation:
+        sentences = [filter_punctuation_tokens(sentence) for sentence in sentences]
+        sentences = [sent for sent in sentences if sent]
+
     # Calculate sentence-level embeddings (mean of token embeddings in each sentence)
     sentence_embeddings = []
     for sentence in sentences:
@@ -255,15 +349,36 @@ def get_sentence_wise_similarity(embedding_vectors):
     
     # Need at least 2 sentence embeddings
     if len(sentence_embeddings) < 2:
-        return np.nan, np.nan, np.nan, np.nan, np.nan
+        summary = _nan_summary()
+        return (summary, []) if return_details else summary
     
     # Calculate similarity matrix between sentences
     sentence_sim_matrix = get_cosine_similarity_matrix(
         [(f"sentence_{i}", emb) for i, emb in enumerate(sentence_embeddings)]
     )
     
-    # Calculate statistics for inter-sentence similarities
-    return calculate_window_statistics(sentence_sim_matrix)
+    summary = calculate_window_statistics(sentence_sim_matrix)
+    
+    if not return_details:
+        return summary
+    
+    sentence_texts = [tokens_to_text([token for token, _ in sentence]) for sentence in sentences]
+    
+    detail_rows = []
+    for i in range(len(sentence_embeddings)):
+        for j in range(i + 1, len(sentence_embeddings)):
+            similarity_value = sentence_sim_matrix[i, j]
+            if pd.isna(similarity_value):
+                continue
+            detail_rows.append({
+                'sentence_i_index': i + 1,
+                'sentence_j_index': j + 1,
+                'sentence_i_text': sentence_texts[i],
+                'sentence_j_text': sentence_texts[j],
+                'similarity': similarity_value
+            })
+    
+    return summary, detail_rows
 
 def calculate_window_statistics(cosine_similarity_matrix, skip_std=False):
     matrix_values = pd.DataFrame(cosine_similarity_matrix).stack()

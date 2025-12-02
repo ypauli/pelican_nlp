@@ -28,12 +28,17 @@ class TextDiarizer:
         
         Args:
             text: The text to parse
-            speaker_tags: Single speaker tag (str) or list of speaker tags (list)
+            speaker_tags: Single speaker tag (str), list of speaker tags (list), or None
             keep_speakertag: Whether to keep the speaker tag in the output
             
         Returns:
             List of speaker utterances
         """
+        # Handle None case
+        if speaker_tags is None:
+            # If no speaker tags provided, return text as single utterance
+            return [text] if text else []
+        
         # Handle both single tag and multiple tags
         if isinstance(speaker_tags, str):
             speaker_tags = [speaker_tags]
@@ -49,4 +54,4 @@ class TextDiarizer:
             else:
                 all_matches.extend([match.strip() for match in matches])
         
-        return all_matches
+        return all_matches if all_matches else [text]

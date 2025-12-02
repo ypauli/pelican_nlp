@@ -41,8 +41,6 @@ pipeline_options:
 # Metric Extraction
 # ---------------
 metrics_to_extract: ["embeddings"]  # Options: 'embeddings', 'logits'
-extract_logits: null
-extract_embeddings: true
 
 # Cleaning Options
 # --------------

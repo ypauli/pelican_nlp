@@ -65,7 +65,8 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
     
     # Write data based on metric type
     with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
+        detail_metrics = metric.startswith('semantic-similarity-window-details-') or metric == 'semantic-similarity-sentence-details'
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL if detail_metrics else csv.QUOTE_MINIMAL)
         
         if metric == 'embeddings':
             if not isinstance(input_data, list) or not input_data:
@@ -91,6 +92,34 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             for row in input_data:
                 writer.writerow(row)
                 
+        elif metric.startswith('semantic-similarity-window-details-'):
+            if not input_data:
+                return output_filepath
+            header = ['window_index', 'start_token', 'end_token', 'token_span', 'mean', 'std', 'median']
+            _write_csv_header(writer, header, file_exists)
+            for entry in input_data:
+                writer.writerow([
+                    entry.get('window_index'),
+                    entry.get('start_token'),
+                    entry.get('end_token'),
+                    entry.get('token_span'),
+                    entry.get('mean'),
+                    entry.get('std'),
+                    entry.get('median')
+                ])
+        elif metric == 'semantic-similarity-sentence-details':
+            if not input_data:
+                return output_filepath
+            header = ['sentence_i_index', 'sentence_j_index', 'sentence_i_text', 'sentence_j_text', 'similarity']
+            _write_csv_header(writer, header, file_exists)
+            for entry in input_data:
+                writer.writerow([
+                    entry.get('sentence_i_index'),
+                    entry.get('sentence_j_index'),
+                    entry.get('sentence_i_text'),
+                    entry.get('sentence_j_text'),
+                    entry.get('similarity')
+                ])
         elif metric.startswith('semantic-similarity-window-') or metric == 'semantic-similarity-sentence':
             header = ['Metric', 'Similarity_Score']
             _write_csv_header(writer, header, file_exists)
@@ -200,6 +229,35 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             
             for entry in input_data:
                 writer.writerow(entry.values())
+        
+        # Default handler for topic modeling and other dictionary-based metrics
+        elif isinstance(input_data, list) and len(input_data) > 0 and isinstance(input_data[0], dict):
+            # Generic handler for list of dictionaries (e.g., topic modeling assignments, keywords, comparisons)
+            if not input_data:
+                return output_filepath
+            
+            # Get header from first dictionary
+            header = list(input_data[0].keys())
+            _write_csv_header(writer, header, file_exists)
+            
+            # Write each dictionary as a row
+            for entry in input_data:
+                row_data = []
+                for column in header:
+                    value = entry.get(column, '')
+                    # Convert None to empty string, handle other types
+                    if value is None:
+                        value = ''
+                    elif isinstance(value, (int, float)):
+                        value = float(value)
+                    elif not isinstance(value, str):
+                        value = str(value)
+                    row_data.append(value)
+                writer.writerow(row_data)
+        
+        # If no handler matches and data is empty, just return
+        elif not input_data:
+            return output_filepath
 
     return output_filepath
 

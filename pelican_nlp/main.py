@@ -29,8 +29,10 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 
 # Project path pointing to current workspace example configuration file.
 # Used if pipeline is run in programming environment instead of terminal.
-project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2/config_velas_semsim.yml'
-#project_path = '/home/yvespauli/PycharmProjects/PyPI_testing_acousticfeatures/config_acousticfeatures.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_transcription/config_transcription.yml'
+project_path = '/home/yvespauli/PELICAN-nlp/examples/example_Cogmap/config_cogmap.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
+#project_path = '/home/yvespauli/PycharmProjects/Transcription_Finn/config_transcription.yml'
 
 class Pelican:
 
@@ -86,26 +88,13 @@ class Pelican:
         for document in corpus_documents[corpus_entity]:
             document.corpus_name = corpus_entity
 
-        if self.config['input_file']=='text':
-            corpus.preprocess_all_documents()
-            self._extract_metrics(corpus)
+        if self.config['input_file'] == 'audio':
+            # Process audio files first
+            self._process_audio_corpus(corpus, corpus_entity)
 
-            if self.config['create_aggregation_of_results']:
-                corpus.create_corpus_results_consolidation_csv()
-
-            if self.config['output_document_information']:
-                corpus.create_document_information_csv()
-
-        elif self.config['input_file']=='audio':
-
-            if self.config['transcription']:
-                corpus.transcribe_audio()
-
-            if self.config['opensmile_feature_extraction']:
-                corpus.extract_opensmile_features()
-
-            if self.config['prosogram_extraction']:
-                corpus.extract_prosogram()
+        elif self.config['input_file'] == 'text':
+            # Process text files (skip audio processing)
+            self._process_text_corpus(corpus)
 
         del corpus
 
@@ -116,6 +105,59 @@ class Pelican:
         lpds.LPDS_checker()
         lpds.derivative_dir_creator()
 
+    def _process_audio_corpus(self, corpus: Corpus, corpus_entity: str) -> None:
+        """Process a corpus through the audio processing pipeline."""
+        if self.config['transcription']:
+            corpus.transcribe_audio()
+
+        if self.config['opensmile_feature_extraction']:
+            corpus.extract_opensmile_features()
+
+        if self.config['prosogram_extraction']:
+            corpus.extract_prosogram()
+
+        # Check if text features are also needed (embeddings, logits, perplexity)
+        text_metrics_needed = any(
+            metric in self.config.get('metrics_to_extract', [])
+            for metric in ['embeddings', 'logits', 'perplexity']
+        )
+        
+        if text_metrics_needed:
+            # Ensure transcription was completed
+            if not self.config.get('transcription', False):
+                print("Warning: Text metrics requested but transcription is disabled. "
+                      "Enable transcription in config to extract text features from audio.")
+            else:
+                # Create Documents from transcription files
+                transcription_docs = corpus.create_documents_from_transcriptions()
+                
+                if transcription_docs:
+                    # Create a new corpus with transcription documents for text processing
+                    transcription_corpus = Corpus(
+                        corpus_entity, 
+                        transcription_docs, 
+                        self.config, 
+                        self.project_path
+                    )
+                    
+                    # Process transcription documents through text pipeline
+                    self._process_text_corpus(transcription_corpus)
+                    
+                    del transcription_corpus
+                else:
+                    print("Warning: No transcription files found to process for text metrics.")
+
+    def _process_text_corpus(self, corpus: Corpus) -> None:
+        """Process a corpus through the text processing pipeline."""
+        corpus.preprocess_all_documents()
+        self._extract_metrics(corpus)
+
+        if self.config['create_aggregation_of_results']:
+            corpus.create_corpus_results_consolidation_csv()
+
+        if self.config['output_document_information']:
+            corpus.create_document_information_csv()
+
     def _extract_metrics(self, corpus: Corpus) -> None:
         """Extract specified metrics from the corpus."""
         for metric in self.config['metrics_to_extract']:
@@ -125,6 +167,8 @@ class Pelican:
                 corpus.extract_embeddings()
             elif metric == 'perplexity':
                 corpus.extract_perplexity()
+            elif metric == 'topic_modeling':
+                corpus.extract_topic_modeling()
             else:
                 raise ValueError(f"Unsupported metric: {metric}")
         

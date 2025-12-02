@@ -81,6 +81,7 @@ class AudioFile:
         
         # Transcription attributes
         self.transcription_file = None
+        self.transcription_text_file = None  # Path to plain text transcription file
         self.transcript_text = None
         self.whisper_alignments = []
         self.forced_alignments = []
@@ -102,13 +103,28 @@ class AudioFile:
         """
         self.metadata["models_used"][model_name] = parameters
 
-    def rms_normalization(self):
-        """Normalize the audio to the target RMS level and save it."""
+    def rms_normalization(self, output_dir=None):
+        """
+        Normalize the audio to the target RMS level and save it.
+        
+        :param output_dir: Directory to save normalized audio. If None, saves in same directory as original file.
+        """
         target_rms = 10 ** (self.target_rms_db / 20)
         rms = np.sqrt(np.mean(self.audio ** 2))
         gain = target_rms / rms
         normalized_audio = self.audio * gain
-        self.normalized_path = self.file.replace(".wav", "_normalized.wav")
+        
+        if output_dir:
+            # Create output directory if it doesn't exist
+            os.makedirs(output_dir, exist_ok=True)
+            # Use original filename with _normalized suffix
+            base_name = os.path.splitext(self.name)[0]
+            normalized_filename = f"{base_name}_normalized.wav"
+            self.normalized_path = os.path.join(output_dir, normalized_filename)
+        else:
+            # Fallback to original behavior: save in same directory as original file
+            self.normalized_path = self.file.replace(".wav", "_normalized.wav")
+        
         sf.write(self.normalized_path, normalized_audio, self.sample_rate)
         print(f"Normalized audio saved as: {self.normalized_path}")
 
@@ -241,13 +257,38 @@ class AudioFile:
             raise ValueError(f"The alignment source '{alignment_source}' does not exist in the AudioFile object.")
 
         if not self.speaker_segments:
-            print("No speaker segments available for diarization. All words will be labeled as 'UNKNOWN'.")
-            self.combined_data = [{**word, 'speaker': 'UNKNOWN'} for word in alignment]
+            # If only one speaker is specified, assign a default speaker label
+            # Otherwise, label as 'UNKNOWN' (diarization may have failed)
+            if self.num_speakers and self.num_speakers == 1:
+                print("No speaker segments available (single speaker mode). All words will be labeled as 'SPEAKER_0'.")
+                self.combined_data = [{**word, 'speaker': 'SPEAKER_0'} for word in alignment]
+            else:
+                print("No speaker segments available for diarization. All words will be labeled as 'UNKNOWN'.")
+                self.combined_data = [{**word, 'speaker': 'UNKNOWN'} for word in alignment]
             return
+
+        # DEBUG: Print diagnostic information before combining
+        print(f"DEBUG: Starting combine_alignment_and_diarization")
+        print(f"DEBUG: Alignment entries: {len(alignment)}")
+        print(f"DEBUG: Speaker segments: {len(self.speaker_segments)}")
+        if alignment:
+            print(f"DEBUG: First word alignment: {alignment[0]}")
+            print(f"DEBUG: Last word alignment: {alignment[-1]}")
+            word_time_range = (alignment[0]['start_time'], alignment[-1]['end_time'])
+            print(f"DEBUG: Word alignment time range: {word_time_range[0]:.2f}s - {word_time_range[1]:.2f}s")
+        if self.speaker_segments:
+            print(f"DEBUG: First speaker segment: {self.speaker_segments[0]}")
+            print(f"DEBUG: Last speaker segment: {self.speaker_segments[-1]}")
+            seg_time_range = (self.speaker_segments[0]['start'], self.speaker_segments[-1]['end'])
+            print(f"DEBUG: Speaker segment time range: {seg_time_range[0]:.2f}s - {seg_time_range[1]:.2f}s")
 
         combined = []
         seg_idx = 0
         num_segments = len(self.speaker_segments)
+        
+        # DEBUG: Track statistics
+        words_with_speaker = 0
+        words_without_speaker = 0
 
         for word in alignment:
             word_start = word['start_time']
@@ -283,10 +324,27 @@ class AudioFile:
             word_with_speaker = word.copy()
             word_with_speaker['speaker'] = assigned_speaker
             combined.append(word_with_speaker)
+            
+            # DEBUG: Track statistics
+            if assigned_speaker == 'UNKNOWN':
+                words_without_speaker += 1
+                # Print first few UNKNOWN cases for debugging
+                if words_without_speaker <= 3:
+                    print(f"DEBUG: Word '{word['word']}' at {word_start:.2f}-{word_end:.2f}s got UNKNOWN. "
+                          f"Speaker overlap: {speaker_overlap}")
+            else:
+                words_with_speaker += 1
 
         self.combined_data = combined
         self.metadata["alignment_source"] = alignment_source
         print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
+        
+        # DEBUG: Print final statistics
+        unique_speakers = set([word['speaker'] for word in self.combined_data])
+        print(f"DEBUG: Unique speakers in combined_data: {unique_speakers}")
+        print(f"DEBUG: Words with speaker: {words_with_speaker}, Words without speaker (UNKNOWN): {words_without_speaker}")
+        if words_without_speaker > 0:
+            print(f"DEBUG: WARNING - {words_without_speaker} words were assigned 'UNKNOWN' speaker")
 
     def aggregate_to_utterances(self):
         """Aggregate word-level data into utterances based on sentence endings."""
@@ -388,6 +446,55 @@ class AudioFile:
             print(f"All transcript data successfully saved to '{output_file}'.")
         except Exception as e:
             print(f"Error saving JSON file: {e}")
+
+    def save_as_text(self, output_file=None, include_speakers=True):
+        """
+        Save transcript text to a plain text file.
+        
+        :param output_file: Path to the output text file. If None, generates from JSON file path.
+        :param include_speakers: If True and multiple speakers detected, include speaker labels in output.
+        """
+        if not self.transcript_text:
+            print("No transcript text available to save. Ensure transcription is complete.")
+            return
+        
+        # Generate text file path from JSON file path if not provided
+        if output_file is None:
+            if self.transcription_file:
+                # Replace .json extension with .txt, or add .txt if no extension
+                output_file = os.path.splitext(self.transcription_file)[0] + ".txt"
+            else:
+                # Fallback: use audio file name
+                base_name = os.path.splitext(self.name)[0]
+                output_file = os.path.join(self.file_path, f"{base_name}_transcript.txt")
+        
+        try:
+            # Determine if we should include speaker labels
+            has_multiple_speakers = (
+                include_speakers and 
+                self.combined_utterances and 
+                len(self.combined_utterances) > 0 and
+                self.num_speakers and 
+                self.num_speakers > 1
+            )
+            
+            with open(output_file, "w", encoding="utf-8") as f:
+                if has_multiple_speakers:
+                    # Format with speaker labels: "SPEAKER_00: text here"
+                    for utterance in self.combined_utterances:
+                        speaker = utterance.get('speaker', 'UNKNOWN')
+                        text = utterance.get('text', '').strip()
+                        if text:  # Only write non-empty utterances
+                            f.write(f"{speaker}: {text}\n")
+                    print(f"Transcript text with speaker labels saved to '{output_file}'.")
+                else:
+                    # Save plain text without speaker labels
+                    f.write(self.transcript_text)
+                    print(f"Transcript text successfully saved to '{output_file}'.")
+            
+            self.transcription_text_file = output_file
+        except Exception as e:
+            print(f"Error saving text file: {e}")
 
     def load_transcription(self, transcription_file_path=None):
         """

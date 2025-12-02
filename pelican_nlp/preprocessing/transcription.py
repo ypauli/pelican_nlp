@@ -9,6 +9,7 @@ import io
 import os
 import re
 import unicodedata
+import warnings
 from typing import Dict
 
 # Third-party Library Imports
@@ -18,6 +19,10 @@ import torchaudio.transforms as T
 from transformers import pipeline
 from pyannote.audio import Pipeline as DiarizationPipeline
 import uroman as ur
+
+# Suppress FutureWarning from transformers about 'inputs' vs 'input_features'
+# This is a deprecation warning from the transformers library that will be fixed in a future version
+warnings.filterwarnings("ignore", category=FutureWarning, message=".*input name `inputs` is deprecated.*")
 
 
 class AudioTranscriber:
@@ -204,22 +209,66 @@ class SpeakerDiarizer:
         self.parameters = parameters
         
         if not hf_token:
-            print("Warning: No Hugging Face token provided. Speaker diarization will be skipped.")
+            print("=" * 60)
+            print("WARNING: No Hugging Face token provided!")
+            print("Speaker diarization will be skipped.")
+            print("")
+            print("To enable speaker diarization, add your Hugging Face token to the config:")
+            print("  transcription:")
+            print("    hf_token: 'your_hugging_face_token_here'")
+            print("")
+            print("You can get a token from: https://huggingface.co/settings/tokens")
+            print("=" * 60)
             self.diarization_pipeline = None
             return
             
         try:
-            self.diarization_pipeline = DiarizationPipeline.from_pretrained(
-                model,
-                token=hf_token
-            )
+            # Set Hugging Face token as environment variable for authentication
+            import os
+            os.environ['HF_TOKEN'] = hf_token
+            os.environ['HUGGING_FACE_HUB_TOKEN'] = hf_token
+            
+            # Try different ways to pass the token based on pyannote.audio version
+            try:
+                # Method 1: Try use_auth_token (older pyannote.audio versions)
+                self.diarization_pipeline = DiarizationPipeline.from_pretrained(
+                    model,
+                    use_auth_token=hf_token
+                )
+            except (TypeError, ValueError) as e1:
+                try:
+                    # Method 2: Try without explicit token (uses environment variable)
+                    self.diarization_pipeline = DiarizationPipeline.from_pretrained(model)
+                except Exception as e2:
+                    # Method 3: Try with token parameter (newer versions)
+                    try:
+                        self.diarization_pipeline = DiarizationPipeline.from_pretrained(
+                            model,
+                            token=hf_token
+                        )
+                    except Exception as e3:
+                        raise Exception(f"Failed to initialize pipeline. Tried use_auth_token (error: {e1}), "
+                                      f"environment variable (error: {e2}), and token (error: {e3})")
+            
             print("Initializing SpeakerDiarizer with parameters...")
             self.diarization_pipeline.instantiate(parameters)
             self.diarization_pipeline.to(self.device)
             print("Initialized SpeakerDiarizer successfully.")
         except Exception as e:
-            print(f"Error initializing SpeakerDiarizer: {e}")
+            print("=" * 60)
+            print(f"ERROR: Failed to initialize SpeakerDiarizer!")
+            print(f"Error: {e}")
+            print("")
+            print("Common causes:")
+            print("  1. Invalid Hugging Face token")
+            print("  2. Missing model access permissions")
+            print("  3. Network connection issues")
+            print("  4. Missing dependencies")
+            print("")
             print("Speaker diarization will be skipped.")
+            print("=" * 60)
+            import traceback
+            traceback.print_exc()
             self.diarization_pipeline = None
 
     def diarize(self, audio_file, num_speakers: int = None):
@@ -263,6 +312,15 @@ class SpeakerDiarizer:
                     "speaker": speaker
                 })
             print(f"Detected {len(audio_file.speaker_segments)} speaker segments.")
+            
+            # DEBUG: Print first few speaker segments to verify they're populated
+            if audio_file.speaker_segments:
+                print(f"DEBUG: First 3 speaker segments:")
+                for i, seg in enumerate(audio_file.speaker_segments[:3]):
+                    print(f"  Segment {i}: {seg}")
+                print(f"DEBUG: Speaker segment time range: {audio_file.speaker_segments[0]['start']:.2f}s - {audio_file.speaker_segments[-1]['end']:.2f}s")
+            else:
+                print("DEBUG: WARNING - speaker_segments is empty after diarization!")
         except Exception as e:
             print(f"An error occurred during diarization: {e}")
             
@@ -326,7 +384,9 @@ def process_single_audio_file(audio_file,
 
     # Step 2: Normalize audio
     print("Step 2/7: Normalizing audio...")
-    audio_file.rms_normalization()
+    # Use normalized audio directory if set, otherwise use default (same directory as original)
+    normalized_audio_dir = getattr(audio_file, '_normalized_audio_dir', None)
+    audio_file.rms_normalization(output_dir=normalized_audio_dir)
 
     # Step 3: Split audio into chunks based on silence
     print("Step 3/7: Splitting audio on silence...")
@@ -348,9 +408,23 @@ def process_single_audio_file(audio_file,
     aligner.align(audio_file)        
     audio_file.combine_chunks()
 
-    # Step 6: Perform speaker diarization
-    print("Step 6/7: Performing speaker diarization...")
-    diarizer.diarize(audio_file, num_speakers)
+    # Step 6: Perform speaker diarization (only if more than one speaker)
+    # Ensure num_speakers is set on audio_file for later use
+    if not hasattr(audio_file, 'num_speakers') or audio_file.num_speakers is None:
+        audio_file.num_speakers = num_speakers
+    
+    if num_speakers and num_speakers > 1:
+        print("Step 6/7: Performing speaker diarization...")
+        diarizer.diarize(audio_file, num_speakers)
+    else:
+        print("Step 6/7: Skipping speaker diarization (only one speaker specified)...")
+        audio_file.speaker_segments = []
+        audio_file.register_model("Speaker Diarization", {
+            "model": "none",
+            "device": "none",
+            "parameters": {},
+            "speakers": "skipped (single speaker)"
+        })
 
     # Step 7: Combine alignment and diarization data
     print("Step 7/7: Combining alignment and diarization data...")

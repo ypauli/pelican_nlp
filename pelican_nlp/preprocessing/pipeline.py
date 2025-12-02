@@ -12,7 +12,7 @@ class TextPreprocessingPipeline:
             config: Dictionary of configuration options
         """
         self.config = config
-        self.pipeline_options = config.get('pipeline_options')
+        self.pipeline_options = config.get('pipeline_options', {})
         self.cleaner = None
         self.normalizer = None
         self.tokenizer = None
@@ -24,6 +24,10 @@ class TextPreprocessingPipeline:
             document: Document object to process
         """
         print('Processing document (pipeline.py)')
+        
+        if not self.pipeline_options:
+            print("Warning: No pipeline_options found in config. Skipping preprocessing pipeline.")
+            return
         
         for option, enabled in self.pipeline_options.items():
             if enabled:

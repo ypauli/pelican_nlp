@@ -34,6 +34,7 @@ class Document:
         self.lines = kwargs.get('lines', [])
         self.new_parameter = kwargs.get('new_parameter')
         self.another_metric = kwargs.get('another_metric')
+        self.origin = kwargs.get('origin')  # Reference to original AudioFile if created from transcription
         
         # Derived attributes
         self.has_segments = self.task == "discourse"
@@ -202,3 +203,40 @@ class Document:
             "num_speakers": self.num_speakers,
             "has_sections": self.has_sections,
         }
+
+    @classmethod
+    def from_transcription_file(cls, transcription_text_file, origin_audio_file, config):
+        """
+        Create a Document instance from a transcription text file.
+        
+        Args:
+            transcription_text_file: Path to the transcription text file (.txt)
+            origin_audio_file: AudioFile instance that this transcription came from
+            config: Configuration dictionary with section settings
+            
+        Returns:
+            Document instance created from the transcription file
+        """
+        import os
+        from pathlib import Path
+        
+        # Extract file path and name
+        transcription_path = Path(transcription_text_file)
+        file_path = str(transcription_path.parent)
+        name = transcription_path.name
+        
+        # Create Document with same attributes as original audio file
+        document = cls(
+            file_path=file_path,
+            name=name,
+            participant_ID=origin_audio_file.participant_ID,
+            task=origin_audio_file.task,
+            num_speakers=origin_audio_file.num_speakers,
+            has_sections=config.get('has_multiple_sections', False),
+            section_identifier=config.get('section_identification'),
+            number_of_sections=config.get('number_of_sections'),
+            has_section_titles=config.get('has_section_titles', False),
+            origin=origin_audio_file  # Link to original audio file
+        )
+        
+        return document
