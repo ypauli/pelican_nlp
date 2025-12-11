@@ -132,7 +132,7 @@ Features
     - Handles whitespaces, timestamps, punctuation, special characters, and case-sensitivity.
 
 - **Feature 2: Linguistic Feature Extraction**
-    - Extracts semantic embeddings, logits, distance from optimality, and semantic similarity.
+    - Extracts semantic embeddings, logits, distance from optimality, perplexity and semantic similarity.
 
 - **Feature 3: Acoustic Feature Extraction**
     - Extracts prosogram and openSMILE feature.
@@ -151,3 +151,10 @@ License
 =======
 
 This project is licensed under Attribution-NonCommercial 4.0 International. See the `LICENSE <https://github.com/ypauli/pelican_nlp/blob/main/LICENSE>`_ file for details.
+
+Citation
+========
+
+If you use this project, please cite:
+
+Pauli Y, Marsman J-B, Rabe F, et al. Standardising the NLP Workflow: A Framework for Reproducible Linguistic Analysis. arXiv preprint arXiv:2511.15512 [cs.CL] 2025.

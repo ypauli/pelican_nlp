@@ -407,6 +407,9 @@ class Corpus:
                         debug_print(f'Mean semantic similarity: {mean_similarity:.4f}')
 
                         for window_size in self.config['options_semantic-similarity']['window_sizes']:
+                            # Skip 'sentence' here - it's handled separately below
+                            if window_size == 'sentence':
+                                continue
                             debug_print(f'\n[extract_embeddings] Processing window_size={window_size} for document: {self.documents[i].name}')
                             collect_details = store_window_details and window_size != 'sentence'
                             window_input = similarity_utterance if window_size != 'sentence' else utterance
@@ -461,38 +464,45 @@ class Corpus:
                                 debug_print(f'[extract_embeddings] Stored window {window_size} detail data')
                         
                         # Calculate and store sentence-level semantic similarity
-                        sentence_result = get_semantic_similarity_windows(
-                            utterance,
-                            'sentence',
-                            return_details=store_sentence_details,
-                            exclude_punctuation=exclude_punctuation_tokens
-                        )
-                        if store_sentence_details:
-                            sentence_stats, sentence_detail_rows = sentence_result
-                        else:
-                            sentence_stats = sentence_result
-                            sentence_detail_rows = []
-                        if isinstance(sentence_stats, tuple) and len(sentence_stats) == 5:
-                            sentence_data = {
-                                'mean_of_window_means': sentence_stats[0],
-                                'std_of_window_means': sentence_stats[1],
-                                'mean_of_window_stds': sentence_stats[2],
-                                'std_of_window_stds': sentence_stats[3],
-                                'mean_of_window_medians': sentence_stats[4]
-                            }
-                            debug_print(f'Sentence similarity stats - mean: {sentence_stats[0]:.4f}, std: {sentence_stats[1]:.4f}, median: {sentence_stats[4]:.4f}')
+                        # Only if 'sentence' is in window_sizes (it was skipped in the loop above)
+                        if 'sentence' in self.config['options_semantic-similarity']['window_sizes']:
+                            debug_print(f'[extract_embeddings] Calculating sentence-level semantic similarity for document: {self.documents[i].name}')
+                            sentence_result = get_semantic_similarity_windows(
+                                utterance,
+                                'sentence',
+                                return_details=store_sentence_details,
+                                exclude_punctuation=exclude_punctuation_tokens
+                            )
+                            if store_sentence_details:
+                                sentence_stats, sentence_detail_rows = sentence_result
+                            else:
+                                sentence_stats = sentence_result
+                                sentence_detail_rows = []
+                            if isinstance(sentence_stats, tuple) and len(sentence_stats) == 5:
+                                sentence_data = {
+                                    'mean_of_window_means': sentence_stats[0],
+                                    'std_of_window_means': sentence_stats[1],
+                                    'mean_of_window_stds': sentence_stats[2],
+                                    'std_of_window_stds': sentence_stats[3],
+                                    'mean_of_window_medians': sentence_stats[4]
+                                }
+                                # Format debug output safely handling NaN values
+                                mean_str = f'{sentence_stats[0]:.4f}' if not pd.isna(sentence_stats[0]) else 'NaN'
+                                std_str = f'{sentence_stats[1]:.4f}' if not pd.isna(sentence_stats[1]) else 'NaN'
+                                median_str = f'{sentence_stats[4]:.4f}' if not pd.isna(sentence_stats[4]) else 'NaN'
+                                debug_print(f'Sentence similarity stats - mean: {mean_str}, std: {std_str}, median: {median_str}')
+                                
+                                store_features_to_csv(sentence_data,
+                                                      self.derivatives_dir,
+                                                      self.documents[i],
+                                                      metric='semantic-similarity-sentence')
                             
-                            store_features_to_csv(sentence_data,
-                                                  self.derivatives_dir,
-                                                  self.documents[i],
-                                                  metric='semantic-similarity-sentence')
-                        
-                        if store_sentence_details and sentence_detail_rows:
-                            debug_print(f'[extract_embeddings] Storing sentence similarity detail data ({len(sentence_detail_rows)} rows)')
-                            store_features_to_csv(sentence_detail_rows,
-                                                  self.derivatives_dir,
-                                                  self.documents[i],
-                                                  metric='semantic-similarity-sentence-details')
+                            if store_sentence_details and sentence_detail_rows:
+                                debug_print(f'[extract_embeddings] Storing sentence similarity detail data ({len(sentence_detail_rows)} rows)')
+                                store_features_to_csv(sentence_detail_rows,
+                                                      self.derivatives_dir,
+                                                      self.documents[i],
+                                                      metric='semantic-similarity-sentence-details')
 
                     if self.config['options_embeddings']['distance-from-randomness']:
                         from pelican_nlp.extraction.distance_from_randomness import get_distance_from_randomness

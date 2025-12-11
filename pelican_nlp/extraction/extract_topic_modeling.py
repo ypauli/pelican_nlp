@@ -52,7 +52,6 @@ class TopicModelingExtractor:
         # When nr_topics="auto", BERTopic tries to reduce topics which can fail with small datasets
         # Set to None to disable reduction, or keep "auto" for larger datasets
         if nr_topics == 'auto':
-            # We'll determine if we should disable reduction based on expected dataset size
             # For per-document analysis with chunking, disable auto-reduction
             # This will be adjusted in _fit_bertopic_model if needed
             pass

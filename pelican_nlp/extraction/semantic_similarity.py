@@ -301,8 +301,12 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
     if not sentence_boundaries:
         # If only one token, return NaN
         if len(tokens) < 2:
+            debug_print(f"[get_sentence_wise_similarity] WARNING: Not enough tokens ({len(tokens)} < 2) for sentence similarity")
             return np.nan, np.nan, np.nan, np.nan, np.nan
         # Otherwise, treat as single sentence and return NaN (no inter-sentence similarity)
+        debug_print(f"[get_sentence_wise_similarity] WARNING: No sentence boundaries found (no tokens ending with . ! or ?). "
+                   f"This may occur if punctuation was removed during tokenization. "
+                   f"Found {len(tokens)} tokens. First few tokens: {list(tokens[:5])}")
         summary = _nan_summary()
         return (summary, []) if return_details else summary
     
@@ -327,6 +331,7 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
     
     # Need at least 2 sentences for inter-sentence similarity
     if len(sentences) < 2:
+        debug_print(f"[get_sentence_wise_similarity] WARNING: Found {len(sentences)} sentence(s), but need at least 2 for inter-sentence similarity")
         summary = _nan_summary()
         return (summary, []) if return_details else summary
     
@@ -357,7 +362,14 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
         [(f"sentence_{i}", emb) for i, emb in enumerate(sentence_embeddings)]
     )
     
-    summary = calculate_window_statistics(sentence_sim_matrix)
+    # Calculate statistics (returns 3-tuple: mean, std, median)
+    mean_val, std_val, median_val = calculate_window_statistics(sentence_sim_matrix)
+    
+    # Convert to 5-tuple format to match regular window sizes:
+    # (mean_of_window_means, std_of_window_means, mean_of_window_stds, std_of_window_stds, mean_of_window_medians)
+    # For sentence similarity, there's only one "window" (the sentence similarity matrix),
+    # so std_of_means and std_of_stds are NaN
+    summary = (mean_val, np.nan, std_val, np.nan, median_val)
     
     if not return_details:
         return summary
