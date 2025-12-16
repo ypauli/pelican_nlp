@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 import io
+import string
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
 
@@ -29,135 +30,105 @@ class PerplexityExtractor:
         self.project_folder = project_folder
         self.derivatives_dir = project_folder / 'derivatives'
         
-    def extract_perplexity_from_document(self, document, logits_data: List[Dict[str, Any]]) -> None:
+    def extract_perplexity_from_document(self, document, logits_data: List[Dict[str, Any]], section_index: int = 0) -> None:
         """
-        Extract perplexity metrics from logits data for a single document.
+        Extract perplexity metrics from logits data for a single section of a document.
+        
+        Note: Each logits_data corresponds to one section that was already identified
+        at the document level, so we don't need to detect sections again.
         
         Args:
             document: Document object containing metadata
-            logits_data: List of logits dictionaries from logits extraction
+            logits_data: List of logits dictionaries from logits extraction (one section)
+            section_index: Index of the section being processed (for proper indexing in results)
         """
-        debug_print(f"Extracting perplexity for document: {document.name}")
+        debug_print(f"Extracting perplexity for document: {document.name}, section: {section_index}")
         
         # Convert logits data to DataFrame format expected by perplexity calculation
         if not logits_data:
-            debug_print(f"No logits data found for document: {document.name}")
+            debug_print(f"No logits data found for document: {document.name}, section: {section_index}")
             return
             
         # Create DataFrame from logits data
         df = pd.DataFrame(logits_data)
         
-        # Calculate perplexity metrics
+        # Calculate perplexity metrics (treating entire DataFrame as one section)
         section_perplexities, sentence_perplexities_per_section = self._calculate_perplexity_metrics(df)
         
-        # Store results
-        self._store_perplexity_results(document, section_perplexities, sentence_perplexities_per_section)
+        # Store results with correct section index
+        self._store_perplexity_results(document, section_perplexities, sentence_perplexities_per_section, section_index)
         
     def _calculate_perplexity_metrics(self, df: pd.DataFrame) -> Tuple[List[float], List[List[float]]]:
         """
         Calculate perplexity metrics from logits DataFrame.
+        
+        Note: Each logits_data already corresponds to one section from the document,
+        so we treat the entire DataFrame as a single section (no need to split).
         
         Args:
             df: DataFrame with logits data (token, logprob_actual, logprob_max, entropy, most_likely_token)
             
         Returns:
             Tuple of (section_perplexities, sentence_perplexities_per_section)
+            where section_perplexities is a list with one element (this section)
+            and sentence_perplexities_per_section is a list with one list (sentences for this section)
         """
-        # Split into sections based on the header pattern
-        sections = self._split_into_sections(df)
-        
         section_perplexities = []
         sentence_perplexities_per_section = []
         
-        for section_df in sections:
-            if section_df.empty:
-                section_perplexities.append(None)
-                sentence_perplexities_per_section.append([])
-                continue
+        # Treat the entire DataFrame as a single section (sections are already separated at document level)
+        if df.empty:
+            section_perplexities.append(None)
+            sentence_perplexities_per_section.append([])
+            return section_perplexities, sentence_perplexities_per_section
                 
-            # Extract prompt and main text
-            prompt_df, main_df = self._extract_prompt(section_df)
+        # Extract prompt and main text
+        prompt_df, main_df = self._extract_prompt(df)
+        
+        # Calculate section-level perplexity (excluding prompt)
+        if "logprob_actual" in main_df.columns and not main_df.empty:
+            n_main = len(main_df)
+            logprob_sum_main = main_df["logprob_actual"].sum()
+            section_perplexity = np.exp(-logprob_sum_main / n_main)
+        else:
+            section_perplexity = None
             
-            # Calculate section-level perplexity (excluding prompt)
-            if "logprob_actual" in main_df.columns and not main_df.empty:
-                n_main = len(main_df)
-                logprob_sum_main = main_df["logprob_actual"].sum()
-                section_perplexity = np.exp(-logprob_sum_main / n_main)
+        section_perplexities.append(section_perplexity)
+        
+        # Calculate sentence-level perplexities
+        sentence_perplexities = []
+        
+        # Prompt is always sentence 0
+        if not prompt_df.empty and "logprob_actual" in prompt_df.columns:
+            n_prompt = len(prompt_df)
+            logprob_sum_prompt = prompt_df["logprob_actual"].sum()
+            prompt_perplexity = np.exp(-logprob_sum_prompt / n_prompt)
+        else:
+            prompt_perplexity = None
+            
+        sentence_perplexities.append(prompt_perplexity)
+        
+        # Split main text into sentences
+        sentences = self._split_df_into_sentences(main_df)
+        
+        for sent_df in sentences:
+            if sent_df.empty or "logprob_actual" not in sent_df.columns:
+                sentence_perplexities.append(None)
             else:
-                section_perplexity = None
+                # Count non-punctuation tokens (excluding punctuation-only tokens)
+                non_punct_count = self._count_non_punctuation_tokens(sent_df)
+                # Filter out single-word sentences (perplexity is meaningless for a single word)
+                if non_punct_count <= 1:
+                    # Skip single-word sentences - don't calculate perplexity
+                    continue
+                n_sent = len(sent_df)
+                logprob_sum = sent_df["logprob_actual"].sum()
+                sent_perplexity = np.exp(-logprob_sum / n_sent)
+                sentence_perplexities.append(sent_perplexity)
                 
-            section_perplexities.append(section_perplexity)
-            
-            # Calculate sentence-level perplexities
-            sentence_perplexities = []
-            
-            # Prompt is always sentence 0
-            if not prompt_df.empty and "logprob_actual" in prompt_df.columns:
-                n_prompt = len(prompt_df)
-                logprob_sum_prompt = prompt_df["logprob_actual"].sum()
-                prompt_perplexity = np.exp(-logprob_sum_prompt / n_prompt)
-            else:
-                prompt_perplexity = None
-                
-            sentence_perplexities.append(prompt_perplexity)
-            
-            # Split main text into sentences
-            sentences = self._split_df_into_sentences(main_df)
-            
-            for sent_df in sentences:
-                if sent_df.empty or "logprob_actual" not in sent_df.columns:
-                    sentence_perplexities.append(None)
-                else:
-                    n_sent = len(sent_df)
-                    logprob_sum = sent_df["logprob_actual"].sum()
-                    sent_perplexity = np.exp(-logprob_sum / n_sent)
-                    sentence_perplexities.append(sent_perplexity)
-                    
-            sentence_perplexities_per_section.append(sentence_perplexities)
+        sentence_perplexities_per_section.append(sentence_perplexities)
             
         return section_perplexities, sentence_perplexities_per_section
-    
-    def _split_into_sections(self, df: pd.DataFrame) -> List[pd.DataFrame]:
-        """
-        Split DataFrame into sections based on header pattern.
-        This mimics the behavior of the original perplexity.py file.
-        """
-        # Look for the header pattern that indicates a new section
-        header_line = "token,logprob_actual,logprob_max,entropy,most_likely_token"
-        
-        # Convert DataFrame to string representation to find section boundaries
-        sections = []
-        current_section = []
-        
-        # Convert DataFrame to list of rows for processing
-        df_rows = df.to_dict('records')
-        
-        for row in df_rows:
-            # Check if this row represents a header (all values should match the header pattern)
-            if (row.get('token') == 'token' and 
-                row.get('logprob_actual') == 'logprob_actual' and
-                row.get('logprob_max') == 'logprob_max' and
-                row.get('entropy') == 'entropy' and
-                row.get('most_likely_token') == 'most_likely_token'):
-                
-                # If we have accumulated data, create a section
-                if current_section:
-                    section_df = pd.DataFrame(current_section)
-                    sections.append(section_df)
-                current_section = [row]  # Start new section with header
-            else:
-                current_section.append(row)
-        
-        # Add the last section
-        if current_section:
-            section_df = pd.DataFrame(current_section)
-            sections.append(section_df)
-            
-        # If no sections were found, treat the entire DataFrame as one section
-        if not sections:
-            sections = [df]
-            
-        return sections
     
     def _extract_prompt(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
@@ -214,22 +185,67 @@ class PerplexityExtractor:
             
         return sentences
     
+    def _is_punctuation_token(self, token: str) -> bool:
+        """
+        Check if a token is punctuation-only.
+        
+        Args:
+            token: Token string to check
+            
+        Returns:
+            True if token is punctuation-only, False otherwise
+        """
+        token_str = str(token)
+        # Handle special tokens
+        SPECIAL_TOKENS = {'<s>', '</s>', '<pad>', '<unk>'}
+        if token_str in SPECIAL_TOKENS:
+            return True
+        
+        # Remove sentencepiece prefix if present
+        token_core = token_str.replace('▁', '').strip()
+        if token_core == '':
+            return True
+        
+        # Check if all characters are punctuation
+        return all(char in string.punctuation for char in token_core)
+    
+    def _count_non_punctuation_tokens(self, df: pd.DataFrame) -> int:
+        """
+        Count the number of non-punctuation tokens in a DataFrame.
+        
+        Args:
+            df: DataFrame with token data
+            
+        Returns:
+            Number of non-punctuation tokens
+        """
+        if df.empty or "token" not in df.columns:
+            return 0
+        
+        count = 0
+        for token in df["token"]:
+            if not self._is_punctuation_token(token):
+                count += 1
+        return count
+    
     def _store_perplexity_results(self, document, section_perplexities: List[float], 
-                                 sentence_perplexities_per_section: List[List[float]]) -> None:
+                                 sentence_perplexities_per_section: List[List[float]], 
+                                 section_index_offset: int = 0) -> None:
         """
         Store perplexity results to CSV files.
         
         Args:
             document: Document object
-            section_perplexities: List of section-level perplexity values
-            sentence_perplexities_per_section: List of sentence-level perplexity lists per section
+            section_perplexities: List of section-level perplexity values (should have one element)
+            sentence_perplexities_per_section: List of sentence-level perplexity lists per section (should have one list)
+            section_index_offset: Offset to add to section_index (for tracking across multiple sections)
         """
         # Store section-level perplexity
         if self.options.get('calculate_section_perplexity', True):
             section_data = []
             for i, perplexity in enumerate(section_perplexities):
                 section_data.append({
-                    'section_index': i,
+                    'section_index': section_index_offset + i,
                     'perplexity': perplexity
                 })
             
@@ -240,9 +256,10 @@ class PerplexityExtractor:
         if self.options.get('calculate_sentence_perplexity', True):
             sentence_data = []
             for section_idx, sentence_perplexities in enumerate(sentence_perplexities_per_section):
+                actual_section_idx = section_index_offset + section_idx
                 for sent_idx, perplexity in enumerate(sentence_perplexities):
                     sentence_data.append({
-                        'section_index': section_idx,
+                        'section_index': actual_section_idx,
                         'sentence_index': sent_idx,
                         'perplexity': perplexity
                     })

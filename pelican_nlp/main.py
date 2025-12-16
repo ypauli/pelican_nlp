@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Dict, List
 import torch.cuda
 import sys
+import subprocess
 
 from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import participant_instantiator, load_config, remove_previous_derivative_dir
@@ -30,7 +31,8 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 # Project path pointing to current workspace example configuration file.
 # Used if pipeline is run in programming environment instead of terminal.
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_transcription/config_transcription.yml'
-project_path = '/home/yvespauli/PELICAN-nlp/examples/example_Cogmap/config_cogmap.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_Cogmap/config_cogmap.yml'
+project_path = '/home/yvespauli/PELICAN-nlp/examples/example_trajectoryOptmisation/config_cogmap.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_perplexity/config_perplexity.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2Perplexity/config_velasPerplexity.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
@@ -40,14 +42,25 @@ class Pelican:
 
     """Main class for the Pelican project handling document processing and metric extraction."""
     
-    def __init__(self, config_path: str = None, dev_mode: bool = False, test_mode: bool = False) -> None:
+    def __init__(
+        self,
+        config_path: str = None,
+        dev_mode: bool = False,
+        test_mode: bool = False,
+        text_from_transcriptions: bool = False,
+    ) -> None:
 
         self.dev_mode = dev_mode
         self.test_mode = test_mode
+        self.text_from_transcriptions = text_from_transcriptions
+        self.config_path = config_path
         
         # Skip config loading and project setup for test mode
         if test_mode:
             return
+
+        if config_path is None:
+            raise ValueError("config_path must be provided unless running in test_mode.")
 
         self.config = load_config(config_path)
         self.project_path = Path(config_path).resolve().parent
@@ -62,7 +75,11 @@ class Pelican:
         """Execute the main processing pipeline."""
         self._clear_gpu_memory()
 
-        self._handle_output_directory()
+        # Only handle/remove output directory in the first (audio/text) phase.
+        if not self.text_from_transcriptions:
+            self._handle_output_directory()
+        else:
+            print("Skipping output directory handling for text-from-transcriptions phase.")
         
         # Check/Create LPDS
         self._LPDS()
@@ -71,6 +88,13 @@ class Pelican:
         print("Instantiating all participants")
         participants = participant_instantiator(self.config, self.project_path)
         
+        # If this is the second phase, run only text-from-transcriptions
+        if self.text_from_transcriptions:
+            for corpus_value in self.config['corpus_values']:
+                self._run_text_from_transcriptions(corpus_value, participants)
+            print("Text-from-transcriptions phase completed!")
+            return
+
         # Process each corpus
         for corpus_value in self.config['corpus_values']:
             self._process_corpus(self.config['corpus_key'], corpus_value, participants)
@@ -118,10 +142,10 @@ class Pelican:
         if self.config['prosogram_extraction']:
             corpus.extract_prosogram()
 
-        # Check if text features are also needed (embeddings, logits, perplexity)
+        # Check if text features are also needed (embeddings, logits, perplexity, topic modeling)
         text_metrics_needed = any(
             metric in self.config.get('metrics_to_extract', [])
-            for metric in ['embeddings', 'logits', 'perplexity']
+            for metric in ['embeddings', 'logits', 'perplexity', 'topic_modeling']
         )
         
         if text_metrics_needed:
@@ -130,24 +154,24 @@ class Pelican:
                 print("Warning: Text metrics requested but transcription is disabled. "
                       "Enable transcription in config to extract text features from audio.")
             else:
-                # Create Documents from transcription files
-                transcription_docs = corpus.create_documents_from_transcriptions()
+                # Launch a second-phase Pelican run in a fresh process for text-from-transcriptions
+                if not self.config_path:
+                    print("Error: Cannot start text-from-transcriptions phase without a config path.")
+                    return
                 
-                if transcription_docs:
-                    # Create a new corpus with transcription documents for text processing
-                    transcription_corpus = Corpus(
-                        corpus_entity, 
-                        transcription_docs, 
-                        self.config, 
-                        self.project_path
-                    )
-                    
-                    # Process transcription documents through text pipeline
-                    self._process_text_corpus(transcription_corpus)
-                    
-                    del transcription_corpus
+                print("Starting second-phase Pelican run for text-from-transcriptions in a fresh process...")
+                cmd = [
+                    sys.executable,
+                    "-m",
+                    "pelican_nlp.main",
+                    self.config_path,
+                    "--text-from-transcriptions",
+                ]
+                result = subprocess.run(cmd)
+                if result.returncode != 0:
+                    print(f"Second-phase Pelican run failed with exit code {result.returncode}")
                 else:
-                    print("Warning: No transcription files found to process for text metrics.")
+                    print("Second-phase Pelican run completed successfully.")
 
     def _process_text_corpus(self, corpus: Corpus) -> None:
         """Process a corpus through the text processing pipeline."""
@@ -332,10 +356,106 @@ class Pelican:
             torch.cuda.empty_cache()
 
 
+    def _run_text_from_transcriptions(self, corpus_value: str, participants: List) -> None:
+        """Second-phase run: build a corpus from transcription text files on disk and run the text pipeline on it."""
+        from pelican_nlp.core.document import Document
+        import os
+
+        corpus_key = self.config['corpus_key']
+        corpus_entity = corpus_key + '-' + corpus_value
+        print(f"[Second phase] Processing corpus from transcriptions: {corpus_entity}")
+
+        # Transcription files are stored in derivatives/transcription (same path used in Corpus.transcribe_audio)
+        transcription_dir = self.output_directory / 'transcription'
+        if not transcription_dir.exists():
+            print(f"Warning: Transcription directory not found at {transcription_dir}")
+            return
+
+        # Collect transcription text files belonging to this corpus entity
+        transcription_docs = []
+        for entry in transcription_dir.iterdir():
+            if not entry.is_file():
+                continue
+            if not entry.name.endswith("_transcript.txt"):
+                continue
+
+            # Original audio basename is the part before "_transcript"
+            base_name = entry.stem
+            if base_name.endswith("_transcript"):
+                audio_stem = base_name.rsplit("_transcript", 1)[0]
+            else:
+                audio_stem = base_name
+
+            try:
+                entities = parse_lpds_filename(audio_stem)
+            except Exception:
+                # If filename doesn't follow LPDS convention, skip filtering by corpus
+                entities = {}
+
+            # Check if this transcription belongs to the current corpus entity
+            if '-' in corpus_entity:
+                key, value = corpus_entity.split('-', 1)
+                if key in entities and str(entities[key]) != value:
+                    continue
+
+            # Derive optional attributes from entities where possible
+            participant_id = entities.get('participant_ID') if isinstance(entities, dict) else None
+
+            doc = Document(
+                file_path=str(transcription_dir),
+                name=entry.name,
+                participant_ID=participant_id,
+                task=self.task,
+                num_speakers=self.config.get('number_of_speakers'),
+                has_sections=self.config.get('has_multiple_sections', False),
+                section_identifier=self.config.get('section_identification'),
+                number_of_sections=self.config.get('number_of_sections'),
+                has_section_titles=self.config.get('has_section_titles', False),
+            )
+            doc.corpus_name = corpus_entity
+            transcription_docs.append(doc)
+            print(f"[Second phase] Added transcription document: {entry.name}")
+
+        if not transcription_docs:
+            print("Warning: No transcription files found for text-from-transcriptions phase.")
+            return
+
+        transcription_corpus = Corpus(
+            corpus_entity,
+            transcription_docs,
+            self.config,
+            self.project_path
+        )
+
+        # Run the text pipeline on the transcription-based corpus
+        self._process_text_corpus(transcription_corpus)
+        del transcription_corpus
+        self._clear_gpu_memory()
+
+
 if __name__ == '__main__':
     if RUN_TESTS:
         print("Running tests...")
         Pelican(test_mode=True).run_tests()
     else:
-        # For direct execution, use default config
-        Pelican(project_path, dev_mode=True).run()
+        import argparse
+
+        parser = argparse.ArgumentParser(description="Run Pelican-nlp pipeline.")
+        parser.add_argument(
+            "config_path",
+            nargs="?",
+            default=project_path,
+            help="Path to the configuration YAML file.",
+        )
+        parser.add_argument(
+            "--text-from-transcriptions",
+            action="store_true",
+            help="Run only the text-from-transcriptions phase in a fresh process.",
+        )
+        args = parser.parse_args()
+
+        Pelican(
+            args.config_path,
+            dev_mode=True,
+            text_from_transcriptions=args.text_from_transcriptions,
+        ).run()

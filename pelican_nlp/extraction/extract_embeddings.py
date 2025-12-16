@@ -173,6 +173,10 @@ class EmbeddingsExtractor:
                     debug_print(f"Using last_hidden_state, shape: {word_embeddings.shape}")
                 else:
                     raise ValueError(f"Model output has neither hidden_states nor last_hidden_state. Available attributes: {dir(outputs)}")
+                
+                # Don't modify word_embeddings here - it's a view of the model output
+                # Moving it to CPU at this point can cause segfaults if the model output is still referenced
+                # Instead, we'll convert individual embeddings to CPU when processing them
 
                 # Extract input_ids and attention_mask to identify padding tokens
                 if isinstance(inputs, dict):
@@ -252,14 +256,28 @@ class EmbeddingsExtractor:
                             debug_print(f"[extract_embeddings] Token {idx} '{token}' is UNK token (unk_token match)")
                     
                     # Check for zero vectors - convert to array first for robust checking
-                    if hasattr(embedding, 'tolist'):
-                        embedding_array = embedding.tolist()
-                    elif hasattr(embedding, 'numpy'):
-                        embedding_array = embedding.numpy().tolist()
-                    elif isinstance(embedding, (list, tuple)):
-                        embedding_array = list(embedding)
-                    else:
-                        embedding_array = embedding
+                    # Convert tensor to list/array, moving to CPU if needed
+                    # This creates a copy, avoiding issues with modifying views
+                    try:
+                        if hasattr(embedding, 'tolist'):
+                            # tolist() automatically moves to CPU if needed
+                            embedding_array = embedding.tolist()
+                        elif hasattr(embedding, 'cpu'):
+                            # If it's a tensor, move to CPU and convert
+                            embedding_array = embedding.cpu().detach().clone().tolist()
+                        elif hasattr(embedding, 'numpy'):
+                            embedding_array = embedding.numpy().tolist()
+                        elif isinstance(embedding, (list, tuple)):
+                            embedding_array = list(embedding)
+                        else:
+                            embedding_array = embedding
+                    except Exception as e:
+                        # Fallback: try to convert directly
+                        debug_print(f"Warning: Could not convert embedding to list: {e}")
+                        if isinstance(embedding, (list, tuple)):
+                            embedding_array = list(embedding)
+                        else:
+                            embedding_array = embedding
                     
                     # More robust zero vector detection using numpy or manual calculation
                     try:

@@ -128,18 +128,42 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                 writer.writerow([metric_name, score])
 
         elif metric == 'distance-from-randomness':
-            header = ['window_index', 'all_pairs_average', 'actual_dist', 'average_dist', 'std_dist']
-            _write_csv_header(writer, header, file_exists)
+            # Check if this is the new TSP divergence format or old sliding window format
+            if input_data and 'section' in input_data and len(input_data['section']) > 0:
+                first_result = input_data['section'][0]
+                
+                # Check if it has TSP divergence fields
+                if 'global_div_z' in first_result or 'local_div_z' in first_result:
+                    # New TSP divergence format
+                    header = ['total_distance', 'avg_distance', 'global_divergence', 
+                             'local_divergence', 'global_div_z', 'local_div_z', 'optimal_path']
+                    _write_csv_header(writer, header, file_exists)
+                    
+                    for result in input_data['section']:
+                        # Convert optimal_path list to string for CSV storage
+                        opt_path_str = str(result.get('optimal_path', []))
+                        writer.writerow([
+                            result.get('total_distance', ''),
+                            result.get('avg_distance', ''),
+                            result.get('global_divergence', ''),
+                            result.get('local_divergence', ''),
+                            result.get('global_div_z', ''),
+                            result.get('local_div_z', ''),
+                            opt_path_str
+                        ])
+                else:
+                    # Old sliding window format (backward compatible)
+                    header = ['window_index', 'all_pairs_average', 'actual_dist', 'average_dist', 'std_dist']
+                    _write_csv_header(writer, header, file_exists)
 
-            # Input data is a dictionary with 'section' key containing list of window results
-            for window_result in input_data['section']:
-                writer.writerow([
-                    window_result['window_index'],
-                    window_result['all_pairs_average'],
-                    window_result['actual_dist'],
-                    window_result['average_dist'],
-                    window_result['std_dist']
-                ])
+                    for window_result in input_data['section']:
+                        writer.writerow([
+                            window_result.get('window_index', ''),
+                            window_result.get('all_pairs_average', ''),
+                            window_result.get('actual_dist', ''),
+                            window_result.get('average_dist', ''),
+                            window_result.get('std_dist', '')
+                        ])
 
         elif metric == 'logits':
             if not input_data:

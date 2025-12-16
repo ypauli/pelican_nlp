@@ -55,7 +55,9 @@ dependencies = [
     "torchaudio>=2.5.1",
     "pyannote.audio>=3.1.0",
     "uroman>=0.1.0",
-    "PyPDF2>=3.0.1"
+    "PyPDF2>=3.0.1",
+    "ortools>=9.10.0",
+    "sentence-transformers>=2.7.0"
 ]
 
 [project.urls]

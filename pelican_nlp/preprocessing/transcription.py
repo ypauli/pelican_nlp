@@ -433,9 +433,51 @@ def process_single_audio_file(audio_file,
 
     print(f"Finished processing: {audio_file.file}")
     
-    # Clean up
-    del transcriber
-    del aligner
-    del diarizer
+    # Clean up models and free GPU memory
+    # Note: We avoid moving complex pipeline objects to CPU as this can cause segfaults
+    # Instead, we just delete references and clear the cache
+    
+    # Delete transcriber (Whisper pipeline)
+    try:
+        if hasattr(transcriber, 'transcriber'):
+            del transcriber.transcriber
+    except Exception:
+        pass
+    try:
+        del transcriber
+    except Exception:
+        pass
+    
+    # Delete aligner model
+    try:
+        if hasattr(aligner, 'model'):
+            del aligner.model
+    except Exception:
+        pass
+    try:
+        del aligner
+    except Exception:
+        pass
+    
+    # Delete diarizer pipeline
+    try:
+        if hasattr(diarizer, 'diarization_pipeline'):
+            del diarizer.diarization_pipeline
+    except Exception:
+        pass
+    try:
+        del diarizer
+    except Exception:
+        pass
+    
+    # Clear GPU cache after transcription
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()  # Ensure cache clearing is complete
+        print("GPU memory cleared after transcription")
+    
+    # Force Python garbage collection to help release memory
+    import gc
+    gc.collect()
     
     return audio_file

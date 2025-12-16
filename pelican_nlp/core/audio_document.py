@@ -528,5 +528,20 @@ class AudioFile:
         except Exception as e:
             print(f"Error loading transcription file {transcription_file_path}: {e}")
 
+    def clear_audio_data(self):
+        """
+        Clear large audio data structures from memory to prevent memory accumulation.
+        This is useful when processing many files in sequence.
+        """
+        self.audio = None
+        self.sample_rate = None
+        # Clear audio segments from chunks but keep metadata
+        if self.chunks:
+            for chunk in self.chunks:
+                if hasattr(chunk, 'audio_segment'):
+                    chunk.audio_segment = None
+        # Note: We keep chunks list and other metadata for reference
+        # but clear the actual audio data
+
     def __repr__(self):
         return f"AudioFile(file_name={self.name})"

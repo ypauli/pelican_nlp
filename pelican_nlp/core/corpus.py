@@ -306,6 +306,7 @@ class Corpus:
     def extract_logits(self):
         from pelican_nlp.extraction.extract_logits import LogitsExtractor
         from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
+        import torch
 
         print("Extracting Logits...")
 
@@ -346,6 +347,36 @@ class Corpus:
                                           self.derivatives_dir,
                                           self.documents[i],
                                           metric='logits')
+        
+        # Clean up model and free GPU memory
+        # Note: Avoid moving models to CPU if they're dispatched across devices (can cause segfaults)
+        # Just delete references and clear cache
+        try:
+            del model_instance
+        except Exception:
+            pass
+        try:
+            if hasattr(model, 'model_instance'):
+                del model.model_instance
+        except Exception:
+            pass
+        try:
+            del model
+        except Exception:
+            pass
+        try:
+            del logitsExtractor
+        except Exception:
+            pass
+        try:
+            del tokenizer
+        except Exception:
+            pass
+        
+        # Clear GPU cache after logits extraction
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            print("GPU memory cleared after logits extraction")
 
     def extract_perplexity(self):
         """Extract perplexity metrics from logits data."""
@@ -358,11 +389,17 @@ class Corpus:
 
         for i in range(len(self.documents)):
             # Process each logits entry for this document
+            # Each logits_data corresponds to one section (already separated at document level)
+            section_idx = 0
             for logits_data in self.documents[i].logits:
-                perplexityExtractor.extract_perplexity_from_document(self.documents[i], logits_data)
+                perplexityExtractor.extract_perplexity_from_document(
+                    self.documents[i], logits_data, section_index=section_idx
+                )
+                section_idx += 1
 
     def extract_embeddings(self):
         from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
+        import torch
 
         print("Extracting Embeddings...")
 
@@ -540,6 +577,30 @@ class Corpus:
                                               self.derivatives_dir,
                                               self.documents[i],
                                               metric='embeddings')
+        
+        # Clean up embeddings extractor and free GPU memory
+        # Note: Avoid moving models to CPU if they're dispatched across devices (can cause segfaults)
+        # Just delete references and clear cache
+        try:
+            if hasattr(embeddingsExtractor, 'model_instance'):
+                del embeddingsExtractor.model_instance
+        except Exception:
+            pass
+        try:
+            if hasattr(embeddingsExtractor, 'model'):
+                del embeddingsExtractor.model
+        except Exception:
+            pass
+        try:
+            del embeddingsExtractor
+        except Exception:
+            pass
+        
+        # Clear GPU cache after embeddings extraction
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            print("GPU memory cleared after embeddings extraction")
+        
         return
 
     def _extract_documents_and_embeddings_from_document(self, doc_idx):
@@ -1040,6 +1101,10 @@ class Corpus:
         normalized_audio_dir = os.path.join(self.derivatives_dir, 'normalized-audio')
         os.makedirs(normalized_audio_dir, exist_ok=True)
         
+        # Import garbage collection and memory monitoring
+        import gc
+        import torch
+        
         # Process each audio document
         for i, document in enumerate(self.documents):
             if hasattr(document, 'file') and document.file:
@@ -1088,13 +1153,59 @@ class Corpus:
                     print(f"Transcription completed and saved to: {transcription_file}")
                     print(f"Transcript text saved to: {transcription_text_file}")
                     
+                    # Explicitly clear large audio data from memory after saving
+                    # This prevents memory accumulation across multiple files
+                    if hasattr(processed_document, 'clear_audio_data'):
+                        processed_document.clear_audio_data()
+                    else:
+                        # Fallback: manual cleanup if method doesn't exist
+                        if hasattr(processed_document, 'audio'):
+                            processed_document.audio = None
+                        if hasattr(processed_document, 'chunks'):
+                            for chunk in processed_document.chunks:
+                                if hasattr(chunk, 'audio_segment'):
+                                    chunk.audio_segment = None
+                    
+                    # Clear processed_document reference
+                    del processed_document
+                    
                 except Exception as e:
                     print(f"Error transcribing {document.file}: {e}")
                     import traceback
                     traceback.print_exc()
+                    # Clear any partial data on error
+                    if hasattr(document, 'clear_audio_data'):
+                        document.clear_audio_data()
+                    elif hasattr(document, 'audio'):
+                        document.audio = None
+                        if hasattr(document, 'chunks'):
+                            document.chunks = []
                     continue
             else:
                 print(f"No audio file found for document {i}")
+            
+            # Force garbage collection and clear GPU cache after each file
+            # This prevents memory accumulation that can lead to OOM kills
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                # Synchronize to ensure cache clearing is complete
+                torch.cuda.synchronize()
+            
+            # Print memory status every 10 files for monitoring
+            if (i + 1) % 10 == 0:
+                try:
+                    import psutil
+                    process = psutil.Process()
+                    mem_info = process.memory_info()
+                    mem_gb = mem_info.rss / (1024 ** 3)
+                    print(f"Memory usage after {i+1} files: {mem_gb:.2f} GB")
+                    if torch.cuda.is_available():
+                        gpu_mem_allocated = torch.cuda.memory_allocated() / (1024 ** 3)
+                        gpu_mem_reserved = torch.cuda.memory_reserved() / (1024 ** 3)
+                        print(f"GPU memory: {gpu_mem_allocated:.2f} GB allocated, {gpu_mem_reserved:.2f} GB reserved")
+                except ImportError:
+                    pass  # psutil not available, skip memory monitoring
         
         print(f"\nAudio transcription completed. Processed {len(self.documents)} documents.")
 
