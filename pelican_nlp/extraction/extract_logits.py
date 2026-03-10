@@ -16,6 +16,7 @@ class LogitsExtractor:
             'trailing_artifact_token_sequences',
             [
                 ["Ġâģ", "¦", "âģ", "©"],
+                ["âģ", "¦", "âģ", "©"]
             ],
         )
 
