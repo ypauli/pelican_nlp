@@ -29,6 +29,12 @@ class PerplexityExtractor:
         self.options = options
         self.project_folder = project_folder
         self.derivatives_dir = project_folder / 'derivatives'
+        self.trailing_artifact_token_sequences = self.options.get(
+            'trailing_artifact_token_sequences',
+            [
+                ["Ġâģ", "¦", "âģ", "©"],
+            ],
+        )
         
     def extract_perplexity_from_document(self, document, logits_data: List[Dict[str, Any]], section_index: int = 0) -> None:
         """
@@ -51,12 +57,54 @@ class PerplexityExtractor:
             
         # Create DataFrame from logits data
         df = pd.DataFrame(logits_data)
+        df = self._remove_trailing_artifact_rows(df)
         
         # Calculate perplexity metrics (treating entire DataFrame as one section)
         section_perplexities, sentence_perplexities_per_section = self._calculate_perplexity_metrics(df)
         
         # Store results with correct section index
         self._store_perplexity_results(document, section_perplexities, sentence_perplexities_per_section, section_index)
+
+    @staticmethod
+    def _normalize_token_for_matching(token: Any) -> str:
+        token_str = str(token).strip().strip('"')
+        return token_str.lstrip('▁')
+
+    def _remove_trailing_artifact_rows(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Remove known trailing artifact token sequences from the end of a section.
+        """
+        if df.empty or "token" not in df.columns:
+            return df
+
+        normalized_sequences = [
+            [self._normalize_token_for_matching(tok) for tok in sequence]
+            for sequence in self.trailing_artifact_token_sequences
+            if sequence
+        ]
+        normalized_sequences = sorted(normalized_sequences, key=len, reverse=True)
+        if not normalized_sequences:
+            return df
+
+        cleaned_df = df.copy()
+
+        def ends_with_sequence(local_df: pd.DataFrame, sequence: List[str]) -> bool:
+            if len(local_df) < len(sequence):
+                return False
+            suffix_tokens = local_df["token"].iloc[-len(sequence):].tolist()
+            normalized_suffix = [self._normalize_token_for_matching(tok) for tok in suffix_tokens]
+            return normalized_suffix == sequence
+
+        changed = True
+        while changed and not cleaned_df.empty:
+            changed = False
+            for sequence in normalized_sequences:
+                if ends_with_sequence(cleaned_df, sequence):
+                    cleaned_df = cleaned_df.iloc[:-len(sequence)].copy()
+                    changed = True
+                    break
+
+        return cleaned_df.reset_index(drop=True)
         
     def _calculate_perplexity_metrics(self, df: pd.DataFrame) -> Tuple[List[float], List[List[float]]]:
         """

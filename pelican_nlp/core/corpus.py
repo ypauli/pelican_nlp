@@ -1047,10 +1047,12 @@ class Corpus:
         
         return document_distributions
 
-    def transcribe_audio(self):
+    def transcribe_audio(self, skip_existing: bool = False):
         """
         Transcribes audio files using the transcription pipeline.
         Saves transcription results to derivatives/transcription/ subdirectory.
+        
+        :param skip_existing: If True, skip files that already have transcription results.
         """
         from pelican_nlp.preprocessing.transcription import process_single_audio_file
         import os
@@ -1106,6 +1108,7 @@ class Corpus:
         import torch
         
         # Process each audio document
+        skipped_count = 0
         for i, document in enumerate(self.documents):
             if hasattr(document, 'file') and document.file:
                 print(f"\nProcessing document {i+1}/{len(self.documents)}: {document.file}")
@@ -1114,6 +1117,26 @@ class Corpus:
                 if not os.path.exists(document.file):
                     print(f"Error: Audio file not found at {document.file}")
                     continue
+                
+                # Check if transcription already exists (if skip_existing is True)
+                if skip_existing:
+                    transcription_file = os.path.join(
+                        transcription_dir, 
+                        f"{Path(document.file).stem}_allOutputs.json"
+                    )
+                    transcription_text_file = os.path.join(
+                        transcription_dir,
+                        f"{Path(document.file).stem}_transcript.txt"
+                    )
+                    
+                    # Check if both transcription files exist
+                    if os.path.exists(transcription_file) and os.path.exists(transcription_text_file):
+                        print(f"Transcription already exists for {document.file}. Skipping...")
+                        skipped_count += 1
+                        # Still store the paths in the document for reference
+                        document.transcription_file = transcription_file
+                        document.transcription_text_file = transcription_text_file
+                        continue
                 
                 try:
                     # Store normalized audio directory in document for use during processing
@@ -1207,7 +1230,11 @@ class Corpus:
                 except ImportError:
                     pass  # psutil not available, skip memory monitoring
         
-        print(f"\nAudio transcription completed. Processed {len(self.documents)} documents.")
+        processed_count = len(self.documents) - skipped_count
+        if skip_existing and skipped_count > 0:
+            print(f"\nAudio transcription completed. Processed {processed_count} new files, skipped {skipped_count} already transcribed files.")
+        else:
+            print(f"\nAudio transcription completed. Processed {processed_count} documents.")
 
     def extract_opensmile_features(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction

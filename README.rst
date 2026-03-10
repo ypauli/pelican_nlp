@@ -158,3 +158,4 @@ Citation
 If you use this project, please cite:
 
 Pauli Y, Marsman J-B, Rabe F, et al. Standardising the NLP Workflow: A Framework for Reproducible Linguistic Analysis. arXiv preprint arXiv:2511.15512 [cs.CL] 2025.
+https://doi.org/10.48550/arXiv.2511.15512

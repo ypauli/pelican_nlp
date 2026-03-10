@@ -12,6 +12,12 @@ class LogitsExtractor:
         self.model_name = self.options['model_name']
         self.pipeline = pipeline
         self.PROJECT_PATH = project_path
+        self.trailing_artifact_token_sequences = self.options.get(
+            'trailing_artifact_token_sequences',
+            [
+                ["Ġâģ", "¦", "âģ", "©"],
+            ],
+        )
 
     def extract_features(self, section, tokenizer, model):
 
@@ -86,7 +92,50 @@ class LogitsExtractor:
             per_token_data.extend(chunk_data)
             total_processed_tokens += len(chunk_data)
 
+        per_token_data = self._remove_trailing_artifact_tokens(per_token_data)
         return per_token_data
+
+    @staticmethod
+    def _normalize_token_for_matching(token):
+        token_str = str(token).strip().strip('"')
+        # SentencePiece and similar tokenizers can prefix word boundaries with these characters.
+        return token_str.lstrip('▁')
+
+    def _remove_trailing_artifact_tokens(self, per_token_data):
+        if not per_token_data:
+            return per_token_data
+
+        cleaned = per_token_data[:]
+        normalized_sequences = [
+            [self._normalize_token_for_matching(tok) for tok in sequence]
+            for sequence in self.trailing_artifact_token_sequences
+            if sequence
+        ]
+        normalized_sequences = sorted(normalized_sequences, key=len, reverse=True)
+
+        if not normalized_sequences:
+            return cleaned
+
+        def ends_with_sequence(data, sequence):
+            if len(data) < len(sequence):
+                return False
+            suffix = data[-len(sequence):]
+            suffix_tokens = [
+                self._normalize_token_for_matching(item.get('token', ''))
+                for item in suffix
+            ]
+            return suffix_tokens == sequence
+
+        changed = True
+        while changed and cleaned:
+            changed = False
+            for sequence in normalized_sequences:
+                if ends_with_sequence(cleaned, sequence):
+                    cleaned = cleaned[:-len(sequence)]
+                    changed = True
+                    break
+
+        return cleaned
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j, tokenizer):
 

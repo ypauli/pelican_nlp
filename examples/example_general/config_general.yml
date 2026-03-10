@@ -1,65 +1,61 @@
-# Master Configuration File
-# ========================
+# Master sample configuration (merged from all *.yml files in this repository)
 
-# Basic Settings
-# -------------
-input_file: "text"  # Options: 'text' or 'audio'
-language: "german"
+# === Core inputs ===
+input_file: "text"  # options: "text" | "audio" (cannot be both)
+language: "german"  # options seen: "german" | "english" | "dutch"
 
-# Task Configuration
-# -----------------
-task_name: null  # Name of task used for creation of data
-fluency_task: &fluency_flag false  # Flag for fluency-specific settings
-discourse: &discourse_flag false  # Flag for discourse-specific settings
+# === Task selection ===
+task_name: "interview"  # options seen: "fluency" | "interview" | "image-description" | "imgdesc" | "generated" | null
+fluency_task: false      # options: true | false; do not use true together with discourse=true
+discourse: false         # options: true | false; do not use true together with fluency_task=true
 
-# Corpus Configuration
-# ------------------
-corpus_key: null # Entity key to group files for analysis
-corpus_values:  # Corresponding entity values found in dataset
-  - "healthy-control"
+# === Corpus grouping ===
+corpus_key: "acq"        # options seen: "acq" | "group" | "task" | null
+corpus_values:           # options: list[str]
   - "placebo"
+  - "drug"
 
-# Session and participant Settings
-# --------------------------
-multiple_sessions: false
-number_of_participants: null  # If null, auto-detected
-number_of_speakers: 1 # Specify amount of speakers for discourse files
-participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only for discourse
+# === Participants / sessions ===
+multiple_sessions: false         # options: true | false
+number_of_participants: null     # options: integer | null (auto-detect)
+number_of_speakers: 1            # options: integer >= 1
+participant_speakertag: null     # options: null | "B" | ["B", "T"]; only meaningful when discourse=true
 
-# Document Structure
-# ----------------
-has_multiple_sections: false
-has_section_titles: false
-section_identification: null  # e.g., "Section:", in case of multiple sections
-number_of_sections: null  # If null, auto-detected, specify for multiple sections to check section detection
+# === Document structure ===
+has_multiple_sections: false      # options: true | false
+has_section_titles: false         # options: true | false
+section_identification: null      # options: null | string pattern (e.g., "Bild:", "New Prompt: prompt_")
+number_of_sections: null          # options: integer | null (auto-detect)
 
-# Processing Pipeline
-# -----------------
-pipeline_options: # Just for data preprocessing without metric extraction
-  quality_check: false
-  clean_text: true
-  tokenize_text: false
-  normalize_text: false
+# === Pipeline switches ===
+pipeline_options:
+  quality_check: false            # options: true | false
+  clean_text: true                # options: true | false
+  tokenize_text: false            # options: true | false
+  normalize_text: false           # options: true | false
 
-# Metric Extraction
-# ---------------
-metrics_to_extract: ["embeddings"]  # Options: 'embeddings', 'logits'
-output_document_information: true
+# === Metric selection ===
+metrics_to_extract: ["embeddings"]  # options: "embeddings", "logits", "perplexity"
+metric_to_extract: null             # legacy option seen in unittest configs; use metrics_to_extract instead
+extract_logits: null                # legacy option seen: true | false | null
+extract_embeddings: null            # legacy option seen: true | false | null
+output_document_information: false  # options: true | false
+create_aggregation_of_results: false  # options: true | false
 
-# Cleaning Options
-# --------------
+# === Cleaning ===
 cleaning_options:
-  general_cleaning: true # General cleaning applied to most datasets, check specifications in section "general_cleaning_options"
-  remove_punctuation: false
-  lowercase: true
+  general_cleaning: true
+  remove_punctuation: false       # options: true | false; with fluency_task=true this can remove your word_splitter
+  lowercase: false                # options: true | false
   remove_brackets_and_bracketcontent: false
   remove_timestamps: false
-  timestamp_pattern_example: null  # e.g., "#00:00:23-00#", only if remove_timestamps = True
-  # Fluency-specific options
-  fluency_task: *fluency_flag
-  word_splitter: ';'
-  remove_hyphens: true
-  remove_duplicates: true
+  timestamp_pattern_example: null # options: null | string (e.g., "#00:00:19-00#")
+
+  # fluency-specific cleaning options
+  fluency_task: false             # options: true | false
+  word_splitter: ";"              # options seen: ";" | null
+  remove_hyphens: false           # options: true | false | null
+  remove_duplicates: false        # options: true | false | null
 
 general_cleaning_options:
   strip_whitespace: true
@@ -68,77 +64,118 @@ general_cleaning_options:
   merge_newline_characters: true
   remove_backslashes: true
 
-# Embedding Options
-# ---------------
+# === Embeddings ===
 options_embeddings:
-  tokenization_method: "whitespace"  # Options: 'whitespace', 'model'
-  model_name: "fastText"  # Options: 'fastText', 'xlm-roberta-base'
-  pytorch_based_model: false
-  method: "model_instance"
-  max_length: 512
-  clean_embedding_tokens: true
+  tokenization_method: "whitespace"   # options: "whitespace" | "model" | "model_roberta"
+  model_name: "fastText"              # options seen: "fastText" | "xlm-roberta-base"
+  pytorch_based_model: false          # options: true | false; incompatible with tokenization_method="whitespace"
+  method: "model_instance"            # options seen: "model_instance"
+  max_length: 512                     # options: integer | null
+  clean_embedding_tokens: true        # options: true | false
+  clean_tokens: false                 # legacy option seen in unittest config
+
   remove_punctuation: false
   lowercase: false
-  keep_speakertags: false
-  semantic-similarity: true
-  window_size: null
-  divergence_from_optimality: false
+  keep_speakertags: false             # options: true | false (relevant for discourse)
+  window_size: null                   # options: integer | null (seen, not primary control for windows)
+
+  semantic-similarity: true           # options: true | false
+  distance-from-randomness: false     # options: true | false
+  divergence_from_optimality: false   # options: true | false
+
   output_options:
     exclude_special_tokens: true
-    remove_'_'_character: true
+    "remove_'_'_character": true
     remove_speaker_labels: true
     remove_punctuation_and_symbols: true
     remove_brackets_and_content: true
 
-# Logits Options
-# -------------
+options_semantic-similarity:
+  window_sizes: [2, 8]                # options seen: list[int], "all"; code also supports "sentence"
+  exclude_punctuation_tokens: false   # options: true | false
+  store_window_details: false         # options: true | false
+  store_sentence_details: false       # options: true | false
+
+options_dis_from_randomness:
+  window_size: 8
+  min_len: null                       # options: integer | null
+  bootstrap: 10000                    # options: integer
+  shuffle_mode: "include0_includeN"   # options: "include0_includeN" | "exclude0_includeN" | "exclude0_excludeN"
+  parallel_computing: false           # options: true | false (parallel mode currently not implemented)
+
+# === Logits ===
 options_logits:
   chunk_size: 128
   overlap_size: 64
-  tokenization_method: "model"
+  tokenization_method: "model"        # options seen: "model"
   model_name: "DiscoResearch/Llama3-German-8B-32k"
   remove_punctuation: true
   lowercase: true
   keep_speakertags: true
 
-# Analysis Options
-# --------------
-options_semantic-similarity:
-  window_sizes:  # 'all' or window size as integer
-    - 2
-    - 8
+# === Perplexity ===
+options_perplexity:
+  calculate_section_perplexity: true
+  calculate_sentence_perplexity: true
+  ignore_sequences:                   # options: list[list[str]] | []
+    - ["se", "it", "letz", "ter"]
 
-options_dis_from_randomness:
-  window_size: 8
-  min_len: null
-  bootstrap: 10000
-  shuffle_mode: 'include0_includeN'
-  parallel_computing: false
-
-# Normalization Options
-# -------------------
+# === Normalization ===
 normalization_options:
-  method: "lemmatization"  # Options: 'lemmatization', 'stemming'
+  method: "lemmatization"             # options: "lemmatization" | "stemming"
 
-# Document Information Output
-# -------------------------
+# === Acoustic feature extraction (audio only) ===
+opensmile_feature_extraction: false   # options: true | false; only valid with input_file="audio"
+prosogram_extraction: false           # options: true | false; only valid with input_file="audio"
+opensmile_configurations:
+  always_2d: true
+  duration: null                      # options: float | null
+  offset: null                        # options: float | null
+  feature_set: "opensmile.FeatureSet.eGeMAPSv02"          # option seen in config files
+  feature_level: "opensmile.FeatureLevel.Functionals"     # option seen in config files
+
+# === Transcription (audio only) ===
+# Use either:
+#   - transcription: false
+#   - transcription: { ... } (dict below)
+# Do NOT use transcription: true (bool), because code expects a dict when enabled.
+transcription:
+  hf_token: "your_hugging_face_token_here"  # options: string | ""
+  num_speakers: 2                            # options: integer (falls back to number_of_speakers)
+  min_silence_len: 1000                      # options: integer (ms)
+  silence_thresh: -30                        # options: integer/float (dBFS)
+  min_length: 90000                          # options: integer (ms)
+  max_length: 150000                         # options: integer (ms)
+  timestamp_source: "whisper_alignments"     # options: "whisper_alignments" | "forced_alignments"
+  diarizer_params:
+    segmentation:
+      min_duration_off: 0.0
+    clustering:
+      method: "centroid"
+      min_cluster_size: 12
+      threshold: 0.8
+
+# === Document information output ===
 document_information_output:
-  parameters:
+  parameters:                                # options seen:
     - participant_ID
     - fluency_word_count
     - fluency_duplicate_count
+    - recording_length
+    - transcription_file
 
-# Filename Configuration
-# --------------------
+# === Filename parsing / output naming ===
 filename_components:
-  participant: true    # mandatory
-  session: false
-  task: true       # mandatory
-  task_addition: false
-  corpus: true     # mandatory
-  metric: true
-  additional_tags: []
+  participant: true      # options: true | false
+  session: false         # options: true | false
+  task: true             # options: true | false
+  task_addition: false   # options: true | false
+  corpus: true           # options: true | false
+  metric: true           # options: true | false
+  additional_tags: []    # options: list[str]
 
-# Additional Settings
-# -----------------
-create_aggregation_of_results: true
+# === Legacy / compatibility fields seen in specific configs ===
+window_sizes: [2]                  # legacy top-level semantic window setting
+metric_function: "cosine_similarity"   # legacy top-level setting seen in discourse config
+aggregation_functions: "mean_of_means" # legacy top-level setting seen in discourse config
+recompute_everything: true         # options: true | false

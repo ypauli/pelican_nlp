@@ -3,19 +3,12 @@ import re
 from collections import Counter
 
 class TextCleaner:
+
     def __init__(self, options=None):
         self.options = options
 
     def clean(self, document, text, characters_to_remove=None):
-        """Clean text based on configured options.
-        
-        Args:
-            document: Document object containing metadata
-            text: Text to clean
-            characters_to_remove: Optional string of characters to remove
-        Returns:
-            Cleaned text string
-        """
+
         if self.options.get('remove_timestamps', True):
             text = remove_timestamps(text, self.options.get('timestamp_pattern_example'))
 

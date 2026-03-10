@@ -32,11 +32,12 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 # Used if pipeline is run in programming environment instead of terminal.
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_transcription/config_transcription.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_Cogmap/config_cogmap.yml'
-project_path = '/home/yvespauli/PELICAN-nlp/examples/example_trajectoryOptmisation/config_cogmap.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_trajectoryOptmisation/config_cogmap.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_perplexity/config_perplexity.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2Perplexity/config_velasPerplexity.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
 #project_path = '/home/yvespauli/PycharmProjects/Transcription_Finn/config_transcription.yml'
+project_path = '/home/yvespauli/PycharmProjects/SaS/config_cogmap.yml'
 
 class Pelican:
 
@@ -54,6 +55,7 @@ class Pelican:
         self.test_mode = test_mode
         self.text_from_transcriptions = text_from_transcriptions
         self.config_path = config_path
+        self.skip_existing = True  # Flag to skip already processed files
         
         # Skip config loading and project setup for test mode
         if test_mode:
@@ -134,7 +136,7 @@ class Pelican:
     def _process_audio_corpus(self, corpus: Corpus, corpus_entity: str) -> None:
         """Process a corpus through the audio processing pipeline."""
         if self.config['transcription']:
-            corpus.transcribe_audio()
+            corpus.transcribe_audio(skip_existing=self.skip_existing)
 
         if self.config['opensmile_feature_extraction']:
             corpus.extract_opensmile_features()
@@ -232,10 +234,19 @@ class Pelican:
 
     def _handle_output_directory(self) -> None:
         """Handle the output directory based on dev mode."""
+        # If skip_existing is True, never delete the directory
+        if self.skip_existing:
+            print("skip_existing is True - preserving existing files in output directory.")
+            return
+        
         if self.dev_mode:
             remove_previous_derivative_dir(self.output_directory)
         elif self.output_directory.exists():
-            self._prompt_for_continuation()
+            should_continue = self._prompt_for_continuation()
+            if not should_continue:
+                # User chose "no" - set flag to skip existing files
+                self.skip_existing = True
+                print("Will skip files that are already transcribed.")
 
     def run_tests(self):
         """Run all example tests from utils/unittests/examples folders."""
@@ -342,13 +353,19 @@ class Pelican:
                 print(f"Source config file not found: {source_config}")
 
     @staticmethod
-    def _prompt_for_continuation() -> None:
-        """Prompt user for continuation if output directory exists."""
+    def _prompt_for_continuation() -> bool:
+        """
+        Prompt user for continuation if output directory exists.
+        
+        Returns:
+            True if user wants to continue (overwrite), False if user wants to skip existing files.
+        """
         print('Warning: An output directory already exists. Continuing might invalidate previously computed results.')
-        confirm = input("Do you want to continue? Type 'yes' to proceed: ").strip().lower()
-        if confirm not in ('yes', 'y'):
-            print("Operation aborted.")
-            sys.exit(0)
+        confirm = input("Do you want to continue? Type 'yes' to proceed (will overwrite), or 'no' to skip already processed file (currently only for audio transcriptions)").strip().lower()
+        if confirm in ('yes', 'y'):
+            return True
+        else:
+            return False
 
     @staticmethod
     def _clear_gpu_memory() -> None:
