@@ -42,16 +42,29 @@ class TextDiarizer:
         # Handle both single tag and multiple tags
         if isinstance(speaker_tags, str):
             speaker_tags = [speaker_tags]
-        
+
+        # Keep only non-empty tags and match case-insensitively.
+        # A new speaker block starts only when the token before ":" is one of these tags.
+        speaker_tags = [
+            tag.strip() for tag in speaker_tags
+            if isinstance(tag, str) and tag.strip()
+        ]
+        if not speaker_tags:
+            return [text] if text else []
+
+        tag_pattern = "|".join(re.escape(tag) for tag in speaker_tags)
+        speaker_block_pattern = re.compile(
+            rf"^\s*(?P<tag>{tag_pattern})\s*:\s*(?P<content>.*?)(?=^\s*(?:{tag_pattern})\s*:|\Z)",
+            re.IGNORECASE | re.MULTILINE | re.DOTALL
+        )
+
         all_matches = []
-        
-        for speaker_tag in speaker_tags:
-            pattern = rf"{re.escape(speaker_tag)}:\s*(.*?)(?=\n\s*\w+:|\Z)"
-            matches = re.findall(pattern, text, re.DOTALL)
-            
+        for match in speaker_block_pattern.finditer(text):
+            content = match.group("content").strip()
             if keep_speakertag:
-                all_matches.extend([f"{speaker_tag}: {match.strip()}" for match in matches])
+                # Keep the tag as it appears in the original text.
+                all_matches.append(f"{match.group('tag')}: {content}")
             else:
-                all_matches.extend([match.strip() for match in matches])
-        
+                all_matches.append(content)
+
         return all_matches if all_matches else [text]
