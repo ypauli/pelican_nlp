@@ -141,7 +141,7 @@ def _format_window_detail(index, tokens, stats):
 def _nan_summary():
     return (np.nan, np.nan, np.nan, np.nan, np.nan)
 
-def get_semantic_similarity_windows(embedding_vectors, window_size, return_details=False, exclude_punctuation=False):
+def get_semantic_similarity_windows(embedding_vectors, window_size, return_details=False, exclude_punctuation=False, source_text=None):
     debug_print(f"\n[get_semantic_similarity_windows] === START: window_size={window_size} ===")
     
     # Check if embedding_vectors is empty
@@ -172,7 +172,12 @@ def get_semantic_similarity_windows(embedding_vectors, window_size, return_detai
     # Handle sentence-wise similarity
     if window_size == 'sentence':
         debug_print(f"[get_semantic_similarity_windows] Processing sentence-wise similarity")
-        return get_sentence_wise_similarity(embedding_vectors, return_details=return_details, exclude_punctuation=exclude_punctuation)
+        return get_sentence_wise_similarity(
+            embedding_vectors,
+            return_details=return_details,
+            exclude_punctuation=exclude_punctuation,
+            source_text=source_text
+        )
 
     # Early return if window size is larger than sequence
     if window_size > len(tokens):
@@ -275,7 +280,7 @@ def get_semantic_similarity_windows(embedding_vectors, window_size, return_detai
         return result, window_details or []
     return result
 
-def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclude_punctuation=False):
+def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclude_punctuation=False, source_text=None):
     """
     Calculate semantic similarity grouped by sentences.
     Groups tokens by sentence boundaries (., !, ?) and computes similarity between sentences.
@@ -299,6 +304,96 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
     
     # If no sentence boundaries found, treat entire utterance as one sentence
     if not sentence_boundaries:
+        # Fallback: if punctuation was removed from tokens, infer sentence count from source text
+        # and split embeddings into contiguous sentence chunks.
+        if source_text:
+            sentence_text_candidates = [s.strip() for s in re.split(r'(?<=[.!?])\s+', str(source_text)) if s.strip()]
+            if len(sentence_text_candidates) >= 2:
+                debug_print(
+                    f"[get_sentence_wise_similarity] No token-level sentence boundaries found; "
+                    f"falling back to source_text boundaries ({len(sentence_text_candidates)} sentences)"
+                )
+
+                n_tokens = len(tokens)
+                n_sentences = len(sentence_text_candidates)
+                base_len = n_tokens // n_sentences
+                remainder = n_tokens % n_sentences
+
+                sentences = []
+                start_idx = 0
+                for sentence_idx in range(n_sentences):
+                    sentence_len = base_len + (1 if sentence_idx < remainder else 0)
+                    if sentence_len <= 0:
+                        continue
+                    end_idx = min(start_idx + sentence_len, n_tokens)
+                    if end_idx > start_idx:
+                        sentence_tokens = tokens[start_idx:end_idx]
+                        sentence_vectors = vectors[start_idx:end_idx]
+                        sentences.append(list(zip(sentence_tokens, sentence_vectors)))
+                    start_idx = end_idx
+
+                # Attach any trailing tokens due to rounding to the last sentence
+                if start_idx < n_tokens and sentences:
+                    trailing = list(zip(tokens[start_idx:], vectors[start_idx:]))
+                    sentences[-1].extend(trailing)
+
+                # Filter out empty sentences
+                sentences = [sent for sent in sentences if sent]
+
+                # Need at least 2 sentences for inter-sentence similarity
+                if len(sentences) < 2:
+                    summary = _nan_summary()
+                    return (summary, []) if return_details else summary
+
+                # Optionally remove punctuation within each sentence
+                if exclude_punctuation:
+                    sentences = [filter_punctuation_tokens(sentence) for sentence in sentences]
+                    sentences = [sent for sent in sentences if sent]
+
+                # Calculate sentence-level embeddings (mean of token embeddings in each sentence)
+                sentence_embeddings = []
+                for sentence in sentences:
+                    if not sentence:
+                        continue
+                    sent_vectors = [vector for _, vector in sentence]
+                    if sent_vectors:
+                        mean_embedding = np.mean(sent_vectors, axis=0)
+                        sentence_embeddings.append(mean_embedding)
+
+                # Need at least 2 sentence embeddings
+                if len(sentence_embeddings) < 2:
+                    summary = _nan_summary()
+                    return (summary, []) if return_details else summary
+
+                # Calculate similarity matrix between sentences
+                sentence_sim_matrix = get_cosine_similarity_matrix(
+                    [(f"sentence_{i}", emb) for i, emb in enumerate(sentence_embeddings)]
+                )
+
+                # Calculate statistics (returns 3-tuple: mean, std, median)
+                mean_val, std_val, median_val = calculate_window_statistics(sentence_sim_matrix)
+                summary = (mean_val, np.nan, std_val, np.nan, median_val)
+
+                if not return_details:
+                    return summary
+
+                sentence_texts = [tokens_to_text([token for token, _ in sentence]) for sentence in sentences]
+                detail_rows = []
+                for i in range(len(sentence_embeddings)):
+                    for j in range(i + 1, len(sentence_embeddings)):
+                        similarity_value = sentence_sim_matrix[i, j]
+                        if pd.isna(similarity_value):
+                            continue
+                        detail_rows.append({
+                            'sentence_i_index': i + 1,
+                            'sentence_j_index': j + 1,
+                            'sentence_i_text': sentence_texts[i],
+                            'sentence_j_text': sentence_texts[j],
+                            'similarity': similarity_value
+                        })
+
+                return summary, detail_rows
+
         # If only one token, return NaN
         if len(tokens) < 2:
             debug_print(f"[get_sentence_wise_similarity] WARNING: Not enough tokens ({len(tokens)} < 2) for sentence similarity")

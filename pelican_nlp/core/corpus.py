@@ -432,7 +432,8 @@ class Corpus:
                 if self.task == 'fluency':
                     self.documents[i].fluency_word_count = token_count
                 
-                for utterance in embeddings:
+                for utterance_idx, utterance in enumerate(embeddings):
+                    source_text_for_sentence_similarity = section[utterance_idx] if utterance_idx < len(section) else None
 
                     if self.config['options_embeddings']['semantic-similarity']:
                         from pelican_nlp.extraction.semantic_similarity import calculate_semantic_similarity, \
@@ -508,7 +509,8 @@ class Corpus:
                                 utterance,
                                 'sentence',
                                 return_details=store_sentence_details,
-                                exclude_punctuation=exclude_punctuation_tokens
+                                exclude_punctuation=exclude_punctuation_tokens,
+                                source_text=source_text_for_sentence_similarity
                             )
                             if store_sentence_details:
                                 sentence_stats, sentence_detail_rows = sentence_result
