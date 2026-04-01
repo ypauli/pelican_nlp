@@ -43,28 +43,45 @@ class TextDiarizer:
         if isinstance(speaker_tags, str):
             speaker_tags = [speaker_tags]
 
-        # Keep only non-empty tags and match case-insensitively.
-        # A new speaker block starts only when the token before ":" is one of these tags.
+        # Keep only non-empty configured speaker tags.
+        # These tags are used for filtering which speaker blocks to analyze,
+        # not for detecting where speaker blocks begin/end.
         speaker_tags = [
-            tag.strip() for tag in speaker_tags
+            tag.strip().lower() for tag in speaker_tags
             if isinstance(tag, str) and tag.strip()
         ]
         if not speaker_tags:
             return [text] if text else []
 
-        tag_pattern = "|".join(re.escape(tag) for tag in speaker_tags)
-        speaker_block_pattern = re.compile(
-            rf"^\s*(?P<tag>{tag_pattern})\s*:\s*(?P<content>.*?)(?=^\s*(?:{tag_pattern})\s*:|\Z)",
-            re.IGNORECASE | re.MULTILINE | re.DOTALL
+        # Detect all speaker blocks from any line-starting "tag:" pattern.
+        # Boundaries are determined by the next line-starting "tag:" or end of text.
+        all_tag_block_pattern = re.compile(
+            r"^\s*(?P<tag>\w+)\s*:\s*(?P<content>.*?)(?=^\s*\w+\s*:|\Z)",
+            re.MULTILINE | re.DOTALL
         )
 
-        all_matches = []
-        for match in speaker_block_pattern.finditer(text):
+        found_any_tagged_blocks = False
+        filtered_matches = []
+
+        for match in all_tag_block_pattern.finditer(text):
+            found_any_tagged_blocks = True
+            found_tag = match.group("tag").strip()
+            if found_tag.lower() not in speaker_tags:
+                continue
+
             content = match.group("content").strip()
             if keep_speakertag:
-                # Keep the tag as it appears in the original text.
-                all_matches.append(f"{match.group('tag')}: {content}")
+                filtered_matches.append(f"{found_tag}: {content}")
             else:
-                all_matches.append(content)
+                filtered_matches.append(content)
 
-        return all_matches if all_matches else [text]
+        if filtered_matches:
+            return filtered_matches
+
+        # If text contains speaker-like tags but none match configured tags,
+        # return an empty list so no unintended speaker content is analyzed.
+        if found_any_tagged_blocks:
+            return []
+
+        # Fallback for plain text without any line-starting "tag:" structure.
+        return [text] if text else []
