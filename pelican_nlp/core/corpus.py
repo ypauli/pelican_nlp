@@ -573,12 +573,12 @@ class Corpus:
                     else:
                         cleaned_embeddings = utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
 
-                    # Only store embeddings if they are not empty
-                    if cleaned_embeddings:
-                        store_features_to_csv(cleaned_embeddings,
-                                              self.derivatives_dir,
-                                              self.documents[i],
-                                              metric='embeddings')
+                    # Store embeddings for every utterance/section, including empty ones,
+                    # so CSV section blocks stay aligned with processed sections.
+                    store_features_to_csv(cleaned_embeddings,
+                                          self.derivatives_dir,
+                                          self.documents[i],
+                                          metric='embeddings')
         
         # Clean up embeddings extractor and free GPU memory
         # Note: Avoid moving models to CPU if they're dispatched across devices (can cause segfaults)

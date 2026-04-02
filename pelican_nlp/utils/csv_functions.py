@@ -69,12 +69,20 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
         writer = csv.writer(file, quoting=csv.QUOTE_ALL if detail_metrics else csv.QUOTE_MINIMAL)
         
         if metric == 'embeddings':
-            if not isinstance(input_data, list) or not input_data:
-                raise ValueError("Input data must be a non-empty list of tuples.")
-            
-            # Get the dimensionality from the first embedding
-            embedding_dim = len(input_data[0][1])
-            header = ['Token'] + [f"Dim_{i}" for i in range(embedding_dim)]
+            if input_data is None:
+                input_data = []
+            if not isinstance(input_data, list):
+                raise ValueError("Input data for embeddings must be a list (can be empty).")
+
+            if input_data:
+                # Get the dimensionality from the first embedding
+                embedding_dim = len(input_data[0][1])
+                header = ['Token'] + [f"Dim_{i}" for i in range(embedding_dim)]
+            elif file_exists:
+                header = _get_existing_embeddings_header(output_filepath)
+            else:
+                # Fallback header when first section is empty
+                header = ['Token']
             _write_csv_header(writer, header, file_exists)
             
             for token, embedding in input_data:
@@ -330,3 +338,23 @@ def _write_csv_header(writer, header, file_exists):
         writer.writerow([])  # Separate sections
         writer.writerow(['New Section'])
         writer.writerow(header)
+
+
+def _get_existing_embeddings_header(output_filepath):
+    """Read the latest embeddings header from an existing CSV file."""
+    try:
+        with open(output_filepath, mode='r', newline='', encoding='utf-8') as existing_file:
+            rows = list(csv.reader(existing_file))
+    except Exception:
+        return ['Token']
+
+    # Search from end to start to pick the most recent section header.
+    for row in reversed(rows):
+        if not row:
+            continue
+        if len(row) == 1 and row[0] == 'New Section':
+            continue
+        if row[0] == 'Token':
+            return row
+
+    return ['Token']
