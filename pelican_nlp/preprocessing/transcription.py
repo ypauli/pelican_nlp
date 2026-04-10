@@ -52,6 +52,27 @@ class AudioTranscriber:
         )
         print(f"Initialized AudioTranscriber on device: {self.device}")
 
+    @staticmethod
+    def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
+        """Create fallback word timings when timestamped chunks are unavailable."""
+        words = text.split()
+        if not words:
+            return []
+
+        # Keep a minimal span for very short chunks.
+        duration = max(chunk_duration, 0.2)
+        per_word = duration / len(words)
+        alignments = []
+        for idx, word in enumerate(words):
+            start = chunk_start + (idx * per_word)
+            end = chunk_start + ((idx + 1) * per_word)
+            alignments.append({
+                "word": word,
+                "start_time": start,
+                "end_time": end
+            })
+        return alignments
+
     def transcribe(self, audio_file):
         """
         Transcribe each audio chunk and populate the AudioFile instance.
@@ -72,18 +93,65 @@ class AudioTranscriber:
                 # Extract word alignments
                 raw_chunks = transcription_result.get('chunks', [])
                 clean_chunks = []
+                chunk_duration = len(chunk.audio_segment) / 1000.0
+                prev_end_rel = 0.0
                 for word_info in raw_chunks:
-                    if 'timestamp' in word_info and len(word_info['timestamp']) == 2:
-                        start_time = float(word_info['timestamp'][0]) + chunk.start_time
-                        end_time = float(word_info['timestamp'][1]) + chunk.start_time
-                        word_text = word_info.get('text', "").strip()
-                        if word_text:
-                            clean_chunks.append({
-                                "word": word_text,
-                                "start_time": start_time,
-                                "end_time": end_time
-                            })
+                    word_text = word_info.get('text', "").strip()
+                    timestamp = word_info.get('timestamp')
+                    if not word_text or not isinstance(timestamp, (list, tuple)) or len(timestamp) != 2:
+                        continue
+
+                    raw_start, raw_end = timestamp
+                    if raw_start is None and raw_end is None:
+                        continue
+
+                    # Whisper can occasionally return one-sided timestamps; recover instead of failing chunk.
+                    if raw_start is None:
+                        raw_start = prev_end_rel
+                    if raw_end is None:
+                        raw_end = min(raw_start + 0.25, chunk_duration)
+
+                    try:
+                        start_rel = max(0.0, float(raw_start))
+                        end_rel = max(start_rel + 1e-3, float(raw_end))
+                    except (TypeError, ValueError):
+                        continue
+
+                    start_rel = min(start_rel, chunk_duration)
+                    end_rel = min(end_rel, chunk_duration)
+                    if end_rel <= start_rel:
+                        end_rel = min(start_rel + 1e-3, chunk_duration)
+                        if end_rel <= start_rel:
+                            continue
+
+                    start_time = chunk.start_time + start_rel
+                    end_time = chunk.start_time + end_rel
+                    clean_chunks.append({
+                        "word": word_text,
+                        "start_time": start_time,
+                        "end_time": end_time
+                    })
+                    prev_end_rel = end_rel
+
+                # Fallback: reconstruct transcript from word chunks when top-level text is empty.
+                if not chunk.transcript and raw_chunks:
+                    reconstructed_words = [
+                        word_info.get('text', "").strip()
+                        for word_info in raw_chunks
+                        if word_info.get('text', "").strip()
+                    ]
+                    if reconstructed_words:
+                        chunk.transcript = " ".join(reconstructed_words).strip()
+
+                if not clean_chunks and chunk.transcript:
+                    clean_chunks = self._infer_uniform_word_timings(
+                        text=chunk.transcript,
+                        chunk_start=chunk.start_time,
+                        chunk_duration=chunk_duration
+                    )
                 chunk.whisper_alignments = clean_chunks
+                if not chunk.transcript:
+                    print(f"Warning: Transcription result for chunk {idx} was empty.")
                 print(f"Transcribed chunk {idx} with {len(clean_chunks)} words.")
             except Exception as e:
                 print(f"Error during transcription of chunk {idx}: {e}")
@@ -144,6 +212,10 @@ class ForcedAligner:
         print("Starting forced alignment of transcripts...")
         for idx, chunk in enumerate(audio_file.chunks, start=1):
             try:
+                if not chunk.transcript or not chunk.transcript.strip():
+                    print(f"Skipping alignment for chunk {idx}: empty transcript.")
+                    continue
+
                 with io.BytesIO() as wav_io:
                     chunk.audio_segment.export(wav_io, format="wav")
                     wav_io.seek(0)
@@ -159,7 +231,13 @@ class ForcedAligner:
                 text_roman = self.uroman.romanize_string(chunk.transcript)
                 text_normalized = self.normalize_uroman(text_roman)
                 transcript_list = text_normalized.split()
+                if not transcript_list:
+                    print(f"Skipping alignment for chunk {idx}: transcript has no alignable words.")
+                    continue
                 tokens = self.tokenizer(transcript_list)
+                if not tokens:
+                    print(f"Skipping alignment for chunk {idx}: tokenizer returned no tokens.")
+                    continue
 
                 # Perform forced alignment
                 with torch.inference_mode():
@@ -403,6 +481,12 @@ def process_single_audio_file(audio_file,
     for idx, chunk in enumerate(audio_file.chunks, start=1):
         print(f"Chunk {idx} Transcript: {chunk.transcript}\n")
 
+    non_empty_chunks = sum(1 for chunk in audio_file.chunks if chunk.transcript and chunk.transcript.strip())
+    if non_empty_chunks == 0:
+        raise RuntimeError(
+            "No chunks produced any transcript text. Check model availability, audio content, and language compatibility."
+        )
+
     # Step 5: Perform forced alignment
     print("Step 5/7: Performing forced alignment...")
     aligner.align(audio_file)        
@@ -428,6 +512,9 @@ def process_single_audio_file(audio_file,
 
     # Step 7: Combine alignment and diarization data
     print("Step 7/7: Combining alignment and diarization data...")
+    if timestamp_source == "forced_alignments" and not audio_file.forced_alignments and audio_file.whisper_alignments:
+        print("Forced alignments are empty; falling back to whisper_alignments for combination.")
+        timestamp_source = "whisper_alignments"
     audio_file.combine_alignment_and_diarization(timestamp_source)
     audio_file.aggregate_to_utterances()
 

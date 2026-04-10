@@ -35,10 +35,11 @@ from pelican_nlp.config import debug_print, RUN_TESTS
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_trajectoryOptmisation/config_cogmap.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_perplexity/config_perplexity.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2Perplexity/config_velasPerplexity.yml'
-project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2/config_velasEmbeddings.yml'
+#project_path = '/home/yvespauli/PELICAN-nlp/examples/example_velas2/config_velasEmbeddings.yml'
 #project_path = '/home/yvespauli/PELICAN-nlp/examples/example_image-descriptions/config_image-descriptions.yml'
 #project_path = '/home/yvespauli/PycharmProjects/Transcription_Finn/config_transcription.yml'
 #project_path = '/home/yvespauli/PycharmProjects/SaS/config_cogmap.yml'
+project_path = '/home/yvespauli/PELICAN-nlp/examples/example_taskdesign/config_transcription.yml'
 
 class Pelican:
 
