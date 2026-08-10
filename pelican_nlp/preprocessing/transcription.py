@@ -418,21 +418,9 @@ def process_single_audio_file(audio_file,
                               silence_thresh: int = -30,
                               min_length: int = 90000,
                               max_length: int = 150000,
-                              timestamp_source: str = "whisper_alignments"):
-    """
-    Process a single audio file through the entire transcription pipeline.
-    
-    :param audio_file: AudioFile instance to process.
-    :param hf_token: Hugging Face token for accessing diarization models.
-    :param diarizer_params: Parameters for the SpeakerDiarizer model.
-    :param num_speakers: Expected number of speakers.
-    :param min_silence_len: Minimum silence length for splitting (ms).
-    :param silence_thresh: Silence threshold in dBFS for splitting.
-    :param min_length: Minimum chunk length in ms.
-    :param max_length: Maximum chunk length in ms.
-    :param timestamp_source: Alignment source to use ('whisper_alignments' or 'forced_alignments').
-    :return: The processed AudioFile instance.
-    """
+                              timestamp_source: str = "whisper_alignments",
+                              transcription_model: str = None):
+
     # Set default diarizer parameters if not provided
     if diarizer_params is None:
         diarizer_params = {
@@ -451,7 +439,11 @@ def process_single_audio_file(audio_file,
 
     # Initialize processing classes
     print("Initializing processing classes...")
-    transcriber = AudioTranscriber()
+    if transcription_model:
+        print(f"Using custom transcription model: {transcription_model}")
+        transcriber = AudioTranscriber(model=transcription_model)
+    else:
+        transcriber = AudioTranscriber()
     aligner = ForcedAligner()
     diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
     print("Processing classes initialized successfully.")

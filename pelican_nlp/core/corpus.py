@@ -1081,6 +1081,9 @@ class Corpus:
         min_length = transcription_config.get('min_length', 90000)
         max_length = transcription_config.get('max_length', 150000)
         timestamp_source = transcription_config.get('timestamp_source', 'whisper_alignments')
+        transcription_model = transcription_config.get('transcription_model', None)
+        if isinstance(transcription_model, str):
+            transcription_model = transcription_model.strip() or None
         
         # Get diarization parameters from config
         diarizer_params = transcription_config.get('diarizer_params', {
@@ -1100,6 +1103,10 @@ class Corpus:
         print(f"  - Silence threshold: {silence_thresh}dBFS")
         print(f"  - Chunk length range: {min_length}-{max_length}ms")
         print(f"  - Timestamp source: {timestamp_source}")
+        if transcription_model:
+            print(f"  - Transcription model: {transcription_model}")
+        else:
+            print("  - Transcription model: default")
         
         # Create normalized audio subdirectory in derivatives
         normalized_audio_dir = os.path.join(self.derivatives_dir, 'normalized-audio')
@@ -1154,7 +1161,8 @@ class Corpus:
                         silence_thresh=silence_thresh,
                         min_length=min_length,
                         max_length=max_length,
-                        timestamp_source=timestamp_source
+                        timestamp_source=timestamp_source,
+                        transcription_model=transcription_model
                     )
                     
                     # Save transcription results to JSON file

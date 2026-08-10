@@ -1,0 +1,52 @@
+# Master Configuration File
+# ========================
+
+# Basic Settings
+# -------------
+input_file: "audio"  # Options: 'text' or 'audio'
+language: ""
+
+# Task Configuration
+# -----------------
+task_name: null  # Name of task used for creation of data
+fluency_task: &fluency_flag false  # Flag for fluency-specific settings
+discourse: &discourse_flag true  # Flag for discourse-specific settings
+
+# Corpus Configuration
+# ------------------
+corpus_key: null # Entity key to group files for analysis
+corpus_values:  # Corresponding entity values found in dataset
+  - "" # corpus name (e.g. "recording")
+
+# Session and participant Settings
+# --------------------------
+multiple_sessions: false
+number_of_participants: null  # If null, auto-detected
+number_of_speakers: null # Specify amount of speakers for discourse files
+participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only for discourse
+
+# Transcription Configuration
+# -------------------------
+transcription:
+  transcription_model: null #default: openai/whisper-medium
+  hf_token: ""  # Leave empty to skip speaker diarization, or add your Hugging Face token
+  num_speakers: 1  # Expected number of speakers
+  min_silence_len: 500  # Minimum silence length for splitting (ms)
+  silence_thresh: -30  # Silence threshold in dBFS
+  min_length: 90000  # Minimum chunk length (ms)
+  max_length: 120000  # Maximum chunk length (ms)
+  timestamp_source: "whisper_alignments"  # Options: 'whisper_alignments' or 'forced_alignments'
+
+#Acoustic Features Options
+#-----------------------
+
+opensmile_feature_extraction: false
+prosogram_extraction: false
+
+opensmile_configurations:
+  always_2d: true
+  duration: null
+  offset: null
+
+  feature_set: opensmile.FeatureSet.eGeMAPSv02
+  feature_level: opensmile.FeatureLevel.Functionals
