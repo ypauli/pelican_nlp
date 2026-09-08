@@ -27,7 +27,6 @@ class TextImporter:
         import docx2txt
         doc = docx2txt.process(file_path)
         return doc
-        #return '\n'.join([para.text for para in doc.paragraphs])
 
     def _load_rtf(self, file_path):
         """Read RTF file and convert its content to plain text."""

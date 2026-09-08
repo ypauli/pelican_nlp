@@ -1,0 +1,129 @@
+{
+    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
+    "metadata": {
+        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
+        "length_seconds": 2.472,
+        "sample_rate": 44100,
+        "target_rms_db": -20,
+        "models_used": {
+            "Chunking": {
+                "min_silence_len": 500,
+                "silence_thresh": -30,
+                "min_length": 90000,
+                "max_length": 120000,
+                "num_chunks": 1
+            },
+            "Transcription": {
+                "model": "openai/whisper-medium",
+                "device": "cuda"
+            },
+            "Forced Alignment": {
+                "model": "torchaudio.pipelines.MMS_FA",
+                "device": "cuda"
+            },
+            "Speaker Diarization": {
+                "model": "none",
+                "device": "none",
+                "parameters": {},
+                "speakers": "skipped (single speaker)"
+            }
+        }
+    },
+    "transcript_text": "They turned the nutshells into",
+    "whisper_alignments": [
+        {
+            "word": "They",
+            "start_time": 0.0,
+            "end_time": 0.58
+        },
+        {
+            "word": "turned",
+            "start_time": 0.58,
+            "end_time": 0.9
+        },
+        {
+            "word": "the",
+            "start_time": 0.9,
+            "end_time": 1.14
+        },
+        {
+            "word": "nutshells",
+            "start_time": 1.14,
+            "end_time": 1.8
+        },
+        {
+            "word": "into",
+            "start_time": 1.8,
+            "end_time": 2.05
+        }
+    ],
+    "forced_alignments": [
+        {
+            "word": "they",
+            "start_time": 0.3215609756097561,
+            "end_time": 0.4622439024390244
+        },
+        {
+            "word": "turned",
+            "start_time": 0.5426341463414635,
+            "end_time": 0.8641951219512196
+        },
+        {
+            "word": "the",
+            "start_time": 0.8842926829268293,
+            "end_time": 0.9646829268292684
+        },
+        {
+            "word": "nutshells",
+            "start_time": 1.0249756097560976,
+            "end_time": 1.6078048780487804
+        },
+        {
+            "word": "into",
+            "start_time": 1.6680975609756097,
+            "end_time": 1.9494634146341463
+        }
+    ],
+    "combined_data": [
+        {
+            "word": "They",
+            "start_time": 0.0,
+            "end_time": 0.58,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "turned",
+            "start_time": 0.58,
+            "end_time": 0.9,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "the",
+            "start_time": 0.9,
+            "end_time": 1.14,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "nutshells",
+            "start_time": 1.14,
+            "end_time": 1.8,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "into",
+            "start_time": 1.8,
+            "end_time": 2.05,
+            "speaker": "SPEAKER_0"
+        }
+    ],
+    "utterance_data": [
+        {
+            "text": "They turned the nutshells into",
+            "start_time": 0.0,
+            "end_time": 2.05,
+            "speaker": "SPEAKER_0",
+            "confidence": 1.0
+        }
+    ],
+    "speaker_segments": []
+}

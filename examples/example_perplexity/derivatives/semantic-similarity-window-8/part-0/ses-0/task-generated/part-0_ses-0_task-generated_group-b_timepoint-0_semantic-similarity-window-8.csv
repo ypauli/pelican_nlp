@@ -1,0 +1,30 @@
+Metric,Similarity_Score
+mean_of_window_means,0.2804900199420708
+std_of_window_means,0.07332116942657135
+mean_of_window_stds,0.1687087269472108
+std_of_window_stds,0.021730590320658414
+mean_of_window_medians,0.25611700372273627
+
+New Section
+Metric,Similarity_Score
+mean_of_window_means,0.31572073921530674
+std_of_window_means,0.040716959299773134
+mean_of_window_stds,0.1477614051336952
+std_of_window_stds,0.0221699149213362
+mean_of_window_medians,0.29769397224138344
+
+New Section
+Metric,Similarity_Score
+mean_of_window_means,0.22428577978400416
+std_of_window_means,0.05044149662762725
+mean_of_window_stds,0.15135011127097628
+std_of_window_stds,0.025398612481531597
+mean_of_window_medians,0.19747535809815087
+
+New Section
+Metric,Similarity_Score
+mean_of_window_means,0.24248520630307638
+std_of_window_means,0.05090758268652853
+mean_of_window_stds,0.1435143956661975
+std_of_window_stds,0.05561684070609743
+mean_of_window_medians,0.21779621233392726

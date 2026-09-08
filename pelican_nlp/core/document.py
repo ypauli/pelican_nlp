@@ -7,7 +7,6 @@ import os
 
 from pelican_nlp.config import debug_print
 from pelican_nlp.preprocessing import TextImporter, SectionIdentificator
-from collections import defaultdict
 
 class Document:
 
@@ -25,6 +24,8 @@ class Document:
         
         # Initialize optional attributes
         self.participant_ID = kwargs.get('participant_ID')
+        self.source_folder = kwargs.get('source_folder')
+        self.unit_kind = kwargs.get('unit_kind')
         self.task = kwargs.get('task')
         self.num_speakers = kwargs.get('num_speakers')
         self.has_sections = kwargs.get('has_sections', False)
@@ -32,8 +33,6 @@ class Document:
         self.section_identifier = kwargs.get('section_identifier')
         self.number_of_sections = kwargs.get('number_of_sections')
         self.lines = kwargs.get('lines', [])
-        self.new_parameter = kwargs.get('new_parameter')
-        self.another_metric = kwargs.get('another_metric')
         self.origin = kwargs.get('origin')  # Reference to original AudioFile if created from transcription
         
         # Derived attributes
@@ -94,50 +93,6 @@ class Document:
     def __repr__(self):
         return f"file_name={self.name}"
 
-    def add_line(self, line):
-        self.lines.append(line)
-        self.length_in_lines = len(self.lines)
-        self.length_in_words += line.length_in_words
-        if not self.has_segments:
-            self.segments.append("default")
-
-    def compile_texts_and_tags(self):
-        self.words, self.word_tags, self.word_segments = [], [], []
-        for line, segment in zip(self.lines, self.segments):
-            line_words = line.text.split()
-            tag = "i" if line.speaker.lower() == "investigator" else "s"
-
-            self.word_segments.extend([segment] * len(line_words))
-            self.words.extend(line_words)
-            self.word_tags.extend([tag] * len(line_words))
-
-    def segment_task(self, protocol, cutoff=1):
-        """Segment task using the section identificator."""
-        if not self.has_segments:
-            return self.segments
-
-        # Use section identificator for segment identification
-        sections = self.section_identificator._identify_segments(self.lines, protocol, cutoff)
-        
-        # Convert sections back to segment names for compatibility
-        segment_names = ["default"] * len(self.lines)
-        for segment, line_list in sections.items():
-            for line in line_list:
-                if line in self.lines:
-                    line_index = self.lines.index(line)
-                    segment_names[line_index] = segment
-        
-        self.segments = segment_names
-        self.sections = sections
-        return segment_names
-
-    def _create_sections(self, segment_names):
-        """Create sections from segment names (legacy method for compatibility)."""
-        sections = defaultdict(list)
-        for line, segment in zip(self.lines, segment_names):
-            sections[segment].append(line)
-        return sections
-
     def detect_sections(self):
         """Detect sections using the section identificator."""
         print(f'detecting sections...')
@@ -163,14 +118,7 @@ class Document:
 
         self.cleaned_sections = self.sections.copy()
         for title, content in self.sections.items():
-            if self.fluency:
-                self.cleaned_sections[title] = (
-                    cleaner.clean_fluency_transcripts(self, content)
-                )
-            else:
-                self.cleaned_sections[title] = (
-                    cleaner.clean(self, content)
-                )
+            self.cleaned_sections[title] = cleaner.clean(self, content)
 
     def tokenize_text(self, tokenizer, purpose):
         print("tokenizing text")
@@ -179,7 +127,7 @@ class Document:
             raise ValueError("Text must be cleaned before tokenizing.")
 
         for _, content in self.cleaned_sections.items():
-            tokens = tokenizer.tokenize(content)
+            tokens = tokenizer.tokenize_text(content)
             if purpose == "logits":
                 self.tokens_logits.append(tokens)
             elif purpose == "embeddings":
@@ -203,40 +151,3 @@ class Document:
             "num_speakers": self.num_speakers,
             "has_sections": self.has_sections,
         }
-
-    @classmethod
-    def from_transcription_file(cls, transcription_text_file, origin_audio_file, config):
-        """
-        Create a Document instance from a transcription text file.
-        
-        Args:
-            transcription_text_file: Path to the transcription text file (.txt)
-            origin_audio_file: AudioFile instance that this transcription came from
-            config: Configuration dictionary with section settings
-            
-        Returns:
-            Document instance created from the transcription file
-        """
-        import os
-        from pathlib import Path
-        
-        # Extract file path and name
-        transcription_path = Path(transcription_text_file)
-        file_path = str(transcription_path.parent)
-        name = transcription_path.name
-        
-        # Create Document with same attributes as original audio file
-        document = cls(
-            file_path=file_path,
-            name=name,
-            participant_ID=origin_audio_file.participant_ID,
-            task=origin_audio_file.task,
-            num_speakers=origin_audio_file.num_speakers,
-            has_sections=config.get('has_multiple_sections', False),
-            section_identifier=config.get('section_identification'),
-            number_of_sections=config.get('number_of_sections'),
-            has_section_titles=config.get('has_section_titles', False),
-            origin=origin_audio_file  # Link to original audio file
-        )
-        
-        return document

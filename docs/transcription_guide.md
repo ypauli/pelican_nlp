@@ -1,181 +1,38 @@
-# Audio Transcription Guide
+# Transcription
 
-This guide explains how to use the audio transcription functionality in PELICAN-nlp.
+Store data according to LPDS (Language Processing Data Structure) guidelines, described in the PELICAN paper: https://doi.org/10.48550/arXiv.2511.15512
 
-## Overview
-
-The transcription functionality allows you to transcribe audio files using the Whisper model, perform speaker diarization, and save the results in a structured format. The transcribed audio files are saved in the `derivatives/transcription/` subdirectory.
-
-## Features
-
-- **Audio Transcription**: Uses OpenAI's Whisper model for accurate speech-to-text conversion
-- **Speaker Diarization**: Identifies and separates different speakers in the audio
-- **Forced Alignment**: Provides word-level timestamps for precise alignment
-- **Chunking**: Automatically splits long audio files into manageable chunks
-- **JSON Output**: Saves all results in a structured JSON format
-
-## Configuration
-
-### Basic Configuration
-
-Add the following section to your configuration file:
-
-```yaml
-# Transcription Configuration
-transcription:
-  hf_token: "your_hugging_face_token_here"  # Required for speaker diarization
-  num_speakers: 2  # Expected number of speakers
-  min_silence_len: 1000  # Minimum silence length for splitting (ms)
-  silence_thresh: -30  # Silence threshold in dBFS
-  min_length: 90000  # Minimum chunk length (ms)
-  max_length: 150000  # Maximum chunk length (ms)
-  timestamp_source: "whisper_alignments"  # Options: 'whisper_alignments' or 'forced_alignments'
-```
-
-### Required Settings
-
-- `hf_token`: Your Hugging Face token (required for speaker diarization models)
-- `num_speakers`: Expected number of speakers in the audio
-
-### Optional Settings
-
-- `min_silence_len`: Minimum length of silence to split audio (default: 1000ms)
-- `silence_thresh`: Silence threshold in dBFS (default: -30)
-- `min_length`: Minimum chunk length (default: 90000ms)
-- `max_length`: Maximum chunk length (default: 150000ms)
-- `timestamp_source`: Which alignment to use (default: "whisper_alignments")
-
-## Usage
-
-### Basic Usage
-
-```python
-from pelican_nlp.core.corpus import Corpus
-from pelican_nlp.core.audio_document import AudioFile
-from pelican_nlp.config import load_config
-
-# Load configuration
-config = load_config("config_cogmap.yml")
-
-# Create audio document
-audio_doc = AudioFile(
-    file_path="/path/to/audio",
-    name="audio_file.wav",
-    participant_ID="part-01",
-    task="interview",
-    num_speakers=2
-)
-
-# Create corpus
-corpus = Corpus(
-    corpus_name="example-transcription",
-    documents=[audio_doc],
-    configuration_settings=config,
-    project_folder=project_folder
-)
-
-# Transcribe audio
-corpus.transcribe_audio()
-```
-
-### Loading Transcription Results
-
-```python
-# Load transcription results
-if audio_doc.transcription_file:
-    audio_doc.load_transcription()
-    print(f"Transcription: {audio_doc.transcript_text}")
-    print(f"Speaker segments: {len(audio_doc.speaker_segments)}")
-    print(f"Word alignments: {len(audio_doc.whisper_alignments)}")
-```
-
-## Output Structure
-
-The transcription results are saved as JSON files in `derivatives/transcription/` with the following structure:
-
-```json
-{
-  "audio_file_path": "path/to/audio.wav",
-  "metadata": {
-    "file_path": "path/to/audio.wav",
-    "length_seconds": 120.5,
-    "sample_rate": 16000,
-    "models_used": {
-      "Chunking": {...},
-      "Transcription": {...},
-      "Forced Alignment": {...},
-      "Speaker Diarization": {...}
-    }
-  },
-  "transcript_text": "Full transcript text...",
-  "whisper_alignments": [
-    {
-      "word": "Hello",
-      "start_time": 0.0,
-      "end_time": 0.5
-    }
-  ],
-  "forced_alignments": [...],
-  "combined_data": [
-    {
-      "word": "Hello",
-      "start_time": 0.0,
-      "end_time": 0.5,
-      "speaker": "SPEAKER_00"
-    }
-  ],
-  "utterance_data": [
-    {
-      "text": "Hello world",
-      "start_time": 0.0,
-      "end_time": 1.0,
-      "speaker": "SPEAKER_00",
-      "confidence": 0.95
-    }
-  ],
-  "speaker_segments": [
-    {
-      "start": 0.0,
-      "end": 60.0,
-      "speaker": "SPEAKER_00"
-    }
-  ]
-}
-```
-
-## Dependencies
-
-The transcription functionality requires the following additional dependencies:
-
-- `torch` and `torchaudio`
-- `transformers`
-- `pyannote.audio`
-- `librosa`
-- `soundfile`
-- `pydub`
-- `uroman`
-
-Install them with:
+Copy `examples/example_transcription` and use `config_transcription.yml` in that folder as the template. Put your `.wav` files under `participants/` with LPDS names, then from that folder:
 
 ```bash
-pip install torch torchaudio transformers pyannote.audio librosa soundfile pydub uroman
+pelican-run
 ```
 
-## Troubleshooting
+`input_file: "audio"` plus a `transcription:` block (a mapping, not `true`) turns transcription on. Output goes to `derivatives/transcription/` (`*_transcript.txt` and `*_allOutputs.json`).
 
-### Common Issues
+Install extra: `pelican_nlp[transcription]` (and `pelican_nlp[acoustic]` if you enable openSMILE or Prosogram). The default `pip install pelican_nlp` still includes these libraries.
 
-1. **Hugging Face Token**: Make sure you have a valid Hugging Face token for speaker diarization
-2. **Audio Format**: Ensure your audio files are in a supported format (WAV, MP3, etc.)
-3. **Memory**: Large audio files may require significant memory for processing
-4. **CUDA**: For faster processing, ensure CUDA is available for GPU acceleration
+Keys already commented in the example YAML are not repeated here.
 
-### Error Messages
+## `transcription:` options that are not obvious
 
-- `No transcription file found`: The transcription process failed or the file wasn't created
-- `Error during transcription`: Check the audio file format and your Hugging Face token
-- `Chunk length validation failed`: The audio chunking process encountered an issue
+**`hf_token`**  
+Leave empty to skip speaker diarization. Set a Hugging Face token only if you need pyannote diarization (accept the model terms on the Hub first).
 
-## Example Configuration File
+**`num_speakers`**  
+Expected speaker count for diarization. Diarization runs only when this is greater than 1 **and** `hf_token` is set. Top-level `number_of_speakers` is used only if `num_speakers` is omitted.
 
-See `pelican_nlp/sample_configuration_files/config_transcription.yml` for a complete example configuration file.
+**`transcription_model`**  
+`null` loads `openai/whisper-medium`. Any other value is a Hugging Face ASR model id.
+
+**Chunking (`min_silence_len`, `silence_thresh`, `min_length`, `max_length`)**  
+Long recordings are split on silence so Whisper fits in memory. Units are milliseconds (`silence_thresh` is dBFS). If a run is killed for RAM, lower `max_length` and/or `min_silence_len` (the example already uses 500 ms / 120 s).
+
+**`timestamp_source`**  
+`whisper_alignments` uses Whisper word times. `forced_alignments` uses the MMS forced aligner; if that is empty, Pelican falls back to Whisper times.
+
+See also [text_processing_guide.md](text_processing_guide.md) for transcripts that are already text, and [overview.md](overview.md) for what the pipeline includes.
+
+## Citation
+
+Pauli Y, Marsman J-B, Rabe F, et al. Standardising the NLP Workflow: A Framework for Reproducible Linguistic Analysis. arXiv preprint arXiv:2511.15512 [cs.CL] 2025. https://doi.org/10.48550/arXiv.2511.15512

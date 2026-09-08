@@ -168,10 +168,6 @@ def remove_punctuation(text):
 def _remove_special_characters(text, characters_to_remove):
     return text.translate(str.maketrans('', '', characters_to_remove))
 
-def remove_speaker_tags(text, speaker_tags):
-    pattern = re.compile(r'^(?:' + '|'.join(re.escape(tag) for tag in speaker_tags) + r'):\s*', re.MULTILINE)
-    return re.sub(pattern, '', text)
-
 def clean_subword_token_RoBERTa(token):
     """Clean RoBERTa subword tokens.
     

@@ -20,6 +20,8 @@ from transformers import pipeline
 from pyannote.audio import Pipeline as DiarizationPipeline
 import uroman as ur
 
+from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs
+
 # Suppress FutureWarning from transformers about 'inputs' vs 'input_features'
 # This is a deprecation warning from the transformers library that will be fixed in a future version
 warnings.filterwarnings("ignore", category=FutureWarning, message=".*input name `inputs` is deprecated.*")
@@ -34,21 +36,17 @@ class AudioTranscriber:
         
         :param model: Whisper model to use for transcription.
         """
-        # Determine device
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        elif torch.backends.mps.is_available():
-            self.device = torch.device("mps")
-        else:
-            self.device = torch.device("cpu")
-        
+        from pelican_nlp.utils.gpu_budget import runtime_torch_device
+
+        self.device = runtime_torch_device(min_free_gb=2.0, allow_mps=True)
         self.model = model
         # Initialize the Whisper pipeline
         self.transcriber = pipeline(
             "automatic-speech-recognition",
             model=model,
             device=self.device,
-            return_timestamps="word"
+            return_timestamps="word",
+            model_kwargs=huggingface_from_pretrained_kwargs(),
         )
         print(f"Initialized AudioTranscriber on device: {self.device}")
 
@@ -173,11 +171,9 @@ class ForcedAligner:
         
         :param device: Device to use for alignment (auto-detected if None).
         """
-        # Determine device
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        else:
-            self.device = torch.device("cpu")
+        from pelican_nlp.utils.gpu_budget import runtime_torch_device
+
+        self.device = runtime_torch_device(min_free_gb=2.0, allow_mps=False)
 
         # Initialize forced aligner components
         self.bundle = torchaudio.pipelines.MMS_FA
@@ -276,12 +272,9 @@ class SpeakerDiarizer:
         :param parameters: Parameters for the diarization pipeline.
         :param model: Diarization model to use.
         """
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        elif torch.backends.mps.is_available():
-            self.device = torch.device("mps")
-        else:
-            self.device = torch.device("cpu")
+        from pelican_nlp.utils.gpu_budget import runtime_torch_device
+
+        self.device = runtime_torch_device(min_free_gb=2.0, allow_mps=True)
 
         self.model = model
         self.parameters = parameters
@@ -307,22 +300,27 @@ class SpeakerDiarizer:
             os.environ['HUGGING_FACE_HUB_TOKEN'] = hf_token
             
             # Try different ways to pass the token based on pyannote.audio version
+            hub_kwargs = huggingface_from_pretrained_kwargs()
             try:
                 # Method 1: Try use_auth_token (older pyannote.audio versions)
                 self.diarization_pipeline = DiarizationPipeline.from_pretrained(
                     model,
-                    use_auth_token=hf_token
+                    use_auth_token=hf_token,
+                    **hub_kwargs,
                 )
             except (TypeError, ValueError) as e1:
                 try:
                     # Method 2: Try without explicit token (uses environment variable)
-                    self.diarization_pipeline = DiarizationPipeline.from_pretrained(model)
+                    self.diarization_pipeline = DiarizationPipeline.from_pretrained(
+                        model, **hub_kwargs
+                    )
                 except Exception as e2:
                     # Method 3: Try with token parameter (newer versions)
                     try:
                         self.diarization_pipeline = DiarizationPipeline.from_pretrained(
                             model,
-                            token=hf_token
+                            token=hf_token,
+                            **hub_kwargs,
                         )
                     except Exception as e3:
                         raise Exception(f"Failed to initialize pipeline. Tried use_auth_token (error: {e1}), "
@@ -419,7 +417,11 @@ def process_single_audio_file(audio_file,
                               min_length: int = 90000,
                               max_length: int = 150000,
                               timestamp_source: str = "whisper_alignments",
-                              transcription_model: str = None):
+                              transcription_model: str = None,
+                              transcriber=None,
+                              aligner=None,
+                              diarizer=None,
+                              release_models: bool = True):
 
     # Set default diarizer parameters if not provided
     if diarizer_params is None:
@@ -437,16 +439,23 @@ def process_single_audio_file(audio_file,
     print(f"Processing audio file: {audio_file.file}")
     print(f"Audio file exists: {os.path.exists(audio_file.file)}")
 
-    # Initialize processing classes
-    print("Initializing processing classes...")
-    if transcription_model:
-        print(f"Using custom transcription model: {transcription_model}")
-        transcriber = AudioTranscriber(model=transcription_model)
-    else:
-        transcriber = AudioTranscriber()
-    aligner = ForcedAligner()
-    diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
-    print("Processing classes initialized successfully.")
+    created_transcriber = transcriber is None
+    created_aligner = aligner is None
+    created_diarizer = diarizer is None
+    if created_transcriber or created_aligner or created_diarizer:
+        print("Initializing processing classes...")
+    if created_transcriber:
+        if transcription_model:
+            print(f"Using custom transcription model: {transcription_model}")
+            transcriber = AudioTranscriber(model=transcription_model)
+        else:
+            transcriber = AudioTranscriber()
+    if created_aligner:
+        aligner = ForcedAligner()
+    if created_diarizer:
+        diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
+    if created_transcriber or created_aligner or created_diarizer:
+        print("Processing classes initialized successfully.")
 
     # Step 1: Load audio
     print("Step 1/7: Loading audio...")
@@ -511,14 +520,21 @@ def process_single_audio_file(audio_file,
     audio_file.aggregate_to_utterances()
 
     print(f"Finished processing: {audio_file.file}")
-    
-    # Clean up models and free GPU memory
-    # Note: We avoid moving complex pipeline objects to CPU as this can cause segfaults
-    # Instead, we just delete references and clear the cache
-    
-    # Delete transcriber (Whisper pipeline)
+
+    if release_models:
+        release_transcription_models(
+            transcriber if created_transcriber else None,
+            aligner if created_aligner else None,
+            diarizer if created_diarizer else None,
+        )
+
+    return audio_file
+
+
+def release_transcription_models(transcriber=None, aligner=None, diarizer=None):
+    """Drop transcription model references and clear GPU cache."""
     try:
-        if hasattr(transcriber, 'transcriber'):
+        if transcriber is not None and hasattr(transcriber, "transcriber"):
             del transcriber.transcriber
     except Exception:
         pass
@@ -526,10 +542,8 @@ def process_single_audio_file(audio_file,
         del transcriber
     except Exception:
         pass
-    
-    # Delete aligner model
     try:
-        if hasattr(aligner, 'model'):
+        if aligner is not None and hasattr(aligner, "model"):
             del aligner.model
     except Exception:
         pass
@@ -537,10 +551,8 @@ def process_single_audio_file(audio_file,
         del aligner
     except Exception:
         pass
-    
-    # Delete diarizer pipeline
     try:
-        if hasattr(diarizer, 'diarization_pipeline'):
+        if diarizer is not None and hasattr(diarizer, "diarization_pipeline"):
             del diarizer.diarization_pipeline
     except Exception:
         pass
@@ -548,15 +560,9 @@ def process_single_audio_file(audio_file,
         del diarizer
     except Exception:
         pass
-    
-    # Clear GPU cache after transcription
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-        torch.cuda.synchronize()  # Ensure cache clearing is complete
+        torch.cuda.synchronize()
         print("GPU memory cleared after transcription")
-    
-    # Force Python garbage collection to help release memory
     import gc
     gc.collect()
-    
-    return audio_file

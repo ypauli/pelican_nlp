@@ -173,32 +173,4 @@ class SectionIdentificator:
                 if not content.strip():  # Empty or whitespace-only string
                     return False
         
-        return True
-    
-    def get_section_info(self, sections):
-        """Get information about the identified sections.
-        
-        Args:
-            sections: Dictionary of identified sections
-            
-        Returns:
-            dict: Information about the sections
-        """
-        if not sections:
-            return {"error": "No sections found"}
-        
-        info = {
-            "number_of_sections": len(sections),
-            "section_titles": list(sections.keys()),
-            "has_content": True
-        }
-        
-        # Check content for each section
-        for title, content in sections.items():
-            if isinstance(content, list):
-                info[f"{title}_line_count"] = len(content)
-                info[f"{title}_word_count"] = sum(len(line.text.split()) for line in content) if content else 0
-            elif isinstance(content, str):
-                info[f"{title}_word_count"] = len(content.split())
-        
-        return info 
+        return True 

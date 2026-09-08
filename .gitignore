@@ -1,0 +1,35 @@
+removed_config_options.md
+
+pelican_nlp/testing/_bundled/
+
+examples_private
+
+pelican_nlp/cc.de.300.bin
+cc.de.300.bin
+cc.de.300.bin.gz
+utils/sample_usage.py
+Silvia_files/
+Nils_backup/
+configuration_files/
+praat/
+simu/
+
+# Ignore build and distribution directories
+build/
+dist/
+*.egg-info/
+
+# Ignore compiled Python files
+__pycache__/
+*.py[cod]
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.swp
+.DS_Store

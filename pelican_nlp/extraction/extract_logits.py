@@ -1,23 +1,30 @@
+import sys
+
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 
 from pelican_nlp.config import debug_print
+from pelican_nlp.extraction.token_artifacts import (
+    DEFAULT_TRAILING_ARTIFACT_SEQUENCES,
+    strip_trailing_artifact_items,
+)
+from pelican_nlp.extraction.sectioning import iter_section_groups
+from pelican_nlp.extraction.resources import release_gpu
+from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
+from pelican_nlp.utils.csv_functions import store_features_to_csv
 
 class LogitsExtractor:
-    def __init__(self, options, pipeline, project_path):
+    def __init__(self, options):
 
-        self.device = 'cuda' if torch.cuda.is_available()==True else 'cpu'
         self.options = options
         self.model_name = self.options['model_name']
-        self.pipeline = pipeline
-        self.PROJECT_PATH = project_path
+        from pelican_nlp.utils.gpu_budget import apply_gpu_budget, runtime_torch_device
+        apply_gpu_budget()
+        self.device = runtime_torch_device(min_free_gb=1.0, allow_mps=False)
         self.trailing_artifact_token_sequences = self.options.get(
             'trailing_artifact_token_sequences',
-            [
-                ["Ġâģ", "¦", "âģ", "©"],
-                ["âģ", "¦", "âģ", "©"]
-            ],
+            DEFAULT_TRAILING_ARTIFACT_SEQUENCES,
         )
 
     def extract_features(self, section, tokenizer, model):
@@ -33,7 +40,7 @@ class LogitsExtractor:
         if isinstance(tokens, list):
             input_ids = torch.tensor([tokens], device=self.device)
         elif hasattr(tokens, 'input_ids'):
-            # Handle BatchEncoding objects (from model_roberta tokenization)
+            # Handle BatchEncoding objects (tokenization_method: model)
             input_ids = tokens['input_ids'].to(self.device)
         elif isinstance(tokens, dict) and 'input_ids' in tokens:
             # Handle dictionary with input_ids key
@@ -47,9 +54,9 @@ class LogitsExtractor:
 
         total_processed_tokens = 0  # Keep track of total tokens_logits processed to avoid duplicates
 
-        for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks")):
+        for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks", file=sys.stderr, mininterval=1.0)):
 
-            with torch.no_grad():
+            with torch.inference_mode():
 
                 outputs = model(input_ids=chunk)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
@@ -96,47 +103,71 @@ class LogitsExtractor:
         per_token_data = self._remove_trailing_artifact_tokens(per_token_data)
         return per_token_data
 
-    @staticmethod
-    def _normalize_token_for_matching(token):
-        token_str = str(token).strip().strip('"')
-        # SentencePiece and similar tokenizers can prefix word boundaries with these characters.
-        return token_str.lstrip('▁')
+    def process_corpus(self, corpus):
+        """Load a causal LM and write logits for every document section."""
+        from pelican_nlp.extraction.language_model import Model
+        from pelican_nlp.extraction.model_registry import MODEL_KIND_CAUSAL_LM
+
+        model_name = self.options["model_name"]
+        trust_remote_code = self.options.get("trust_remote_code", False)
+        model = Model(
+            model_name,
+            model_kind=self.options.get("model_kind"),
+        )
+        model.load_model(trust_remote_code=trust_remote_code)
+        from pelican_nlp.utils.gpu_budget import input_device_for_model
+        self.device = input_device_for_model(model.model_instance)
+        if model.kind != MODEL_KIND_CAUSAL_LM:
+            raise ValueError(
+                f"Logits extraction requires a causal language model, but '{model_name}' "
+                f"loaded as '{model.kind}'. Use a decoder model (e.g. Llama) in "
+                "options_logits.model_name, or set options_logits.model_kind: causal_lm "
+                "only for decoder checkpoints."
+            )
+        tokenizer = TextTokenizer(
+            self.options["tokenization_method"],
+            model_name=self.options["model_name"],
+            trust_remote_code=trust_remote_code,
+        )
+        print(
+            f"Extracting logits with {model_name} on {self.device}. "
+            f"{len(corpus.documents)} document(s).",
+            flush=True,
+        )
+        keep_speakertags = self.options.get("keep_speakertags", False)
+        try:
+            total = len(corpus.documents)
+            for index, document in enumerate(corpus.documents, start=1):
+                print(
+                    f"Logits [{index}/{total}] {document.name}",
+                    flush=True,
+                )
+                for key, section_parts in iter_section_groups(
+                    document, corpus.config, keep_speakertags=keep_speakertags
+                ):
+                    print(
+                        f"  section {key}: {len(section_parts)} part(s)",
+                        flush=True,
+                    )
+                    for part in section_parts:
+                        logits = self.extract_features(part, tokenizer, model.model_instance)
+                        document.logits.append(logits)
+                        store_features_to_csv(
+                            logits,
+                            corpus.derivatives_dir,
+                            document,
+                            metric="logits",
+                        )
+        finally:
+            release_gpu(model, tokenizer, self)
+            print("GPU memory cleared after logits extraction", flush=True)
 
     def _remove_trailing_artifact_tokens(self, per_token_data):
-        if not per_token_data:
-            return per_token_data
-
-        cleaned = per_token_data[:]
-        normalized_sequences = [
-            [self._normalize_token_for_matching(tok) for tok in sequence]
-            for sequence in self.trailing_artifact_token_sequences
-            if sequence
-        ]
-        normalized_sequences = sorted(normalized_sequences, key=len, reverse=True)
-
-        if not normalized_sequences:
-            return cleaned
-
-        def ends_with_sequence(data, sequence):
-            if len(data) < len(sequence):
-                return False
-            suffix = data[-len(sequence):]
-            suffix_tokens = [
-                self._normalize_token_for_matching(item.get('token', ''))
-                for item in suffix
-            ]
-            return suffix_tokens == sequence
-
-        changed = True
-        while changed and cleaned:
-            changed = False
-            for sequence in normalized_sequences:
-                if ends_with_sequence(cleaned, sequence):
-                    cleaned = cleaned[:-len(sequence)]
-                    changed = True
-                    break
-
-        return cleaned
+        return strip_trailing_artifact_items(
+            per_token_data,
+            sequences=self.trailing_artifact_token_sequences,
+            token_of=lambda item: item.get("token", ""),
+        )
 
     def _compute_per_token_metrics(self, logits, chunk, tokens, j, tokenizer):
 

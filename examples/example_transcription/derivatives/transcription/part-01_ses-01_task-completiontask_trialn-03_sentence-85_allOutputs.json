@@ -1,0 +1,193 @@
+{
+    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
+    "metadata": {
+        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
+        "length_seconds": 3.288,
+        "sample_rate": 44100,
+        "target_rms_db": -20,
+        "models_used": {
+            "Chunking": {
+                "min_silence_len": 500,
+                "silence_thresh": -30,
+                "min_length": 90000,
+                "max_length": 120000,
+                "num_chunks": 1
+            },
+            "Transcription": {
+                "model": "openai/whisper-medium",
+                "device": "cuda"
+            },
+            "Forced Alignment": {
+                "model": "torchaudio.pipelines.MMS_FA",
+                "device": "cuda"
+            },
+            "Speaker Diarization": {
+                "model": "none",
+                "device": "none",
+                "parameters": {},
+                "speakers": "skipped (single speaker)"
+            }
+        }
+    },
+    "transcript_text": "They sent the bad boy to detention in his.",
+    "whisper_alignments": [
+        {
+            "word": "They",
+            "start_time": 0.0,
+            "end_time": 0.54
+        },
+        {
+            "word": "sent",
+            "start_time": 0.54,
+            "end_time": 0.8
+        },
+        {
+            "word": "the",
+            "start_time": 0.8,
+            "end_time": 1.06
+        },
+        {
+            "word": "bad",
+            "start_time": 1.06,
+            "end_time": 1.32
+        },
+        {
+            "word": "boy",
+            "start_time": 1.32,
+            "end_time": 1.58
+        },
+        {
+            "word": "to",
+            "start_time": 1.58,
+            "end_time": 1.84
+        },
+        {
+            "word": "detention",
+            "start_time": 1.84,
+            "end_time": 2.4
+        },
+        {
+            "word": "in",
+            "start_time": 2.4,
+            "end_time": 2.74
+        },
+        {
+            "word": "his.",
+            "start_time": 2.74,
+            "end_time": 2.99
+        }
+    ],
+    "forced_alignments": [
+        {
+            "word": "they",
+            "start_time": 0.3007317073170731,
+            "end_time": 0.44107317073170726
+        },
+        {
+            "word": "sent",
+            "start_time": 0.5413170731707316,
+            "end_time": 0.7618536585365853
+        },
+        {
+            "word": "the",
+            "start_time": 0.8019512195121951,
+            "end_time": 0.8821463414634145
+        },
+        {
+            "word": "bad",
+            "start_time": 0.9422926829268292,
+            "end_time": 1.2029268292682924
+        },
+        {
+            "word": "boy",
+            "start_time": 1.2630731707317073,
+            "end_time": 1.5237073170731705
+        },
+        {
+            "word": "to",
+            "start_time": 1.6039024390243901,
+            "end_time": 1.6840975609756097
+        },
+        {
+            "word": "detention",
+            "start_time": 1.7442439024390242,
+            "end_time": 2.3657560975609755
+        },
+        {
+            "word": "in",
+            "start_time": 2.4459512195121946,
+            "end_time": 2.5261463414634147
+        },
+        {
+            "word": "his",
+            "start_time": 2.6263902439024385,
+            "end_time": 2.967219512195122
+        }
+    ],
+    "combined_data": [
+        {
+            "word": "They",
+            "start_time": 0.0,
+            "end_time": 0.54,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "sent",
+            "start_time": 0.54,
+            "end_time": 0.8,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "the",
+            "start_time": 0.8,
+            "end_time": 1.06,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "bad",
+            "start_time": 1.06,
+            "end_time": 1.32,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "boy",
+            "start_time": 1.32,
+            "end_time": 1.58,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "to",
+            "start_time": 1.58,
+            "end_time": 1.84,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "detention",
+            "start_time": 1.84,
+            "end_time": 2.4,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "in",
+            "start_time": 2.4,
+            "end_time": 2.74,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "his.",
+            "start_time": 2.74,
+            "end_time": 2.99,
+            "speaker": "SPEAKER_0"
+        }
+    ],
+    "utterance_data": [
+        {
+            "text": "They sent the bad boy to detention in his.",
+            "start_time": 0.0,
+            "end_time": 2.99,
+            "speaker": "SPEAKER_0",
+            "confidence": 1.0
+        }
+    ],
+    "speaker_segments": []
+}

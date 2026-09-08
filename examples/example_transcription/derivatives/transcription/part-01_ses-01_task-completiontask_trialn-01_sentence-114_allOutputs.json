@@ -1,0 +1,241 @@
+{
+    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
+    "metadata": {
+        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
+        "length_seconds": 4.008,
+        "sample_rate": 44100,
+        "target_rms_db": -20,
+        "models_used": {
+            "Chunking": {
+                "min_silence_len": 500,
+                "silence_thresh": -30,
+                "min_length": 90000,
+                "max_length": 120000,
+                "num_chunks": 1
+            },
+            "Transcription": {
+                "model": "openai/whisper-medium",
+                "device": "cuda"
+            },
+            "Forced Alignment": {
+                "model": "torchaudio.pipelines.MMS_FA",
+                "device": "cuda"
+            },
+            "Speaker Diarization": {
+                "model": "none",
+                "device": "none",
+                "parameters": {},
+                "speakers": "skipped (single speaker)"
+            }
+        }
+    },
+    "transcript_text": "It is best not to place the piano directly next to thee.",
+    "whisper_alignments": [
+        {
+            "word": "It",
+            "start_time": 0.0,
+            "end_time": 0.46
+        },
+        {
+            "word": "is",
+            "start_time": 0.46,
+            "end_time": 0.74
+        },
+        {
+            "word": "best",
+            "start_time": 0.74,
+            "end_time": 0.92
+        },
+        {
+            "word": "not",
+            "start_time": 0.92,
+            "end_time": 1.2
+        },
+        {
+            "word": "to",
+            "start_time": 1.2,
+            "end_time": 1.42
+        },
+        {
+            "word": "place",
+            "start_time": 1.42,
+            "end_time": 1.58
+        },
+        {
+            "word": "the",
+            "start_time": 1.58,
+            "end_time": 1.82
+        },
+        {
+            "word": "piano",
+            "start_time": 1.82,
+            "end_time": 2.22
+        },
+        {
+            "word": "directly",
+            "start_time": 2.22,
+            "end_time": 2.9
+        },
+        {
+            "word": "next",
+            "start_time": 2.9,
+            "end_time": 3.32
+        },
+        {
+            "word": "to",
+            "start_time": 3.32,
+            "end_time": 3.56
+        },
+        {
+            "word": "thee.",
+            "start_time": 3.56,
+            "end_time": 3.81
+        }
+    ],
+    "forced_alignments": [
+        {
+            "word": "it",
+            "start_time": 0.34068,
+            "end_time": 0.42084
+        },
+        {
+            "word": "is",
+            "start_time": 0.48096,
+            "end_time": 0.56112
+        },
+        {
+            "word": "best",
+            "start_time": 0.62124,
+            "end_time": 0.9017999999999999
+        },
+        {
+            "word": "not",
+            "start_time": 0.96192,
+            "end_time": 1.1022
+        },
+        {
+            "word": "to",
+            "start_time": 1.14228,
+            "end_time": 1.22244
+        },
+        {
+            "word": "place",
+            "start_time": 1.26252,
+            "end_time": 1.5631199999999998
+        },
+        {
+            "word": "the",
+            "start_time": 1.58316,
+            "end_time": 1.66332
+        },
+        {
+            "word": "piano",
+            "start_time": 1.7033999999999998,
+            "end_time": 2.1442799999999997
+        },
+        {
+            "word": "directly",
+            "start_time": 2.3045999999999998,
+            "end_time": 2.8456799999999998
+        },
+        {
+            "word": "next",
+            "start_time": 2.96592,
+            "end_time": 3.26652
+        },
+        {
+            "word": "to",
+            "start_time": 3.32664,
+            "end_time": 3.3867599999999998
+        },
+        {
+            "word": "thee",
+            "start_time": 3.4468799999999997,
+            "end_time": 3.64728
+        }
+    ],
+    "combined_data": [
+        {
+            "word": "It",
+            "start_time": 0.0,
+            "end_time": 0.46,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "is",
+            "start_time": 0.46,
+            "end_time": 0.74,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "best",
+            "start_time": 0.74,
+            "end_time": 0.92,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "not",
+            "start_time": 0.92,
+            "end_time": 1.2,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "to",
+            "start_time": 1.2,
+            "end_time": 1.42,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "place",
+            "start_time": 1.42,
+            "end_time": 1.58,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "the",
+            "start_time": 1.58,
+            "end_time": 1.82,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "piano",
+            "start_time": 1.82,
+            "end_time": 2.22,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "directly",
+            "start_time": 2.22,
+            "end_time": 2.9,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "next",
+            "start_time": 2.9,
+            "end_time": 3.32,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "to",
+            "start_time": 3.32,
+            "end_time": 3.56,
+            "speaker": "SPEAKER_0"
+        },
+        {
+            "word": "thee.",
+            "start_time": 3.56,
+            "end_time": 3.81,
+            "speaker": "SPEAKER_0"
+        }
+    ],
+    "utterance_data": [
+        {
+            "text": "It is best not to place the piano directly next to thee.",
+            "start_time": 0.0,
+            "end_time": 3.81,
+            "speaker": "SPEAKER_0",
+            "confidence": 1.0
+        }
+    ],
+    "speaker_segments": []
+}

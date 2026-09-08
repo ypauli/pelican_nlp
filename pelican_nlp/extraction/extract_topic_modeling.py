@@ -35,12 +35,10 @@ class TopicModelingExtractor:
         
     def _initialize_bertopic_model(self):
         """Initialize BERTopic model based on configuration options."""
-        try:
-            from bertopic import BERTopic
-        except ImportError:
-            raise ImportError(
-                "BERTopic is not installed. Install it with: pip install bertopic"
-            )
+        from pelican_nlp.extras import require_extra
+
+        require_extra("topic")
+        from bertopic import BERTopic
         
         # Get BERTopic configuration options
         min_topic_size = self.options.get('min_topic_size', 10)
@@ -686,7 +684,6 @@ class TopicModelingExtractor:
             Dictionary mapping discovered topic IDs to predefined topics with similarity scores
         """
         try:
-            from pelican_nlp.extraction.language_model import Model
             from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
             
             debug_print("Comparing discovered topics to predefined topics...")
@@ -700,14 +697,9 @@ class TopicModelingExtractor:
             
             # Compute embeddings for predefined topic descriptions
             predefined_embeddings = {}
+            temp_extractor = EmbeddingsExtractor(embedding_options)
             for topic_name, topic_description in predefined_topics.items():
-                # Use the same embedding model as the main pipeline
-                # For simplicity, we'll use mean pooling of word embeddings
-                # In a full implementation, you might want to use sentence embeddings
                 try:
-                    # Create a simple extractor to get embeddings
-                    temp_extractor = EmbeddingsExtractor(embedding_options, self.project_folder)
-                    # Get embeddings for the description
                     desc_embeddings, _ = temp_extractor.extract_embeddings_from_text(
                         [topic_description], embedding_options
                     )
@@ -764,3 +756,366 @@ class TopicModelingExtractor:
             import traceback
             debug_print(traceback.format_exc())
             return None
+
+    def process_corpus(self, corpus):
+        """Run per-document and/or corpus-level topic modeling for ``corpus``."""
+        import os
+        import pandas as pd
+
+        topic_modeling_options = corpus.config["options_topic-modeling"]
+        analysis_level = topic_modeling_options.get("analysis_level", "both")
+        min_topic_size = topic_modeling_options.get("min_topic_size", 10)
+        extractor = self
+
+        debug_print(f"Processing {len(corpus.documents)} documents for topic modeling")
+        debug_print(f"Analysis level: {analysis_level}")
+
+        if analysis_level in ["per_document", "both"]:
+            print("Performing per-document topic modeling...")
+            for i in range(len(corpus.documents)):
+                debug_print(f"Processing document {i}: {corpus.documents[i].name}")
+                documents_list, embeddings_list = self._pair_documents_and_embeddings(
+                    corpus, i
+                )
+
+                if not documents_list or not embeddings_list:
+                    debug_print(
+                        f"Warning: No documents or embeddings found for document {corpus.documents[i].name}. "
+                        "Skipping per-document topic modeling."
+                    )
+                    continue
+
+                if len(documents_list) != len(embeddings_list):
+                    debug_print(
+                        f"Warning: Mismatch between documents ({len(documents_list)}) "
+                        f"and embeddings ({len(embeddings_list)}) for document {corpus.documents[i].name}"
+                    )
+                    min_len = min(len(documents_list), len(embeddings_list))
+                    documents_list = documents_list[:min_len]
+                    embeddings_list = embeddings_list[:min_len]
+
+                chunk_text_units = topic_modeling_options.get("chunk_text_units", False)
+                if len(documents_list) < 2:
+                    if chunk_text_units:
+                        debug_print(
+                            f"Only {len(documents_list)} text unit(s) found. "
+                            "Chunking enabled - will chunk text unit for topic modeling."
+                        )
+                    else:
+                        debug_print(
+                            f"Skipping per-document topic modeling for {corpus.documents[i].name}: "
+                            f"only {len(documents_list)} text unit(s). "
+                            "Enable chunk_text_units in config to analyze single text units."
+                        )
+                        continue
+
+                per_doc_options = topic_modeling_options.copy()
+                if chunk_text_units:
+                    per_doc_options["min_topic_size"] = max(2, min_topic_size // 2)
+                else:
+                    per_doc_options["min_topic_size"] = max(
+                        1, min(len(documents_list) // 2, min_topic_size // 2)
+                    )
+                per_doc_options["embedding_options"] = corpus.config.get(
+                    "options_embeddings", {}
+                )
+                per_doc_extractor = TopicModelingExtractor(
+                    per_doc_options, corpus.project_folder
+                )
+
+                debug_print(
+                    f"Extracting topics for {len(documents_list)} text units in document {corpus.documents[i].name}"
+                )
+
+                try:
+                    topic_data = per_doc_extractor.extract_topics_from_text(
+                        documents_list, embeddings_list, per_doc_options
+                    )
+                    prepared_data = per_doc_extractor.prepare_topic_data_for_saving(
+                        topic_data
+                    )
+                    assignments = prepared_data.get("assignments", [])
+                    if assignments:
+                        for assignment in assignments:
+                            assignment["document_name"] = corpus.documents[i].name
+                            assignment["document_index"] = i
+                        store_features_to_csv(
+                            assignments,
+                            corpus.derivatives_dir,
+                            corpus.documents[i],
+                            metric="topic-modeling-per-document-assignments",
+                        )
+                        print(
+                            f"Saved per-document topic assignments for {corpus.documents[i].name} "
+                            f"({len(assignments)} assignments)"
+                        )
+                    else:
+                        debug_print(
+                            f"Warning: No assignments found in prepared_data for {corpus.documents[i].name}"
+                        )
+
+                    if prepared_data.get("keywords"):
+                        keywords_with_doc = []
+                        for keyword_entry in prepared_data["keywords"]:
+                            keyword_entry["document_name"] = corpus.documents[i].name
+                            keywords_with_doc.append(keyword_entry)
+                        if keywords_with_doc:
+                            store_features_to_csv(
+                                keywords_with_doc,
+                                corpus.derivatives_dir,
+                                corpus.documents[i],
+                                metric="topic-modeling-per-document-keywords",
+                            )
+
+                    if prepared_data.get("topic_info"):
+                        topic_info_list = prepared_data["topic_info"]
+                        if topic_info_list:
+                            topic_info_dir = os.path.join(
+                                corpus.derivatives_dir, "topic-modeling", "per-document"
+                            )
+                            os.makedirs(topic_info_dir, exist_ok=True)
+                            topic_info_path = os.path.join(
+                                topic_info_dir,
+                                f"{corpus.documents[i].name}_topic-info.csv",
+                            )
+                            pd.DataFrame(topic_info_list).to_csv(
+                                topic_info_path, index=False
+                            )
+
+                    if prepared_data.get("topic_comparisons"):
+                        comparisons_with_doc = []
+                        for comparison in prepared_data["topic_comparisons"]:
+                            comparison["document_name"] = corpus.documents[i].name
+                            comparison["document_index"] = i
+                            comparisons_with_doc.append(comparison)
+                        if comparisons_with_doc:
+                            store_features_to_csv(
+                                comparisons_with_doc,
+                                corpus.derivatives_dir,
+                                corpus.documents[i],
+                                metric="topic-modeling-predefined-comparisons",
+                            )
+                            print(
+                                f"Saved predefined topic comparisons for {corpus.documents[i].name} "
+                                f"({len(comparisons_with_doc)} comparisons)"
+                            )
+                except Exception as e:
+                    import traceback
+
+                    debug_print(
+                        f"Error in per-document topic modeling for {corpus.documents[i].name}: {e}"
+                    )
+                    debug_print(f"Full traceback: {traceback.format_exc()}")
+                    print(
+                        f"Warning: Could not perform per-document topic modeling for {corpus.documents[i].name}. "
+                        f"This may be due to insufficient text units. Error: {e}"
+                    )
+
+        if analysis_level in ["corpus_level", "both"]:
+            print("Performing corpus-level topic modeling...")
+            all_documents_list = []
+            all_embeddings_list = []
+            document_mapping = []
+
+            for i in range(len(corpus.documents)):
+                debug_print(f"Collecting data from document {i}: {corpus.documents[i].name}")
+                documents_list, embeddings_list = self._pair_documents_and_embeddings(
+                    corpus, i
+                )
+                for doc_text, emb in zip(documents_list, embeddings_list):
+                    all_documents_list.append(doc_text)
+                    all_embeddings_list.append(emb)
+                    document_mapping.append(i)
+
+            if len(all_documents_list) < min_topic_size:
+                adjusted_min = max(1, len(all_documents_list) // 2)
+                print(
+                    f"Warning: Only {len(all_documents_list)} documents/utterances found "
+                    f"(minimum recommended: {min_topic_size}). "
+                    f"Adjusting min_topic_size to {adjusted_min} for corpus-level analysis."
+                )
+                corpus_options = topic_modeling_options.copy()
+                corpus_options["min_topic_size"] = adjusted_min
+                extractor = TopicModelingExtractor(
+                    corpus_options, corpus.project_folder
+                )
+
+            if len(all_documents_list) < 2:
+                print(
+                    f"Warning: Insufficient documents for corpus-level topic modeling. "
+                    f"Found {len(all_documents_list)} documents/utterances. Need at least 2. "
+                    "Skipping corpus-level topic modeling."
+                )
+                return
+
+            if len(all_documents_list) != len(all_embeddings_list):
+                debug_print(
+                    f"Warning: Mismatch between documents ({len(all_documents_list)}) "
+                    f"and embeddings ({len(all_embeddings_list)})"
+                )
+                min_len = min(len(all_documents_list), len(all_embeddings_list))
+                all_documents_list = all_documents_list[:min_len]
+                all_embeddings_list = all_embeddings_list[:min_len]
+                document_mapping = document_mapping[:min_len]
+
+            debug_print(
+                f"Extracting corpus-level topics for {len(all_documents_list)} documents/utterances"
+            )
+            corpus_topic_options = topic_modeling_options.copy()
+            corpus_topic_options["embedding_options"] = corpus.config.get(
+                "options_embeddings", {}
+            )
+            topic_data = extractor.extract_topics_from_text(
+                all_documents_list, all_embeddings_list, corpus_topic_options
+            )
+            prepared_data = extractor.prepare_topic_data_for_saving(topic_data)
+            document_topic_distributions = self._calculate_document_topic_distributions(
+                corpus, prepared_data, document_mapping, len(corpus.documents)
+            )
+
+            if prepared_data["assignments"]:
+                assignments_by_doc = {}
+                for idx, assignment in enumerate(prepared_data["assignments"]):
+                    doc_idx = document_mapping[idx] if idx < len(document_mapping) else 0
+                    assignments_by_doc.setdefault(doc_idx, [])
+                    assignment["document_name"] = corpus.documents[doc_idx].name
+                    assignment["document_index"] = doc_idx
+                    assignment["text_unit_index"] = idx
+                    assignments_by_doc[doc_idx].append(assignment)
+                for doc_idx, assignments in assignments_by_doc.items():
+                    store_features_to_csv(
+                        assignments,
+                        corpus.derivatives_dir,
+                        corpus.documents[doc_idx],
+                        metric="topic-modeling-corpus-assignments",
+                    )
+
+            topic_info_dir = os.path.join(corpus.derivatives_dir, "topic-modeling")
+            os.makedirs(topic_info_dir, exist_ok=True)
+            if document_topic_distributions:
+                distributions_path = os.path.join(
+                    topic_info_dir, f"{corpus.name}_document-topic-distributions.csv"
+                )
+                pd.DataFrame(document_topic_distributions).to_csv(
+                    distributions_path, index=False
+                )
+                print(f"Saved document-topic distributions to: {distributions_path}")
+            if prepared_data["keywords"]:
+                keywords_path = os.path.join(
+                    topic_info_dir, f"{corpus.name}_topic-keywords.csv"
+                )
+                pd.DataFrame(prepared_data["keywords"]).to_csv(
+                    keywords_path, index=False
+                )
+                print(f"Saved corpus-level topic keywords to: {keywords_path}")
+            if prepared_data["topic_info"]:
+                topic_info_path = os.path.join(
+                    topic_info_dir, f"{corpus.name}_topic-info.csv"
+                )
+                pd.DataFrame(prepared_data["topic_info"]).to_csv(
+                    topic_info_path, index=False
+                )
+                print(f"Saved corpus-level topic info to: {topic_info_path}")
+            if prepared_data.get("topic_comparisons"):
+                comparisons_path = os.path.join(
+                    topic_info_dir, f"{corpus.name}_predefined-topic-comparisons.csv"
+                )
+                pd.DataFrame(prepared_data["topic_comparisons"]).to_csv(
+                    comparisons_path, index=False
+                )
+                print(
+                    f"Saved corpus-level predefined topic comparisons to: {comparisons_path}"
+                )
+
+    def _pair_documents_and_embeddings(self, corpus, doc_idx):
+        """Pair section texts with embeddings for one document."""
+        from pelican_nlp.extraction.sectioning import iter_section_groups
+
+        documents_list = []
+        embeddings_list = []
+        document = corpus.documents[doc_idx]
+        if not getattr(document, "embeddings", None):
+            return documents_list, embeddings_list
+
+        embedding_options = corpus.config.get("options_embeddings", {})
+        keep_speakertags = embedding_options.get("keep_speakertags", False)
+
+        for section_idx, (key, section_texts) in enumerate(
+            iter_section_groups(document, corpus.config, keep_speakertags=keep_speakertags)
+        ):
+            debug_print(f"Processing section {key}")
+            if section_idx >= len(document.embeddings):
+                continue
+            section_embeddings = document.embeddings[section_idx]
+            if not (isinstance(section_embeddings, list) and section_embeddings):
+                debug_print(f"Warning: Empty embeddings for section {key}")
+                continue
+            if isinstance(section_embeddings[0], list):
+                for utterance_idx, utterance_embeddings in enumerate(section_embeddings):
+                    if utterance_idx < len(section_texts):
+                        documents_list.append(section_texts[utterance_idx])
+                        embeddings_list.append(utterance_embeddings)
+            elif isinstance(section_embeddings[0], (tuple, dict)):
+                documents_list.append(section_texts[0] if section_texts else "")
+                embeddings_list.append(section_embeddings)
+            elif len(section_texts) == 1:
+                documents_list.append(section_texts[0])
+                embeddings_list.append(section_embeddings)
+
+        return documents_list, embeddings_list
+
+    def _calculate_document_topic_distributions(
+        self, corpus, prepared_data, document_mapping, num_documents
+    ):
+        """Calculate how strongly each document relates to each corpus-level topic."""
+        document_distributions = []
+        assignments = prepared_data.get("assignments", [])
+        doc_topic_counts = {}
+        doc_total_counts = {}
+
+        for idx, assignment in enumerate(assignments):
+            doc_idx = document_mapping[idx] if idx < len(document_mapping) else 0
+            topic_id = assignment.get("topic_id", -1)
+            if doc_idx not in doc_topic_counts:
+                doc_topic_counts[doc_idx] = {}
+                doc_total_counts[doc_idx] = 0
+            if topic_id not in doc_topic_counts[doc_idx]:
+                doc_topic_counts[doc_idx][topic_id] = 0
+            doc_topic_counts[doc_idx][topic_id] += 1
+            doc_total_counts[doc_idx] += 1
+
+        for doc_idx in range(num_documents):
+            if doc_idx not in doc_topic_counts:
+                continue
+            doc_dist = {
+                "document_index": doc_idx,
+                "document_name": (
+                    corpus.documents[doc_idx].name
+                    if doc_idx < len(corpus.documents)
+                    else f"doc_{doc_idx}"
+                ),
+                "total_text_units": doc_total_counts[doc_idx],
+            }
+            for topic_id, count in doc_topic_counts[doc_idx].items():
+                proportion = (
+                    count / doc_total_counts[doc_idx] if doc_total_counts[doc_idx] > 0 else 0
+                )
+                doc_dist[f"topic_{topic_id}_count"] = count
+                doc_dist[f"topic_{topic_id}_proportion"] = proportion
+
+            if prepared_data.get("assignments"):
+                doc_probs = {}
+                for idx, assignment in enumerate(prepared_data["assignments"]):
+                    if idx < len(document_mapping) and document_mapping[idx] == doc_idx:
+                        topic_id = assignment.get("topic_id", -1)
+                        if "topic_1_probability" in assignment:
+                            prob = assignment.get("topic_1_probability", 0.0)
+                            doc_probs.setdefault(topic_id, []).append(prob)
+                for topic_id, probs in doc_probs.items():
+                    doc_dist[f"topic_{topic_id}_avg_probability"] = (
+                        np.mean(probs) if probs else 0.0
+                    )
+
+            document_distributions.append(doc_dist)
+
+        return document_distributions

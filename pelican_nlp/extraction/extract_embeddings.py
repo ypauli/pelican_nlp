@@ -1,21 +1,58 @@
-from pelican_nlp.extraction.language_model import Model
+import pandas as pd
+
+from pelican_nlp.extraction.model_registry import MODEL_KIND_CAUSAL_LM, MODEL_KIND_STATIC
 from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
 from pelican_nlp.preprocessing.text_cleaner import lowercase, remove_punctuation
+from pelican_nlp.preprocessing import text_cleaner as textcleaner
+from pelican_nlp.utils.csv_functions import store_features_to_csv
+from pelican_nlp.extraction.sectioning import iter_section_groups
+from pelican_nlp.extraction.resources import release_gpu
 
 from pelican_nlp.config import debug_print
 
+
+def _embedding_batch_size(embedding_options) -> int:
+    try:
+        value = int(embedding_options.get("batch_size", 1) or 1)
+    except (TypeError, ValueError):
+        return 1
+    return max(1, value)
+
+
 class EmbeddingsExtractor:
-    def __init__(self, embeddings_configurations, project_path):
+    def __init__(self, embeddings_configurations):
         self.embeddings_configurations = embeddings_configurations
         self.model_name = embeddings_configurations['model_name']  # Embedding model instance (e.g., fastText, RoBERTa)
-        self.model = Model(self.model_name, project_path)
-        self.Tokenizer = TextTokenizer(self.embeddings_configurations['tokenization_method'], self.model_name,
-                                       self.embeddings_configurations['max_length'])
+        trust_remote_code = embeddings_configurations.get('trust_remote_code', False)
+        from pelican_nlp.extraction.language_model import Model
+        self.model = Model(
+            self.model_name,
+            model_kind=embeddings_configurations.get('model_kind'),
+        )
+        self.Tokenizer = TextTokenizer(
+            self.embeddings_configurations['tokenization_method'],
+            self.model_name,
+            self.embeddings_configurations['max_length'],
+            trust_remote_code=trust_remote_code,
+        )
 
-        self.model.load_model()
+        self.model.load_model(trust_remote_code=trust_remote_code)
         self.model_instance = self.model.model_instance
+        if 'pytorch_based_model' not in self.embeddings_configurations:
+            self.embeddings_configurations['pytorch_based_model'] = self.model.kind != MODEL_KIND_STATIC
 
     def extract_embeddings_from_text(self, text_list, embedding_options):
+
+        batch_size = _embedding_batch_size(embedding_options)
+        if (
+            self.embeddings_configurations['pytorch_based_model']
+            and batch_size > 1
+            and self.model.kind != MODEL_KIND_CAUSAL_LM
+            and len(text_list) > 1
+        ):
+            return self._extract_embeddings_encoder_batched(
+                text_list, embedding_options, batch_size
+            )
 
         doc_entry_list = []
 
@@ -23,76 +60,7 @@ class EmbeddingsExtractor:
 
             embeddings = {}
 
-            # Tokenize the input text
-            inputs = self.Tokenizer.tokenize_text(text)
-            
-            # Apply transformations based on embedding_options and tokenization method
-            tokenization_method = self.embeddings_configurations['tokenization_method']
-            
-            if embedding_options.get('lowercase', False) or embedding_options.get('remove_punctuation', False):
-                if tokenization_method == 'whitespace':
-                    # For whitespace tokenization, inputs is a list of strings
-                    # Apply transformations directly
-                    if embedding_options.get('lowercase', False):
-                        inputs = lowercase(inputs)
-                    if embedding_options.get('remove_punctuation', False):
-                        inputs = remove_punctuation(inputs)
-                
-                elif tokenization_method in ['model', 'model_roberta']:
-                    # For model-based tokenization, need to convert token IDs to tokens,
-                    # apply transformations, then re-tokenize
-                    import torch
-                    
-                    # Extract token IDs based on input type
-                    if tokenization_method == 'model_roberta':
-                        # BatchEncoding object - extract token IDs
-                        if hasattr(inputs, 'input_ids'):
-                            # BatchEncoding has input_ids attribute
-                            if hasattr(inputs['input_ids'], 'tolist'):
-                                # It's a tensor, convert to list
-                                token_ids = inputs['input_ids'][0].tolist() if len(inputs['input_ids'].shape) > 1 else inputs['input_ids'].tolist()
-                            else:
-                                # Already a list or array
-                                token_ids = inputs['input_ids'][0] if isinstance(inputs['input_ids'], (list, tuple)) else inputs['input_ids']
-                        elif isinstance(inputs, dict) and 'input_ids' in inputs:
-                            # Dictionary with input_ids key
-                            token_ids = inputs['input_ids'][0].tolist() if hasattr(inputs['input_ids'], 'tolist') else inputs['input_ids'][0]
-                        else:
-                            # Fallback: try to extract from first element if list/tensor
-                            if hasattr(inputs, 'tolist'):
-                                token_ids = inputs[0].tolist() if len(inputs.shape) > 1 else inputs.tolist()
-                            elif isinstance(inputs, list):
-                                token_ids = inputs[0] if inputs else []
-                            else:
-                                raise ValueError(f"Unable to extract token IDs from inputs of type {type(inputs)}")
-                    else:
-                        # 'model' method - inputs is a list of token IDs
-                        token_ids = inputs
-                    
-                    # Convert token IDs to token strings
-                    tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(token_ids)
-                    
-                    # Apply transformations to token strings
-                    if embedding_options.get('lowercase', False):
-                        tokens = lowercase(tokens)
-                    if embedding_options.get('remove_punctuation', False):
-                        tokens = remove_punctuation(tokens)
-                    
-                    # Remove empty tokens after punctuation removal
-                    tokens = [token for token in tokens if token]
-                    
-                    # Re-tokenize the modified tokens
-                    # Join tokens back to text, then re-tokenize with the model's tokenizer
-                    # Note: This approach preserves subword tokenization where possible
-                    if tokenization_method == 'model_roberta':
-                        # For model_roberta, re-tokenize the modified token sequence
-                        # We need to join and re-tokenize to get proper token IDs
-                        reconstructed_text = self.Tokenizer.tokenizer.convert_tokens_to_string(tokens)
-                        inputs = self.Tokenizer.tokenize_text(reconstructed_text)
-                    else:
-                        # For 'model' method, convert modified tokens back to token IDs
-                        token_ids = self.Tokenizer.tokenizer.convert_tokens_to_ids(tokens)
-                        inputs = token_ids
+            inputs = self._prepare_embedding_inputs(text, embedding_options)
 
             debug_print(f'inputs are: {inputs}')
             debug_print(f'inputs type: {type(inputs)}')
@@ -103,19 +71,20 @@ class EmbeddingsExtractor:
             if self.embeddings_configurations['pytorch_based_model']:
                 #e.g. RoBERTa Model or Llama Model
                 import torch
+                from pelican_nlp.utils.gpu_budget import input_device_for_model
                 try:
-                    self.device = next(self.model_instance.parameters()).device
-                except StopIteration:
+                    self.device = input_device_for_model(self.model_instance)
+                except (StopIteration, TypeError):
                     self.device = torch.device("cpu")
-                with torch.no_grad():
-                    if 'llama' in self.model_name.lower():
-                        # Handle Llama models which expect input_ids directly
+                with torch.inference_mode():
+                    if self.model.kind == MODEL_KIND_CAUSAL_LM:
+                        # Causal LMs (Llama and others) which expect input_ids directly
                         outputs = self.model_instance(input_ids=inputs['input_ids'])
                     else:
                         # Handle RoBERTa and other models that accept **inputs
                         if isinstance(inputs, dict):
                             # Ensure inputs are on the same device as the model
-                            inputs = {k: v.to(self.model_instance.device) for k, v in inputs.items()}
+                            inputs = {k: v.to(self.device) for k, v in inputs.items()}
                             debug_print(f"Model inputs: {inputs}")
                             outputs = self.model_instance(**inputs, output_hidden_states=True)
                         else:
@@ -125,8 +94,8 @@ class EmbeddingsExtractor:
                             # Handle BatchEncoding objects from transformers
                             if hasattr(inputs, 'input_ids'):
                                 # This is a BatchEncoding object, extract the tensors
-                                input_ids = inputs['input_ids'].to(self.model_instance.device)
-                                attention_mask = inputs['attention_mask'].to(self.model_instance.device) if 'attention_mask' in inputs else torch.ones_like(input_ids)
+                                input_ids = inputs['input_ids'].to(self.device)
+                                attention_mask = inputs['attention_mask'].to(self.device) if 'attention_mask' in inputs else torch.ones_like(input_ids)
                                 debug_print(f"Extracted from BatchEncoding - input_ids: {input_ids.shape}, attention_mask: {attention_mask.shape}")
                                 outputs = self.model_instance(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True)
                             else:
@@ -136,13 +105,13 @@ class EmbeddingsExtractor:
                                         # Convert tokens to IDs
                                         token_ids = self.Tokenizer.tokenizer.convert_tokens_to_ids(inputs)
                                         debug_print(f"Token IDs: {token_ids}")
-                                        inputs = torch.tensor([token_ids], device=self.model_instance.device)
+                                        inputs = torch.tensor([token_ids], device=self.device)
                                     else:
                                         # If it's already a list of numbers, convert directly
-                                        inputs = torch.tensor([inputs], device=self.model_instance.device)
+                                        inputs = torch.tensor([inputs], device=self.device)
                                 else:
                                     # If it's already a tensor, just move to device
-                                    inputs = inputs.to(self.model_instance.device)
+                                    inputs = inputs.to(self.device)
                                 
                                 # Only print shape if inputs is a tensor
                                 if hasattr(inputs, 'shape'):
@@ -405,3 +374,409 @@ class EmbeddingsExtractor:
             token_count = 0
 
         return doc_entry_list, token_count
+
+    def _extract_embeddings_encoder_batched(self, text_list, embedding_options, batch_size):
+        """One encoder forward per chunk of texts. Opt-in via options_embeddings.batch_size."""
+        import torch
+        from types import SimpleNamespace
+
+        prepared = [
+            self._prepare_embedding_inputs(text, embedding_options) for text in text_list
+        ]
+        doc_entry_list = []
+        with torch.inference_mode():
+            for start in range(0, len(prepared), batch_size):
+                chunk = prepared[start:start + batch_size]
+                hidden_rows = self._encoder_last_hidden_batched(chunk)
+                for inputs, hidden in zip(chunk, hidden_rows):
+                    outputs = SimpleNamespace(
+                        hidden_states=(hidden,),
+                        last_hidden_state=hidden,
+                    )
+                    doc_entry_list.append(
+                        self._collect_pytorch_token_embeddings(inputs, outputs)
+                    )
+        inputs = prepared[-1] if prepared else None
+        if isinstance(inputs, dict):
+            token_count = len(inputs['input_ids'][0]) if 'input_ids' in inputs else 0
+        elif hasattr(inputs, 'input_ids'):
+            token_count = len(inputs['input_ids'][0]) if hasattr(inputs['input_ids'], '__len__') else 0
+        elif inputs is not None and hasattr(inputs, '__len__'):
+            token_count = len(inputs)
+        else:
+            token_count = 0
+        return doc_entry_list, token_count
+
+    def _prepare_embedding_inputs(self, text, embedding_options):
+        from pelican_nlp.preprocessing.text_tokenizer import TOKENIZATION_WHITESPACE
+
+        inputs = self.Tokenizer.tokenize_text(text)
+        if not (
+            embedding_options.get("lowercase", False)
+            or embedding_options.get("remove_punctuation", False)
+        ):
+            return inputs
+
+        if self.Tokenizer.tokenization_method == TOKENIZATION_WHITESPACE:
+            if embedding_options.get("lowercase", False):
+                inputs = lowercase(inputs)
+            if embedding_options.get("remove_punctuation", False):
+                inputs = remove_punctuation(inputs)
+            return inputs
+
+        token_ids = inputs["input_ids"]
+        if hasattr(token_ids, "tolist"):
+            token_ids = (
+                token_ids[0].tolist() if len(token_ids.shape) > 1 else token_ids.tolist()
+            )
+        elif isinstance(token_ids, (list, tuple)):
+            token_ids = (
+                token_ids[0]
+                if token_ids and isinstance(token_ids[0], (list, tuple))
+                else token_ids
+            )
+        tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(token_ids)
+        if embedding_options.get("lowercase", False):
+            tokens = lowercase(tokens)
+        if embedding_options.get("remove_punctuation", False):
+            tokens = remove_punctuation(tokens)
+        tokens = [token for token in tokens if token]
+        reconstructed_text = self.Tokenizer.tokenizer.convert_tokens_to_string(tokens)
+        return self.Tokenizer.tokenize_text(reconstructed_text)
+
+    def _encoder_last_hidden_batched(self, inputs_list):
+        import torch
+        from pelican_nlp.utils.gpu_budget import input_device_for_model
+
+        device = input_device_for_model(self.model_instance)
+        pad_id = getattr(self.Tokenizer.tokenizer, "pad_token_id", None)
+        if pad_id is None:
+            pad_id = 0
+        id_rows = []
+        mask_rows = []
+        lengths = []
+        for inputs in inputs_list:
+            if hasattr(inputs, "input_ids") or (isinstance(inputs, dict) and "input_ids" in inputs):
+                ids = inputs["input_ids"]
+            else:
+                ids = inputs
+            if hasattr(ids, "dim"):
+                row = ids.to(device)
+                if row.dim() > 1:
+                    row = row[0]
+            else:
+                values = ids[0] if ids and isinstance(ids[0], (list, tuple)) else ids
+                row = torch.tensor(values, device=device)
+            row = row.view(-1)
+            lengths.append(int(row.size(0)))
+            id_rows.append(row)
+            if hasattr(inputs, "attention_mask") or (isinstance(inputs, dict) and "attention_mask" in inputs):
+                mask = inputs["attention_mask"]
+                if hasattr(mask, "to"):
+                    mask_row = mask.to(device)
+                    if mask_row.dim() > 1:
+                        mask_row = mask_row[0]
+                else:
+                    mask_row = torch.tensor(mask, device=device)
+                mask_rows.append(mask_row.view(-1))
+            else:
+                mask_rows.append(torch.ones_like(row))
+        padded_ids = torch.nn.utils.rnn.pad_sequence(id_rows, batch_first=True, padding_value=pad_id)
+        padded_mask = torch.nn.utils.rnn.pad_sequence(mask_rows, batch_first=True, padding_value=0)
+        outputs = self.model_instance(
+            input_ids=padded_ids,
+            attention_mask=padded_mask,
+            output_hidden_states=True,
+        )
+        if hasattr(outputs, "hidden_states") and outputs.hidden_states is not None:
+            hidden = outputs.hidden_states[-1]
+        elif hasattr(outputs, "last_hidden_state"):
+            hidden = outputs.last_hidden_state
+        else:
+            raise ValueError("Batched encoder output has neither hidden_states nor last_hidden_state.")
+        return [hidden[i : i + 1, :length, :] for i, length in enumerate(lengths)]
+
+    def _collect_pytorch_token_embeddings(self, inputs, outputs):
+        if outputs is None:
+            raise ValueError("Model returned None output")
+        if hasattr(outputs, 'hidden_states') and outputs.hidden_states is not None:
+            word_embeddings = outputs.hidden_states[-1]
+        elif hasattr(outputs, 'last_hidden_state'):
+            word_embeddings = outputs.last_hidden_state
+        else:
+            raise ValueError(
+                f"Model output has neither hidden_states nor last_hidden_state. Available attributes: {dir(outputs)}"
+            )
+        if isinstance(inputs, dict):
+            input_ids = inputs['input_ids'][0].tolist()
+            attention_mask = inputs.get('attention_mask', None)
+            if attention_mask is not None:
+                attention_mask = attention_mask[0].tolist() if hasattr(attention_mask, 'tolist') else attention_mask
+        elif hasattr(inputs, 'input_ids'):
+            input_ids = inputs['input_ids'][0].tolist()
+            if 'attention_mask' in inputs:
+                attention_mask = inputs['attention_mask']
+                attention_mask = attention_mask[0].tolist() if hasattr(attention_mask, 'tolist') else attention_mask
+            elif hasattr(inputs, 'attention_mask'):
+                attention_mask = inputs.attention_mask
+                attention_mask = attention_mask[0].tolist() if hasattr(attention_mask, 'tolist') else attention_mask
+            else:
+                attention_mask = None
+        else:
+            input_ids = inputs[0].tolist()
+            attention_mask = None
+        tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(input_ids)
+        pad_token_id = self.Tokenizer.tokenizer.pad_token_id if hasattr(self.Tokenizer.tokenizer, 'pad_token_id') else None
+        pad_token = self.Tokenizer.tokenizer.pad_token if hasattr(self.Tokenizer.tokenizer, 'pad_token') else None
+        unk_token_id = self.Tokenizer.tokenizer.unk_token_id if hasattr(self.Tokenizer.tokenizer, 'unk_token_id') else None
+        unk_token = self.Tokenizer.tokenizer.unk_token if hasattr(self.Tokenizer.tokenizer, 'unk_token') else None
+        embeddings = []
+        for idx, (token, embedding) in enumerate(zip(tokens, word_embeddings[0])):
+            is_padding = False
+            if attention_mask is not None and idx < len(attention_mask) and attention_mask[idx] == 0:
+                is_padding = True
+            if not is_padding and pad_token_id is not None and idx < len(input_ids) and input_ids[idx] == pad_token_id:
+                is_padding = True
+            if not is_padding and pad_token is not None and token == pad_token:
+                is_padding = True
+            try:
+                if hasattr(embedding, 'tolist'):
+                    embedding_array = embedding.tolist()
+                elif hasattr(embedding, 'cpu'):
+                    embedding_array = embedding.cpu().detach().clone().tolist()
+                else:
+                    embedding_array = list(embedding) if isinstance(embedding, (list, tuple)) else embedding
+            except Exception:
+                embedding_array = embedding
+            try:
+                import numpy as np
+                embedding_norm = float(np.linalg.norm(np.array(embedding_array)))
+                is_zero_vector = embedding_norm < 1e-10
+            except Exception:
+                embedding_norm = sum(x * x for x in embedding_array) if isinstance(embedding_array, list) else 0.0
+                is_zero_vector = embedding_norm < 1e-20
+            if is_padding or is_zero_vector:
+                continue
+            embeddings.append((token, embedding_array))
+        final_embeddings = []
+        for token, embedding in embeddings:
+            try:
+                import numpy as np
+                is_zero_vector = float(np.linalg.norm(np.array(embedding))) < 1e-10
+            except Exception:
+                is_zero_vector = False
+            if not is_zero_vector:
+                final_embeddings.append((token, embedding))
+        return final_embeddings
+
+    def process_corpus(self, corpus):
+        """Extract embeddings for every document section and write derived metrics."""
+        embedding_options = corpus.config["options_embeddings"]
+        semantic_similarity_options = corpus.config.get("options_semantic-similarity", {})
+        store_window_details = semantic_similarity_options.get("store_window_details", False)
+        store_sentence_details = semantic_similarity_options.get(
+            "store_sentence_details", store_window_details
+        )
+        keep_speakertags = embedding_options.get("keep_speakertags", False)
+        run_distance = embedding_options.get("distance-from-randomness", False)
+
+        debug_print(len(corpus.documents))
+        total = len(corpus.documents)
+        for index, document in enumerate(corpus.documents, start=1):
+            print(f"Embeddings [{index}/{total}] {document.name}", flush=True)
+            debug_print(f"cleaned sections: {document.cleaned_sections}")
+            for key, section_parts in iter_section_groups(
+                document, corpus.config, keep_speakertags=keep_speakertags
+            ):
+                debug_print(f"Processing section {key}")
+                embeddings, token_count = self.extract_embeddings_from_text(
+                    section_parts, embedding_options
+                )
+                document.embeddings.append(embeddings)
+
+                if corpus.task == "fluency":
+                    document.fluency_word_count = token_count
+
+                for utterance_idx, utterance in enumerate(embeddings):
+                    source_text_for_sentence_similarity = (
+                        section_parts[utterance_idx] if utterance_idx < len(section_parts) else None
+                    )
+                    if embedding_options.get("semantic-similarity"):
+                        _store_semantic_similarity(
+                            utterance,
+                            document,
+                            corpus,
+                            semantic_similarity_options,
+                            store_window_details,
+                            store_sentence_details,
+                            source_text_for_sentence_similarity,
+                        )
+
+                    if run_distance:
+                        from pelican_nlp.extraction.distance_from_randomness import (
+                            get_distance_from_randomness,
+                        )
+
+                        divergence = get_distance_from_randomness(
+                            utterance, corpus.config["options_dis_from_randomness"]
+                        )
+                        debug_print(f"Divergence from optimality metrics: {divergence}")
+                        store_features_to_csv(
+                            divergence,
+                            corpus.derivatives_dir,
+                            document,
+                            metric="distance-from-randomness",
+                        )
+
+                    cleaned_embeddings = _clean_embedding_tokens(
+                        utterance, embedding_options, corpus.config
+                    )
+                    store_features_to_csv(
+                        cleaned_embeddings,
+                        corpus.derivatives_dir,
+                        document,
+                        metric="embeddings",
+                    )
+
+        release_gpu(self)
+        print("GPU memory cleared after embeddings extraction")
+        return
+
+
+def _store_semantic_similarity(
+    utterance,
+    document,
+    corpus,
+    semantic_similarity_options,
+    store_window_details,
+    store_sentence_details,
+    source_text_for_sentence_similarity,
+):
+    from pelican_nlp.extraction.semantic_similarity import (
+        calculate_semantic_similarity,
+        get_semantic_similarity_windows,
+        filter_punctuation_tokens,
+    )
+
+    exclude_punctuation_tokens = semantic_similarity_options.get(
+        "exclude_punctuation_tokens", False
+    )
+    similarity_utterance = (
+        filter_punctuation_tokens(utterance) if exclude_punctuation_tokens else utterance
+    )
+    consecutive_similarities, mean_similarity = calculate_semantic_similarity(similarity_utterance)
+    debug_print(f"Mean semantic similarity: {mean_similarity:.4f}")
+
+    for window_size in corpus.config["options_semantic-similarity"]["window_sizes"]:
+        if window_size == "sentence":
+            continue
+        debug_print(
+            f"\n[extract_embeddings] Processing window_size={window_size} for document: {document.name}"
+        )
+        collect_details = store_window_details and window_size != "sentence"
+        window_input = similarity_utterance if window_size != "sentence" else utterance
+        window_result = get_semantic_similarity_windows(
+            window_input,
+            window_size,
+            return_details=collect_details,
+            exclude_punctuation=exclude_punctuation_tokens,
+        )
+
+        if collect_details:
+            window_stats, window_detail_rows = window_result
+        else:
+            window_stats = window_result
+            window_detail_rows = []
+
+        if isinstance(window_stats, tuple) and len(window_stats) == 5:
+            window_data = {
+                "mean_of_window_means": window_stats[0],
+                "std_of_window_means": window_stats[1],
+                "mean_of_window_stds": window_stats[2],
+                "std_of_window_stds": window_stats[3],
+                "mean_of_window_medians": window_stats[4],
+            }
+            nan_metrics = [k for k, v in window_data.items() if pd.isna(v)]
+            if nan_metrics:
+                debug_print(
+                    f"[extract_embeddings] WARNING: Window {window_size} has NaN values for metrics: {nan_metrics}"
+                )
+        else:
+            window_data = {
+                "mean": window_stats[0] if isinstance(window_stats, tuple) else window_stats,
+                "std": window_stats[1]
+                if isinstance(window_stats, tuple) and len(window_stats) > 1
+                else None,
+            }
+
+        store_features_to_csv(
+            window_data,
+            corpus.derivatives_dir,
+            document,
+            metric=f"semantic-similarity-window-{window_size}",
+        )
+
+        if collect_details and window_detail_rows:
+            store_features_to_csv(
+                window_detail_rows,
+                corpus.derivatives_dir,
+                document,
+                metric=f"semantic-similarity-window-details-{window_size}",
+            )
+
+    if "sentence" in corpus.config["options_semantic-similarity"]["window_sizes"]:
+        sentence_result = get_semantic_similarity_windows(
+            utterance,
+            "sentence",
+            return_details=store_sentence_details,
+            exclude_punctuation=exclude_punctuation_tokens,
+            source_text=source_text_for_sentence_similarity,
+        )
+        if store_sentence_details:
+            sentence_stats, sentence_detail_rows = sentence_result
+        else:
+            sentence_stats = sentence_result
+            sentence_detail_rows = []
+        if isinstance(sentence_stats, tuple) and len(sentence_stats) == 5:
+            sentence_data = {
+                "mean_of_window_means": sentence_stats[0],
+                "std_of_window_means": sentence_stats[1],
+                "mean_of_window_stds": sentence_stats[2],
+                "std_of_window_stds": sentence_stats[3],
+                "mean_of_window_medians": sentence_stats[4],
+            }
+            store_features_to_csv(
+                sentence_data,
+                corpus.derivatives_dir,
+                document,
+                metric="semantic-similarity-sentence",
+            )
+            if store_sentence_details and sentence_detail_rows:
+                store_features_to_csv(
+                    sentence_detail_rows,
+                    corpus.derivatives_dir,
+                    document,
+                    metric="semantic-similarity-sentence-details",
+                )
+
+
+def _clean_embedding_tokens(utterance, embedding_options, config):
+    if not embedding_options.get("clean_embedding_tokens"):
+        return utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
+
+    cleaned_embeddings = []
+    model_name = str(config.get("options_embeddings", {}).get("model_name", "")).lower()
+    if isinstance(utterance, dict):
+        for token, embedding in utterance.items():
+            if "xlm-roberta-base" in model_name:
+                cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
+            else:
+                cleaned_token = textcleaner.clean_token_generic(token)
+            if cleaned_token is not None:
+                cleaned_embeddings.append((cleaned_token, embedding))
+    else:
+        for token, embedding in utterance:
+            cleaned_token = textcleaner.clean_token_generic(token)
+            if cleaned_token is not None:
+                cleaned_embeddings.append((cleaned_token, embedding))
+    return cleaned_embeddings

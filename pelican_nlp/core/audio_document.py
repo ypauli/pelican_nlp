@@ -5,17 +5,17 @@ This module provides the AudioFile class for handling audio files and their proc
 including transcription, speaker diarization, and alignment functionality.
 """
 
+from __future__ import annotations
+
 import os
 import re
 import json
-from typing import List
+from typing import TYPE_CHECKING, List
 
-# Third-party Library Imports
-import librosa
 import numpy as np
-import soundfile as sf
-from pydub import AudioSegment
-from pydub.silence import detect_silence
+
+if TYPE_CHECKING:
+    from pydub import AudioSegment
 
 
 class Chunk:
@@ -70,16 +70,12 @@ class AudioFile:
 
         # Initialize optional attributes
         self.participant_ID = kwargs.get('participant_ID')
+        self.source_folder = kwargs.get('source_folder')
+        self.unit_kind = kwargs.get('unit_kind')
         self.task = kwargs.get('task')
         self.num_speakers = kwargs.get('num_speakers')
         self.corpus_name = None
         self.recording_length = None
-
-        # Analysis results
-        self.opensmile_results = None
-        self.prosogram_features = None
-        
-        # Transcription attributes
         self.transcription_file = None
         self.transcription_text_file = None  # Path to plain text transcription file
         self.transcript_text = None
@@ -90,6 +86,8 @@ class AudioFile:
 
     def load_audio(self):
         """Load the audio file using librosa."""
+        import librosa
+
         self.audio, self.sample_rate = librosa.load(self.file, sr=None)
         self.metadata["sample_rate"] = self.sample_rate
         print(f"Loaded audio file: {self.file}")
@@ -109,6 +107,8 @@ class AudioFile:
         
         :param output_dir: Directory to save normalized audio. If None, saves in same directory as original file.
         """
+        import soundfile as sf
+
         target_rms = 10 ** (self.target_rms_db / 20)
         rms = np.sqrt(np.mean(self.audio ** 2))
         gain = target_rms / rms
@@ -138,6 +138,8 @@ class AudioFile:
         :param min_length: Minimum length of a chunk (ms).
         :param max_length: Maximum length of a chunk (ms).
         """
+        from pydub import AudioSegment
+
         audio_segment = AudioSegment.from_file(self.normalized_path)
         audio_length_ms = len(audio_segment)
         self.metadata["length_seconds"] = audio_length_ms / 1000
@@ -164,6 +166,8 @@ class AudioFile:
 
     def _detect_silence_intervals(self, audio_segment: AudioSegment, min_silence_len: int, silence_thresh: int) -> List[List[int]]:
         """Detect silent intervals in the audio segment."""
+        from pydub.silence import detect_silence
+
         return detect_silence(audio_segment, min_silence_len=min_silence_len, silence_thresh=silence_thresh)
 
     def _get_splitting_points(self, silence_ranges: List[List[int]], audio_length_ms: int) -> List[int]:
@@ -495,38 +499,6 @@ class AudioFile:
             self.transcription_text_file = output_file
         except Exception as e:
             print(f"Error saving text file: {e}")
-
-    def load_transcription(self, transcription_file_path=None):
-        """
-        Load transcription results from a JSON file.
-        
-        :param transcription_file_path: Path to the transcription JSON file. 
-                                      If None, uses self.transcription_file
-        """
-        if transcription_file_path is None:
-            transcription_file_path = self.transcription_file
-            
-        if not transcription_file_path or not os.path.exists(transcription_file_path):
-            print(f"No transcription file found at {transcription_file_path}")
-            return
-            
-        try:
-            with open(transcription_file_path, 'r', encoding='utf-8') as f:
-                transcription_data = json.load(f)
-            
-            # Load transcription data into the document
-            self.transcript_text = transcription_data.get('transcript_text', '')
-            self.whisper_alignments = transcription_data.get('whisper_alignments', [])
-            self.forced_alignments = transcription_data.get('forced_alignments', [])
-            self.speaker_segments = transcription_data.get('speaker_segments', [])
-            self.combined_data = transcription_data.get('combined_data', [])
-            self.combined_utterances = transcription_data.get('utterance_data', [])
-            self.metadata = transcription_data.get('metadata', self.metadata)
-            
-            print(f"Loaded transcription data from {transcription_file_path}")
-            
-        except Exception as e:
-            print(f"Error loading transcription file {transcription_file_path}: {e}")
 
     def clear_audio_data(self):
         """

@@ -42,7 +42,6 @@ dependencies = [
     "editdistance>=0.8.1",
     "psutil>=6.1.0",
     "tqdm==4.67.1",
-    "pytest>=8.3.4",
     "statsmodels>=0.14.4",
     "datasets==3.3.2",
     "huggingface_hub==0.29.2",
@@ -68,17 +67,80 @@ Documentation = "https://github.com/ypauli/pelican_nlp#readme"
 
 [project.scripts]
 pelican-run = "pelican_nlp.cli:main"
+pelican-test-examples = "pelican_nlp.testing.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3.4"]
+transcription = [
+    "torch==2.5.1",
+    "torchaudio>=2.5.1",
+    "transformers==4.49.0",
+    "huggingface_hub==0.29.2",
+    "pyannote.audio>=3.1.0",
+    "uroman>=0.1.0",
+    "librosa>=0.10.0",
+    "soundfile>=0.13.1",
+    "pydub>=0.25.1",
+    "audiofile>=1.5.1",
+]
+acoustic = [
+    "opensmile>=2.6.0",
+    "praat-parselmouth>=0.4.6",
+    "audiofile>=1.5.1",
+    "librosa>=0.10.0",
+    "soundfile>=0.13.1",
+    "pydub>=0.25.1",
+]
+embeddings = [
+    "torch==2.5.1",
+    "transformers==4.49.0",
+    "accelerate==1.4.0",
+    "huggingface_hub==0.29.2",
+    "fasttext-wheel==0.9.2",
+    "scikit_learn>=1.6.1",
+    "scipy==1.15.2",
+    "statsmodels>=0.14.4",
+    "ortools>=9.10.0",
+]
+nlp = ["spacy==3.8.2"]
+topic = ["bertopic>=0.16.0"]
+all = [
+    "torch==2.5.1",
+    "torchaudio>=2.5.1",
+    "transformers==4.49.0",
+    "huggingface_hub==0.29.2",
+    "pyannote.audio>=3.1.0",
+    "uroman>=0.1.0",
+    "librosa>=0.10.0",
+    "soundfile>=0.13.1",
+    "pydub>=0.25.1",
+    "audiofile>=1.5.1",
+    "opensmile>=2.6.0",
+    "praat-parselmouth>=0.4.6",
+    "accelerate==1.4.0",
+    "fasttext-wheel==0.9.2",
+    "scikit_learn>=1.6.1",
+    "scipy==1.15.2",
+    "statsmodels>=0.14.4",
+    "ortools>=9.10.0",
+    "spacy==3.8.2",
+    "bertopic>=0.16.0",
+]
 
 [tool.setuptools]
-packages = ["pelican_nlp"]
 include-package-data = true
-package-data = { "pelican_nlp" = ["praat/*.praat"] }
+package-data = { "pelican_nlp" = [
+    "praat/*.praat",
+    "testing/_bundled/**",
+    "testing/_bundled/**/*",
+] }
 
-[tool.setuptools.package-dir]
-pelican_nlp = "pelican_nlp"
+[tool.setuptools.packages.find]
+include = ["pelican_nlp*"]
+exclude = ["pelican_nlp.Silvia_files*", "tests*"]
 
-[options]
-zip_safe = false
+[tool.setuptools.cmdclass]
+build_py = "_pelican_build.build_py"
 
 [tool.setuptools.dynamic]
 version = {attr = "pelican_nlp._version.__version__"}

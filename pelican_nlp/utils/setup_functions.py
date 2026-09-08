@@ -2,127 +2,132 @@ import os
 import shutil
 import yaml
 import sys
+from pathlib import Path
 from pelican_nlp.core.participant import Participant
 from .filename_parser import parse_lpds_filename
+from .lpds_paths import derivatives_subdir, file_matches_task, is_data_file, unit_id_from_folder
 from pelican_nlp.config import debug_print
+from pelican_nlp.config_defaults import apply_config_defaults
 
 
 def is_hidden_or_system_file(filename):
-    """
-    Check if a file is a hidden or system file that should be ignored.
-    
-    Args:
-        filename (str): The filename to check
-        
-    Returns:
-        bool: True if the file should be ignored, False otherwise
-    """
-    # Check for common hidden/system files
-    hidden_files = {
-        '.DS_Store',  # macOS
-        'Thumbs.db',  # Windows
-        '.Spotlight-V100',  # macOS Spotlight
-        '.Trashes',  # macOS Trash
-        '.fseventsd',  # macOS file system events
-        '.VolumeIcon.icns',  # macOS volume icon
-        '.com.apple.timemachine.donotpresent',  # macOS Time Machine
-        'desktop.ini',  # Windows
-        '.directory',  # KDE
-        '.localized',  # macOS
-        '.metadata_never_index',  # macOS Spotlight
-        '.parentlock',  # macOS
-        '.symlinks',  # macOS
-        '.TemporaryItems',  # macOS
-        '.VolumeIcon.icns',  # macOS
-        '._*',  # macOS resource fork files
-    }
-    
-    # Check if filename matches any hidden file pattern
-    if filename in hidden_files:
+    """True for hidden/system files that should not be treated as subject data."""
+    if not filename:
+        return False
+    if filename.startswith("."):
         return True
-    
-    # Check if filename starts with a dot (hidden files on Unix-like systems)
-    if filename.startswith('.'):
+    return filename in {"Thumbs.db", "desktop.ini"}
+
+
+# Sidecars that may sit in or under participants/ without being subject data.
+_METADATA_STEMS = {"metadata", "participant_metadata"}
+_METADATA_FILENAMES = {
+    "participants.tsv",
+    "participants.csv",
+    "participants.json",
+}
+
+
+def is_metadata_entry(name):
+    """Return True for a metadata file or folder name (not a participant or data file)."""
+    base = os.path.basename(str(name).rstrip("/\\"))
+    if not base:
+        return False
+    lower = base.lower()
+    if lower in _METADATA_FILENAMES:
         return True
-    
-    # Check if filename starts with underscore followed by dot (macOS resource forks)
-    if filename.startswith('._'):
-        return True
-    
-    return False
+    stem, _ext = os.path.splitext(lower)
+    return stem in _METADATA_STEMS
+
+
+def path_contains_metadata(path, root=None):
+    """Return True if any path component under ``root`` is a metadata sidecar."""
+    if root:
+        try:
+            relative = os.path.relpath(path, root)
+        except ValueError:
+            relative = path
+    else:
+        relative = path
+    return any(is_metadata_entry(part) for part in Path(relative).parts)
 
 
 def participant_instantiator(config, project_folder):
     path_to_participants = os.path.join(project_folder, 'participants')
     
-    # Get all participant directories that match part-* pattern, filtering out hidden files
-    participants = [
-        Participant(participant_dir) 
-        for participant_dir in os.listdir(path_to_participants)
-        if not is_hidden_or_system_file(participant_dir)
-    ]
+    # Only subject folders. Skip files and metadata sidecars at this level.
+    participants = []
+    for entry in os.listdir(path_to_participants):
+        if is_hidden_or_system_file(entry) or is_metadata_entry(entry):
+            continue
+        entry_path = os.path.join(path_to_participants, entry)
+        if not os.path.isdir(entry_path):
+            continue
+        participants.append(Participant(entry))
 
-    # Identifying all participant files
+    # Identifying all files in each unit folder
     for participant in participants:
-        # Get participant ID from directory name (e.g., 'part-01' -> '01')
-        participant.participantID = participant.name.split('-')[1]
-        
-        # Find all files for this participant recursively
         participant_path = os.path.join(path_to_participants, participant.name)
         all_files = []
-        for root, _, files in os.walk(participant_path):
-            # Filter out hidden/system files
-            filtered_files = [f for f in files if not is_hidden_or_system_file(f)]
+        for root, dirs, files in os.walk(participant_path):
+            dirs[:] = [
+                d for d in dirs
+                if not is_hidden_or_system_file(d) and not is_metadata_entry(d)
+            ]
+            if path_contains_metadata(root, participant_path):
+                continue
+            filtered_files = [
+                f for f in files
+                if not is_hidden_or_system_file(f) and not is_metadata_entry(f)
+            ]
             all_files.extend([os.path.join(root, f) for f in filtered_files])
-        
-        # Filter files by task name from config
-        task_files = []
+
+        task_name = config.get('task_name')
         for file_path in all_files:
             filename = os.path.basename(file_path)
+            if not is_data_file(filename):
+                continue
             entities = parse_lpds_filename(filename)
-            if entities.get('task') == config['task_name']:
-                task_files.append((file_path, filename))
-
-        # Instantiate documents for matching files
-        for file_path, filename in task_files:
-            entities = parse_lpds_filename(filename)
-            document = _instantiate_document(file_path, filename, entities, config)
+            if not file_matches_task(entities, task_name):
+                continue
+            document = _instantiate_document(
+                file_path,
+                filename,
+                entities,
+                config,
+                source_folder=participant.name,
+                unit_kind=participant.kind,
+            )
+            document.lpds_entities = entities
+            document.results_path = os.path.join(
+                project_folder,
+                'derivatives',
+                str(derivatives_subdir(participant.name, filename, entities)),
+            )
             participant.documents.append(document)
 
-        debug_print(f'all identified participant documents for participant {participant.participantID}: {participant.documents}')
-        
-        # Set up results paths for each document
-        for document in participant.documents:
-            entities = parse_lpds_filename(document.name)
-            
-            # Build derivatives path based on entities
-            derivatives_parts = [project_folder, 'derivatives']
-            
-            # Always include participant
-            derivatives_parts.append(f"part-{entities['part']}")
-            
-            # Add session if present
-            if 'ses' in entities:
-                derivatives_parts.append(f"ses-{entities['ses']}")
-            
-            # Add task
-            derivatives_parts.append(f"task-{entities['task']}")
-            
-            document.results_path = os.path.join(*derivatives_parts)
+        debug_print(
+            f'all identified documents for {participant.name} '
+            f'({participant.kind}): {participant.documents}'
+        )
 
     return participants
 
-def _instantiate_document(filepath, filename, entities, config):
+def _instantiate_document(filepath, filename, entities, config, source_folder=None, unit_kind=None):
     """Create appropriate document instance based on config and entities"""
+
+    participant_id = entities.get('part')
+    if participant_id is None and unit_kind == 'participant' and source_folder:
+        participant_id = unit_id_from_folder(source_folder)
 
     common_kwargs = {
         'file_path': os.path.dirname(filepath),
         'name': filename,
-        'participant_ID': entities.get('part'),
+        'participant_ID': participant_id,
+        'source_folder': source_folder,
+        'unit_kind': unit_kind,
         'task': entities.get('task'),
-        # Check for specific entities that might indicate document type
-        'fluency': 'cat' in entities and entities['cat'] == 'semantic',
-        'num_speakers': config['number_of_speakers'],
+        'num_speakers': config.get('number_of_speakers', 1),
     }
 
     if config['input_file'] == 'text':
@@ -130,10 +135,10 @@ def _instantiate_document(filepath, filename, entities, config):
         return Document(
             **common_kwargs,
             # Use entities for section information if available, fall back to config
-            has_sections=bool(entities.get('sections', config['has_multiple_sections'])),
-            section_identifier=config['section_identification'],
-            number_of_sections=config['number_of_sections'],
-            has_section_titles=config['has_section_titles'],
+            has_sections=bool(entities.get('sections', config.get('has_multiple_sections', False))),
+            section_identifier=config.get('section_identification'),
+            number_of_sections=config.get('number_of_sections'),
+            has_section_titles=config.get('has_section_titles', False),
             # Add any additional entities as attributes
             session=entities.get('ses'),
             acquisition=entities.get('acq'),
@@ -154,12 +159,10 @@ def remove_previous_derivative_dir(output_directory):
     if os.path.isdir(output_directory):
         shutil.rmtree(output_directory)
 
-def ignore_files(directory, files):
-    return [f for f in files if os.path.isfile(os.path.join(directory, f))]
-
 def load_config(config_path):
     try:
         with open(config_path, 'r') as stream:
-            return yaml.safe_load(stream)
+            loaded = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
         sys.exit(f"Error loading configuration: {exc}")
+    return apply_config_defaults(loaded or {})

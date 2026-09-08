@@ -2,16 +2,20 @@ import re
 import os
 
 from pelican_nlp.config import debug_print
-from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
+from pelican_nlp.utils.setup_functions import is_hidden_or_system_file, is_metadata_entry
+from pelican_nlp.utils.lpds_paths import is_participant_folder
 
 class LPDS:
     def __init__(self, project_folder, multiple_sessions):
         self.project_folder = project_folder
         self.multiple_sessions = multiple_sessions
         self.participants_folder = os.path.join(self.project_folder, "participants")
-        self.participant_folders = [f for f in os.listdir(self.participants_folder) if
-                                os.path.isdir(os.path.join(self.participants_folder, f)) and
-                                not is_hidden_or_system_file(f)]
+        self.participant_folders = [
+            f for f in os.listdir(self.participants_folder)
+            if os.path.isdir(os.path.join(self.participants_folder, f))
+            and not is_hidden_or_system_file(f)
+            and not is_metadata_entry(f)
+        ]
 
     def LPDS_checker(self):
         # Check if the main project folder exists
@@ -28,10 +32,11 @@ class LPDS:
         if not os.path.isdir(self.participants_folder):
             raise FileNotFoundError("Error: The 'participants' folder is missing in the project folder.")
 
-        # Check if there is at least one subfolder in 'participants', ideally named 'part-01'
+        # Check if there is at least one subfolder in 'participants'
         if not self.participant_folders:
             raise FileNotFoundError("Error: No participant subfolders found in the 'participants' folder.")
-        if 'part-01' not in self.participant_folders:
+        part_folders = [f for f in self.participant_folders if is_participant_folder(f)]
+        if part_folders and 'part-01' not in self.participant_folders:
             print("Warning: Ideally, participant folders should follow the naming convention 'part-x'.")
 
         # Iterate through participant subfolders
@@ -40,9 +45,12 @@ class LPDS:
 
             # Check for session folders if project has sessions
             if self.multiple_sessions:
-                session_folders = [f for f in os.listdir(participant_path) if
-                                   os.path.isdir(os.path.join(participant_path, f)) and
-                                   not is_hidden_or_system_file(f)]
+                session_folders = [
+                    f for f in os.listdir(participant_path)
+                    if os.path.isdir(os.path.join(participant_path, f))
+                    and not is_hidden_or_system_file(f)
+                    and not is_metadata_entry(f)
+                ]
                 if session_folders:
                     if 'ses-01' not in session_folders:
                         print(f"Warning: Ideally, the session folders should follow the naming convention 'ses-x'.")

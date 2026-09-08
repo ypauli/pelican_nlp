@@ -1,141 +1,154 @@
 import torch
 import psutil
-import os
-import shutil
 
 from accelerate import init_empty_weights, infer_auto_device_map, dispatch_model
-from transformers import AutoModelForCausalLM, AutoModelForMaskedLM, AutoModel
+from transformers import AutoModelForCausalLM, AutoModel
+
+from pelican_nlp.utils.gpu_budget import (
+    UNKNOWN_CAUSAL_FP16_BYTES,
+    apply_gpu_budget,
+    estimate_pretrained_weight_bytes,
+    gpu_can_hold,
+    hub_max_memory,
+    hub_model_load_kwargs,
+)
+from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs, load_static_model
+from pelican_nlp.extraction.model_registry import (
+    MODEL_KIND_CAUSAL_LM,
+    MODEL_KIND_STATIC,
+    resolve_model_kind,
+)
+
 
 class Model:
-    def __init__(self, model_name, project_path):
+    def __init__(self, model_name, model_kind=None):
         self.model_name = model_name
         self.model_instance = None
         self.device_map = None
-        self.PROJECT_PATH = project_path
+        self.kind = None
+        self._requested_kind = model_kind
+        self._needed_bytes = None
 
-    def load_model(self, empty_weights=False, trust_remote_code=False):
+    def load_model(self, empty_weights=False, trust_remote_code=False, model_kind=None):
         """Loads and configures the model"""
+        requested_kind = model_kind if model_kind is not None else self._requested_kind
+        self.kind = resolve_model_kind(
+            self.model_name,
+            explicit_kind=requested_kind,
+            trust_remote_code=trust_remote_code,
+        )
 
-        if self.model_name == 'fastText':
-            import fasttext
-            import fasttext.util
-            
-            # Create a model directory if it doesn't exist
-            model_dir = os.path.join(os.path.expanduser('~'), '.fasttext')
-            os.makedirs(model_dir, exist_ok=True)
-            
-            # Set the model path using proper OS path joining
-            model_path = os.path.join(model_dir, 'cc.de.300.bin')
-            
-            # Download only if model doesn't exist or is invalid
-            need_download = True
-            if os.path.exists(model_path):
-                try:
-                    self.model_instance = fasttext.load_model(model_path)
-                    need_download = False
-                except ValueError:
-                    print(f"Existing model file is corrupted, re-downloading...")
-                    os.remove(model_path)
-            
-            if need_download:
-                print("Downloading FastText model...")
-                try:
-                    # Try the built-in FastText downloader first
-                    fasttext.util.download_model('de', if_exists='ignore')
-                    # Find the downloaded file in current directory
-                    downloaded_file = 'cc.de.300.bin'
-                    if os.path.exists(downloaded_file):
-                        # Move the file to the correct location
-                        shutil.move(downloaded_file, model_path)
-                    else:
-                        raise FileNotFoundError("FastText downloader didn't create the expected file")
-                except (OSError, ValueError, FileNotFoundError) as e:
-                    print(f"FastText downloader failed, using direct download: {str(e)}")
-                    # Direct download fallback
-                    import urllib.request
-                    url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.de.300.bin.gz'
-                    print(f"Downloading from {url}...")
-                    temp_gz_path = model_path + '.gz'
-                    urllib.request.urlretrieve(url, temp_gz_path)
-                    
-                    # Decompress the file
-                    print("Decompressing model file...")
-                    import gzip
-                    with gzip.open(temp_gz_path, 'rb') as f_in:
-                        with open(model_path, 'wb') as f_out:
-                            f_out.write(f_in.read())
-                    os.remove(temp_gz_path)
-                    print("Model decompressed successfully")
-                
-                # Verify the downloaded model
-                try:
-                    self.model_instance = fasttext.load_model(model_path)
-                except ValueError as e:
-                    raise ValueError(f"Failed to load downloaded model: {str(e)}. Please try removing {model_path} and running again.")
-            
-            print(f'FastText model loaded successfully from {model_path}')
-        elif self.model_name == 'xlm-roberta-base':
-            self.model_instance = AutoModel.from_pretrained(
-                self.model_name,
-                trust_remote_code=trust_remote_code,
-                use_safetensors=True
-            )
-            print('RoBERTa model loaded.')
-        elif self.model_name == 'DiscoResearch/Llama3-German-8B-32k':
-            if empty_weights:
-                with init_empty_weights():
-                    self.model_instance = AutoModelForCausalLM.from_pretrained(
-                        self.model_name,
-                        trust_remote_code=trust_remote_code,
-                        use_safetensors=True
-                    )
-            else:
-                self.model_instance = AutoModelForCausalLM.from_pretrained(
-                    self.model_name,
-                    trust_remote_code=trust_remote_code,
-                    use_safetensors=True
-                )
-            print(f'Llama3-German-8B-32k loaded')
-        else:
-            raise ValueError("Invalid model name.")
+        if self.kind == MODEL_KIND_STATIC:
+            self._load_static()
+            return
 
-        if self.model_name == 'xlm-roberta-base' or self.model_name == 'DiscoResearch/Llama3-German-8B-32k':
-            # Additional model setup
+        model_cls = AutoModelForCausalLM if self.kind == MODEL_KIND_CAUSAL_LM else AutoModel
+        self.model_instance = self._from_pretrained(
+            model_cls,
+            empty_weights=empty_weights,
+            trust_remote_code=trust_remote_code,
+        )
+        print(f'{self.model_name} loaded ({self.kind}).')
+
+        already_placed = bool(getattr(self.model_instance, "hf_device_map", None))
+        if empty_weights or not already_placed:
             self.device_map_creation()
-
             self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
             print('Model dispatched to appropriate devices.')
+        else:
+            self.device_map = dict(self.model_instance.hf_device_map)
+            gpu_modules = sum(
+                1
+                for device in self.device_map.values()
+                if device == 0 or str(device).startswith("cuda")
+            )
+            cpu_modules = sum(
+                1 for device in self.device_map.values() if device == "cpu"
+            )
+            print(
+                f"Model placed during load: {gpu_modules} module(s) on GPU, "
+                f"{cpu_modules} on CPU.",
+                flush=True,
+            )
+
+    def _from_pretrained(self, model_cls, empty_weights=False, trust_remote_code=False):
+        if empty_weights:
+            kwargs = huggingface_from_pretrained_kwargs(
+                trust_remote_code=trust_remote_code,
+                use_safetensors=True,
+            )
+            with init_empty_weights():
+                return model_cls.from_pretrained(self.model_name, **kwargs)
+        needed_bytes, use_half = self._placement_for_load(trust_remote_code=trust_remote_code)
+        self._needed_bytes = needed_bytes
+        kwargs = hub_model_load_kwargs(
+            trust_remote_code=trust_remote_code,
+            use_safetensors=True,
+            needed_bytes=needed_bytes,
+            use_half=use_half,
+        )
+        dtype = kwargs.get("torch_dtype", "default")
+        device_map = kwargs.get("device_map", "none")
+        print(
+            f"Loading {self.model_name} ({self.kind}), dtype={dtype}, "
+            f"device_map={device_map}. This step has no inner progress bar "
+            "and can take several minutes...",
+            flush=True,
+        )
+        import time
+
+        started = time.monotonic()
+        model = model_cls.from_pretrained(self.model_name, **kwargs)
+        print(
+            f"Finished loading {self.model_name} in {time.monotonic() - started:.0f}s.",
+            flush=True,
+        )
+        return model
+
+    def _placement_for_load(self, trust_remote_code=False):
+        """Choose fp16 vs fp32. Oversized models still use the GPU up to the budget."""
+        fp16_bytes = estimate_pretrained_weight_bytes(
+            self.model_name, trust_remote_code=trust_remote_code, bytes_per_param=2
+        )
+        fp32_bytes = None if fp16_bytes is None else fp16_bytes * 2
+        if fp16_bytes is None and self.kind == MODEL_KIND_CAUSAL_LM:
+            fp16_bytes = UNKNOWN_CAUSAL_FP16_BYTES
+            fp32_bytes = UNKNOWN_CAUSAL_FP16_BYTES * 2
+        if self.kind != MODEL_KIND_CAUSAL_LM:
+            return fp32_bytes, False
+        if fp32_bytes is not None and gpu_can_hold(fp32_bytes):
+            return fp32_bytes, False
+        print(
+            "Causal LM does not fit in fp32 on the GPU budget; "
+            "loading float16 and filling the GPU, leftover layers on CPU.",
+            flush=True,
+        )
+        return fp16_bytes, True
+
+    def _load_static(self):
+        self.model_instance, model_path = load_static_model(self.model_name)
+        print(f"Static model loaded successfully from {model_path}")
 
     def device_map_creation(self):
-        # Detect device
+        apply_gpu_budget()
+        max_memory = hub_max_memory(needed_bytes=self._needed_bytes)
         if torch.cuda.is_available():
             device_type = "cuda"
             print(f'{torch.cuda.get_device_name(0)} available.')
-            available_VRAM = str(int(torch.cuda.get_device_properties(0).total_memory / (1024 ** 3)) - 3) + 'GB'
-            max_memory = {
-                0: available_VRAM,
-                "cpu": str(int(psutil.virtual_memory().total / (1024 ** 3)) - 3) + "GB",
-                "disk": "200GB",
-            }
-
         elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
             device_type = "mps"
             print("Apple Metal (MPS) available.")
-            # MPS doesn’t expose VRAM the same way, so just use CPU + MPS fallback
-            max_memory = {
-                "mps": str(int(psutil.virtual_memory().total / (1024 ** 3)) - 3) + "GB",
-                "cpu": str(int(psutil.virtual_memory().total / (1024 ** 3)) - 3) + "GB",
-                "disk": "200GB",
-            }
-
+            cpu_budget = max_memory.get(
+                "cpu",
+                f"{int(psutil.virtual_memory().total / (1024 ** 3))}GiB",
+            )
+            mps_memory = {"mps": cpu_budget, "cpu": cpu_budget}
+            if "disk" in max_memory:
+                mps_memory["disk"] = max_memory["disk"]
+            max_memory = mps_memory
         else:
             device_type = "cpu"
             print("Careful: No GPU available, using CPU. This will be slow.")
-            max_memory = {
-                "cpu": str(int(psutil.virtual_memory().total / (1024 ** 3)) - 3) + "GB",
-                "disk": "200GB",
-            }
 
-        # Create device map
         self.device_map = infer_auto_device_map(self.model_instance, max_memory=max_memory)
         return device_type

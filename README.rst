@@ -46,11 +46,55 @@ Activate environment
 
     conda activate pelican-nlp
 
-Install the package using pip:
+**From this repository (default for development and pre-PyPI testing).**
+This makes ``pelican-run`` use the code on disk, not a published wheel:
 
 .. code-block:: bash
 
-    pip install pelican-nlp
+    cd /path/to/PELICAN-nlp
+    pip install -e '.[dev]'
+
+Confirm the command is bound to the checkout (run this from any directory, not only the repo):
+
+.. code-block:: bash
+
+    python -c "import pelican_nlp.cli; print(pelican_nlp.cli.__file__)"
+
+The printed path should be ``.../PELICAN-nlp/pelican_nlp/cli.py``. If it contains ``site-packages``, the env is still on an installed wheel; rerun the editable install.
+
+**From PyPI (released package only):**
+
+.. code-block:: bash
+
+    pip install 'pelican_nlp[dev]'
+
+Optional extras
+---------------
+
+``pip install pelican_nlp`` still installs the full stack. Extra names document
+which libraries a YAML config needs. They do **not** shrink that default
+install today: ``pip install 'pelican_nlp[transcription]'`` is not smaller
+while torch, fastText, and the other heavy libraries remain required
+dependencies. The names are the install contract if the default is slimmed
+later.
+
+.. code-block:: bash
+
+    pip install 'pelican_nlp[transcription]'
+    pip install 'pelican_nlp[embeddings]'
+    pip install 'pelican_nlp[all]'
+
+================== ===============================================================
+Extra              YAML that needs it
+================== ===============================================================
+``transcription`` ``input_file: audio`` with a ``transcription:`` block
+``acoustic``       ``opensmile_feature_extraction`` / ``prosogram_extraction``
+``embeddings``     ``metrics_to_extract`` embeddings, logits, or perplexity
+``nlp``            ``pipeline_options.normalize_text``
+``topic``          ``metrics_to_extract`` includes ``topic_modeling``
+``all``            union of the extras above (includes BERTopic)
+``dev``            pytest (``pelican-run --run-tests``)
+================== ===============================================================
 
 Usage
 =====
@@ -76,6 +120,38 @@ Navigate to your project directory (must contain your ``participants/`` folder a
 
     conda activate pelican-nlp
     pelican-run
+
+Running tests
+-------------
+
+After the editable install above, run the suite from any directory (same conda env):
+
+.. code-block:: bash
+
+    pelican-run --run-tests
+
+That uses local ``tests/`` and ``examples/``. You do not need to publish to PyPI first.
+
+Include example golden tests (needs models; the same set as ``pytest --run-examples``):
+
+.. code-block:: bash
+
+    pelican-run --run-tests --examples
+    pelican-run --run-tests --examples fluency,discourse
+
+Example runs print a short progress summary. For the full pipeline dump:
+
+.. code-block:: bash
+
+    pelican-run --run-tests --examples --example-logs
+
+Forward extra pytest flags after ``--``:
+
+.. code-block:: bash
+
+    pelican-run --run-tests -- -k test_model_registry -q
+
+``pelican-test-examples`` is an alias for ``pelican-run --run-tests --examples``.
 
 To optimize performance, close other programs and limit GPU usage during language processing.
 

@@ -1,14 +1,17 @@
-import spacy
-
 class TextNormalizer:
     def __init__(self, options):
         self.options = options
         self.nlp = None  # Initialize as None, load only when needed
+        self.spacy_model = options.get("spacy_model", "de_core_news_sm")
 
     def _load_model(self):
         """Load spaCy model if not already loaded."""
         if self.nlp is None:
-            self.nlp = spacy.load('de_core_news_sm')
+            from pelican_nlp.extras import require_extra
+            from pelican_nlp.utils.model_cache import load_spacy_model
+
+            require_extra("nlp")
+            self.nlp = load_spacy_model(self.spacy_model)
 
     def normalize(self, tokens):
         method = self.options.get('method')

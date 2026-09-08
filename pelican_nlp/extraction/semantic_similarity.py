@@ -2,25 +2,15 @@ import numpy as np
 import scipy
 from scipy.spatial.distance import cdist
 import pandas as pd
-import string
 from pelican_nlp.config import debug_print
+from pelican_nlp.extraction.token_artifacts import is_punctuation_token
 
-SPECIAL_TOKENS = {'<s>', '</s>', '<pad>', '<unk>'}
-
-def _is_punctuation_token(token):
-    token_str = str(token)
-    if token_str in SPECIAL_TOKENS:
-        return True
-    token_core = token_str.replace('▁', '').strip()
-    if token_core == '':
-        return True
-    return all(char in string.punctuation for char in token_core)
 
 def filter_punctuation_tokens(embedding_vectors):
     filtered = []
     removed = 0
     for token, vector in embedding_vectors:
-        if _is_punctuation_token(token):
+        if is_punctuation_token(token):
             removed += 1
             continue
         filtered.append((token, vector))

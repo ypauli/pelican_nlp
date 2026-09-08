@@ -1,4 +1,3 @@
-import audiofile
 import pandas as pd
 
 class AudioFeatureExtraction:
@@ -6,6 +5,7 @@ class AudioFeatureExtraction:
     @staticmethod
     def opensmile_extraction(file, opensmile_configurations):
         print(f'opensmile extraction in progress...')
+        import audiofile
         import opensmile
 
         print(f'audio file is: {file}')
@@ -145,3 +145,9 @@ exit"""
             print(f"Error processing {file}")
             print(f"Full error message: {str(e)}")
             raise
+
+
+def opensmile_job(job):
+    """Module-level wrapper so process pools can pickle openSMILE work."""
+    file, opensmile_configurations = job
+    return AudioFeatureExtraction.opensmile_extraction(file, opensmile_configurations)

@@ -69,7 +69,7 @@ general_cleaning_options:
 # Embedding Options
 # ---------------
 options_embeddings:
-  tokenization_method: "model_roberta" #or "whitespace", "model"
+  tokenization_method: "model" # "whitespace" | "model"
   max_length: 512 #max sequence length
   model_name: "xlm-roberta-base" #e.g. "fastText", "xlm-roberta-base"
   pytorch_based_model: true

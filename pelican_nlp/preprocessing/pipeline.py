@@ -1,7 +1,3 @@
-from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
-from pelican_nlp.preprocessing.text_cleaner import TextCleaner, FluencyCleaner
-from pelican_nlp.preprocessing.text_normalizer import TextNormalizer
-
 class TextPreprocessingPipeline:
     """Pipeline for text preprocessing operations."""
     
@@ -36,16 +32,29 @@ class TextPreprocessingPipeline:
 
     def _clean_text(self, document):
         """Clean document text."""
+        from pelican_nlp.preprocessing.text_cleaner import TextCleaner
+
         self.cleaner = TextCleaner(self.config['cleaning_options'])
         document.clean_text(self.cleaner)
 
     def _tokenize_text(self, document):
         """Tokenize document text."""
-        self.tokenizer = TextTokenizer(self.config['tokenization_options'])
-        document.tokenize_text(self.tokenizer)
+        from pelican_nlp.preprocessing.text_tokenizer import TextTokenizer
+
+        opts = self.config.get("tokenization_options") or {}
+        method = opts.get("method", "whitespace")
+        self.tokenizer = TextTokenizer(
+            method,
+            model_name=opts.get("model_name"),
+            max_length=opts.get("max_length"),
+            trust_remote_code=opts.get("trust_remote_code", False),
+        )
+        document.tokenize_text(self.tokenizer, purpose=opts.get("purpose", "embeddings"))
 
     def _normalize_text(self, document):
         """Normalize document text."""
+        from pelican_nlp.preprocessing.text_normalizer import TextNormalizer
+
         self.normalizer = TextNormalizer(self.config['normalization_options'])
         document.normalize_text(self.normalizer)
 

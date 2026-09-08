@@ -1,66 +1,17 @@
 import os
 import csv
-from .filename_parser import parse_lpds_filename
 from pelican_nlp.config import debug_print
+from .lpds_paths import derivatives_output_path, document_entities, unit_folder_for_document
 
 def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
     """Store various types of features to CSV files with consistent formatting."""
 
-    # Parse entities from the document name
-    entities = parse_lpds_filename(doc_class.name)
-    
-    # Get the base filename without extension and current suffix
-    base_filename = os.path.splitext(doc_class.name)[0]  # Remove extension
-    
-    # If there's a suffix in the entities, remove it from the base filename
-    if 'suffix' in entities:
-        # Remove the current suffix
-        base_filename = base_filename.replace(f"_{entities['suffix']}", "")
-    
-    # Create the new filename with the metric as suffix
-    filename = f"{base_filename}_{metric}.csv"
-    
-    # Extract core information from entities for directory structure
-    participant_ID = f"part-{entities['part']}" if 'part' in entities else None
-    if not participant_ID:
-        raise ValueError(f"Missing required 'part' entity in filename: {doc_class.name}")
-    
-    session = f"ses-{entities['ses']}" if 'ses' in entities else None
-    task = f"task-{entities['task']}" if 'task' in entities else None
-    
-    # Build the full path components
-    path_components = [
-        derivatives_dir,
-        metric,  # Use metric as the folder name
-        participant_ID,
-    ]
-
-    # Add session to path if it exists
-    if session:
-        path_components.append(session)
-
-    # Add task to path if it exists
-    if task:
-        path_components.append(task)
-    
-    # Create directory and get final filepath
-    # Ensure all components have compatible types by using str() conversion
-    base_path = os.path.join(str(derivatives_dir), str(metric), str(participant_ID))
-    
-    # Build path incrementally with explicit type conversion
-    if session:
-        final_results_path = os.path.join(base_path, str(session))
-    else:
-        final_results_path = base_path
-        
-    if task:
-        final_results_path = os.path.join(final_results_path, str(task))
-
-
-    debug_print(final_results_path)
-    os.makedirs(final_results_path, exist_ok=True)
-    
-    output_filepath = os.path.join(final_results_path, str(filename))
+    unit_folder = unit_folder_for_document(doc_class)
+    entities = document_entities(doc_class)
+    output_filepath = derivatives_output_path(
+        derivatives_dir, unit_folder, doc_class.name, metric, entities
+    )
+    debug_print(output_filepath)
     file_exists = os.path.exists(output_filepath)
     
     # Write data based on metric type
@@ -173,12 +124,11 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                             window_result.get('std_dist', '')
                         ])
 
-        elif metric == 'logits':
+        elif metric in ('logits', 'perplexity-section', 'perplexity-sentence'):
             if not input_data:
                 return
             header = list(input_data[0].keys())
             _write_csv_header(writer, header, file_exists)
-            
             for entry in input_data:
                 writer.writerow(entry.values())
 
@@ -253,16 +203,6 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                     if not file_exists:
                         writer.writerow([])  # Empty line between sections
 
-        elif metric in ['perplexity-section', 'perplexity-sentence']:
-            if not input_data:
-                return
-            header = list(input_data[0].keys())
-            _write_csv_header(writer, header, file_exists)
-            
-            for entry in input_data:
-                writer.writerow(entry.values())
-        
-        # Default handler for topic modeling and other dictionary-based metrics
         elif isinstance(input_data, list) and len(input_data) > 0 and isinstance(input_data[0], dict):
             # Generic handler for list of dictionaries (e.g., topic modeling assignments, keywords, comparisons)
             if not input_data:
@@ -292,42 +232,6 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
             return output_filepath
 
     return output_filepath
-
-
-def _build_filename_parts(path_parts, corpus, metric, config=None):
-    """Helper function to build filename components."""
-    filename_config = config.get('filename_components', {}) if config else {}
-
-    # Extract mandatory components
-    if len(path_parts) < 3:
-        raise ValueError("Invalid path format. Expected at least 'project/participant/task'.")
-
-    participant = path_parts[-3]
-    task = path_parts[-1]
-
-    # Build filename components
-    parts = [participant]
-
-    # Add optional session
-    if filename_config.get('session', False) and len(path_parts) >= 4:
-        parts.append(path_parts[-3])
-
-    parts.append(task)
-
-    # Add optional components
-    if filename_config.get('corpus', True):
-        parts.append(corpus)
-    parts.extend(filename_config.get('additional_tags', []))
-    parts.append(metric)
-
-    return parts
-
-
-def _get_metric_folder(metric):
-    """Determine the appropriate metric folder."""
-    if metric.startswith('semantic-similarity') or metric in ['consecutive-similarities', 'cosine-similarity-matrix']:
-        return 'semantic-similarity'
-    return 'embeddings'
 
 
 def _write_csv_header(writer, header, file_exists):

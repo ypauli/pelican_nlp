@@ -7,12 +7,15 @@ import os
 import pandas as pd
 import numpy as np
 import io
-import string
 from pathlib import Path
 from typing import List, Tuple, Dict, Any
 
 from pelican_nlp.config import debug_print
 from pelican_nlp.utils.csv_functions import store_features_to_csv
+from pelican_nlp.extraction.token_artifacts import (
+    is_punctuation_token,
+    remaining_after_trailing_artifacts,
+)
 
 
 class PerplexityExtractor:
@@ -36,6 +39,16 @@ class PerplexityExtractor:
             ],
         )
         
+    def process_corpus(self, corpus) -> None:
+        """Compute perplexity from logits already stored on each document."""
+        total = len(corpus.documents)
+        for index, document in enumerate(corpus.documents, start=1):
+            print(f"Perplexity [{index}/{total}] {document.name}", flush=True)
+            for section_idx, logits_data in enumerate(document.logits):
+                self.extract_perplexity_from_document(
+                    document, logits_data, section_index=section_idx
+                )
+
     def extract_perplexity_from_document(self, document, logits_data: List[Dict[str, Any]], section_index: int = 0) -> None:
         """
         Extract perplexity metrics from logits data for a single section of a document.
@@ -65,46 +78,17 @@ class PerplexityExtractor:
         # Store results with correct section index
         self._store_perplexity_results(document, section_perplexities, sentence_perplexities_per_section, section_index)
 
-    @staticmethod
-    def _normalize_token_for_matching(token: Any) -> str:
-        token_str = str(token).strip().strip('"')
-        return token_str.lstrip('▁')
-
     def _remove_trailing_artifact_rows(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Remove known trailing artifact token sequences from the end of a section.
-        """
+        """Remove known trailing artifact token sequences from the end of a section."""
         if df.empty or "token" not in df.columns:
             return df
-
-        normalized_sequences = [
-            [self._normalize_token_for_matching(tok) for tok in sequence]
-            for sequence in self.trailing_artifact_token_sequences
-            if sequence
-        ]
-        normalized_sequences = sorted(normalized_sequences, key=len, reverse=True)
-        if not normalized_sequences:
+        keep = remaining_after_trailing_artifacts(
+            df["token"].tolist(),
+            self.trailing_artifact_token_sequences,
+        )
+        if keep == len(df):
             return df
-
-        cleaned_df = df.copy()
-
-        def ends_with_sequence(local_df: pd.DataFrame, sequence: List[str]) -> bool:
-            if len(local_df) < len(sequence):
-                return False
-            suffix_tokens = local_df["token"].iloc[-len(sequence):].tolist()
-            normalized_suffix = [self._normalize_token_for_matching(tok) for tok in suffix_tokens]
-            return normalized_suffix == sequence
-
-        changed = True
-        while changed and not cleaned_df.empty:
-            changed = False
-            for sequence in normalized_sequences:
-                if ends_with_sequence(cleaned_df, sequence):
-                    cleaned_df = cleaned_df.iloc[:-len(sequence)].copy()
-                    changed = True
-                    break
-
-        return cleaned_df.reset_index(drop=True)
+        return df.iloc[:keep].reset_index(drop=True)
         
     def _calculate_perplexity_metrics(self, df: pd.DataFrame) -> Tuple[List[float], List[List[float]]]:
         """
@@ -233,30 +217,6 @@ class PerplexityExtractor:
             
         return sentences
     
-    def _is_punctuation_token(self, token: str) -> bool:
-        """
-        Check if a token is punctuation-only.
-        
-        Args:
-            token: Token string to check
-            
-        Returns:
-            True if token is punctuation-only, False otherwise
-        """
-        token_str = str(token)
-        # Handle special tokens
-        SPECIAL_TOKENS = {'<s>', '</s>', '<pad>', '<unk>'}
-        if token_str in SPECIAL_TOKENS:
-            return True
-        
-        # Remove sentencepiece prefix if present
-        token_core = token_str.replace('▁', '').strip()
-        if token_core == '':
-            return True
-        
-        # Check if all characters are punctuation
-        return all(char in string.punctuation for char in token_core)
-    
     def _count_non_punctuation_tokens(self, df: pd.DataFrame) -> int:
         """
         Count the number of non-punctuation tokens in a DataFrame.
@@ -272,7 +232,7 @@ class PerplexityExtractor:
         
         count = 0
         for token in df["token"]:
-            if not self._is_punctuation_token(token):
+            if not is_punctuation_token(token):
                 count += 1
         return count
     
