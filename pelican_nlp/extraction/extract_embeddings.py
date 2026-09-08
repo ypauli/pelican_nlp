@@ -7,16 +7,49 @@ from pelican_nlp.preprocessing import text_cleaner as textcleaner
 from pelican_nlp.utils.csv_functions import store_features_to_csv
 from pelican_nlp.extraction.sectioning import iter_section_groups
 from pelican_nlp.extraction.resources import release_gpu
+from pelican_nlp.extraction.embedding_batching import (
+    auto_encoder_batch_size,
+    collect_document_jobs,
+    count_jobs,
+    dtype_bytes_from_model,
+    embedding_batch_size_or_one,
+    encoder_auto_batch_eligible,
+    encoder_shape_from_model,
+    explicit_embedding_batch_size,
+    flatten_window_jobs,
+    free_bytes_for_activations,
+    is_cuda_oom,
+    iter_document_windows,
+    should_window_batch,
+)
 
 from pelican_nlp.config import debug_print
 
 
 def _embedding_batch_size(embedding_options) -> int:
-    try:
-        value = int(embedding_options.get("batch_size", 1) or 1)
-    except (TypeError, ValueError):
-        return 1
-    return max(1, value)
+    return embedding_batch_size_or_one(embedding_options)
+
+
+def _token_count_from_inputs(inputs) -> int:
+    if inputs is None:
+        return 0
+    if isinstance(inputs, dict):
+        token_ids = inputs.get("input_ids")
+    elif hasattr(inputs, "input_ids"):
+        token_ids = inputs["input_ids"]
+    elif hasattr(inputs, "__len__"):
+        return len(inputs)
+    else:
+        return 0
+    if token_ids is None:
+        return 0
+    if hasattr(token_ids, "shape"):
+        if len(token_ids.shape) > 1:
+            return int(token_ids.shape[-1])
+        return int(token_ids.shape[0])
+    if token_ids and isinstance(token_ids[0], (list, tuple)):
+        return len(token_ids[0])
+    return len(token_ids)
 
 
 class EmbeddingsExtractor:
@@ -50,9 +83,10 @@ class EmbeddingsExtractor:
             and self.model.kind != MODEL_KIND_CAUSAL_LM
             and len(text_list) > 1
         ):
-            return self._extract_embeddings_encoder_batched(
+            entries, token_counts = self._extract_embeddings_encoder_batched(
                 text_list, embedding_options, batch_size
             )
+            return entries, (token_counts[-1] if token_counts else 0)
 
         doc_entry_list = []
 
@@ -376,14 +410,17 @@ class EmbeddingsExtractor:
         return doc_entry_list, token_count
 
     def _extract_embeddings_encoder_batched(self, text_list, embedding_options, batch_size):
-        """One encoder forward per chunk of texts. Opt-in via options_embeddings.batch_size."""
+        """One encoder forward per chunk of texts. Returns per-text token counts."""
         import torch
         from types import SimpleNamespace
 
         prepared = [
             self._prepare_embedding_inputs(text, embedding_options) for text in text_list
         ]
+        if not prepared:
+            return [], []
         doc_entry_list = []
+        token_counts = []
         with torch.inference_mode():
             for start in range(0, len(prepared), batch_size):
                 chunk = prepared[start:start + batch_size]
@@ -396,16 +433,8 @@ class EmbeddingsExtractor:
                     doc_entry_list.append(
                         self._collect_pytorch_token_embeddings(inputs, outputs)
                     )
-        inputs = prepared[-1] if prepared else None
-        if isinstance(inputs, dict):
-            token_count = len(inputs['input_ids'][0]) if 'input_ids' in inputs else 0
-        elif hasattr(inputs, 'input_ids'):
-            token_count = len(inputs['input_ids'][0]) if hasattr(inputs['input_ids'], '__len__') else 0
-        elif inputs is not None and hasattr(inputs, '__len__'):
-            token_count = len(inputs)
-        else:
-            token_count = 0
-        return doc_entry_list, token_count
+                    token_counts.append(_token_count_from_inputs(inputs))
+        return doc_entry_list, token_counts
 
     def _prepare_embedding_inputs(self, text, embedding_options):
         from pelican_nlp.preprocessing.text_tokenizer import TOKENIZATION_WHITESPACE
@@ -572,16 +601,67 @@ class EmbeddingsExtractor:
     def process_corpus(self, corpus):
         """Extract embeddings for every document section and write derived metrics."""
         embedding_options = corpus.config["options_embeddings"]
-        semantic_similarity_options = corpus.config.get("options_semantic-similarity", {})
-        store_window_details = semantic_similarity_options.get("store_window_details", False)
-        store_sentence_details = semantic_similarity_options.get(
-            "store_sentence_details", store_window_details
-        )
-        keep_speakertags = embedding_options.get("keep_speakertags", False)
-        run_distance = embedding_options.get("distance-from-randomness", False)
-
+        write_opts = _embedding_write_options(corpus, embedding_options)
         debug_print(len(corpus.documents))
+        batch_size = self._resolve_encoder_batch_size(corpus, embedding_options, write_opts)
+        if should_window_batch(
+            pytorch_based=self.embeddings_configurations["pytorch_based_model"],
+            model_kind=self.model.kind,
+            batch_size=batch_size,
+        ):
+            self._process_corpus_encoder_windowed(
+                corpus, embedding_options, write_opts, batch_size
+            )
+        else:
+            self._process_corpus_sequential(corpus, embedding_options, write_opts)
+        release_gpu(self)
+        print("GPU memory cleared after embeddings extraction")
+        return
+
+    def _resolve_encoder_batch_size(self, corpus, embedding_options, write_opts):
+        explicit = explicit_embedding_batch_size(embedding_options)
+        if explicit is not None:
+            if explicit > 1:
+                print(f"Embeddings: batch_size={explicit} (from config).", flush=True)
+            return explicit
+        pytorch_based = self.embeddings_configurations["pytorch_based_model"]
+        if not encoder_auto_batch_eligible(self.model.kind, pytorch_based, self.model_instance):
+            return 1
+        jobs_by_doc = collect_document_jobs(
+            corpus.documents,
+            corpus.config,
+            keep_speakertags=write_opts["keep_speakertags"],
+        )
+        n_texts = count_jobs(jobs_by_doc)
+        if n_texts < 2:
+            return 1
+        hidden, layers = encoder_shape_from_model(self.model_instance)
+        seq_len = self.embeddings_configurations.get("max_length") or 512
+        try:
+            seq_len = int(seq_len)
+        except (TypeError, ValueError):
+            seq_len = 512
+        free_bytes = free_bytes_for_activations()
+        n = auto_encoder_batch_size(
+            free_bytes=free_bytes,
+            seq_len=seq_len,
+            hidden=hidden,
+            layers=layers,
+            n_texts=n_texts,
+            bytes_per_elem=dtype_bytes_from_model(self.model_instance),
+        )
+        if n > 1:
+            free_gb = (free_bytes or 0) / (1024 ** 3)
+            print(
+                f"Embeddings: auto batch_size={n} "
+                f"({free_gb:.1f} GiB free, {n_texts} texts).",
+                flush=True,
+            )
+        return n
+
+    def _process_corpus_sequential(self, corpus, embedding_options, write_opts):
         total = len(corpus.documents)
+        keep_speakertags = write_opts["keep_speakertags"]
         for index, document in enumerate(corpus.documents, start=1):
             print(f"Embeddings [{index}/{total}] {document.name}", flush=True)
             debug_print(f"cleaned sections: {document.cleaned_sections}")
@@ -592,55 +672,138 @@ class EmbeddingsExtractor:
                 embeddings, token_count = self.extract_embeddings_from_text(
                     section_parts, embedding_options
                 )
-                document.embeddings.append(embeddings)
+                _write_section_embeddings(
+                    document, corpus, section_parts, embeddings, token_count, write_opts
+                )
 
-                if corpus.task == "fluency":
-                    document.fluency_word_count = token_count
-
-                for utterance_idx, utterance in enumerate(embeddings):
-                    source_text_for_sentence_similarity = (
-                        section_parts[utterance_idx] if utterance_idx < len(section_parts) else None
-                    )
-                    if embedding_options.get("semantic-similarity"):
-                        _store_semantic_similarity(
-                            utterance,
-                            document,
-                            corpus,
-                            semantic_similarity_options,
-                            store_window_details,
-                            store_sentence_details,
-                            source_text_for_sentence_similarity,
-                        )
-
-                    if run_distance:
-                        from pelican_nlp.extraction.distance_from_randomness import (
-                            get_distance_from_randomness,
-                        )
-
-                        divergence = get_distance_from_randomness(
-                            utterance, corpus.config["options_dis_from_randomness"]
-                        )
-                        debug_print(f"Divergence from optimality metrics: {divergence}")
-                        store_features_to_csv(
-                            divergence,
-                            corpus.derivatives_dir,
-                            document,
-                            metric="distance-from-randomness",
-                        )
-
-                    cleaned_embeddings = _clean_embedding_tokens(
-                        utterance, embedding_options, corpus.config
-                    )
-                    store_features_to_csv(
-                        cleaned_embeddings,
-                        corpus.derivatives_dir,
-                        document,
-                        metric="embeddings",
+    def _process_corpus_encoder_windowed(
+        self, corpus, embedding_options, write_opts, batch_size
+    ):
+        jobs_by_doc = collect_document_jobs(
+            corpus.documents,
+            corpus.config,
+            keep_speakertags=write_opts["keep_speakertags"],
+        )
+        total = len(corpus.documents)
+        effective_batch = max(1, int(batch_size))
+        doc_index = {id(document): index for index, document in enumerate(corpus.documents, start=1)}
+        for window in iter_document_windows(jobs_by_doc, effective_batch):
+            window_jobs = flatten_window_jobs(window)
+            effective_batch = self._encode_jobs(
+                window_jobs, embedding_options, effective_batch
+            )
+            for document, doc_jobs in window:
+                print(
+                    f"Embeddings [{doc_index.get(id(document), '?')}/{total}] {document.name}",
+                    flush=True,
+                )
+                lookup = {(job.section_key, job.part_index): job for job in doc_jobs}
+                for key, section_parts in iter_section_groups(
+                    document, corpus.config, keep_speakertags=write_opts["keep_speakertags"]
+                ):
+                    embeddings = []
+                    token_count = 0
+                    for part_index, _text in enumerate(section_parts):
+                        job = lookup[(key, part_index)]
+                        embeddings.append(job.embeddings)
+                        token_count = job.token_count
+                    _write_section_embeddings(
+                        document, corpus, section_parts, embeddings, token_count, write_opts
                     )
 
-        release_gpu(self)
-        print("GPU memory cleared after embeddings extraction")
-        return
+    def _encode_jobs(self, jobs, embedding_options, batch_size) -> int:
+        """Encode jobs in chunks. Returns the batch size that succeeded (may shrink on OOM)."""
+        if not jobs:
+            return batch_size
+        texts = [job.text for job in jobs]
+        current = max(1, int(batch_size))
+        while True:
+            try:
+                embeddings_list, token_counts = self._extract_embeddings_encoder_batched(
+                    texts, embedding_options, current
+                )
+                break
+            except Exception as exc:
+                if current <= 1 or not is_cuda_oom(exc):
+                    raise
+                current = max(1, current // 2)
+                print(
+                    f"CUDA out of memory during embeddings; retrying batch_size={current}.",
+                    flush=True,
+                )
+                try:
+                    import torch
+
+                    if torch.cuda.is_initialized():
+                        torch.cuda.empty_cache()
+                except Exception:
+                    pass
+        for job, embeddings, token_count in zip(jobs, embeddings_list, token_counts):
+            job.embeddings = embeddings
+            job.token_count = token_count
+        return current
+
+
+def _embedding_write_options(corpus, embedding_options):
+    semantic_similarity_options = corpus.config.get("options_semantic-similarity", {})
+    store_window_details = semantic_similarity_options.get("store_window_details", False)
+    return {
+        "embedding_options": embedding_options,
+        "semantic_similarity_options": semantic_similarity_options,
+        "store_window_details": store_window_details,
+        "store_sentence_details": semantic_similarity_options.get(
+            "store_sentence_details", store_window_details
+        ),
+        "keep_speakertags": embedding_options.get("keep_speakertags", False),
+        "run_distance": embedding_options.get("distance-from-randomness", False),
+    }
+
+
+def _write_section_embeddings(
+    document, corpus, section_parts, embeddings, token_count, write_opts
+):
+    embedding_options = write_opts["embedding_options"]
+    document.embeddings.append(embeddings)
+    if corpus.task == "fluency":
+        document.fluency_word_count = token_count
+    for utterance_idx, utterance in enumerate(embeddings):
+        source_text_for_sentence_similarity = (
+            section_parts[utterance_idx] if utterance_idx < len(section_parts) else None
+        )
+        if embedding_options.get("semantic-similarity"):
+            _store_semantic_similarity(
+                utterance,
+                document,
+                corpus,
+                write_opts["semantic_similarity_options"],
+                write_opts["store_window_details"],
+                write_opts["store_sentence_details"],
+                source_text_for_sentence_similarity,
+            )
+        if write_opts["run_distance"]:
+            from pelican_nlp.extraction.distance_from_randomness import (
+                get_distance_from_randomness,
+            )
+
+            divergence = get_distance_from_randomness(
+                utterance, corpus.config["options_dis_from_randomness"]
+            )
+            debug_print(f"Divergence from optimality metrics: {divergence}")
+            store_features_to_csv(
+                divergence,
+                corpus.derivatives_dir,
+                document,
+                metric="distance-from-randomness",
+            )
+        cleaned_embeddings = _clean_embedding_tokens(
+            utterance, embedding_options, corpus.config
+        )
+        store_features_to_csv(
+            cleaned_embeddings,
+            corpus.derivatives_dir,
+            document,
+            metric="embeddings",
+        )
 
 
 def _store_semantic_similarity(

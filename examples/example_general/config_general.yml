@@ -91,7 +91,8 @@ options_embeddings:
   pytorch_based_model: false         # true | false  (inferred from model_kind if omitted; true for transformers)
   trust_remote_code: false           # true | false
   max_length: 512                    # integer | null  (transformer max sequence length)
-  batch_size: 1                      # integer >= 1  (encoder batching; 1 = one text at a time)
+  # batch_size: omit to auto-batch encoder models on GPU across documents.
+  # Set an integer to override (1 = one text at a time).
   lowercase: false                   # true | false  (applied before embedding tokenization)
   remove_punctuation: false          # true | false
   keep_speakertags: false            # true | false  (discourse: keep "B:" in the scored text)

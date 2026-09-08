@@ -27,7 +27,6 @@ _EMBEDDING_DEFAULTS = {
     "semantic-similarity": False,
     "keep_speakertags": False,
     "clean_embedding_tokens": True,
-    "batch_size": 1,
 }
 
 _PIPELINE_DEFAULTS = {

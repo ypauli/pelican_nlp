@@ -13,8 +13,36 @@ from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
 from pelican_nlp.utils.lpds_paths import aggregation_unit_key, unit_folder_for_document
 import os
 import io
+import re
+from collections import defaultdict
 import pandas as pd
 import numpy as np
+
+_SIMILARITY_WINDOW_FILE = re.compile(
+    r"semantic-similarity-window-(\d+)\.csv$", re.IGNORECASE
+)
+_SIMILARITY_SENTENCE_MARKERS = (
+    "semantic-similarity-sentence.csv",
+    "semantic-similarity-window-sentence.csv",
+)
+_SIMILARITY_DETAIL_MARKERS = (
+    "semantic-similarity-window-details-",
+    "semantic-similarity-sentence-details",
+)
+
+
+def similarity_aggregation_family(filename):
+    """Return ``window_N`` or ``sentence`` from a derivatives filename, else None."""
+    name = os.path.basename(str(filename))
+    lowered = name.lower()
+    if any(marker in lowered for marker in _SIMILARITY_DETAIL_MARKERS):
+        return None
+    if any(lowered.endswith(marker) for marker in _SIMILARITY_SENTENCE_MARKERS):
+        return "sentence"
+    match = _SIMILARITY_WINDOW_FILE.search(lowered)
+    if match:
+        return f"window_{match.group(1)}"
+    return None
 
 
 def _corpus_key_value(corpus_name):
@@ -49,8 +77,7 @@ class Corpus:
         aggregation_path = os.path.join(self.derivatives_dir, 'aggregations')
         os.makedirs(aggregation_path, exist_ok=True)
         
-        # Initialize semantic similarity aggregation data
-        semantic_similarity_data = {}
+        semantic_similarity_data = defaultdict(lambda: defaultdict(list))
         
         # Walk through all directories in derivatives
         for root, dirs, files in os.walk(self.derivatives_dir):
@@ -63,27 +90,16 @@ class Corpus:
             for file in filtered_files:
                 if not file.endswith('.csv'):
                     continue
+                family = similarity_aggregation_family(file)
+                if family is None:
+                    continue
                     
                 file_path = os.path.join(root, file)
                 try:
                     participant_key = aggregation_unit_key(file_path, self.derivatives_dir)
-                    
-                    # Initialize participant dict if not exists
-                    if participant_key not in semantic_similarity_data:
-                        semantic_similarity_data[participant_key] = {
-                            'window_2_data': [],
-                            'window_8_data': [],
-                            'sentence_data': []
-                        }
-                    
-                    # Process semantic similarity files
-                    if 'semantic-similarity-window-2' in file:
-                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['window_2_data'])
-                    elif 'semantic-similarity-window-8' in file:
-                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['window_8_data'])
-                    elif ('semantic-similarity-sentence' in file) or ('semantic-similarity-window-sentence' in file):
-                        self._process_semantic_similarity_file(file_path, semantic_similarity_data[participant_key]['sentence_data'])
-
+                    self._process_semantic_similarity_file(
+                        file_path, semantic_similarity_data[participant_key][family]
+                    )
                 except Exception as e:
                     print(f"Error processing {file_path}: {e}")
                     continue
@@ -155,21 +171,16 @@ class Corpus:
         """Create comprehensive semantic similarity aggregation."""
         aggregated_results = {}
         
-        for participant, data in semantic_similarity_data.items():
+        for participant, families in semantic_similarity_data.items():
             participant_results = {}
-            
-            # Process window 2 data
-            if data['window_2_data']:
-                participant_results.update(self._aggregate_window_data(data['window_2_data'], 'window_2'))
-            
-            # Process window 8 data
-            if data['window_8_data']:
-                participant_results.update(self._aggregate_window_data(data['window_8_data'], 'window_8'))
-            
-            # Process sentence data
-            if data['sentence_data']:
-                participant_results.update(self._aggregate_sentence_data(data['sentence_data']))
-            
+            for family in sorted(families):
+                rows = families[family]
+                if not rows:
+                    continue
+                if family == "sentence":
+                    participant_results.update(self._aggregate_sentence_data(rows))
+                else:
+                    participant_results.update(self._aggregate_window_data(rows, family))
             aggregated_results[participant] = participant_results
         
         # Save aggregated results

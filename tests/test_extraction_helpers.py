@@ -85,8 +85,13 @@ def test_config_defaults_fill_optional_keys():
     assert filled["opensmile_feature_extraction"] is False
     assert filled["metrics_to_extract"] == []
     assert filled["options_embeddings"]["distance-from-randomness"] is False
-    assert filled["options_embeddings"]["batch_size"] == 1
+    assert "batch_size" not in filled["options_embeddings"]
     assert filled["pipeline_options"]["clean_text"] is True
+
+
+def test_config_defaults_keep_explicit_embedding_batch_size():
+    filled = apply_config_defaults({"options_embeddings": {"batch_size": 8}})
+    assert filled["options_embeddings"]["batch_size"] == 8
 
 
 def test_config_defaults_alias_divergence_flag():
