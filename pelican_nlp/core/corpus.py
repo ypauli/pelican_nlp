@@ -320,8 +320,6 @@ class Corpus:
         from pelican_nlp.extras import require_extra
         from pelican_nlp.preprocessing.transcription import (
             AudioTranscriber,
-            ForcedAligner,
-            SpeakerDiarizer,
             process_single_audio_file,
             release_transcription_models,
         )
@@ -423,8 +421,6 @@ class Corpus:
                             transcriber = AudioTranscriber(model=transcription_model)
                         else:
                             transcriber = AudioTranscriber()
-                        aligner = ForcedAligner()
-                        diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
 
                     processed_document = process_single_audio_file(
                         audio_file=document,
@@ -438,8 +434,8 @@ class Corpus:
                         timestamp_source=timestamp_source,
                         transcription_model=transcription_model,
                         transcriber=transcriber,
-                        aligner=aligner,
-                        diarizer=diarizer,
+                        aligner=None,
+                        diarizer=None,
                         release_models=False,
                     )
 

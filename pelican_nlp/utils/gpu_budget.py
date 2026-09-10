@@ -147,8 +147,19 @@ def weight_bytes_from_config(config, bytes_per_param: int = 2) -> int | None:
     """Rough transformer weight size from an HF config. Overestimates slightly."""
     hidden = getattr(config, "hidden_size", None) or getattr(config, "d_model", None)
     layers = getattr(config, "num_hidden_layers", None) or getattr(config, "n_layer", None)
+    if layers is None:
+        enc = getattr(config, "encoder_layers", None)
+        dec = getattr(config, "decoder_layers", None)
+        if enc or dec:
+            layers = int(enc or 0) + int(dec or 0)
     vocab = getattr(config, "vocab_size", None)
     intermediate = getattr(config, "intermediate_size", None)
+    if intermediate is None:
+        intermediate = (
+            getattr(config, "encoder_ffn_dim", None)
+            or getattr(config, "decoder_ffn_dim", None)
+            or getattr(config, "n_inner", None)
+        )
     if not hidden or not layers or not vocab:
         return None
     if intermediate is None:

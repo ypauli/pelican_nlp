@@ -148,6 +148,20 @@ def test_weight_bytes_from_config_llama_class():
     assert nbytes > 14 * (1024 ** 3)
 
 
+def test_weight_bytes_from_config_whisper_encoder_decoder():
+    config = SimpleNamespace(
+        d_model=1280,
+        encoder_layers=32,
+        decoder_layers=32,
+        vocab_size=51866,
+        encoder_ffn_dim=5120,
+    )
+    nbytes = weight_bytes_from_config(config, bytes_per_param=4)
+    assert nbytes is not None
+    assert nbytes > 5 * (1024 ** 3)
+    assert nbytes < 12 * (1024 ** 3)
+
+
 def test_gpu_can_hold_uses_margin(monkeypatch):
     _fake_cuda(monkeypatch)
     limit = gpu_budget.gpu_limit_bytes()

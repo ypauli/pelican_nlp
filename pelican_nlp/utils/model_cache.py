@@ -8,8 +8,8 @@ Cache roots (first existing override wins):
 
 * ``PELICAN_CACHE_DIR`` — PELICAN static artifacts (default
   ``~/.cache/pelican-nlp``)
-* ``HF_HOME`` / ``HUGGINGFACE_HUB_CACHE`` / ``TRANSFORMERS_CACHE`` — Hub models
-  (default ``~/.cache/huggingface``)
+* ``HF_HOME`` / ``HF_HUB_CACHE`` / ``HUGGINGFACE_HUB_CACHE`` — Hub models
+  (default ``~/.cache/huggingface``; ``TRANSFORMERS_CACHE`` is still read if set)
 * ``TORCH_HOME`` — torchaudio / torch hub (default ``~/.cache/torch``)
 
 Static families (fastText today) are registered objects. A new family is a
@@ -48,7 +48,7 @@ def huggingface_home() -> Path:
 
 
 def huggingface_hub_cache() -> Path:
-    for key in ("HUGGINGFACE_HUB_CACHE", "TRANSFORMERS_CACHE"):
+    for key in ("HF_HUB_CACHE", "HUGGINGFACE_HUB_CACHE", "TRANSFORMERS_CACHE"):
         override = os.environ.get(key)
         if override:
             return Path(override).expanduser()
@@ -73,8 +73,8 @@ def configure_device_caches() -> Path:
 
     hub = huggingface_hub_cache()
     hub.mkdir(parents=True, exist_ok=True)
+    os.environ.setdefault("HF_HUB_CACHE", str(hub))
     os.environ.setdefault("HUGGINGFACE_HUB_CACHE", str(hub))
-    os.environ.setdefault("TRANSFORMERS_CACHE", str(hub))
 
     torch_dir = torch_home()
     torch_dir.mkdir(parents=True, exist_ok=True)

@@ -1,4 +1,5 @@
 import gzip
+import os
 from pathlib import Path
 
 from pelican_nlp.extraction.model_registry import MODEL_KIND_STATIC, resolve_model_kind
@@ -24,6 +25,7 @@ def _isolate_homes(tmp_path, monkeypatch):
     monkeypatch.delenv("FASTTEXT_MODEL_PATH", raising=False)
     monkeypatch.delenv("PELICAN_CACHE_DIR", raising=False)
     monkeypatch.delenv("HF_HOME", raising=False)
+    monkeypatch.delenv("HF_HUB_CACHE", raising=False)
     monkeypatch.delenv("HUGGINGFACE_HUB_CACHE", raising=False)
     monkeypatch.delenv("TRANSFORMERS_CACHE", raising=False)
     monkeypatch.delenv("TORCH_HOME", raising=False)
@@ -99,6 +101,16 @@ def test_configure_device_caches_does_not_change_cwd(tmp_path, monkeypatch):
     _home, project = _isolate_homes(tmp_path, monkeypatch)
     configure_device_caches()
     assert Path.cwd() == project
+
+
+def test_configure_device_caches_uses_hf_home_not_transformers_cache(tmp_path, monkeypatch):
+    home, _project = _isolate_homes(tmp_path, monkeypatch)
+    configure_device_caches()
+    expected_home = str(home / ".cache" / "huggingface")
+    expected_hub = str(home / ".cache" / "huggingface" / "hub")
+    assert os.environ["HF_HOME"] == expected_home
+    assert os.environ["HF_HUB_CACHE"] == expected_hub
+    assert "TRANSFORMERS_CACHE" not in os.environ
 
 
 def test_register_static_family_is_used_for_new_models(tmp_path, monkeypatch):

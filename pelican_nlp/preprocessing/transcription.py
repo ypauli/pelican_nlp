@@ -29,6 +29,20 @@ from pelican_nlp.utils.progress import active_reporter
 warnings.filterwarnings("ignore", category=FutureWarning, message=".*input name `inputs` is deprecated.*")
 
 
+def _asr_torch_dtype(model_name, device):
+    """Use float16 only when CUDA cannot hold the checkpoint in fp32."""
+    if getattr(device, "type", None) != "cuda":
+        return None
+    from pelican_nlp.utils.gpu_budget import estimate_pretrained_weight_bytes, gpu_can_hold
+
+    fp32_bytes = estimate_pretrained_weight_bytes(model_name, bytes_per_param=4)
+    if fp32_bytes is None:
+        return None
+    if gpu_can_hold(fp32_bytes):
+        return None
+    return torch.float16
+
+
 class AudioTranscriber:
     """Handles transcription of audio chunks using Whisper."""
     
@@ -42,15 +56,47 @@ class AudioTranscriber:
 
         self.device = runtime_torch_device(min_free_gb=2.0, allow_mps=True)
         self.model = model
-        # Initialize the Whisper pipeline
-        self.transcriber = pipeline(
-            "automatic-speech-recognition",
-            model=model,
-            device=self.device,
-            return_timestamps="word",
-            model_kwargs=huggingface_from_pretrained_kwargs(),
+        self._torch_dtype = _asr_torch_dtype(model, self.device)
+        if self._torch_dtype == torch.float16:
+            active_reporter().status(
+                f"{model} fp32 weights do not fit the GPU budget; loading float16."
+            )
+        self.transcriber = self._build_pipeline()
+        dtype_note = " (float16)" if self._torch_dtype == torch.float16 else ""
+        debug_print(f"Initialized AudioTranscriber on device: {self.device}{dtype_note}")
+
+    def _build_pipeline(self):
+        pipeline_kwargs = {
+            "model": self.model,
+            "device": self.device,
+            "return_timestamps": "word",
+            "model_kwargs": huggingface_from_pretrained_kwargs(),
+        }
+        if self._torch_dtype is not None:
+            pipeline_kwargs["torch_dtype"] = self._torch_dtype
+        return pipeline("automatic-speech-recognition", **pipeline_kwargs)
+
+    def _reload_float16(self):
+        """Reload in float16 after an fp32 forward pass ran out of GPU memory."""
+        if self._torch_dtype == torch.float16:
+            return False
+        if getattr(self.device, "type", None) != "cuda":
+            return False
+        import gc
+
+        active_reporter().status(
+            f"{self.model} ran out of GPU memory in fp32; reloading float16."
         )
-        debug_print(f"Initialized AudioTranscriber on device: {self.device}")
+        self._torch_dtype = torch.float16
+        try:
+            del self.transcriber
+        except Exception:
+            pass
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        self.transcriber = self._build_pipeline()
+        return True
 
     @staticmethod
     def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
@@ -87,7 +133,25 @@ class AudioTranscriber:
                 with io.BytesIO() as wav_io:
                     chunk.audio_segment.export(wav_io, format="wav")
                     wav_io.seek(0)
-                    transcription_result = self.transcriber(wav_io.read())
+                    wav_bytes = wav_io.read()
+                chunk_duration = len(chunk.audio_segment) / 1000.0
+                asr_kwargs = {}
+                if chunk_duration > 30:
+                    asr_kwargs["chunk_length_s"] = 30
+                try:
+                    transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
+                except torch.cuda.OutOfMemoryError:
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+                    asr_kwargs["chunk_length_s"] = 30
+                    try:
+                        transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
+                    except torch.cuda.OutOfMemoryError:
+                        if torch.cuda.is_available():
+                            torch.cuda.empty_cache()
+                        if not self._reload_float16():
+                            raise
+                        transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
 
                 # Assign transcript to the chunk
                 chunk.transcript = transcription_result.get('text', "").strip()
@@ -95,7 +159,6 @@ class AudioTranscriber:
                 # Extract word alignments
                 raw_chunks = transcription_result.get('chunks', [])
                 clean_chunks = []
-                chunk_duration = len(chunk.audio_segment) / 1000.0
                 prev_end_rel = 0.0
                 for word_info in raw_chunks:
                     word_text = word_info.get('text', "").strip()
@@ -160,10 +223,14 @@ class AudioTranscriber:
                 active_reporter().warn(f"Error during transcription of chunk {idx}: {e}")
                 chunk.transcript = ""
                 chunk.whisper_alignments = []
-                
+            finally:
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+
         audio_file.register_model("Transcription", {
             "model": self.model,
-            "device": str(self.device)
+            "device": str(self.device),
+            "dtype": "float16" if self._torch_dtype == torch.float16 else "float32",
         })
 
 
@@ -434,19 +501,13 @@ def process_single_audio_file(audio_file,
     created_transcriber = transcriber is None
     created_aligner = aligner is None
     created_diarizer = diarizer is None
-    if created_transcriber or created_aligner or created_diarizer:
-        debug_print("Initializing processing classes...")
     if created_transcriber:
+        debug_print("Initializing processing classes...")
         if transcription_model:
             debug_print(f"Using custom transcription model: {transcription_model}")
             transcriber = AudioTranscriber(model=transcription_model)
         else:
             transcriber = AudioTranscriber()
-    if created_aligner:
-        aligner = ForcedAligner()
-    if created_diarizer:
-        diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
-    if created_transcriber or created_aligner or created_diarizer:
         debug_print("Processing classes initialized successfully.")
 
     reporter.set_postfix("load audio")
@@ -476,8 +537,13 @@ def process_single_audio_file(audio_file,
             "No chunks produced any transcript text. Check model availability, audio content, and language compatibility."
         )
 
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
     reporter.set_postfix("align")
-    aligner.align(audio_file)        
+    if created_aligner:
+        aligner = ForcedAligner()
+    aligner.align(audio_file)
     audio_file.combine_chunks()
 
     # Step 6: Perform speaker diarization (only if more than one speaker)
@@ -487,6 +553,8 @@ def process_single_audio_file(audio_file,
     
     if num_speakers and num_speakers > 1:
         reporter.set_postfix("diarize")
+        if created_diarizer:
+            diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
         diarizer.diarize(audio_file, num_speakers)
     else:
         reporter.set_postfix("skip diarize")
@@ -513,6 +581,9 @@ def process_single_audio_file(audio_file,
             aligner if created_aligner else None,
             diarizer if created_diarizer else None,
         )
+    else:
+        # Keep Whisper for the next file; free MMS/pyannote so ASR is not sharing 16 GiB VRAM.
+        release_transcription_models(None, aligner, diarizer)
 
     return audio_file
 
