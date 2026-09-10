@@ -29,8 +29,22 @@ from pelican_nlp.utils.progress import active_reporter
 warnings.filterwarnings("ignore", category=FutureWarning, message=".*input name `inputs` is deprecated.*")
 
 
+def _clear_cuda():
+    import gc
+
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        try:
+            torch.cuda.synchronize()
+        except Exception:
+            pass
+        gc.collect()
+        torch.cuda.empty_cache()
+
+
 def _asr_torch_dtype(model_name, device):
-    """Use float16 only when CUDA cannot hold the checkpoint in fp32."""
+    """Use float16 only when CUDA cannot hold fp32 weights plus ASR working memory."""
     if getattr(device, "type", None) != "cuda":
         return None
     from pelican_nlp.utils.gpu_budget import estimate_pretrained_weight_bytes, gpu_can_hold
@@ -38,7 +52,8 @@ def _asr_torch_dtype(model_name, device):
     fp32_bytes = estimate_pretrained_weight_bytes(model_name, bytes_per_param=4)
     if fp32_bytes is None:
         return None
-    if gpu_can_hold(fp32_bytes):
+    # Word-level timestamps need working memory on the order of the weights.
+    if gpu_can_hold(fp32_bytes * 2):
         return None
     return torch.float16
 
@@ -76,26 +91,53 @@ class AudioTranscriber:
             pipeline_kwargs["torch_dtype"] = self._torch_dtype
         return pipeline("automatic-speech-recognition", **pipeline_kwargs)
 
-    def _reload_float16(self):
-        """Reload in float16 after an fp32 forward pass ran out of GPU memory."""
+    def _release_pipeline(self):
+        """Move the current ASR pipeline off GPU without dropping the attribute."""
+        pipe = getattr(self, "transcriber", None)
+        self.transcriber = None
+        if pipe is None:
+            _clear_cuda()
+            return
+        model = getattr(pipe, "model", None)
+        if model is not None:
+            try:
+                model.to("cpu")
+            except Exception:
+                pass
+        del model, pipe
+        _clear_cuda()
+
+    def _ensure_float16(self):
+        """Switch an fp32 ASR pipeline to float16. Keep ``self.transcriber`` assigned."""
         if self._torch_dtype == torch.float16:
             return False
         if getattr(self.device, "type", None) != "cuda":
             return False
-        import gc
 
         active_reporter().status(
-            f"{self.model} ran out of GPU memory in fp32; reloading float16."
+            f"{self.model} ran out of GPU memory in fp32; switching to float16."
         )
+        pipe = getattr(self, "transcriber", None)
+        model = getattr(pipe, "model", None) if pipe is not None else None
+        if model is not None and hasattr(model, "to"):
+            try:
+                converted = model.to(dtype=torch.float16)
+                pipe.model = converted
+                if hasattr(pipe, "torch_dtype"):
+                    pipe.torch_dtype = torch.float16
+                self._torch_dtype = torch.float16
+                _clear_cuda()
+                return True
+            except Exception:
+                pass
+
         self._torch_dtype = torch.float16
+        self._release_pipeline()
         try:
-            del self.transcriber
+            self.transcriber = self._build_pipeline()
         except Exception:
-            pass
-        gc.collect()
-        if torch.cuda.is_available():
-            torch.cuda.empty_cache()
-        self.transcriber = self._build_pipeline()
+            self.transcriber = None
+            raise
         return True
 
     @staticmethod
@@ -130,6 +172,8 @@ class AudioTranscriber:
         for idx, chunk in enumerate(audio_file.chunks, start=1):
             active_reporter().set_postfix(f"transcribe {idx}/{n_chunks}")
             try:
+                if getattr(self, "transcriber", None) is None:
+                    self.transcriber = self._build_pipeline()
                 with io.BytesIO() as wav_io:
                     chunk.audio_segment.export(wav_io, format="wav")
                     wav_io.seek(0)
@@ -141,15 +185,15 @@ class AudioTranscriber:
                 try:
                     transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
                 except torch.cuda.OutOfMemoryError:
-                    if torch.cuda.is_available():
-                        torch.cuda.empty_cache()
+                    _clear_cuda()
                     asr_kwargs["chunk_length_s"] = 30
                     try:
                         transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
                     except torch.cuda.OutOfMemoryError:
-                        if torch.cuda.is_available():
-                            torch.cuda.empty_cache()
-                        if not self._reload_float16():
+                        _clear_cuda()
+                        if not self._ensure_float16():
+                            raise
+                        if getattr(self, "transcriber", None) is None:
                             raise
                         transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
 
