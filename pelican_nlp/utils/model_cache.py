@@ -143,19 +143,21 @@ def download_artifact(url: str, target: Path) -> Path:
     target.parent.mkdir(parents=True, exist_ok=True)
     partial = target.parent / (target.name + ".partial")
     unpacked = target.parent / (target.name + ".tmp")
-    print(f"Downloading model to {target} ...")
-    print(f"Downloading from {url}...")
+    from pelican_nlp.utils.progress import active_reporter
+
+    reporter = active_reporter()
+    reporter.status(f"Downloading model to {target} ...")
     try:
         urllib.request.urlretrieve(url, partial)
         if url.endswith(".gz"):
-            print("Decompressing model file...")
+            reporter.status("Decompressing model file...")
             with gzip.open(partial, "rb") as compressed:
                 with open(unpacked, "wb") as out:
                     shutil.copyfileobj(compressed, out)
             unpacked.replace(target)
         else:
             partial.replace(target)
-        print("Model stored on the device cache")
+        reporter.status("Model stored on the device cache")
     finally:
         if partial.exists():
             partial.unlink()
@@ -205,7 +207,9 @@ def load_static_model(model_name: str):
     try:
         return family.load(path), path
     except ValueError:
-        print(f"Existing model file is corrupted, re-downloading from {path}...")
+        from pelican_nlp.utils.progress import active_reporter
+
+        active_reporter().warn(f"Existing model file is corrupted, re-downloading from {path}...")
         path.unlink(missing_ok=True)
         path = ensure_artifact(family.artifact(model_name))
         return family.load(path), path

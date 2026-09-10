@@ -21,6 +21,8 @@ from pyannote.audio import Pipeline as DiarizationPipeline
 import uroman as ur
 
 from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs
+from pelican_nlp.config import debug_print
+from pelican_nlp.utils.progress import active_reporter
 
 # Suppress FutureWarning from transformers about 'inputs' vs 'input_features'
 # This is a deprecation warning from the transformers library that will be fixed in a future version
@@ -48,7 +50,7 @@ class AudioTranscriber:
             return_timestamps="word",
             model_kwargs=huggingface_from_pretrained_kwargs(),
         )
-        print(f"Initialized AudioTranscriber on device: {self.device}")
+        debug_print(f"Initialized AudioTranscriber on device: {self.device}")
 
     @staticmethod
     def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
@@ -77,8 +79,10 @@ class AudioTranscriber:
         
         :param audio_file: AudioFile instance containing audio chunks.
         """
-        print("Starting transcription of audio chunks...")
+        debug_print("Starting transcription of audio chunks...")
+        n_chunks = len(audio_file.chunks)
         for idx, chunk in enumerate(audio_file.chunks, start=1):
+            active_reporter().set_postfix(f"transcribe {idx}/{n_chunks}")
             try:
                 with io.BytesIO() as wav_io:
                     chunk.audio_segment.export(wav_io, format="wav")
@@ -149,10 +153,11 @@ class AudioTranscriber:
                     )
                 chunk.whisper_alignments = clean_chunks
                 if not chunk.transcript:
-                    print(f"Warning: Transcription result for chunk {idx} was empty.")
-                print(f"Transcribed chunk {idx} with {len(clean_chunks)} words.")
+                    debug_print(f"Warning: Transcription result for chunk {idx} was empty.")
+                debug_print(f"Transcribed chunk {idx} with {len(clean_chunks)} words.")
             except Exception as e:
-                print(f"Error during transcription of chunk {idx}: {e}")
+                debug_print(f"Error during transcription of chunk {idx}: {e}")
+                active_reporter().warn(f"Error during transcription of chunk {idx}: {e}")
                 chunk.transcript = ""
                 chunk.whisper_alignments = []
                 
@@ -182,7 +187,7 @@ class ForcedAligner:
         self.aligner = self.bundle.get_aligner()
         self.uroman = ur.Uroman()
         self.sample_rate = self.bundle.sample_rate
-        print(f"Initialized ForcedAligner on device: {self.device}")
+        debug_print(f"Initialized ForcedAligner on device: {self.device}")
 
     def normalize_uroman(self, text: str) -> str:
         """
@@ -205,11 +210,13 @@ class ForcedAligner:
         
         :param audio_file: AudioFile instance containing audio chunks.
         """
-        print("Starting forced alignment of transcripts...")
+        debug_print("Starting forced alignment of transcripts...")
+        n_chunks = len(audio_file.chunks)
         for idx, chunk in enumerate(audio_file.chunks, start=1):
+            active_reporter().set_postfix(f"align {idx}/{n_chunks}")
             try:
                 if not chunk.transcript or not chunk.transcript.strip():
-                    print(f"Skipping alignment for chunk {idx}: empty transcript.")
+                    debug_print(f"Skipping alignment for chunk {idx}: empty transcript.")
                     continue
 
                 with io.BytesIO() as wav_io:
@@ -228,11 +235,11 @@ class ForcedAligner:
                 text_normalized = self.normalize_uroman(text_roman)
                 transcript_list = text_normalized.split()
                 if not transcript_list:
-                    print(f"Skipping alignment for chunk {idx}: transcript has no alignable words.")
+                    debug_print(f"Skipping alignment for chunk {idx}: transcript has no alignable words.")
                     continue
                 tokens = self.tokenizer(transcript_list)
                 if not tokens:
-                    print(f"Skipping alignment for chunk {idx}: tokenizer returned no tokens.")
+                    debug_print(f"Skipping alignment for chunk {idx}: tokenizer returned no tokens.")
                     continue
 
                 # Perform forced alignment
@@ -251,9 +258,9 @@ class ForcedAligner:
                         "start_time": start_sec,
                         "end_time": end_sec
                     })
-                print(f"Aligned chunk {idx} successfully.")
+                debug_print(f"Aligned chunk {idx} successfully.")
             except Exception as e:
-                print(f"Error during alignment of chunk {idx}: {e}")
+                debug_print(f"Error during alignment of chunk {idx}: {e}")
                 
         audio_file.register_model("Forced Alignment", {
             "model": "torchaudio.pipelines.MMS_FA",
@@ -280,16 +287,9 @@ class SpeakerDiarizer:
         self.parameters = parameters
         
         if not hf_token:
-            print("=" * 60)
-            print("WARNING: No Hugging Face token provided!")
-            print("Speaker diarization will be skipped.")
-            print("")
-            print("To enable speaker diarization, add your Hugging Face token to the config:")
-            print("  transcription:")
-            print("    hf_token: 'your_hugging_face_token_here'")
-            print("")
-            print("You can get a token from: https://huggingface.co/settings/tokens")
-            print("=" * 60)
+            active_reporter().warn(
+                "No Hugging Face token provided; speaker diarization will be skipped."
+            )
             self.diarization_pipeline = None
             return
             
@@ -326,23 +326,14 @@ class SpeakerDiarizer:
                         raise Exception(f"Failed to initialize pipeline. Tried use_auth_token (error: {e1}), "
                                       f"environment variable (error: {e2}), and token (error: {e3})")
             
-            print("Initializing SpeakerDiarizer with parameters...")
+            debug_print("Initializing SpeakerDiarizer with parameters...")
             self.diarization_pipeline.instantiate(parameters)
             self.diarization_pipeline.to(self.device)
-            print("Initialized SpeakerDiarizer successfully.")
+            debug_print("Initialized SpeakerDiarizer successfully.")
         except Exception as e:
-            print("=" * 60)
-            print(f"ERROR: Failed to initialize SpeakerDiarizer!")
-            print(f"Error: {e}")
-            print("")
-            print("Common causes:")
-            print("  1. Invalid Hugging Face token")
-            print("  2. Missing model access permissions")
-            print("  3. Network connection issues")
-            print("  4. Missing dependencies")
-            print("")
-            print("Speaker diarization will be skipped.")
-            print("=" * 60)
+            active_reporter().warn(
+                f"Failed to initialize SpeakerDiarizer ({e}). Speaker diarization will be skipped."
+            )
             import traceback
             traceback.print_exc()
             self.diarization_pipeline = None
@@ -355,7 +346,7 @@ class SpeakerDiarizer:
         :param num_speakers: Expected number of speakers.
         """
         if self.diarization_pipeline is None:
-            print("Speaker diarization skipped - no pipeline available.")
+            debug_print("Speaker diarization skipped - no pipeline available.")
             audio_file.speaker_segments = []
             audio_file.register_model("Speaker Diarization", {
                 "model": "none",
@@ -365,19 +356,19 @@ class SpeakerDiarizer:
             })
             return
             
-        print("Starting speaker diarization...")
+        debug_print("Starting speaker diarization...")
         try:
             if num_speakers is not None:
                 diarization_result = self.diarization_pipeline(
                     audio_file.normalized_path,
                     num_speakers=num_speakers
                 )
-                print(f"Diarization completed with {num_speakers} speakers.")
+                debug_print(f"Diarization completed with {num_speakers} speakers.")
             else:
                 diarization_result = self.diarization_pipeline(
                     audio_file.normalized_path
                 )
-                print("Diarization completed without specifying number of speakers.")
+                debug_print("Diarization completed without specifying number of speakers.")
 
             # Extract speaker segments
             audio_file.speaker_segments = []
@@ -387,18 +378,18 @@ class SpeakerDiarizer:
                     "end": segment.end,
                     "speaker": speaker
                 })
-            print(f"Detected {len(audio_file.speaker_segments)} speaker segments.")
+            debug_print(f"Detected {len(audio_file.speaker_segments)} speaker segments.")
             
             # DEBUG: Print first few speaker segments to verify they're populated
             if audio_file.speaker_segments:
-                print(f"DEBUG: First 3 speaker segments:")
+                debug_print(f"DEBUG: First 3 speaker segments:")
                 for i, seg in enumerate(audio_file.speaker_segments[:3]):
-                    print(f"  Segment {i}: {seg}")
-                print(f"DEBUG: Speaker segment time range: {audio_file.speaker_segments[0]['start']:.2f}s - {audio_file.speaker_segments[-1]['end']:.2f}s")
+                    debug_print(f"  Segment {i}: {seg}")
+                debug_print(f"DEBUG: Speaker segment time range: {audio_file.speaker_segments[0]['start']:.2f}s - {audio_file.speaker_segments[-1]['end']:.2f}s")
             else:
-                print("DEBUG: WARNING - speaker_segments is empty after diarization!")
+                debug_print("DEBUG: WARNING - speaker_segments is empty after diarization!")
         except Exception as e:
-            print(f"An error occurred during diarization: {e}")
+            debug_print(f"An error occurred during diarization: {e}")
             
         audio_file.register_model("Speaker Diarization", {
             "model": self.model,
@@ -436,17 +427,18 @@ def process_single_audio_file(audio_file,
             }
         }
     
-    print(f"Processing audio file: {audio_file.file}")
-    print(f"Audio file exists: {os.path.exists(audio_file.file)}")
+    reporter = active_reporter()
+    debug_print(f"Processing audio file: {audio_file.file}")
+    debug_print(f"Audio file exists: {os.path.exists(audio_file.file)}")
 
     created_transcriber = transcriber is None
     created_aligner = aligner is None
     created_diarizer = diarizer is None
     if created_transcriber or created_aligner or created_diarizer:
-        print("Initializing processing classes...")
+        debug_print("Initializing processing classes...")
     if created_transcriber:
         if transcription_model:
-            print(f"Using custom transcription model: {transcription_model}")
+            debug_print(f"Using custom transcription model: {transcription_model}")
             transcriber = AudioTranscriber(model=transcription_model)
         else:
             transcriber = AudioTranscriber()
@@ -455,20 +447,17 @@ def process_single_audio_file(audio_file,
     if created_diarizer:
         diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
     if created_transcriber or created_aligner or created_diarizer:
-        print("Processing classes initialized successfully.")
+        debug_print("Processing classes initialized successfully.")
 
-    # Step 1: Load audio
-    print("Step 1/7: Loading audio...")
+    reporter.set_postfix("load audio")
     audio_file.load_audio()
 
-    # Step 2: Normalize audio
-    print("Step 2/7: Normalizing audio...")
+    reporter.set_postfix("normalize")
     # Use normalized audio directory if set, otherwise use default (same directory as original)
     normalized_audio_dir = getattr(audio_file, '_normalized_audio_dir', None)
     audio_file.rms_normalization(output_dir=normalized_audio_dir)
 
-    # Step 3: Split audio into chunks based on silence
-    print("Step 3/7: Splitting audio on silence...")
+    reporter.set_postfix("split silence")
     audio_file.split_on_silence(
         min_silence_len=min_silence_len,
         silence_thresh=silence_thresh,
@@ -476,11 +465,10 @@ def process_single_audio_file(audio_file,
         max_length=max_length
     )
 
-    # Step 4: Transcribe audio chunks
-    print("Step 4/7: Transcribing audio chunks...")
+    reporter.set_postfix("transcribe")
     transcriber.transcribe(audio_file)
     for idx, chunk in enumerate(audio_file.chunks, start=1):
-        print(f"Chunk {idx} Transcript: {chunk.transcript}\n")
+        debug_print(f"Chunk {idx} Transcript: {chunk.transcript}\n")
 
     non_empty_chunks = sum(1 for chunk in audio_file.chunks if chunk.transcript and chunk.transcript.strip())
     if non_empty_chunks == 0:
@@ -488,8 +476,7 @@ def process_single_audio_file(audio_file,
             "No chunks produced any transcript text. Check model availability, audio content, and language compatibility."
         )
 
-    # Step 5: Perform forced alignment
-    print("Step 5/7: Performing forced alignment...")
+    reporter.set_postfix("align")
     aligner.align(audio_file)        
     audio_file.combine_chunks()
 
@@ -499,10 +486,10 @@ def process_single_audio_file(audio_file,
         audio_file.num_speakers = num_speakers
     
     if num_speakers and num_speakers > 1:
-        print("Step 6/7: Performing speaker diarization...")
+        reporter.set_postfix("diarize")
         diarizer.diarize(audio_file, num_speakers)
     else:
-        print("Step 6/7: Skipping speaker diarization (only one speaker specified)...")
+        reporter.set_postfix("skip diarize")
         audio_file.speaker_segments = []
         audio_file.register_model("Speaker Diarization", {
             "model": "none",
@@ -511,15 +498,14 @@ def process_single_audio_file(audio_file,
             "speakers": "skipped (single speaker)"
         })
 
-    # Step 7: Combine alignment and diarization data
-    print("Step 7/7: Combining alignment and diarization data...")
+    reporter.set_postfix("combine")
     if timestamp_source == "forced_alignments" and not audio_file.forced_alignments and audio_file.whisper_alignments:
-        print("Forced alignments are empty; falling back to whisper_alignments for combination.")
+        debug_print("Forced alignments are empty; falling back to whisper_alignments for combination.")
         timestamp_source = "whisper_alignments"
     audio_file.combine_alignment_and_diarization(timestamp_source)
     audio_file.aggregate_to_utterances()
 
-    print(f"Finished processing: {audio_file.file}")
+    debug_print(f"Finished processing: {audio_file.file}")
 
     if release_models:
         release_transcription_models(
@@ -563,6 +549,6 @@ def release_transcription_models(transcriber=None, aligner=None, diarizer=None):
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
         torch.cuda.synchronize()
-        print("GPU memory cleared after transcription")
+        debug_print("GPU memory cleared after transcription")
     import gc
     gc.collect()

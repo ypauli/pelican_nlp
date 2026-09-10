@@ -4,6 +4,8 @@ import random
 from typing import Dict, List, Any, Tuple, Optional
 from sklearn.metrics.pairwise import cosine_distances
 
+from pelican_nlp.config import debug_print
+
 #Type aliases
 DistanceMatrix = np.ndarray
 EmbeddingDict = Dict[str, Dict[str, List[Any]]]
@@ -25,7 +27,7 @@ def get_distance_from_randomness(embeddings, config, parallel=False):
         Dictionary with results (format depends on mode)
     """
     if parallel:
-        print(f'parallel computing not yet set up... '
+        debug_print(f'parallel computing not yet set up... '
               f'continuing without calculating divergence from optimality')
         return
 
@@ -102,7 +104,7 @@ def _calculate_tsp_divergence(embeddings, config) -> Dict[str, Any]:
     # Large n can make OR-Tools unstable or extremely slow; we truncate to a configurable maximum.
     max_tsp_tokens = config.get('max_tsp_tokens', 100)
     if len(embeddings_list) > max_tsp_tokens:
-        print(f"[distance_from_randomness] Truncating embeddings from {len(embeddings_list)} "
+        debug_print(f"[distance_from_randomness] Truncating embeddings from {len(embeddings_list)} "
               f"to {max_tsp_tokens} tokens for TSP divergence.")
         embeddings_list = embeddings_list[:max_tsp_tokens]
     

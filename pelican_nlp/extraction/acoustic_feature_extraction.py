@@ -1,14 +1,17 @@
 import pandas as pd
 
+from pelican_nlp.config import debug_print
+
+
 class AudioFeatureExtraction:
 
     @staticmethod
     def opensmile_extraction(file, opensmile_configurations):
-        print(f'opensmile extraction in progress...')
+        debug_print(f'opensmile extraction in progress...')
         import audiofile
         import opensmile
 
-        print(f'audio file is: {file}')
+        debug_print(f'audio file is: {file}')
 
         signal, sampling_rate = audiofile.read(
             file,

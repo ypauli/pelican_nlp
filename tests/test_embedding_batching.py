@@ -209,7 +209,7 @@ def test_explicit_batch_size_one_stays_sequential(monkeypatch):
     assert per_text == [["hello"], ["world"]]
 
 
-def test_auto_resolve_picks_batch_size_without_yaml(monkeypatch, capsys):
+def test_auto_resolve_picks_batch_size_without_yaml(monkeypatch):
     extractor = _stub_extractor()
     monkeypatch.setattr(
         "pelican_nlp.extraction.extract_embeddings.encoder_auto_batch_eligible",
@@ -232,7 +232,6 @@ def test_auto_resolve_picks_batch_size_without_yaml(monkeypatch, capsys):
         corpus, corpus.config["options_embeddings"], write_opts
     )
     assert n == 2
-    assert "auto batch_size=2" in capsys.readouterr().out
 
 
 def test_encode_jobs_halves_batch_after_cuda_oom():

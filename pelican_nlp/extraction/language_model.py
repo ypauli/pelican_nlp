@@ -42,19 +42,21 @@ class Model:
             self._load_static()
             return
 
+        from pelican_nlp.config import debug_print
+
         model_cls = AutoModelForCausalLM if self.kind == MODEL_KIND_CAUSAL_LM else AutoModel
         self.model_instance = self._from_pretrained(
             model_cls,
             empty_weights=empty_weights,
             trust_remote_code=trust_remote_code,
         )
-        print(f'{self.model_name} loaded ({self.kind}).')
+        debug_print(f'{self.model_name} loaded ({self.kind}).')
 
         already_placed = bool(getattr(self.model_instance, "hf_device_map", None))
         if empty_weights or not already_placed:
             self.device_map_creation()
             self.model_instance = dispatch_model(self.model_instance, device_map=self.device_map)
-            print('Model dispatched to appropriate devices.')
+            debug_print('Model dispatched to appropriate devices.')
         else:
             self.device_map = dict(self.model_instance.hf_device_map)
             gpu_modules = sum(
@@ -65,10 +67,9 @@ class Model:
             cpu_modules = sum(
                 1 for device in self.device_map.values() if device == "cpu"
             )
-            print(
+            debug_print(
                 f"Model placed during load: {gpu_modules} module(s) on GPU, "
                 f"{cpu_modules} on CPU.",
-                flush=True,
             )
 
     def _from_pretrained(self, model_cls, empty_weights=False, trust_remote_code=False):
@@ -89,19 +90,19 @@ class Model:
         )
         dtype = kwargs.get("torch_dtype", "default")
         device_map = kwargs.get("device_map", "none")
-        print(
+        from pelican_nlp.utils.progress import active_reporter
+
+        reporter = active_reporter()
+        reporter.status(
             f"Loading {self.model_name} ({self.kind}), dtype={dtype}, "
-            f"device_map={device_map}. This step has no inner progress bar "
-            "and can take several minutes...",
-            flush=True,
+            f"device_map={device_map}..."
         )
         import time
 
         started = time.monotonic()
         model = model_cls.from_pretrained(self.model_name, **kwargs)
-        print(
-            f"Finished loading {self.model_name} in {time.monotonic() - started:.0f}s.",
-            flush=True,
+        reporter.status(
+            f"Loaded {self.model_name} in {time.monotonic() - started:.0f}s."
         )
         return model
 
@@ -116,28 +117,34 @@ class Model:
             fp32_bytes = UNKNOWN_CAUSAL_FP16_BYTES * 2
         if self.kind != MODEL_KIND_CAUSAL_LM:
             return fp32_bytes, False
+        from pelican_nlp.utils.progress import active_reporter
+
         if fp32_bytes is not None and gpu_can_hold(fp32_bytes):
             return fp32_bytes, False
-        print(
+        active_reporter().status(
             "Causal LM does not fit in fp32 on the GPU budget; "
-            "loading float16 and filling the GPU, leftover layers on CPU.",
-            flush=True,
+            "loading float16 and filling the GPU, leftover layers on CPU."
         )
         return fp16_bytes, True
 
     def _load_static(self):
+        from pelican_nlp.utils.progress import active_reporter
+
         self.model_instance, model_path = load_static_model(self.model_name)
-        print(f"Static model loaded successfully from {model_path}")
+        active_reporter().status(f"Loaded static model from {model_path}")
 
     def device_map_creation(self):
+        from pelican_nlp.config import debug_print
+        from pelican_nlp.utils.progress import active_reporter
+
         apply_gpu_budget()
         max_memory = hub_max_memory(needed_bytes=self._needed_bytes)
         if torch.cuda.is_available():
             device_type = "cuda"
-            print(f'{torch.cuda.get_device_name(0)} available.')
+            debug_print(f'{torch.cuda.get_device_name(0)} available.')
         elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
             device_type = "mps"
-            print("Apple Metal (MPS) available.")
+            debug_print("Apple Metal (MPS) available.")
             cpu_budget = max_memory.get(
                 "cpu",
                 f"{int(psutil.virtual_memory().total / (1024 ** 3))}GiB",
@@ -148,7 +155,7 @@ class Model:
             max_memory = mps_memory
         else:
             device_type = "cpu"
-            print("Careful: No GPU available, using CPU. This will be slow.")
+            active_reporter().warn("No GPU available, using CPU. This will be slow.")
 
         self.device_map = infer_auto_device_map(self.model_instance, max_memory=max_memory)
         return device_type

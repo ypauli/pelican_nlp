@@ -41,13 +41,18 @@ class PerplexityExtractor:
         
     def process_corpus(self, corpus) -> None:
         """Compute perplexity from logits already stored on each document."""
-        total = len(corpus.documents)
-        for index, document in enumerate(corpus.documents, start=1):
-            print(f"Perplexity [{index}/{total}] {document.name}", flush=True)
-            for section_idx, logits_data in enumerate(document.logits):
-                self.extract_perplexity_from_document(
-                    document, logits_data, section_index=section_idx
-                )
+        from pelican_nlp.utils.progress import get_reporter, walk_units
+
+        reporter = get_reporter(corpus)
+        for _unit, docs in walk_units(reporter, corpus.documents, "perplexity"):
+            for document in docs:
+                reporter.set_postfix(document.name)
+                for section_idx, logits_data in enumerate(document.logits):
+                    reporter.set_postfix(f"{document.name}  section {section_idx + 1}/{len(document.logits)}")
+                    self.extract_perplexity_from_document(
+                        document, logits_data, section_index=section_idx
+                    )
+                reporter.advance_item(document.name)
 
     def extract_perplexity_from_document(self, document, logits_data: List[Dict[str, Any]], section_index: int = 0) -> None:
         """

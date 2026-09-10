@@ -76,8 +76,9 @@ def test_pipeline_runs_when_cwd_has_one_yaml(monkeypatch, tmp_path):
     seen = {}
 
     class FakePelican:
-        def __init__(self, path):
+        def __init__(self, path, **kwargs):
             seen["path"] = path
+            seen["verbose"] = kwargs.get("verbose")
 
         def run(self):
             seen["ran"] = True
@@ -86,6 +87,26 @@ def test_pipeline_runs_when_cwd_has_one_yaml(monkeypatch, tmp_path):
     main([])
     assert seen.get("ran") is True
     assert seen["path"].endswith("config.yml")
+    assert seen.get("verbose") is False
+
+
+def test_pipeline_verbose_flag(monkeypatch, tmp_path):
+    (tmp_path / "config.yml").write_text("input_file: text\n", encoding="utf-8")
+    monkeypatch.chdir(tmp_path)
+    seen = {}
+
+    class FakePelican:
+        def __init__(self, path, **kwargs):
+            seen["path"] = path
+            seen["verbose"] = kwargs.get("verbose")
+
+        def run(self):
+            seen["ran"] = True
+
+    monkeypatch.setattr("pelican_nlp.main.Pelican", FakePelican)
+    main(["--verbose"])
+    assert seen.get("ran") is True
+    assert seen.get("verbose") is True
 
 
 def test_pipeline_skipped_when_run_tests(monkeypatch, tmp_path):
@@ -93,7 +114,7 @@ def test_pipeline_skipped_when_run_tests(monkeypatch, tmp_path):
     monkeypatch.chdir(tmp_path)
 
     class FakePelican:
-        def __init__(self, path):
+        def __init__(self, path, **kwargs):
             raise AssertionError("pipeline should not run")
 
         def run(self):

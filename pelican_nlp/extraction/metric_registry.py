@@ -82,21 +82,18 @@ def run_configured_metrics(corpus, metrics: Optional[Iterable[str]] = None) -> N
 def run_logits(corpus) -> None:
     from pelican_nlp.extraction.extract_logits import LogitsExtractor
 
-    print("Extracting Logits...")
     LogitsExtractor(corpus.config["options_logits"]).process_corpus(corpus)
 
 
 def run_embeddings(corpus) -> None:
     from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
 
-    print("Extracting Embeddings...")
     EmbeddingsExtractor(corpus.config["options_embeddings"]).process_corpus(corpus)
 
 
 def run_perplexity(corpus) -> None:
     from pelican_nlp.extraction.extract_perplexity import PerplexityExtractor
 
-    print("Extracting Perplexity...")
     PerplexityExtractor(
         corpus.config["options_perplexity"], corpus.project_folder
     ).process_corpus(corpus)
@@ -105,7 +102,6 @@ def run_perplexity(corpus) -> None:
 def run_topic_modeling(corpus) -> None:
     from pelican_nlp.extraction.extract_topic_modeling import TopicModelingExtractor
 
-    print("Extracting Topics...")
     TopicModelingExtractor(
         corpus.config["options_topic-modeling"], corpus.project_folder
     ).process_corpus(corpus)

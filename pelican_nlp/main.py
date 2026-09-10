@@ -24,10 +24,21 @@ from pelican_nlp.core import Corpus
 from pelican_nlp.utils.setup_functions import participant_instantiator, load_config, remove_previous_derivative_dir
 from pelican_nlp.preprocessing import LPDS
 from pelican_nlp.utils.filename_parser import parse_lpds_filename
-from pelican_nlp.utils.lpds_paths import grouped_corpus_jobs, grouped_document_jobs, resolve_unit_folder
+from pelican_nlp.utils.lpds_paths import (
+    grouped_corpus_jobs,
+    grouped_document_jobs,
+    resolve_unit_folder,
+    unit_folder_for_document,
+)
 from pelican_nlp.extraction.metric_registry import run_configured_metrics
 
 from pelican_nlp.config import debug_print
+from pelican_nlp.utils.progress import (
+    PipelineReporter,
+    apply_verbosity,
+    get_reporter,
+    pipeline_stage_labels,
+)
 
 
 class Pelican:
@@ -40,6 +51,7 @@ class Pelican:
         dev_mode: bool = False,
         test_mode: bool = False,
         text_from_transcriptions: bool = False,
+        verbose: bool = False,
     ) -> None:
 
         self.dev_mode = dev_mode
@@ -47,6 +59,8 @@ class Pelican:
         self.text_from_transcriptions = text_from_transcriptions
         self.config_path = config_path
         self.skip_existing = True  # Flag to skip already processed files
+        self.verbose = apply_verbosity(verbose)
+        self.reporter = None
         
         # Skip config loading and project setup for test mode
         if test_mode:
@@ -81,39 +95,50 @@ class Pelican:
         if not self.text_from_transcriptions:
             self._handle_output_directory()
         else:
-            print("Skipping output directory handling for text-from-transcriptions phase.")
+            debug_print("Skipping output directory handling for text-from-transcriptions phase.")
         
         # Check/Create LPDS
         self._LPDS()
         
         # Instantiate all unit folders (participants and collections)
-        print("Instantiating all participants")
         participants = participant_instantiator(self.config, self.project_path)
-        
-        # If this is the second phase, run only text-from-transcriptions
-        if self.text_from_transcriptions:
-            self._run_text_from_transcriptions(participants)
-            print("Text-from-transcriptions phase completed!")
-            return
+        documents = [document for unit in participants for document in unit.documents]
+        n_docs = len(documents)
+        n_units = len({unit_folder_for_document(document) for document in documents}) or len(participants)
+        stages = pipeline_stage_labels(
+            self.config, text_from_transcriptions=self.text_from_transcriptions
+        )
 
-        for corpus_entity, documents in grouped_corpus_jobs(
-            participants,
-            self.config.get('corpus_key'),
-            self.config.get('corpus_values'),
-        ):
-            self._run_on_documents(corpus_entity, documents)
+        with PipelineReporter() as reporter:
+            self.reporter = reporter
+            reporter.print_summary(self.config, n_units, n_docs, stages)
 
-        print("Pipeline ran successfully!")
+            if self.text_from_transcriptions:
+                self._run_text_from_transcriptions(participants)
+                reporter.status("Text-from-transcriptions phase completed")
+                return
+
+            for corpus_entity, corpus_documents in grouped_corpus_jobs(
+                participants,
+                self.config.get('corpus_key'),
+                self.config.get('corpus_values'),
+            ):
+                self._run_on_documents(corpus_entity, corpus_documents)
+
+            reporter.status("Pipeline ran successfully")
 
     def _run_on_documents(self, corpus_entity: str, documents: List) -> None:
         """Process a single corpus including preprocessing and metric extraction."""
+        reporter = get_reporter(self)
         if not documents:
-            print(f"No documents for corpus {corpus_entity}, skipping.")
+            reporter.warn(f"No documents for corpus {corpus_entity}, skipping.")
             return
 
-        print(f'Processing corpus: {corpus_entity}')
+        debug_print(f"Processing corpus: {corpus_entity}")
         debug_print(documents, corpus_entity)
-        corpus = Corpus(corpus_entity, documents, self.config, self.project_path)
+        corpus = Corpus(
+            corpus_entity, documents, self.config, self.project_path, reporter=reporter
+        )
 
         for document in documents:
             document.corpus_name = corpus_entity
@@ -134,6 +159,7 @@ class Pelican:
 
     def _process_audio_corpus(self, corpus: Corpus, corpus_entity: str) -> None:
         """Process a corpus through the audio processing pipeline."""
+        reporter = get_reporter(self)
         if self.config.get('transcription'):
             corpus.transcribe_audio(skip_existing=self.skip_existing)
 
@@ -152,15 +178,17 @@ class Pelican:
         if text_metrics_needed:
             # Ensure transcription was completed
             if not self.config.get('transcription', False):
-                print("Warning: Text metrics requested but transcription is disabled. "
-                      "Enable transcription in config to extract text features from audio.")
+                reporter.warn(
+                    "Text metrics requested but transcription is disabled. "
+                    "Enable transcription in config to extract text features from audio."
+                )
             else:
                 # Launch a second-phase Pelican run in a fresh process for text-from-transcriptions
                 if not self.config_path:
-                    print("Error: Cannot start text-from-transcriptions phase without a config path.")
+                    reporter.warn("Cannot start text-from-transcriptions phase without a config path.")
                     return
                 
-                print("Starting second-phase Pelican run for text-from-transcriptions in a fresh process...")
+                reporter.status("Now: text-from-transcriptions")
                 cmd = [
                     sys.executable,
                     "-m",
@@ -168,11 +196,13 @@ class Pelican:
                     self.config_path,
                     "--text-from-transcriptions",
                 ]
+                if self.verbose:
+                    cmd.append("--verbose")
                 result = subprocess.run(cmd)
                 if result.returncode != 0:
-                    print(f"Second-phase Pelican run failed with exit code {result.returncode}")
+                    reporter.warn(f"Second-phase Pelican run failed with exit code {result.returncode}")
                 else:
-                    print("Second-phase Pelican run completed successfully.")
+                    debug_print("Second-phase Pelican run completed successfully.")
 
     def _process_text_corpus(self, corpus: Corpus) -> None:
         """Process a corpus through the text processing pipeline."""
@@ -194,7 +224,7 @@ class Pelican:
         """Handle the output directory based on dev mode."""
         # If skip_existing is True, never delete the directory
         if self.skip_existing:
-            print("skip_existing is True - preserving existing files in output directory.")
+            debug_print("skip_existing is True - preserving existing files in output directory.")
             return
         
         if self.dev_mode:
@@ -204,7 +234,7 @@ class Pelican:
             if not should_continue:
                 # User chose "no" - set flag to skip existing files
                 self.skip_existing = True
-                print("Will skip files that are already transcribed.")
+                get_reporter(self).warn("Will skip files that are already transcribed.")
 
     @staticmethod
     def _prompt_for_continuation() -> bool:
@@ -233,9 +263,10 @@ class Pelican:
         """Second-phase run: build corpora from transcription text files on disk."""
         from pelican_nlp.core.document import Document
 
+        reporter = get_reporter(self)
         transcription_dir = self.output_directory / 'transcription'
         if not transcription_dir.exists():
-            print(f"Warning: Transcription directory not found at {transcription_dir}")
+            reporter.warn(f"Transcription directory not found at {transcription_dir}")
             return
 
         transcription_docs = []
@@ -279,10 +310,10 @@ class Pelican:
             )
             doc.lpds_entities = merged
             transcription_docs.append(doc)
-            print(f"[Second phase] Added transcription document: {entry.name}")
+            debug_print(f"[Second phase] Added transcription document: {entry.name}")
 
         if not transcription_docs:
-            print("Warning: No transcription files found for text-from-transcriptions phase.")
+            reporter.warn("No transcription files found for text-from-transcriptions phase.")
             return
 
         for corpus_entity, docs in grouped_document_jobs(
@@ -290,7 +321,7 @@ class Pelican:
             self.config.get('corpus_key'),
             self.config.get('corpus_values'),
         ):
-            print(f"[Second phase] Processing corpus from transcriptions: {corpus_entity}")
+            debug_print(f"[Second phase] Processing corpus from transcriptions: {corpus_entity}")
             self._run_on_documents(corpus_entity, docs)
 
         self._clear_gpu_memory()
@@ -311,6 +342,11 @@ if __name__ == '__main__':
         action="store_true",
         help="Run only the text-from-transcriptions phase in a fresh process.",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print debug details and third-party progress (Hugging Face, tqdm).",
+    )
     args = parser.parse_args()
     if not args.config_path:
         parser.error("config_path is required (or run pelican-run from a project directory).")
@@ -319,4 +355,5 @@ if __name__ == '__main__':
         args.config_path,
         dev_mode=True,
         text_from_transcriptions=args.text_from_transcriptions,
+        verbose=args.verbose,
     ).run()

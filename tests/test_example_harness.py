@@ -165,9 +165,15 @@ def test_transcription_example_is_discoverable():
 def test_progress_line_filter():
     from pelican_nlp.testing.runner import format_duration, is_progress_line
 
+    assert is_progress_line("Pelican  text  german  2 participants / 3 documents\n")
+    assert is_progress_line("Stages: preprocess → embeddings (fastText)\n")
+    assert is_progress_line("Now: embeddings\n")
+    assert is_progress_line("embeddings  1/2  part-01\n")
+    assert is_progress_line("logits  2/12  part-05\n")
     assert is_progress_line("Extracting Logits...\n")
     assert is_progress_line("Logits [1/4] part-0_ses-0_task-generated_group-a_timepoint-0.txt")
     assert is_progress_line("Perplexity [2/4] doc.txt")
+    assert is_progress_line("Pipeline ran successfully\n")
     assert not is_progress_line("token,logprob_actual,logprob_max")
     assert not is_progress_line("UserWarning: Can't initialize NVML")
     assert format_duration(65) == "1m 05s"
@@ -209,17 +215,20 @@ def test_isolated_run_prints_progress_not_noise(tmp_path, monkeypatch, capsys):
         lambda *args, **kwargs: _fake_process(
             [
                 "UserWarning: Can't initialize NVML\n",
-                "Extracting Logits...\n",
+                "Pelican  text  german  1 participant / 1 document\n",
+                "Now: embeddings\n",
+                "embeddings  1/1  part-01\n",
                 "token,logprob_actual\n",
-                "Pipeline ran successfully!\n",
+                "Pipeline ran successfully\n",
             ],
             0,
         ),
     )
     run_example_golden(project)
     printed = capsys.readouterr().out
-    assert "Extracting Logits..." in printed
-    assert "Pipeline ran successfully!" in printed
+    assert "Now: embeddings" in printed
+    assert "embeddings  1/1  part-01" in printed
+    assert "Pipeline ran successfully" in printed
     assert "passed" in printed
     assert "Can't initialize NVML" not in printed
     assert "token,logprob_actual" not in printed

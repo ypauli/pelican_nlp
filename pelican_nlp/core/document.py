@@ -95,7 +95,7 @@ class Document:
 
     def detect_sections(self):
         """Detect sections using the section identificator."""
-        print(f'detecting sections...')
+        debug_print('detecting sections...')
         if not self.raw_text:
             raise ValueError("Raw text must be loaded before detecting sections.")
 
@@ -109,7 +109,7 @@ class Document:
         debug_print(self.sections)
 
     def process_document(self, pipeline):
-        print(f"Processing document: {self.name}")
+        debug_print(f"Processing document: {self.name}")
         pipeline.process_document(self)
 
     def clean_text(self, cleaner):
@@ -121,7 +121,7 @@ class Document:
             self.cleaned_sections[title] = cleaner.clean(self, content)
 
     def tokenize_text(self, tokenizer, purpose):
-        print("tokenizing text")
+        debug_print("tokenizing text")
 
         if not self.cleaned_sections:
             raise ValueError("Text must be cleaned before tokenizing.")
@@ -134,7 +134,7 @@ class Document:
                 self.tokens_embeddings.append(tokens)
 
     def normalize_text(self, normalizer):
-        print("normalizing text")
+        debug_print("normalizing text")
 
         if not self.tokens_logits:
             raise ValueError("Text must be tokenized before normalization.")

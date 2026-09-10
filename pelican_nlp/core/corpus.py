@@ -54,7 +54,9 @@ def _corpus_key_value(corpus_name):
 
 
 class Corpus:
-    def __init__(self, corpus_name, documents, configuration_settings, project_folder):
+    def __init__(self, corpus_name, documents, configuration_settings, project_folder, reporter=None):
+        from pelican_nlp.utils.progress import NullReporter
+
         self.name = corpus_name
         self.key, self.value = _corpus_key_value(corpus_name)
         self.documents = documents
@@ -63,16 +65,26 @@ class Corpus:
         self.derivatives_dir = project_folder / 'derivatives'
         self.pipeline = TextPreprocessingPipeline(self.config)
         self.task = configuration_settings.get('task_name')
+        self.reporter = reporter if reporter is not None else NullReporter()
 
     def preprocess_all_documents(self):
-        print("preprocessing all documents")
-        for document in self.documents:
-            document.detect_sections()
-            document.process_document(self.pipeline)
+        from pelican_nlp.utils.progress import walk_units
+
+        reporter = self.reporter
+        for _unit, docs in walk_units(reporter, self.documents, "preprocess"):
+            for document in docs:
+                reporter.set_postfix(document.name)
+                document.detect_sections()
+                document.process_document(self.pipeline)
+                reporter.advance_item(document.name)
 
     def create_corpus_results_consolidation_csv(self) -> None:
         """Create comprehensive aggregated results CSV files for semantic similarity metrics."""
-        
+        reporter = self.reporter
+        reporter.start_stage("aggregation", [self.name])
+        reporter.start_unit(self.name, 1)
+        reporter.set_postfix("semantic similarity")
+
         # Create aggregations folder
         aggregation_path = os.path.join(self.derivatives_dir, 'aggregations')
         os.makedirs(aggregation_path, exist_ok=True)
@@ -101,14 +113,16 @@ class Corpus:
                         file_path, semantic_similarity_data[participant_key][family]
                     )
                 except Exception as e:
-                    print(f"Error processing {file_path}: {e}")
+                    reporter.warn(f"Error processing {file_path}: {e}")
                     continue
         
         # Create comprehensive aggregation
         if semantic_similarity_data:
             self._create_semantic_similarity_aggregation(semantic_similarity_data, aggregation_path)
         else:
-            print("No semantic similarity results to aggregate")
+            debug_print("No semantic similarity results to aggregate")
+        reporter.advance_item("semantic similarity")
+        reporter.finish_unit()
     
     def _process_semantic_similarity_file(self, file_path, data_list):
         """Process a semantic similarity CSV file (single or multi-section) and add per-section dicts to data list."""
@@ -188,7 +202,7 @@ class Corpus:
             output_file = os.path.join(aggregation_path, f'{self.name}_semantic-similarity_comprehensive_aggregation.csv')
             df = pd.DataFrame(aggregated_results).T
             df.to_csv(output_file)
-            print(f"Comprehensive semantic similarity aggregation saved to: {output_file}")
+            debug_print(f"Comprehensive semantic similarity aggregation saved to: {output_file}")
     
     def _aggregate_window_data(self, window_data_list, window_name):
         """Aggregate window-based semantic similarity data."""
@@ -315,22 +329,20 @@ class Corpus:
         from pathlib import Path
 
         require_extra("transcription")
-        
-        print("Starting audio transcription...")
-        
-        # Create transcription subdirectory in derivatives
+        from pelican_nlp.utils.progress import walk_units
+
+        reporter = self.reporter
         transcription_dir = os.path.join(self.derivatives_dir, 'transcription')
         os.makedirs(transcription_dir, exist_ok=True)
-        
-        # Get transcription parameters from config
+
         transcription_config = self.config.get('transcription', {})
-        
-        # Use configuration values with fallbacks to existing config or defaults
         hf_token = transcription_config.get('hf_token', '')
         if not hf_token:
-            print("Warning: No Hugging Face token provided. Speaker diarization will not work.")
-            print("Please add 'hf_token: your_token_here' to the transcription section of your config.")
-        
+            reporter.warn(
+                "No Hugging Face token provided. Speaker diarization will not work. "
+                "Add hf_token to the transcription section of your config."
+            )
+
         num_speakers = transcription_config.get('num_speakers', self.config.get('number_of_speakers', 2))
         min_silence_len = transcription_config.get('min_silence_len', 1000)
         silence_thresh = transcription_config.get('silence_thresh', -30)
@@ -340,8 +352,7 @@ class Corpus:
         transcription_model = transcription_config.get('transcription_model', None)
         if isinstance(transcription_model, str):
             transcription_model = transcription_model.strip() or None
-        
-        # Get diarization parameters from config
+
         diarizer_params = transcription_config.get('diarizer_params', {
             "segmentation": {
                 "min_duration_off": 0.0,
@@ -352,35 +363,38 @@ class Corpus:
                 "threshold": 0.8,
             }
         })
-        
-        print(f"Transcription settings:")
-        print(f"  - Number of speakers: {num_speakers}")
-        print(f"  - Min silence length: {min_silence_len}ms")
-        print(f"  - Silence threshold: {silence_thresh}dBFS")
-        print(f"  - Chunk length range: {min_length}-{max_length}ms")
-        print(f"  - Timestamp source: {timestamp_source}")
-        if transcription_model:
-            print(f"  - Transcription model: {transcription_model}")
-        else:
-            print("  - Transcription model: default")
-        
-        # Create normalized audio subdirectory in derivatives
+        debug_print(
+            "Transcription settings: speakers=%s silence=%sms/%sdBFS chunks=%s-%sms source=%s model=%s"
+            % (
+                num_speakers,
+                min_silence_len,
+                silence_thresh,
+                min_length,
+                max_length,
+                timestamp_source,
+                transcription_model or "default",
+            )
+        )
+
         normalized_audio_dir = os.path.join(self.derivatives_dir, 'normalized-audio')
         os.makedirs(normalized_audio_dir, exist_ok=True)
-        
-        # Import garbage collection and memory monitoring
+
         import gc
         import torch
-        
-        # Process each audio document
+
         skipped_count = 0
         transcriber = aligner = diarizer = None
-        for i, document in enumerate(self.documents):
-            if hasattr(document, 'file') and document.file:
-                print(f"\nProcessing document {i+1}/{len(self.documents)}: {document.file}")
-                
+        for _unit, docs in walk_units(reporter, self.documents, "transcription"):
+            for document in docs:
+                reporter.set_postfix(getattr(document, "name", "") or str(document.file))
+                if not (hasattr(document, 'file') and document.file):
+                    reporter.warn("No audio file found for document")
+                    reporter.advance_item(getattr(document, "name", "?"))
+                    continue
+
                 if not os.path.exists(document.file):
-                    print(f"Error: Audio file not found at {document.file}")
+                    reporter.warn(f"Error: Audio file not found at {document.file}")
+                    reporter.advance_item(document.name)
                     continue
 
                 transcription_file = os.path.join(
@@ -393,19 +407,19 @@ class Corpus:
                 )
 
                 if skip_existing and os.path.exists(transcription_file) and os.path.exists(transcription_text_file):
-                    print(f"Transcription already exists for {document.file}. Skipping...")
+                    debug_print(f"Transcription already exists for {document.file}. Skipping...")
                     skipped_count += 1
                     document.transcription_file = transcription_file
                     document.transcription_text_file = transcription_text_file
+                    reporter.advance_item(document.name)
                     continue
-                
+
                 try:
                     document._normalized_audio_dir = normalized_audio_dir
 
                     if transcriber is None:
-                        print("Initializing processing classes...")
+                        reporter.set_postfix("loading transcription models")
                         if transcription_model:
-                            print(f"Using custom transcription model: {transcription_model}")
                             transcriber = AudioTranscriber(model=transcription_model)
                         else:
                             transcriber = AudioTranscriber()
@@ -433,72 +447,42 @@ class Corpus:
                     processed_document.save_as_text(transcription_text_file)
                     document.transcription_file = transcription_file
                     document.transcription_text_file = transcription_text_file
-                    
-                    print(f"Transcription completed and saved to: {transcription_file}")
-                    print(f"Transcript text saved to: {transcription_text_file}")
-                    
-                    # Explicitly clear large audio data from memory after saving
-                    # This prevents memory accumulation across multiple files
+                    debug_print(f"Transcription saved to: {transcription_file}")
+
                     if hasattr(processed_document, 'clear_audio_data'):
                         processed_document.clear_audio_data()
                     else:
-                        # Fallback: manual cleanup if method doesn't exist
                         if hasattr(processed_document, 'audio'):
                             processed_document.audio = None
                         if hasattr(processed_document, 'chunks'):
                             for chunk in processed_document.chunks:
                                 if hasattr(chunk, 'audio_segment'):
                                     chunk.audio_segment = None
-                    
-                    # Clear processed_document reference
                     del processed_document
-                    
+
                 except Exception as e:
-                    print(f"Error transcribing {document.file}: {e}")
+                    reporter.warn(f"Error transcribing {document.file}: {e}")
                     import traceback
-                    traceback.print_exc()
-                    # Clear any partial data on error
+                    debug_print(traceback.format_exc())
                     if hasattr(document, 'clear_audio_data'):
                         document.clear_audio_data()
                     elif hasattr(document, 'audio'):
                         document.audio = None
                         if hasattr(document, 'chunks'):
                             document.chunks = []
-                    continue
-            else:
-                print(f"No audio file found for document {i}")
-            
-            # Force garbage collection and clear GPU cache after each file
-            # This prevents memory accumulation that can lead to OOM kills
-            gc.collect()
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                # Synchronize to ensure cache clearing is complete
-                torch.cuda.synchronize()
-            
-            # Print memory status every 10 files for monitoring
-            if (i + 1) % 10 == 0:
-                try:
-                    import psutil
-                    process = psutil.Process()
-                    mem_info = process.memory_info()
-                    mem_gb = mem_info.rss / (1024 ** 3)
-                    print(f"Memory usage after {i+1} files: {mem_gb:.2f} GB")
-                    if torch.cuda.is_available():
-                        gpu_mem_allocated = torch.cuda.memory_allocated() / (1024 ** 3)
-                        gpu_mem_reserved = torch.cuda.memory_reserved() / (1024 ** 3)
-                        print(f"GPU memory: {gpu_mem_allocated:.2f} GB allocated, {gpu_mem_reserved:.2f} GB reserved")
-                except ImportError:
-                    pass  # psutil not available, skip memory monitoring
-        
+
+                reporter.advance_item(document.name)
+                gc.collect()
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+                    torch.cuda.synchronize()
+
         if transcriber is not None:
             release_transcription_models(transcriber, aligner, diarizer)
-
-        processed_count = len(self.documents) - skipped_count
-        if skip_existing and skipped_count > 0:
-            print(f"\nAudio transcription completed. Processed {processed_count} new files, skipped {skipped_count} already transcribed files.")
-        else:
-            print(f"\nAudio transcription completed. Processed {processed_count} documents.")
+        debug_print(
+            f"Audio transcription completed. Processed {len(self.documents) - skipped_count} files, "
+            f"skipped {skipped_count}."
+        )
 
     def extract_opensmile_features(self):
         from concurrent.futures import ProcessPoolExecutor
@@ -510,82 +494,95 @@ class Corpus:
         )
         from pelican_nlp.extras import require_extra
         from pelican_nlp.utils.gpu_budget import cpu_worker_count
+        from pelican_nlp.utils.progress import documents_by_unit, walk_units
 
         require_extra("acoustic")
-        print("Extracting openSMILE features...")
+        reporter = self.reporter
+        grouped = documents_by_unit(self.documents)
+        ordered = [document for docs in grouped.values() for document in docs]
         jobs = [
-            (self.documents[i].file, self.config['opensmile_configurations'])
-            for i in range(len(self.documents))
+            (document.file, self.config['opensmile_configurations'])
+            for document in ordered
         ]
         workers = cpu_worker_count()
-        if workers > 1 and len(jobs) > 1:
-            ctx = mp.get_context("spawn")
-            with ProcessPoolExecutor(max_workers=min(workers, len(jobs)), mp_context=ctx) as pool:
-                raw = list(pool.map(opensmile_job, jobs))
-        else:
-            raw = [AudioFeatureExtraction.opensmile_extraction(*job) for job in jobs]
-
-        for i, (results, recording_length) in enumerate(raw):
-            self.documents[i].recording_length = recording_length
-            results['participant_ID'] = self.documents[i].participant_ID
-            store_features_to_csv(
-                results,
-                self.derivatives_dir,
-                self.documents[i],
-                metric='opensmile-features',
-            )
+        results_iter = None
+        pool = None
+        try:
+            if workers > 1 and len(jobs) > 1:
+                ctx = mp.get_context("spawn")
+                pool = ProcessPoolExecutor(max_workers=min(workers, len(jobs)), mp_context=ctx)
+                results_iter = iter(pool.map(opensmile_job, jobs))
+            else:
+                results_iter = iter(
+                    AudioFeatureExtraction.opensmile_extraction(*job) for job in jobs
+                )
+            for _unit, docs in walk_units(reporter, ordered, "opensmile"):
+                for document in docs:
+                    reporter.set_postfix(document.name)
+                    results, recording_length = next(results_iter)
+                    document.recording_length = recording_length
+                    results['participant_ID'] = document.participant_ID
+                    store_features_to_csv(
+                        results,
+                        self.derivatives_dir,
+                        document,
+                        metric='opensmile-features',
+                    )
+                    reporter.advance_item(document.name)
+        finally:
+            if pool is not None:
+                pool.shutdown(wait=True)
 
     def extract_prosogram(self):
         from pelican_nlp.extraction.acoustic_feature_extraction import AudioFeatureExtraction
         from pelican_nlp.extras import require_extra
+        from pelican_nlp.utils.progress import walk_units
 
         require_extra("acoustic")
-        print("Extracting Prosogram...")
-
-        for i in range(len(self.documents)):
-            # Create the output directory for this document's prosogram files
-            output_dir = os.path.join(
-                self.derivatives_dir,
-                'prosogram-features',
-                unit_folder_for_document(self.documents[i]),
-            )
-            
-            results = AudioFeatureExtraction.extract_prosogram_profile(
-                self.documents[i].file, 
-                output_dir=output_dir
-            )
+        reporter = self.reporter
+        for _unit, docs in walk_units(reporter, self.documents, "prosogram"):
+            for document in docs:
+                reporter.set_postfix(document.name)
+                output_dir = os.path.join(
+                    self.derivatives_dir,
+                    'prosogram-features',
+                    unit_folder_for_document(document),
+                )
+                AudioFeatureExtraction.extract_prosogram_profile(
+                    document.file,
+                    output_dir=output_dir,
+                )
+                reporter.advance_item(document.name)
 
     def create_document_information_csv(self):
         """Create CSV file with summarized document parameters based on config specifications."""
-        
-        # Create document_information folder inside aggregations
+        reporter = self.reporter
+        reporter.start_stage("document-information", [self.name], label="document information")
+        reporter.start_unit(self.name, 1)
+
         doc_info_path = os.path.join(self.derivatives_dir, 'aggregations', 'document_information')
         os.makedirs(doc_info_path, exist_ok=True)
-        
-        # Define output file path
         output_file = os.path.join(doc_info_path, f'{self.name}_document-information.csv')
-        
-        # Get parameters to include from config
         parameters_to_include = self.config.get('document_information_output', {}).get('parameters', [])
-        
+
         if not parameters_to_include:
-            print("Warning: No parameters specified in config for document information output")
+            reporter.warn("No parameters specified in config for document information output")
+            reporter.advance_item("skip")
+            reporter.finish_unit()
             return
-        
-        # Get document information based on specified parameters
+
         document_info = []
         for doc in self.documents:
-            # Get all attributes using vars()
             attrs = vars(doc)
-            # Filter based on specified parameters
             info = {
-                param: attrs.get(param) 
-                for param in parameters_to_include 
+                param: attrs.get(param)
+                for param in parameters_to_include
                 if param in attrs
             }
             document_info.append(info)
-        
-        # Convert to DataFrame and save to CSV
+
         df = pd.DataFrame(document_info)
         df.to_csv(output_file, index=False)
         debug_print(f"Document information saved to: {output_file}")
+        reporter.advance_item(self.name)
+        reporter.finish_unit()

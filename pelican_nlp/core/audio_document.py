@@ -14,6 +14,8 @@ from typing import TYPE_CHECKING, List
 
 import numpy as np
 
+from pelican_nlp.config import debug_print
+
 if TYPE_CHECKING:
     from pydub import AudioSegment
 
@@ -90,7 +92,7 @@ class AudioFile:
 
         self.audio, self.sample_rate = librosa.load(self.file, sr=None)
         self.metadata["sample_rate"] = self.sample_rate
-        print(f"Loaded audio file: {self.file}")
+        debug_print(f"Loaded audio file: {self.file}")
 
     def register_model(self, model_name: str, parameters: dict):
         """
@@ -126,7 +128,7 @@ class AudioFile:
             self.normalized_path = self.file.replace(".wav", "_normalized.wav")
         
         sf.write(self.normalized_path, normalized_audio, self.sample_rate)
-        print(f"Normalized audio saved as: {self.normalized_path}")
+        debug_print(f"Normalized audio saved as: {self.normalized_path}")
 
     def split_on_silence(self, min_silence_len=1000, silence_thresh=-30,
                          min_length=30000, max_length=180000):
@@ -151,7 +153,7 @@ class AudioFile:
         chunks_with_timestamps = self._split_audio_by_intervals(audio_segment, adjusted_intervals)
 
         self.chunks = [Chunk(chunk_audio, start_i / 1000.0) for chunk_audio, start_i, end_i in chunks_with_timestamps]
-        print(f"Total chunks after splitting: {len(self.chunks)}")
+        debug_print(f"Total chunks after splitting: {len(self.chunks)}")
     
         # Validate the combined length of chunks
         self.validate_chunk_lengths(audio_length_ms)
@@ -213,7 +215,7 @@ class AudioFile:
                 adjusted_intervals.append((buffer_start, buffer_end))
             else:
                 # Optionally include shorter chunks
-                print(f"Final chunk is shorter than min_length ({buffer_length} ms), including it anyway.")
+                debug_print(f"Final chunk is shorter than min_length ({buffer_length} ms), including it anyway.")
                 adjusted_intervals.append((buffer_start, buffer_end))
 
         return adjusted_intervals
@@ -231,7 +233,7 @@ class AudioFile:
                 f"differs from original audio length ({audio_length_ms} ms) by {difference} ms, "
                 f"which exceeds the allowed tolerance of {tolerance} ms."
             )
-        print(f"Chunk length validation passed: Total chunks = {combined_length} ms, Original = {audio_length_ms} ms.")
+        debug_print(f"Chunk length validation passed: Total chunks = {combined_length} ms, Original = {audio_length_ms} ms.")
 
     def _split_audio_by_intervals(self, audio_segment: AudioSegment, intervals: List[tuple]) -> List[tuple]:
         """Split the audio segment into chunks based on the provided intervals."""
@@ -245,7 +247,7 @@ class AudioFile:
         for chunk in self.chunks:
             self.whisper_alignments.extend(chunk.whisper_alignments)
             self.forced_alignments.extend(chunk.forced_alignments)
-        print("Combined transcripts and alignments from all chunks.")
+        debug_print("Combined transcripts and alignments from all chunks.")
 
     def combine_alignment_and_diarization(self, alignment_source: str):
         """
@@ -264,27 +266,27 @@ class AudioFile:
             # If only one speaker is specified, assign a default speaker label
             # Otherwise, label as 'UNKNOWN' (diarization may have failed)
             if self.num_speakers and self.num_speakers == 1:
-                print("No speaker segments available (single speaker mode). All words will be labeled as 'SPEAKER_0'.")
+                debug_print("No speaker segments available (single speaker mode). All words will be labeled as 'SPEAKER_0'.")
                 self.combined_data = [{**word, 'speaker': 'SPEAKER_0'} for word in alignment]
             else:
-                print("No speaker segments available for diarization. All words will be labeled as 'UNKNOWN'.")
+                debug_print("No speaker segments available for diarization. All words will be labeled as 'UNKNOWN'.")
                 self.combined_data = [{**word, 'speaker': 'UNKNOWN'} for word in alignment]
             return
 
         # DEBUG: Print diagnostic information before combining
-        print(f"DEBUG: Starting combine_alignment_and_diarization")
-        print(f"DEBUG: Alignment entries: {len(alignment)}")
-        print(f"DEBUG: Speaker segments: {len(self.speaker_segments)}")
+        debug_print(f"DEBUG: Starting combine_alignment_and_diarization")
+        debug_print(f"DEBUG: Alignment entries: {len(alignment)}")
+        debug_print(f"DEBUG: Speaker segments: {len(self.speaker_segments)}")
         if alignment:
-            print(f"DEBUG: First word alignment: {alignment[0]}")
-            print(f"DEBUG: Last word alignment: {alignment[-1]}")
+            debug_print(f"DEBUG: First word alignment: {alignment[0]}")
+            debug_print(f"DEBUG: Last word alignment: {alignment[-1]}")
             word_time_range = (alignment[0]['start_time'], alignment[-1]['end_time'])
-            print(f"DEBUG: Word alignment time range: {word_time_range[0]:.2f}s - {word_time_range[1]:.2f}s")
+            debug_print(f"DEBUG: Word alignment time range: {word_time_range[0]:.2f}s - {word_time_range[1]:.2f}s")
         if self.speaker_segments:
-            print(f"DEBUG: First speaker segment: {self.speaker_segments[0]}")
-            print(f"DEBUG: Last speaker segment: {self.speaker_segments[-1]}")
+            debug_print(f"DEBUG: First speaker segment: {self.speaker_segments[0]}")
+            debug_print(f"DEBUG: Last speaker segment: {self.speaker_segments[-1]}")
             seg_time_range = (self.speaker_segments[0]['start'], self.speaker_segments[-1]['end'])
-            print(f"DEBUG: Speaker segment time range: {seg_time_range[0]:.2f}s - {seg_time_range[1]:.2f}s")
+            debug_print(f"DEBUG: Speaker segment time range: {seg_time_range[0]:.2f}s - {seg_time_range[1]:.2f}s")
 
         combined = []
         seg_idx = 0
@@ -334,26 +336,26 @@ class AudioFile:
                 words_without_speaker += 1
                 # Print first few UNKNOWN cases for debugging
                 if words_without_speaker <= 3:
-                    print(f"DEBUG: Word '{word['word']}' at {word_start:.2f}-{word_end:.2f}s got UNKNOWN. "
+                    debug_print(f"DEBUG: Word '{word['word']}' at {word_start:.2f}-{word_end:.2f}s got UNKNOWN. "
                           f"Speaker overlap: {speaker_overlap}")
             else:
                 words_with_speaker += 1
 
         self.combined_data = combined
         self.metadata["alignment_source"] = alignment_source
-        print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
+        debug_print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
         
         # DEBUG: Print final statistics
         unique_speakers = set([word['speaker'] for word in self.combined_data])
-        print(f"DEBUG: Unique speakers in combined_data: {unique_speakers}")
-        print(f"DEBUG: Words with speaker: {words_with_speaker}, Words without speaker (UNKNOWN): {words_without_speaker}")
+        debug_print(f"DEBUG: Unique speakers in combined_data: {unique_speakers}")
+        debug_print(f"DEBUG: Words with speaker: {words_with_speaker}, Words without speaker (UNKNOWN): {words_without_speaker}")
         if words_without_speaker > 0:
-            print(f"DEBUG: WARNING - {words_without_speaker} words were assigned 'UNKNOWN' speaker")
+            debug_print(f"DEBUG: WARNING - {words_without_speaker} words were assigned 'UNKNOWN' speaker")
 
     def aggregate_to_utterances(self):
         """Aggregate word-level data into utterances based on sentence endings."""
         if not self.combined_data:
-            print("No combined data available to aggregate.")
+            debug_print("No combined data available to aggregate.")
             return
 
         utterances = []
@@ -365,7 +367,7 @@ class AudioFile:
         }
 
         sentence_endings = re.compile(r'[.?!]$')
-        print("Aggregating words into utterances...")
+        debug_print("Aggregating words into utterances...")
         for word_data in self.combined_data:
             word = word_data["word"]
             start_time = word_data["start_time"]
@@ -421,7 +423,7 @@ class AudioFile:
             })
 
         self.combined_utterances = utterances
-        print("Aggregated utterances from combined data.")
+        debug_print("Aggregated utterances from combined data.")
 
     def save_as_json(self, output_file="all_transcript_data.json"):
         """
@@ -430,7 +432,7 @@ class AudioFile:
         :param output_file: Path to the output JSON file.
         """
         if not self.combined_data:
-            print("No combined data available to save. Ensure 'combine_alignment_and_diarization' is run first.")
+            debug_print("No combined data available to save. Ensure 'combine_alignment_and_diarization' is run first.")
             return
 
         data = {
@@ -447,7 +449,7 @@ class AudioFile:
         try:
             with open(output_file, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4)
-            print(f"All transcript data successfully saved to '{output_file}'.")
+            debug_print(f"All transcript data successfully saved to '{output_file}'.")
         except Exception as e:
             print(f"Error saving JSON file: {e}")
 
@@ -459,7 +461,7 @@ class AudioFile:
         :param include_speakers: If True and multiple speakers detected, include speaker labels in output.
         """
         if not self.transcript_text:
-            print("No transcript text available to save. Ensure transcription is complete.")
+            debug_print("No transcript text available to save. Ensure transcription is complete.")
             return
         
         # Generate text file path from JSON file path if not provided
@@ -490,11 +492,11 @@ class AudioFile:
                         text = utterance.get('text', '').strip()
                         if text:  # Only write non-empty utterances
                             f.write(f"{speaker}: {text}\n")
-                    print(f"Transcript text with speaker labels saved to '{output_file}'.")
+                    debug_print(f"Transcript text with speaker labels saved to '{output_file}'.")
                 else:
                     # Save plain text without speaker labels
                     f.write(self.transcript_text)
-                    print(f"Transcript text successfully saved to '{output_file}'.")
+                    debug_print(f"Transcript text successfully saved to '{output_file}'.")
             
             self.transcription_text_file = output_file
         except Exception as e:

@@ -1,3 +1,6 @@
+from pelican_nlp.config import debug_print
+
+
 class TextPreprocessingPipeline:
     """Pipeline for text preprocessing operations."""
     
@@ -19,10 +22,14 @@ class TextPreprocessingPipeline:
         Args:
             document: Document object to process
         """
-        print('Processing document (pipeline.py)')
+        debug_print('Processing document (pipeline.py)')
         
         if not self.pipeline_options:
-            print("Warning: No pipeline_options found in config. Skipping preprocessing pipeline.")
+            from pelican_nlp.utils.progress import active_reporter
+
+            active_reporter().warn(
+                "No pipeline_options found in config. Skipping preprocessing pipeline."
+            )
             return
         
         for option, enabled in self.pipeline_options.items():

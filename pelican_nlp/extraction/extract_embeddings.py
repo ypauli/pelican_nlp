@@ -615,14 +615,14 @@ class EmbeddingsExtractor:
         else:
             self._process_corpus_sequential(corpus, embedding_options, write_opts)
         release_gpu(self)
-        print("GPU memory cleared after embeddings extraction")
+        debug_print("GPU memory cleared after embeddings extraction")
         return
 
     def _resolve_encoder_batch_size(self, corpus, embedding_options, write_opts):
         explicit = explicit_embedding_batch_size(embedding_options)
         if explicit is not None:
             if explicit > 1:
-                print(f"Embeddings: batch_size={explicit} (from config).", flush=True)
+                debug_print(f"Embeddings: batch_size={explicit} (from config).")
             return explicit
         pytorch_based = self.embeddings_configurations["pytorch_based_model"]
         if not encoder_auto_batch_eligible(self.model.kind, pytorch_based, self.model_instance):
@@ -652,51 +652,58 @@ class EmbeddingsExtractor:
         )
         if n > 1:
             free_gb = (free_bytes or 0) / (1024 ** 3)
-            print(
+            debug_print(
                 f"Embeddings: auto batch_size={n} "
-                f"({free_gb:.1f} GiB free, {n_texts} texts).",
-                flush=True,
+                f"({free_gb:.1f} GiB free, {n_texts} texts)."
             )
         return n
 
     def _process_corpus_sequential(self, corpus, embedding_options, write_opts):
-        total = len(corpus.documents)
+        from pelican_nlp.utils.progress import get_reporter, short_model_name, walk_units
+
+        reporter = get_reporter(corpus)
+        model = short_model_name(self.embeddings_configurations.get("model_name") or getattr(self, "model_name", None))
+        label = f"embeddings ({model})" if model else "embeddings"
         keep_speakertags = write_opts["keep_speakertags"]
-        for index, document in enumerate(corpus.documents, start=1):
-            print(f"Embeddings [{index}/{total}] {document.name}", flush=True)
-            debug_print(f"cleaned sections: {document.cleaned_sections}")
-            for key, section_parts in iter_section_groups(
-                document, corpus.config, keep_speakertags=keep_speakertags
-            ):
-                debug_print(f"Processing section {key}")
-                embeddings, token_count = self.extract_embeddings_from_text(
-                    section_parts, embedding_options
-                )
-                _write_section_embeddings(
-                    document, corpus, section_parts, embeddings, token_count, write_opts
-                )
+        for _unit, docs in walk_units(reporter, corpus.documents, "embeddings", label=label):
+            for document in docs:
+                reporter.set_postfix(document.name)
+                debug_print(f"cleaned sections: {document.cleaned_sections}")
+                for key, section_parts in iter_section_groups(
+                    document, corpus.config, keep_speakertags=keep_speakertags
+                ):
+                    debug_print(f"Processing section {key}")
+                    reporter.set_postfix(f"{document.name}  section {key}")
+                    embeddings, token_count = self.extract_embeddings_from_text(
+                        section_parts, embedding_options
+                    )
+                    _write_section_embeddings(
+                        document, corpus, section_parts, embeddings, token_count, write_opts
+                    )
+                reporter.advance_item(document.name)
 
     def _process_corpus_encoder_windowed(
         self, corpus, embedding_options, write_opts, batch_size
     ):
+        from pelican_nlp.utils.progress import UnitTracker, get_reporter, short_model_name
+
         jobs_by_doc = collect_document_jobs(
             corpus.documents,
             corpus.config,
             keep_speakertags=write_opts["keep_speakertags"],
         )
-        total = len(corpus.documents)
+        reporter = get_reporter(corpus)
+        model = short_model_name(self.embeddings_configurations.get("model_name") or getattr(self, "model_name", None))
+        label = f"embeddings ({model})" if model else "embeddings"
+        tracker = UnitTracker(reporter, corpus.documents, "embeddings", label=label)
         effective_batch = max(1, int(batch_size))
-        doc_index = {id(document): index for index, document in enumerate(corpus.documents, start=1)}
         for window in iter_document_windows(jobs_by_doc, effective_batch):
             window_jobs = flatten_window_jobs(window)
             effective_batch = self._encode_jobs(
                 window_jobs, embedding_options, effective_batch
             )
             for document, doc_jobs in window:
-                print(
-                    f"Embeddings [{doc_index.get(id(document), '?')}/{total}] {document.name}",
-                    flush=True,
-                )
+                tracker.start_document(document)
                 lookup = {(job.section_key, job.part_index): job for job in doc_jobs}
                 for key, section_parts in iter_section_groups(
                     document, corpus.config, keep_speakertags=write_opts["keep_speakertags"]
@@ -710,6 +717,7 @@ class EmbeddingsExtractor:
                     _write_section_embeddings(
                         document, corpus, section_parts, embeddings, token_count, write_opts
                     )
+                tracker.finish_document(document)
 
     def _encode_jobs(self, jobs, embedding_options, batch_size) -> int:
         """Encode jobs in chunks. Returns the batch size that succeeded (may shrink on OOM)."""
@@ -727,9 +735,10 @@ class EmbeddingsExtractor:
                 if current <= 1 or not is_cuda_oom(exc):
                     raise
                 current = max(1, current // 2)
-                print(
-                    f"CUDA out of memory during embeddings; retrying batch_size={current}.",
-                    flush=True,
+                from pelican_nlp.utils.progress import active_reporter
+
+                active_reporter().warn(
+                    f"CUDA out of memory during embeddings; retrying batch_size={current}."
                 )
                 try:
                     import torch

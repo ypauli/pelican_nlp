@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import os
 
+from pelican_nlp.config import debug_print
+
 DEFAULT_GPU_RESERVE_GB = 2.0
 DEFAULT_CPU_RESERVE_GB = 3.0
 MIN_FRACTION = 0.1
@@ -196,11 +198,10 @@ def hub_max_memory(needed_bytes: int | None = None) -> dict:
     if gpu_bytes is not None:
         mapping[0] = _bytes_to_gib(gpu_bytes)
         if needed_bytes is not None and not gpu_can_hold(needed_bytes):
-            print(
+            debug_print(
                 f"Model weights (~{needed_bytes / (1024 ** 3):.1f} GiB) exceed the "
                 f"GPU budget ({gpu_bytes / (1024 ** 3):.1f} GiB). Filling the GPU "
                 "and offloading leftover layers to CPU.",
-                flush=True,
             )
     if allow_disk_offload():
         mapping["disk"] = os.environ.get("PELICAN_GPU_DISK_OFFLOAD_SIZE", "50GiB")
@@ -236,13 +237,13 @@ def prefer_cuda(min_free_gb: float = 0.0) -> bool:
         return False
     reserve = int(gpu_reserve_gb() * (1024 ** 3))
     if free < reserve:
-        print(
+        debug_print(
             f"GPU has {free / (1024 ** 3):.1f} GiB free; "
             f"need {gpu_reserve_gb():.1f} GiB display headroom. Using CPU."
         )
         return False
     if min_free_gb and free < min_free_gb * (1024 ** 3):
-        print(
+        debug_print(
             f"GPU has {free / (1024 ** 3):.1f} GiB free; "
             f"need {min_free_gb:.1f} GiB for this model. Using CPU."
         )
@@ -306,7 +307,7 @@ def apply_gpu_budget() -> dict:
     try:
         torch.cuda.set_per_process_memory_fraction(fraction)
         limit = allocator_limit_bytes() or 0
-        print(
+        debug_print(
             f"GPU budget: {limit / (1024 ** 3):.1f} GiB for PyTorch "
             f"({gpu_reserve_gb():.1f} GiB reserved), memory_fraction={fraction:.2f}."
         )

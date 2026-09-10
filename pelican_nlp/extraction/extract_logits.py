@@ -1,8 +1,5 @@
-import sys
-
 import torch
 import torch.nn.functional as F
-from tqdm import tqdm
 
 from pelican_nlp.config import debug_print
 from pelican_nlp.extraction.token_artifacts import (
@@ -27,7 +24,7 @@ class LogitsExtractor:
             DEFAULT_TRAILING_ARTIFACT_SEQUENCES,
         )
 
-    def extract_features(self, section, tokenizer, model):
+    def extract_features(self, section, tokenizer, model, on_chunk=None):
 
         debug_print(f'section to tokenize: {section}')
         tokens = tokenizer.tokenize_text(section)
@@ -54,7 +51,9 @@ class LogitsExtractor:
 
         total_processed_tokens = 0  # Keep track of total tokens_logits processed to avoid duplicates
 
-        for i, chunk in enumerate(tqdm(chunks, desc="Processing chunks", file=sys.stderr, mininterval=1.0)):
+        for i, chunk in enumerate(chunks):
+            if on_chunk is not None:
+                on_chunk(i + 1, len(chunks))
 
             with torch.inference_mode():
 
@@ -108,6 +107,8 @@ class LogitsExtractor:
         from pelican_nlp.extraction.language_model import Model
         from pelican_nlp.extraction.model_registry import MODEL_KIND_CAUSAL_LM
 
+        from pelican_nlp.utils.progress import get_reporter, short_model_name, walk_units
+
         model_name = self.options["model_name"]
         trust_remote_code = self.options.get("trust_remote_code", False)
         model = Model(
@@ -129,38 +130,41 @@ class LogitsExtractor:
             model_name=self.options["model_name"],
             trust_remote_code=trust_remote_code,
         )
-        print(
-            f"Extracting logits with {model_name} on {self.device}. "
-            f"{len(corpus.documents)} document(s).",
-            flush=True,
-        )
+        reporter = get_reporter(corpus)
+        short = short_model_name(model_name)
+        label = f"logits ({short})" if short else "logits"
+        debug_print(f"Extracting logits with {model_name} on {self.device}.")
         keep_speakertags = self.options.get("keep_speakertags", False)
         try:
-            total = len(corpus.documents)
-            for index, document in enumerate(corpus.documents, start=1):
-                print(
-                    f"Logits [{index}/{total}] {document.name}",
-                    flush=True,
-                )
-                for key, section_parts in iter_section_groups(
-                    document, corpus.config, keep_speakertags=keep_speakertags
-                ):
-                    print(
-                        f"  section {key}: {len(section_parts)} part(s)",
-                        flush=True,
-                    )
-                    for part in section_parts:
-                        logits = self.extract_features(part, tokenizer, model.model_instance)
-                        document.logits.append(logits)
-                        store_features_to_csv(
-                            logits,
-                            corpus.derivatives_dir,
-                            document,
-                            metric="logits",
-                        )
+            for _unit, docs in walk_units(reporter, corpus.documents, "logits", label=label):
+                for document in docs:
+                    def _on_chunk(index, total, doc_name=document.name):
+                        reporter.set_postfix(f"{doc_name}  chunk {index}/{total}")
+
+                    for key, section_parts in iter_section_groups(
+                        document, corpus.config, keep_speakertags=keep_speakertags
+                    ):
+                        for part_index, part in enumerate(section_parts, start=1):
+                            reporter.set_postfix(
+                                f"{document.name}  section {key} {part_index}/{len(section_parts)}"
+                            )
+                            logits = self.extract_features(
+                                part,
+                                tokenizer,
+                                model.model_instance,
+                                on_chunk=_on_chunk,
+                            )
+                            document.logits.append(logits)
+                            store_features_to_csv(
+                                logits,
+                                corpus.derivatives_dir,
+                                document,
+                                metric="logits",
+                            )
+                    reporter.advance_item(document.name)
         finally:
             release_gpu(model, tokenizer, self)
-            print("GPU memory cleared after logits extraction", flush=True)
+            debug_print("GPU memory cleared after logits extraction")
 
     def _remove_trailing_artifact_tokens(self, per_token_data):
         return strip_trailing_artifact_items(

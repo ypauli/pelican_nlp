@@ -53,6 +53,11 @@ def main(argv=None) -> None:
         action="store_true",
         help="With --run-tests --examples, print full pipeline logs.",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print debug details and third-party progress (Hugging Face, tqdm).",
+    )
     args = parser.parse_args(argv)
 
     if args.examples is not None and not args.run_tests:
@@ -79,10 +84,10 @@ def main(argv=None) -> None:
             )
         )
 
-    _run_pipeline()
+    _run_pipeline(verbose=args.verbose)
 
 
-def _run_pipeline() -> None:
+def _run_pipeline(verbose: bool = False) -> None:
     config_dir = Path.cwd()
     config_files = [
         f
@@ -106,9 +111,8 @@ def _run_pipeline() -> None:
     config_file = str(config_dir / config_files[0])
 
     try:
-        pelican = Pelican(config_file)
+        pelican = Pelican(config_file, verbose=verbose)
         pelican.run()
-        print("Pipeline ran successfully")
     except Exception as e:
         print(f"Error: {e}")
         return
