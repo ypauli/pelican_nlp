@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
-from pelican_nlp.utils.setup_functions import is_hidden_or_system_file
+from pelican_nlp.utils.setup_functions import resolve_project_config
 
 
 def main(argv=None) -> None:
@@ -88,27 +87,13 @@ def main(argv=None) -> None:
 
 
 def _run_pipeline(verbose: bool = False) -> None:
-    config_dir = Path.cwd()
-    config_files = [
-        f
-        for f in os.listdir(config_dir)
-        if f.endswith((".yml", ".yaml")) and not is_hidden_or_system_file(f)
-    ]
-
-    if not config_files:
-        print("Error: No .yml or .yaml configuration file found in the current directory.")
-        return
-
-    if len(config_files) > 1:
-        print(
-            "Error: Multiple configuration files found. "
-            "Please ensure only one configuration file is present."
-        )
-        return
-
     from pelican_nlp.main import Pelican
 
-    config_file = str(config_dir / config_files[0])
+    try:
+        config_file = str(resolve_project_config(Path.cwd()))
+    except (FileNotFoundError, ValueError) as exc:
+        print(f"Error: {exc}")
+        return
 
     try:
         pelican = Pelican(config_file, verbose=verbose)

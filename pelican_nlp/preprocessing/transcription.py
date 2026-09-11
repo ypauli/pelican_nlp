@@ -27,6 +27,14 @@ from pelican_nlp.utils.progress import active_reporter
 # Suppress FutureWarning from transformers about 'inputs' vs 'input_features'
 # This is a deprecation warning from the transformers library that will be fixed in a future version
 warnings.filterwarnings("ignore", category=FutureWarning, message=".*input name `inputs` is deprecated.*")
+# pyannote: TF32 is turned off on purpose; empty/short windows also warn on std().
+warnings.filterwarnings("ignore", message=".*TensorFloat-32 \\(TF32\\) has been disabled.*")
+warnings.filterwarnings("ignore", message=".*std\\(\\): degrees of freedom is <= 0.*")
+
+
+def _is_word_timestamp_merge_error(exc: BaseException) -> bool:
+    msg = str(exc)
+    return isinstance(exc, TypeError) and "NoneType" in msg and "<=" in msg
 
 
 def _clear_cuda():
@@ -121,7 +129,10 @@ class AudioTranscriber:
         model = getattr(pipe, "model", None) if pipe is not None else None
         if model is not None and hasattr(model, "to"):
             try:
-                converted = model.to(dtype=torch.float16)
+                if hasattr(model, "half"):
+                    converted = model.half()
+                else:
+                    converted = model.to(dtype=torch.float16)
                 pipe.model = converted
                 if hasattr(pipe, "torch_dtype"):
                     pipe.torch_dtype = torch.float16
@@ -139,6 +150,59 @@ class AudioTranscriber:
             self.transcriber = None
             raise
         return True
+
+    def park_on_cpu(self):
+        """Free GPU VRAM so MMS/pyannote can load after ASR."""
+        pipe = getattr(self, "transcriber", None)
+        model = getattr(pipe, "model", None) if pipe is not None else None
+        if model is None:
+            return
+        try:
+            model.to("cpu")
+        except Exception:
+            pass
+        _clear_cuda()
+
+    def restore_to_device(self):
+        """Move Whisper back onto the ASR device for the next file."""
+        pipe = getattr(self, "transcriber", None)
+        model = getattr(pipe, "model", None) if pipe is not None else None
+        if model is None:
+            return
+        kwargs = {}
+        if self._torch_dtype == torch.float16:
+            kwargs["dtype"] = torch.float16
+        model.to(device=self.device, **kwargs)
+
+    def _invoke_asr(self, wav_bytes, asr_kwargs):
+        try:
+            return self.transcriber(wav_bytes, **asr_kwargs), True
+        except TypeError as exc:
+            if not _is_word_timestamp_merge_error(exc):
+                raise
+            fallback = dict(asr_kwargs)
+            fallback["return_timestamps"] = True
+            return self.transcriber(wav_bytes, **fallback), False
+
+    def _transcribe_audio(self, wav_bytes, chunk_duration):
+        asr_kwargs = {}
+        if chunk_duration > 30:
+            asr_kwargs["chunk_length_s"] = 30
+        try:
+            return self._invoke_asr(wav_bytes, asr_kwargs)
+        except torch.cuda.OutOfMemoryError:
+            _clear_cuda()
+            asr_kwargs["chunk_length_s"] = 30
+            try:
+                return self._invoke_asr(wav_bytes, asr_kwargs)
+            except torch.cuda.OutOfMemoryError:
+                _clear_cuda()
+                if not self._ensure_float16():
+                    raise
+                if getattr(self, "transcriber", None) is None:
+                    raise
+                asr_kwargs["chunk_length_s"] = 15
+                return self._invoke_asr(wav_bytes, asr_kwargs)
 
     @staticmethod
     def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
@@ -168,6 +232,7 @@ class AudioTranscriber:
         :param audio_file: AudioFile instance containing audio chunks.
         """
         debug_print("Starting transcription of audio chunks...")
+        self.restore_to_device()
         n_chunks = len(audio_file.chunks)
         for idx, chunk in enumerate(audio_file.chunks, start=1):
             active_reporter().set_postfix(f"transcribe {idx}/{n_chunks}")
@@ -179,29 +244,15 @@ class AudioTranscriber:
                     wav_io.seek(0)
                     wav_bytes = wav_io.read()
                 chunk_duration = len(chunk.audio_segment) / 1000.0
-                asr_kwargs = {}
-                if chunk_duration > 30:
-                    asr_kwargs["chunk_length_s"] = 30
-                try:
-                    transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
-                except torch.cuda.OutOfMemoryError:
-                    _clear_cuda()
-                    asr_kwargs["chunk_length_s"] = 30
-                    try:
-                        transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
-                    except torch.cuda.OutOfMemoryError:
-                        _clear_cuda()
-                        if not self._ensure_float16():
-                            raise
-                        if getattr(self, "transcriber", None) is None:
-                            raise
-                        transcription_result = self.transcriber(wav_bytes, **asr_kwargs)
+                transcription_result, word_timestamps = self._transcribe_audio(
+                    wav_bytes, chunk_duration
+                )
 
                 # Assign transcript to the chunk
                 chunk.transcript = transcription_result.get('text', "").strip()
 
                 # Extract word alignments
-                raw_chunks = transcription_result.get('chunks', [])
+                raw_chunks = transcription_result.get('chunks', []) if word_timestamps else []
                 clean_chunks = []
                 prev_end_rel = 0.0
                 for word_info in raw_chunks:
@@ -581,7 +632,10 @@ def process_single_audio_file(audio_file,
             "No chunks produced any transcript text. Check model availability, audio content, and language compatibility."
         )
 
-    if torch.cuda.is_available():
+    if hasattr(transcriber, "park_on_cpu"):
+        reporter.set_postfix("park whisper")
+        transcriber.park_on_cpu()
+    elif torch.cuda.is_available():
         torch.cuda.empty_cache()
 
     reporter.set_postfix("align")
@@ -628,6 +682,8 @@ def process_single_audio_file(audio_file,
     else:
         # Keep Whisper for the next file; free MMS/pyannote so ASR is not sharing 16 GiB VRAM.
         release_transcription_models(None, aligner, diarizer)
+        if hasattr(transcriber, "restore_to_device"):
+            transcriber.restore_to_device()
 
     return audio_file
 

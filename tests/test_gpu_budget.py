@@ -153,11 +153,23 @@ def test_weight_bytes_from_config_whisper_encoder_decoder():
         d_model=1280,
         encoder_layers=32,
         decoder_layers=32,
+        num_hidden_layers=32,
         vocab_size=51866,
         encoder_ffn_dim=5120,
     )
     nbytes = weight_bytes_from_config(config, bytes_per_param=4)
+    encoder_only = weight_bytes_from_config(
+        SimpleNamespace(
+            d_model=1280,
+            num_hidden_layers=32,
+            vocab_size=51866,
+            encoder_ffn_dim=5120,
+        ),
+        bytes_per_param=4,
+    )
     assert nbytes is not None
+    assert encoder_only is not None
+    assert nbytes > encoder_only * 1.5
     assert nbytes > 5 * (1024 ** 3)
     assert nbytes < 12 * (1024 ** 3)
 

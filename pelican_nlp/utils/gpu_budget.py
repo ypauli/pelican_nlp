@@ -146,12 +146,13 @@ def gpu_can_hold(needed_bytes: int | None) -> bool:
 def weight_bytes_from_config(config, bytes_per_param: int = 2) -> int | None:
     """Rough transformer weight size from an HF config. Overestimates slightly."""
     hidden = getattr(config, "hidden_size", None) or getattr(config, "d_model", None)
-    layers = getattr(config, "num_hidden_layers", None) or getattr(config, "n_layer", None)
-    if layers is None:
-        enc = getattr(config, "encoder_layers", None)
-        dec = getattr(config, "decoder_layers", None)
-        if enc or dec:
-            layers = int(enc or 0) + int(dec or 0)
+    enc = getattr(config, "encoder_layers", None)
+    dec = getattr(config, "decoder_layers", None)
+    if enc or dec:
+        # WhisperConfig sets num_hidden_layers to encoder_layers only.
+        layers = int(enc or 0) + int(dec or 0)
+    else:
+        layers = getattr(config, "num_hidden_layers", None) or getattr(config, "n_layer", None)
     vocab = getattr(config, "vocab_size", None)
     intermediate = getattr(config, "intermediate_size", None)
     if intermediate is None:

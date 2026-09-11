@@ -1,5 +1,7 @@
 """CLI dispatch for pelican-run --run-tests vs the project pipeline."""
 
+from pathlib import Path
+
 import pytest
 
 from pelican_nlp.cli import main
@@ -107,6 +109,71 @@ def test_pipeline_verbose_flag(monkeypatch, tmp_path):
     main(["--verbose"])
     assert seen.get("ran") is True
     assert seen.get("verbose") is True
+
+
+def test_resolve_project_config_accepts_folder_or_yaml(tmp_path):
+    from pelican_nlp.utils.setup_functions import resolve_project_config
+
+    project = tmp_path / "proj"
+    project.mkdir()
+    yaml_path = project / "config.yml"
+    yaml_path.write_text("input_file: text\n", encoding="utf-8")
+    assert resolve_project_config(project) == yaml_path.resolve()
+    assert resolve_project_config(yaml_path) == yaml_path.resolve()
+
+
+def test_config_for_direct_run_reads_ide_project_file(tmp_path, monkeypatch):
+    from pelican_nlp.main import config_for_direct_run
+
+    project = tmp_path / "proj"
+    project.mkdir()
+    yaml_path = project / "config.yml"
+    yaml_path.write_text("input_file: text\n", encoding="utf-8")
+    other = tmp_path / "other.yml"
+    other.write_text("input_file: audio\n", encoding="utf-8")
+    ide_file = tmp_path / "ide_project.txt"
+    ide_file.write_text(f"# comment\n{project}\n", encoding="utf-8")
+
+    assert config_for_direct_run(str(yaml_path), ide_project_file_path=ide_file) == yaml_path.resolve()
+    assert config_for_direct_run(ide_project_file_path=ide_file) == yaml_path.resolve()
+
+    ide_file.write_text("\n# only comments\n", encoding="utf-8")
+    try:
+        config_for_direct_run(ide_project_file_path=ide_file)
+    except FileNotFoundError as exc:
+        assert "ide_project.txt" in str(exc)
+    else:
+        raise AssertionError("expected FileNotFoundError")
+
+
+def test_pelican_run_ignores_ide_project_file(monkeypatch, tmp_path):
+    from pelican_nlp.cli import main
+
+    cwd_project = tmp_path / "cwd"
+    cwd_project.mkdir()
+    (cwd_project / "config.yml").write_text("input_file: text\n", encoding="utf-8")
+    other = tmp_path / "other"
+    other.mkdir()
+    (other / "config.yml").write_text("input_file: audio\n", encoding="utf-8")
+    ide_file = tmp_path / "ide_project.txt"
+    ide_file.write_text(f"{other}\n", encoding="utf-8")
+    monkeypatch.chdir(cwd_project)
+    monkeypatch.setattr("pelican_nlp.main.ide_project_file", lambda: ide_file)
+
+    seen = {}
+
+    class FakePelican:
+        def __init__(self, path, **kwargs):
+            seen["path"] = path
+
+        def run(self):
+            seen["ran"] = True
+
+    monkeypatch.setattr("pelican_nlp.main.Pelican", FakePelican)
+    main([])
+    assert seen.get("ran") is True
+    assert seen["path"].endswith(str(cwd_project / "config.yml")) or Path(seen["path"]).name == "config.yml"
+    assert Path(seen["path"]).resolve() == (cwd_project / "config.yml").resolve()
 
 
 def test_pipeline_skipped_when_run_tests(monkeypatch, tmp_path):

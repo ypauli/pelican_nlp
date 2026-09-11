@@ -19,6 +19,32 @@ def is_hidden_or_system_file(filename):
     return filename in {"Thumbs.db", "desktop.ini"}
 
 
+def resolve_project_config(project) -> Path:
+    """Return the YAML for a project folder or a YAML file path."""
+    path = Path(project).expanduser().resolve()
+    if path.is_file():
+        if path.suffix.lower() not in {".yml", ".yaml"}:
+            raise ValueError(f"Not a YAML configuration file: {path}")
+        return path
+    if not path.is_dir():
+        raise FileNotFoundError(f"Project path does not exist: {path}")
+    names = [
+        name
+        for name in os.listdir(path)
+        if name.endswith((".yml", ".yaml")) and not is_hidden_or_system_file(name)
+    ]
+    if not names:
+        raise FileNotFoundError(
+            f"No .yml or .yaml configuration file found in {path}."
+        )
+    if len(names) > 1:
+        raise ValueError(
+            "Multiple configuration files found. "
+            "Please ensure only one configuration file is present."
+        )
+    return path / names[0]
+
+
 # Sidecars that may sit in or under participants/ without being subject data.
 _METADATA_STEMS = {"metadata", "participant_metadata"}
 _METADATA_FILENAMES = {

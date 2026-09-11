@@ -228,6 +228,12 @@ def test_process_single_delays_aligner_until_after_asr(monkeypatch):
             order.append("asr")
             audio_file.chunks = [SimpleNamespace(transcript="hello")]
 
+        def park_on_cpu(self):
+            order.append("park")
+
+        def restore_to_device(self):
+            order.append("restore")
+
     class DummyAligner:
         def __init__(self):
             order.append("aligner_init")
@@ -264,4 +270,37 @@ def test_process_single_delays_aligner_until_after_asr(monkeypatch):
         diarizer=None,
         release_models=False,
     )
-    assert order == ["asr", "aligner_init", "align"]
+    assert order == ["asr", "park", "aligner_init", "align", "restore"]
+
+
+def test_word_timestamp_merge_error_falls_back_to_segment_timestamps(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    class MergeBugPipeline:
+        def __call__(self, *a, **kwargs):
+            if kwargs.get("return_timestamps") is True:
+                return {"text": "hello world", "chunks": []}
+            raise TypeError(
+                "'<=' not supported between instances of 'NoneType' and 'float'"
+            )
+
+    monkeypatch.setattr(tr, "pipeline", lambda *a, **k: MergeBugPipeline())
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("cuda"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: 2 * (1024 ** 3)
+    )
+    monkeypatch.setattr(gpu_budget, "gpu_can_hold", lambda n: True)
+    monkeypatch.setattr(tr, "_clear_cuda", lambda: None)
+
+    transcriber = tr.AudioTranscriber(model="openai/whisper-medium")
+    audio = SimpleNamespace(chunks=[_chunk()])
+    audio.register_model = lambda *a, **k: None
+    transcriber.transcribe(audio)
+
+    chunk = audio.chunks[0]
+    assert chunk.transcript == "hello world"
+    assert len(chunk.whisper_alignments) == 2
+    assert chunk.whisper_alignments[0]["word"] == "hello"

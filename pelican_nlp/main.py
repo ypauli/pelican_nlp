@@ -40,6 +40,50 @@ from pelican_nlp.utils.progress import (
     pipeline_stage_labels,
 )
 
+# IDE green-arrow runs of this file read repo-root ide_project.txt (gitignored).
+# pelican-run ignores that file and uses the process working directory.
+IDE_PROJECT_FILENAME = "ide_project.txt"
+
+
+def ide_project_file() -> Path:
+    return Path(__file__).resolve().parent.parent / IDE_PROJECT_FILENAME
+
+
+def read_ide_project_location(path: Path | None = None) -> str | None:
+    """Return the first non-comment path from ``ide_project.txt``, or ``None``."""
+    file_path = ide_project_file() if path is None else Path(path)
+    if not file_path.is_file():
+        return None
+    for line in file_path.read_text(encoding="utf-8").splitlines():
+        text = line.strip().strip("\"'")
+        if not text or text.startswith("#"):
+            continue
+        return text
+    return None
+
+
+def config_for_direct_run(
+    cli_path: str | None = None,
+    *,
+    ide_project_file_path: Path | None = None,
+) -> Path:
+    """YAML used when running ``main.py`` from an IDE.
+
+    ``pelican-run`` does not call this. Order: CLI path, then ``ide_project.txt``.
+    """
+    from pelican_nlp.utils.setup_functions import resolve_project_config
+
+    if cli_path:
+        return resolve_project_config(cli_path)
+    location = read_ide_project_location(ide_project_file_path)
+    if location:
+        return resolve_project_config(location)
+    file_path = ide_project_file() if ide_project_file_path is None else Path(ide_project_file_path)
+    raise FileNotFoundError(
+        f"No project selected. Put a project folder or YAML path in {file_path} "
+        "(one line; gitignored), or pass a path when running main.py."
+    )
+
 
 class Pelican:
 
@@ -335,7 +379,7 @@ if __name__ == '__main__':
         "config_path",
         nargs="?",
         default=None,
-        help="Path to the configuration YAML file.",
+        help="Project folder or YAML path. Default: repo-root ide_project.txt (IDE only).",
     )
     parser.add_argument(
         "--text-from-transcriptions",
@@ -348,11 +392,13 @@ if __name__ == '__main__':
         help="Print debug details and third-party progress (Hugging Face, tqdm).",
     )
     args = parser.parse_args()
-    if not args.config_path:
-        parser.error("config_path is required (or run pelican-run from a project directory).")
+    try:
+        config_file = str(config_for_direct_run(args.config_path))
+    except (FileNotFoundError, ValueError) as exc:
+        parser.error(str(exc))
 
     Pelican(
-        args.config_path,
+        config_file,
         dev_mode=True,
         text_from_transcriptions=args.text_from_transcriptions,
         verbose=args.verbose,
