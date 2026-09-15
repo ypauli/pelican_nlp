@@ -36,6 +36,94 @@ _PIPELINE_DEFAULTS = {
     "normalize_text": False,
 }
 
+DEFAULT_TRANSCRIPTION_MODEL = "openai/whisper-medium"
+_PATCHING_TRUE = {True, 1, "1", "true", "yes", "on"}
+_PATCHING_FALSE = {False, 0, "0", "false", "no", "off", None, ""}
+
+
+def canonical_asr_model_id(model) -> str:
+    """Normalize a Whisper/HF id so ``whisper-medium`` matches the default."""
+    if not isinstance(model, str) or not model.strip():
+        return DEFAULT_TRANSCRIPTION_MODEL
+    name = model.strip()
+    if "/" not in name and name.lower().startswith("whisper-"):
+        return f"openai/{name}"
+    return name
+
+
+def asr_model_filename_slug(model) -> str:
+    """Filesystem-safe model id (``openai/whisper-medium`` → ``openai-whisper-medium``)."""
+    return canonical_asr_model_id(model).replace("/", "-")
+
+
+def resolve_transcription_patching(config) -> bool:
+    """Return whether a second ASR pass should patch the primary transcript."""
+    if not isinstance(config, dict):
+        return False
+    transcription = config.get("transcription")
+    if not isinstance(transcription, dict):
+        return False
+    value = transcription.get("transcription_patching")
+    if isinstance(value, str):
+        value = value.strip().lower()
+    if value in _PATCHING_TRUE:
+        return True
+    if value in _PATCHING_FALSE:
+        return False
+    return bool(value)
+
+
+def resolve_num_speakers(config, default: int = 1) -> int:
+    """Return the expected speaker count from a config.
+
+    ``transcription.num_speakers`` wins over the top-level ``number_of_speakers``.
+    An explicit ``null`` in the YAML means "not set" rather than "no speakers": it
+    used to leave the count at ``None``, which silently skipped diarization and
+    labeled every word ``UNKNOWN`` even for interview recordings.
+    """
+    if not isinstance(config, dict):
+        return default
+
+    transcription = config.get("transcription")
+    candidates = []
+    if isinstance(transcription, dict):
+        candidates.append(transcription.get("num_speakers"))
+    candidates.append(config.get("number_of_speakers"))
+
+    for value in candidates:
+        if value is None or isinstance(value, bool):
+            continue
+        try:
+            count = int(value)
+        except (TypeError, ValueError):
+            continue
+        if count > 0:
+            return count
+    return default
+
+
+def resolve_transcription_language(config):
+    """Return the language to pin for ASR, or ``None`` for auto-detection.
+
+    ``transcription.language`` overrides the top-level ``language``. An empty string
+    or ``null`` in either place means "not set" and falls through, so a config that
+    spells out ``language: null`` under ``transcription:`` still uses the top-level
+    value.
+    """
+    if not isinstance(config, dict):
+        return None
+
+    transcription = config.get("transcription")
+    candidates = []
+    if isinstance(transcription, dict):
+        candidates.append(transcription.get("language"))
+    candidates.append(config.get("language"))
+
+    for value in candidates:
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
+
 
 def apply_config_defaults(config):
     """Return a new dict with optional keys filled in. ``config`` is not mutated."""
@@ -46,6 +134,12 @@ def apply_config_defaults(config):
 
     for key, value in _OPTIONAL_DEFAULTS.items():
         filled.setdefault(key, deepcopy(value) if not isinstance(value, bool) else value)
+
+    # Keep the top-level count in sync with the transcription block so every
+    # consumer (documents, diarization, text output) sees the same number.
+    filled["number_of_speakers"] = resolve_num_speakers(
+        filled, default=_OPTIONAL_DEFAULTS["number_of_speakers"]
+    )
 
     pipeline = filled.setdefault("pipeline_options", {})
     if isinstance(pipeline, dict):

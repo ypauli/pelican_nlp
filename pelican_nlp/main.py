@@ -305,6 +305,7 @@ class Pelican:
 
     def _run_text_from_transcriptions(self, participants: List) -> None:
         """Second-phase run: build corpora from transcription text files on disk."""
+        from pelican_nlp.config_defaults import resolve_num_speakers
         from pelican_nlp.core.document import Document
 
         reporter = get_reporter(self)
@@ -346,7 +347,7 @@ class Pelican:
                 participant_ID=merged.get("part"),
                 source_folder=source_folder,
                 task=merged.get("task") or self.task,
-                num_speakers=self.config.get('number_of_speakers'),
+                num_speakers=resolve_num_speakers(self.config),
                 has_sections=self.config.get('has_multiple_sections', False),
                 section_identifier=self.config.get('section_identification'),
                 number_of_sections=self.config.get('number_of_sections'),

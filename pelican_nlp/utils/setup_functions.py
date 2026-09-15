@@ -7,7 +7,7 @@ from pelican_nlp.core.participant import Participant
 from .filename_parser import parse_lpds_filename
 from .lpds_paths import derivatives_subdir, file_matches_task, is_data_file, unit_id_from_folder
 from pelican_nlp.config import debug_print
-from pelican_nlp.config_defaults import apply_config_defaults
+from pelican_nlp.config_defaults import apply_config_defaults, resolve_num_speakers
 
 
 def is_hidden_or_system_file(filename):
@@ -153,7 +153,7 @@ def _instantiate_document(filepath, filename, entities, config, source_folder=No
         'source_folder': source_folder,
         'unit_kind': unit_kind,
         'task': entities.get('task'),
-        'num_speakers': config.get('number_of_speakers', 1),
+        'num_speakers': resolve_num_speakers(config),
     }
 
     if config['input_file'] == 'text':

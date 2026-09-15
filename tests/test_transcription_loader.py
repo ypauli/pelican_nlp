@@ -257,7 +257,7 @@ def test_process_single_delays_aligner_until_after_asr(monkeypatch):
     audio.split_on_silence = lambda **k: None
     audio.combine_chunks = lambda: None
     audio.combine_alignment_and_diarization = lambda src: None
-    audio.aggregate_to_utterances = lambda: None
+    audio.aggregate_to_utterances = lambda **k: None
     audio.register_model = lambda *a, **k: None
 
     tr.process_single_audio_file(
@@ -271,6 +271,126 @@ def test_process_single_delays_aligner_until_after_asr(monkeypatch):
         release_models=False,
     )
     assert order == ["asr", "park", "aligner_init", "align", "restore"]
+
+
+def test_process_single_can_skip_restoring_transcriber(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    order = []
+
+    class DummyTranscriber:
+        def transcribe(self, audio_file):
+            audio_file.chunks = [SimpleNamespace(transcript="hello")]
+
+        def park_on_cpu(self):
+            order.append("park")
+
+        def restore_to_device(self):
+            order.append("restore")
+
+    class DummyAligner:
+        def align(self, audio_file):
+            order.append("align")
+
+        def park_on_cpu(self):
+            order.append("aligner_park")
+
+        def restore_to_device(self):
+            order.append("aligner_restore")
+
+    monkeypatch.setattr(tr, "ForcedAligner", DummyAligner)
+    monkeypatch.setattr(tr, "SpeakerDiarizer", lambda *a, **k: SimpleNamespace())
+    monkeypatch.setattr(tr, "release_transcription_models", lambda *a, **k: None)
+
+    audio = SimpleNamespace(
+        file="/tmp/none.wav",
+        chunks=[],
+        forced_alignments=[],
+        whisper_alignments=[{"word": "hello"}],
+        num_speakers=1,
+    )
+    audio.load_audio = lambda: None
+    audio.rms_normalization = lambda output_dir=None: None
+    audio.split_on_silence = lambda **k: None
+    audio.combine_chunks = lambda: None
+    audio.combine_alignment_and_diarization = lambda src: None
+    audio.aggregate_to_utterances = lambda **k: None
+    audio.register_model = lambda *a, **k: None
+
+    tr.process_single_audio_file(
+        audio_file=audio,
+        hf_token="",
+        num_speakers=1,
+        transcriber=DummyTranscriber(),
+        aligner=DummyAligner(),
+        diarizer=None,
+        release_models=False,
+        restore_transcriber=False,
+    )
+    assert "restore" not in order
+    assert "park" in order
+
+
+def test_independent_patch_stores_then_unloads_before_second_model(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    order = []
+    stored = []
+
+    class PrimaryFile:
+        file_path = "/tmp"
+        name = "a.wav"
+        file = "/tmp/a.wav"
+        target_rms_db = -20
+        participant_ID = None
+        source_folder = None
+        unit_kind = None
+        task = None
+        num_speakers = 1
+        _normalized_audio_dir = "/tmp/norm"
+
+    def fake_process(audio_file, **kwargs):
+        order.append(("process", kwargs.get("transcription_model"), audio_file is primary))
+        return audio_file
+
+    def fake_unload(pool):
+        order.append("unload")
+        pool.clear()
+
+    def fake_clone(audio_file):
+        order.append("clone")
+        clone = PrimaryFile()
+        clone.name = "clone.wav"
+        return clone
+
+    monkeypatch.setattr(tr, "process_single_audio_file", fake_process)
+    monkeypatch.setattr(tr, "unload_transcription_runtime", fake_unload)
+    monkeypatch.setattr(tr, "clone_audio_file_for_independent_run", fake_clone)
+
+    primary = PrimaryFile()
+
+    def store_primary(processed):
+        stored.append(processed)
+        order.append("store")
+
+    first, second = tr.transcribe_with_independent_patch(
+        primary,
+        process_kwargs={"hf_token": ""},
+        primary_model="openai/whisper-large-v3",
+        patch_model="openai/whisper-medium",
+        store_primary=store_primary,
+    )
+    assert stored == [primary]
+    assert first is primary
+    assert second is not primary
+    assert order == [
+        ("process", "openai/whisper-large-v3", True),
+        "store",
+        "unload",
+        "clone",
+        ("process", "openai/whisper-medium", False),
+        "unload",
+    ]
 
 
 def test_word_timestamp_merge_error_falls_back_to_segment_timestamps(monkeypatch):

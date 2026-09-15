@@ -4,7 +4,7 @@
 # Basic Settings
 # -------------
 input_file: "audio"  # Options: 'text' or 'audio'
-language: ""
+language: ""  # e.g. "german". Empty = Whisper detects per chunk (can drift mid-file)
 
 # Task Configuration
 # -----------------
@@ -29,6 +29,7 @@ participant_speakertag: null  # Speaker tag for participant (e.g., "B"), only fo
 # -------------------------
 transcription:
   transcription_model: null #default: openai/whisper-medium
+  language: null  # Overrides the top-level 'language' for transcription only
   hf_token: ""  # Leave empty to skip speaker diarization, or add your Hugging Face token
   num_speakers: 1  # Expected number of speakers
   min_silence_len: 500  # Minimum silence length for splitting (ms); adjust in case of killed processes due to RAM limitations
@@ -36,6 +37,9 @@ transcription:
   min_length: 90000  # Minimum chunk length (ms)
   max_length: 120000  # Maximum chunk length (ms)
   timestamp_source: "whisper_alignments"  # Options: 'whisper_alignments' or 'forced_alignments'
+  utterance_max_gap: 1.0  # Silence (s) that ends an utterance; null = punctuation/speaker only
+  generate_kwargs: {}  # Extra Whisper generate options, e.g. {condition_on_prev_tokens: false}
+  transcription_patching: false  # Second pass with whisper-medium to replace hallucinated spans
 
 #Acoustic Features Options
 #-----------------------

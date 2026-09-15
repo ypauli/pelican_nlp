@@ -22,6 +22,7 @@ import uroman as ur
 
 from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs
 from pelican_nlp.config import debug_print
+from pelican_nlp.config_defaults import DEFAULT_TRANSCRIPTION_MODEL
 from pelican_nlp.utils.progress import active_reporter
 
 # Suppress FutureWarning from transformers about 'inputs' vs 'input_features'
@@ -37,6 +38,16 @@ def _is_word_timestamp_merge_error(exc: BaseException) -> bool:
     return isinstance(exc, TypeError) and "NoneType" in msg and "<=" in msg
 
 
+def normalize_language(language) -> str | None:
+    """Return a Whisper-usable language name/code, or ``None`` for auto-detection."""
+    if not isinstance(language, str):
+        return None
+    cleaned = language.strip().lower()
+    if not cleaned or cleaned in {"auto", "none", "null", "multilingual"}:
+        return None
+    return cleaned
+
+
 def _clear_cuda():
     import gc
 
@@ -49,6 +60,18 @@ def _clear_cuda():
             pass
         gc.collect()
         torch.cuda.empty_cache()
+
+
+def _park_model(obj):
+    """Move a cached model off the GPU so the next stage gets the VRAM."""
+    if obj is not None and hasattr(obj, "park_on_cpu"):
+        obj.park_on_cpu()
+
+
+def _restore_model(obj):
+    """Move a parked model back onto its compute device."""
+    if obj is not None and hasattr(obj, "restore_to_device"):
+        obj.restore_to_device()
 
 
 def _asr_torch_dtype(model_name, device):
@@ -69,16 +92,24 @@ def _asr_torch_dtype(model_name, device):
 class AudioTranscriber:
     """Handles transcription of audio chunks using Whisper."""
     
-    def __init__(self, model="openai/whisper-medium"):
+    def __init__(self, model=None, language=None, generate_kwargs=None):
         """
         Initialize the AudioTranscriber.
         
         :param model: Whisper model to use for transcription.
+        :param language: Spoken language (e.g. ``"german"`` or ``"de"``). ``None``
+            leaves Whisper's per-chunk language detection enabled, which lets long
+            recordings drift into the wrong language.
+        :param generate_kwargs: Extra ``generate`` kwargs forwarded to Whisper
+            (for example temperature fallback thresholds).
         """
         from pelican_nlp.utils.gpu_budget import runtime_torch_device
 
         self.device = runtime_torch_device(min_free_gb=2.0, allow_mps=True)
-        self.model = model
+        self.model = model or DEFAULT_TRANSCRIPTION_MODEL
+        self.language = normalize_language(language)
+        self.extra_generate_kwargs = dict(generate_kwargs or {})
+        self._generate_kwargs_disabled = False
         self._torch_dtype = _asr_torch_dtype(model, self.device)
         if self._torch_dtype == torch.float16:
             active_reporter().status(
@@ -86,7 +117,10 @@ class AudioTranscriber:
             )
         self.transcriber = self._build_pipeline()
         dtype_note = " (float16)" if self._torch_dtype == torch.float16 else ""
-        debug_print(f"Initialized AudioTranscriber on device: {self.device}{dtype_note}")
+        lang_note = f", language={self.language}" if self.language else ", language=auto-detect"
+        debug_print(
+            f"Initialized AudioTranscriber on device: {self.device}{dtype_note}{lang_note}"
+        )
 
     def _build_pipeline(self):
         pipeline_kwargs = {
@@ -174,13 +208,38 @@ class AudioTranscriber:
             kwargs["dtype"] = torch.float16
         model.to(device=self.device, **kwargs)
 
+    def build_generate_kwargs(self):
+        """Whisper ``generate`` kwargs: pin the language so long files cannot drift."""
+        if self._generate_kwargs_disabled:
+            return {}
+        generate_kwargs = dict(self.extra_generate_kwargs)
+        if self.language:
+            generate_kwargs.setdefault("language", self.language)
+            generate_kwargs.setdefault("task", "transcribe")
+        return generate_kwargs
+
+    def _disable_generate_kwargs(self, exc):
+        """Drop unsupported generate kwargs once (e.g. language on an English-only model)."""
+        if self._generate_kwargs_disabled or not self.build_generate_kwargs():
+            return False
+        self._generate_kwargs_disabled = True
+        active_reporter().warn(
+            f"{self.model} rejected the configured transcription options ({exc}); "
+            "continuing with Whisper defaults (language auto-detection)."
+        )
+        return True
+
     def _invoke_asr(self, wav_bytes, asr_kwargs):
+        call_kwargs = dict(asr_kwargs)
+        generate_kwargs = self.build_generate_kwargs()
+        if generate_kwargs:
+            call_kwargs["generate_kwargs"] = generate_kwargs
         try:
-            return self.transcriber(wav_bytes, **asr_kwargs), True
+            return self.transcriber(wav_bytes, **call_kwargs), True
         except TypeError as exc:
             if not _is_word_timestamp_merge_error(exc):
                 raise
-            fallback = dict(asr_kwargs)
+            fallback = dict(call_kwargs)
             fallback["return_timestamps"] = True
             return self.transcriber(wav_bytes, **fallback), False
 
@@ -203,6 +262,10 @@ class AudioTranscriber:
                     raise
                 asr_kwargs["chunk_length_s"] = 15
                 return self._invoke_asr(wav_bytes, asr_kwargs)
+        except ValueError as exc:
+            if not self._disable_generate_kwargs(exc):
+                raise
+            return self._invoke_asr(wav_bytes, asr_kwargs)
 
     @staticmethod
     def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
@@ -326,7 +389,50 @@ class AudioTranscriber:
             "model": self.model,
             "device": str(self.device),
             "dtype": "float16" if self._torch_dtype == torch.float16 else "float32",
+            "language": self.language or "auto-detect",
+            "generate_kwargs": self.build_generate_kwargs(),
         })
+
+
+def _merge_token_spans(token_spans, owners, surface_words, ratio, sample_rate, chunk_start):
+    """Turn per-token MMS spans into one entry per surface word.
+
+    A single word can produce several MMS tokens (``"z.B."`` normalizes to ``z b``),
+    so consecutive spans owned by the same word are merged into one span. The mean
+    MMS score is kept: it drops sharply for text that is not actually in the audio,
+    which makes it a usable per-word confidence signal.
+    """
+    entries = []
+    for spans, owner in zip(token_spans, owners):
+        if not spans:
+            continue
+        start_sec = (spans[0].start * ratio / sample_rate) + chunk_start
+        end_sec = (spans[-1].end * ratio / sample_rate) + chunk_start
+        scores = [float(getattr(span, "score", 0.0)) for span in spans]
+        score = sum(scores) / len(scores) if scores else None
+
+        if entries and entries[-1]["_owner"] == owner:
+            previous = entries[-1]
+            previous["start_time"] = min(previous["start_time"], start_sec)
+            previous["end_time"] = max(previous["end_time"], end_sec)
+            previous["_scores"].append(score)
+            continue
+
+        entries.append({
+            "_owner": owner,
+            "word": surface_words[owner] if owner < len(surface_words) else "",
+            "start_time": start_sec,
+            "end_time": end_sec,
+            "_scores": [score],
+        })
+
+    merged = []
+    for entry in entries:
+        scores = [s for s in entry.pop("_scores") if s is not None]
+        entry.pop("_owner")
+        entry["score"] = round(sum(scores) / len(scores), 4) if scores else None
+        merged.append(entry)
+    return merged
 
 
 class ForcedAligner:
@@ -351,6 +457,27 @@ class ForcedAligner:
         self.sample_rate = self.bundle.sample_rate
         debug_print(f"Initialized ForcedAligner on device: {self.device}")
 
+    def park_on_cpu(self):
+        """Free VRAM between files without dropping the loaded MMS weights."""
+        model = getattr(self, "model", None)
+        if model is None:
+            return
+        try:
+            model.to("cpu")
+        except Exception:
+            pass
+        _clear_cuda()
+
+    def restore_to_device(self):
+        """Move MMS back onto the alignment device."""
+        model = getattr(self, "model", None)
+        if model is None:
+            return
+        try:
+            model.to(self.device)
+        except Exception:
+            pass
+
     def normalize_uroman(self, text: str) -> str:
         """
         Normalize text using Uroman.
@@ -360,11 +487,40 @@ class ForcedAligner:
         """
         text = text.encode('utf-8').decode('utf-8')
         text = text.lower()
-        text = text.replace("'", "'")
+        # Fold typographic apostrophes onto the ASCII one kept by the MMS tokenizer.
+        text = text.replace("\u2019", "'").replace("\u02bc", "'").replace("\u00b4", "'")
         text = unicodedata.normalize('NFC', text)
         text = re.sub("([^a-z' ])", " ", text)
         text = re.sub(' +', ' ', text)
         return text.strip()
+
+    def _alignment_tokens(self, transcript: str):
+        """Map MMS-alignable tokens back to the original surface words.
+
+        ``normalize_uroman`` strips casing and punctuation, so the normalized
+        tokens must not be written back into the transcript. Returning the owning
+        surface word for each token keeps timestamps aligned to readable text.
+
+        :return: ``(surface_words, normalized_tokens, owners)`` where ``owners[i]``
+            is the index in ``surface_words`` that produced ``normalized_tokens[i]``.
+        """
+        surface_words = transcript.split()
+        if not surface_words:
+            return [], [], []
+
+        romanized = self.uroman.romanize_string(transcript).split()
+        if len(romanized) != len(surface_words):
+            # Romanization changed the token count (script expansion, dropped
+            # symbols); redo it per word so the mapping stays exact.
+            romanized = [self.uroman.romanize_string(word) for word in surface_words]
+
+        normalized_tokens = []
+        owners = []
+        for index, roman in enumerate(romanized):
+            for token in self.normalize_uroman(roman).split():
+                normalized_tokens.append(token)
+                owners.append(index)
+        return surface_words, normalized_tokens, owners
 
     def align(self, audio_file):
         """
@@ -392,10 +548,8 @@ class ForcedAligner:
                     waveform = resampler(waveform)
                     sample_rate = self.sample_rate
 
-                # Normalize and tokenize the transcript
-                text_roman = self.uroman.romanize_string(chunk.transcript)
-                text_normalized = self.normalize_uroman(text_roman)
-                transcript_list = text_normalized.split()
+                # Normalize for MMS, but remember which surface word each token came from
+                surface_words, transcript_list, owners = self._alignment_tokens(chunk.transcript)
                 if not transcript_list:
                     debug_print(f"Skipping alignment for chunk {idx}: transcript has no alignable words.")
                     continue
@@ -409,17 +563,13 @@ class ForcedAligner:
                     emission, _ = self.model(waveform.to(self.device))
                     token_spans = self.aligner(emission[0], tokens)
 
-                # Extract timestamps
+                # Extract timestamps, merging tokens that belong to the same word
                 num_frames = emission.size(1)
                 ratio = waveform.size(1) / num_frames
-                for spans, word in zip(token_spans, transcript_list):
-                    start_sec = (spans[0].start * ratio / sample_rate) + chunk.start_time
-                    end_sec = (spans[-1].end * ratio / sample_rate) + chunk.start_time
-                    chunk.forced_alignments.append({
-                        "word": word,
-                        "start_time": start_sec,
-                        "end_time": end_sec
-                    })
+                for entry in _merge_token_spans(
+                    token_spans, owners, surface_words, ratio, sample_rate, chunk.start_time
+                ):
+                    chunk.forced_alignments.append(entry)
                 debug_print(f"Aligned chunk {idx} successfully.")
             except Exception as e:
                 debug_print(f"Error during alignment of chunk {idx}: {e}")
@@ -500,6 +650,25 @@ class SpeakerDiarizer:
             traceback.print_exc()
             self.diarization_pipeline = None
 
+    def park_on_cpu(self):
+        """Free VRAM between files without re-downloading/re-instantiating pyannote."""
+        if self.diarization_pipeline is None:
+            return
+        try:
+            self.diarization_pipeline.to(torch.device("cpu"))
+        except Exception:
+            pass
+        _clear_cuda()
+
+    def restore_to_device(self):
+        """Move pyannote back onto the diarization device."""
+        if self.diarization_pipeline is None:
+            return
+        try:
+            self.diarization_pipeline.to(self.device)
+        except Exception:
+            pass
+
     def diarize(self, audio_file, num_speakers: int = None):
         """
         Perform speaker diarization on the given audio file.
@@ -571,10 +740,15 @@ def process_single_audio_file(audio_file,
                               max_length: int = 150000,
                               timestamp_source: str = "whisper_alignments",
                               transcription_model: str = None,
+                              language: str = None,
+                              generate_kwargs: Dict = None,
+                              utterance_max_gap: float = 1.0,
                               transcriber=None,
                               aligner=None,
                               diarizer=None,
-                              release_models: bool = True):
+                              shared_models: Dict = None,
+                              release_models: bool = True,
+                              restore_transcriber: bool = True):
 
     # Set default diarizer parameters if not provided
     if diarizer_params is None:
@@ -593,6 +767,12 @@ def process_single_audio_file(audio_file,
     debug_print(f"Processing audio file: {audio_file.file}")
     debug_print(f"Audio file exists: {os.path.exists(audio_file.file)}")
 
+    # ``shared_models`` lets the caller reuse Whisper/MMS/pyannote across files.
+    pool = shared_models if shared_models is not None else {}
+    transcriber = transcriber or pool.get("transcriber")
+    aligner = aligner or pool.get("aligner")
+    diarizer = diarizer or pool.get("diarizer")
+
     created_transcriber = transcriber is None
     created_aligner = aligner is None
     created_diarizer = diarizer is None
@@ -600,10 +780,13 @@ def process_single_audio_file(audio_file,
         debug_print("Initializing processing classes...")
         if transcription_model:
             debug_print(f"Using custom transcription model: {transcription_model}")
-            transcriber = AudioTranscriber(model=transcription_model)
+            transcriber = AudioTranscriber(
+                model=transcription_model, language=language, generate_kwargs=generate_kwargs
+            )
         else:
-            transcriber = AudioTranscriber()
+            transcriber = AudioTranscriber(language=language, generate_kwargs=generate_kwargs)
         debug_print("Processing classes initialized successfully.")
+    pool["transcriber"] = transcriber
 
     reporter.set_postfix("load audio")
     audio_file.load_audio()
@@ -641,7 +824,10 @@ def process_single_audio_file(audio_file,
     reporter.set_postfix("align")
     if created_aligner:
         aligner = ForcedAligner()
+    pool["aligner"] = aligner
+    _restore_model(aligner)
     aligner.align(audio_file)
+    _park_model(aligner)
     audio_file.combine_chunks()
 
     # Step 6: Perform speaker diarization (only if more than one speaker)
@@ -653,7 +839,10 @@ def process_single_audio_file(audio_file,
         reporter.set_postfix("diarize")
         if created_diarizer:
             diarizer = SpeakerDiarizer(hf_token, parameters=diarizer_params)
+        pool["diarizer"] = diarizer
+        _restore_model(diarizer)
         diarizer.diarize(audio_file, num_speakers)
+        _park_model(diarizer)
     else:
         reporter.set_postfix("skip diarize")
         audio_file.speaker_segments = []
@@ -669,7 +858,7 @@ def process_single_audio_file(audio_file,
         debug_print("Forced alignments are empty; falling back to whisper_alignments for combination.")
         timestamp_source = "whisper_alignments"
     audio_file.combine_alignment_and_diarization(timestamp_source)
-    audio_file.aggregate_to_utterances()
+    audio_file.aggregate_to_utterances(max_gap=utterance_max_gap)
 
     debug_print(f"Finished processing: {audio_file.file}")
 
@@ -679,11 +868,21 @@ def process_single_audio_file(audio_file,
             aligner if created_aligner else None,
             diarizer if created_diarizer else None,
         )
-    else:
-        # Keep Whisper for the next file; free MMS/pyannote so ASR is not sharing 16 GiB VRAM.
-        release_transcription_models(None, aligner, diarizer)
+        # Only drop what this call built; models handed in by the caller stay theirs.
+        for key, was_created in (
+            ("transcriber", created_transcriber),
+            ("aligner", created_aligner),
+            ("diarizer", created_diarizer),
+        ):
+            if was_created:
+                pool.pop(key, None)
+    elif restore_transcriber:
+        # Keep every model for the next file. MMS/pyannote are already parked on
+        # CPU above, so ASR does not have to share VRAM with them.
         if hasattr(transcriber, "restore_to_device"):
             transcriber.restore_to_device()
+    else:
+        _park_model(transcriber)
 
     return audio_file
 
@@ -723,3 +922,79 @@ def release_transcription_models(transcriber=None, aligner=None, diarizer=None):
         debug_print("GPU memory cleared after transcription")
     import gc
     gc.collect()
+
+
+def unload_transcription_runtime(shared_models: Dict = None):
+    """Drop every cached ASR/MMS/pyannote handle and clear GPU memory.
+
+    Used to separate two independent transcription passes: the primary result
+    must already be stored, then this runs, then the default model is loaded.
+    """
+    pool = shared_models if shared_models is not None else {}
+    transcriber = pool.pop("transcriber", None)
+    aligner = pool.pop("aligner", None)
+    diarizer = pool.pop("diarizer", None)
+    _park_model(transcriber)
+    _park_model(aligner)
+    _park_model(diarizer)
+    release_transcription_models(transcriber, aligner, diarizer)
+    pool.clear()
+    _clear_cuda()
+
+
+def clone_audio_file_for_independent_run(audio_file):
+    """New AudioFile pointing at the same wav, sharing no in-memory audio/chunks."""
+    from pelican_nlp.core.audio_document import AudioFile
+
+    clone = AudioFile(
+        file_path=audio_file.file_path,
+        name=audio_file.name,
+        target_rms_db=getattr(audio_file, "target_rms_db", -20),
+        participant_ID=getattr(audio_file, "participant_ID", None),
+        source_folder=getattr(audio_file, "source_folder", None),
+        unit_kind=getattr(audio_file, "unit_kind", None),
+        task=getattr(audio_file, "task", None),
+        num_speakers=getattr(audio_file, "num_speakers", None),
+    )
+    clone._normalized_audio_dir = getattr(audio_file, "_normalized_audio_dir", None)
+    return clone
+
+
+def transcribe_with_independent_patch(
+    audio_file,
+    *,
+    process_kwargs: Dict,
+    primary_model: str,
+    patch_model: str,
+    store_primary,
+):
+    """Run primary ASR to completion, persist it, clear GPU, then run the patch model.
+
+    ``store_primary`` is called with the finished primary ``AudioFile`` *before*
+    models are unloaded. The patch pass uses a fresh AudioFile and a new model
+    pool so it cannot reuse GPU weights or in-memory chunks from the first pass.
+    """
+    primary_pool: Dict = {}
+    primary = process_single_audio_file(
+        audio_file,
+        transcription_model=primary_model,
+        shared_models=primary_pool,
+        release_models=False,
+        restore_transcriber=False,
+        **process_kwargs,
+    )
+    store_primary(primary)
+    unload_transcription_runtime(primary_pool)
+
+    patch_file = clone_audio_file_for_independent_run(primary)
+    patch_pool: Dict = {}
+    patch = process_single_audio_file(
+        patch_file,
+        transcription_model=patch_model,
+        shared_models=patch_pool,
+        release_models=False,
+        restore_transcriber=False,
+        **process_kwargs,
+    )
+    unload_transcription_runtime(patch_pool)
+    return primary, patch

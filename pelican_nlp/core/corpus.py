@@ -31,6 +31,39 @@ _SIMILARITY_DETAIL_MARKERS = (
 )
 
 
+def _transcription_outputs_ready(
+    transcription_file,
+    transcription_text_file,
+    fusion_file,
+    *,
+    patching_enabled,
+    primary_model_id,
+    patch_model_id,
+):
+    """True when skip_existing can trust the on-disk transcription artifacts."""
+    import json
+    import os
+
+    from pelican_nlp.config_defaults import canonical_asr_model_id
+
+    if not (os.path.exists(transcription_file) and os.path.exists(transcription_text_file)):
+        return False
+    if not patching_enabled:
+        return True
+    if not os.path.exists(fusion_file):
+        return False
+    try:
+        with open(fusion_file, encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return False
+    models = payload.get("models") or {}
+    return (
+        canonical_asr_model_id(models.get("primary")) == primary_model_id
+        and canonical_asr_model_id(models.get("patch")) == patch_model_id
+    )
+
+
 def similarity_aggregation_family(filename):
     """Return ``window_N`` or ``sentence`` from a derivatives filename, else None."""
     name = os.path.basename(str(filename))
@@ -317,12 +350,27 @@ class Corpus:
         
         :param skip_existing: If True, skip files that already have transcription results.
         """
+        from pelican_nlp.config_defaults import (
+            DEFAULT_TRANSCRIPTION_MODEL,
+            asr_model_filename_slug,
+            canonical_asr_model_id,
+            resolve_num_speakers,
+            resolve_transcription_language,
+            resolve_transcription_patching,
+        )
         from pelican_nlp.extras import require_extra
         from pelican_nlp.preprocessing.transcription import (
             AudioTranscriber,
             process_single_audio_file,
             release_transcription_models,
+            transcribe_with_independent_patch,
         )
+        from pelican_nlp.preprocessing.transcription_fusion import (
+            apply_fusion_to_audio_file,
+            audio_file_to_source_dict,
+            fuse_transcriptions,
+        )
+        import json
         import os
         from pathlib import Path
 
@@ -341,15 +389,37 @@ class Corpus:
                 "Add hf_token to the transcription section of your config."
             )
 
-        num_speakers = transcription_config.get('num_speakers', self.config.get('number_of_speakers', 2))
+        num_speakers = resolve_num_speakers(self.config)
         min_silence_len = transcription_config.get('min_silence_len', 1000)
         silence_thresh = transcription_config.get('silence_thresh', -30)
         min_length = transcription_config.get('min_length', 90000)
         max_length = transcription_config.get('max_length', 150000)
         timestamp_source = transcription_config.get('timestamp_source', 'whisper_alignments')
+        utterance_max_gap = transcription_config.get('utterance_max_gap', 1.0)
         transcription_model = transcription_config.get('transcription_model', None)
         if isinstance(transcription_model, str):
             transcription_model = transcription_model.strip() or None
+        primary_model_id = canonical_asr_model_id(transcription_model)
+        patch_model_id = DEFAULT_TRANSCRIPTION_MODEL
+        patching_requested = resolve_transcription_patching(self.config)
+        patching_enabled = patching_requested
+        if patching_requested and primary_model_id == patch_model_id:
+            reporter.warn(
+                "transcription_patching is enabled but the primary model is already "
+                f"{patch_model_id}; the second pass would be identical, so patching "
+                "is disabled."
+            )
+            patching_enabled = False
+
+        # Pinning the language stops Whisper from re-detecting it per chunk, which is
+        # how long recordings end up partly transcribed into another language.
+        language = resolve_transcription_language(self.config)
+        generate_kwargs = transcription_config.get('generate_kwargs') or {}
+        if num_speakers > 1 and not hf_token:
+            reporter.warn(
+                f"num_speakers={num_speakers} but no Hugging Face token is set; "
+                "words cannot be attributed to speakers and will be labeled UNKNOWN."
+            )
 
         diarizer_params = transcription_config.get('diarizer_params', {
             "segmentation": {
@@ -362,7 +432,8 @@ class Corpus:
             }
         })
         debug_print(
-            "Transcription settings: speakers=%s silence=%sms/%sdBFS chunks=%s-%sms source=%s model=%s"
+            "Transcription settings: speakers=%s silence=%sms/%sdBFS chunks=%s-%sms "
+            "source=%s model=%s language=%s patching=%s"
             % (
                 num_speakers,
                 min_silence_len,
@@ -371,6 +442,8 @@ class Corpus:
                 max_length,
                 timestamp_source,
                 transcription_model or "default",
+                language or "auto-detect",
+                patching_enabled,
             )
         )
 
@@ -381,7 +454,9 @@ class Corpus:
         import torch
 
         skipped_count = 0
-        transcriber = aligner = diarizer = None
+        # Whisper, MMS and pyannote are built once and reused for every file; each
+        # stage parks the others on CPU so only one model holds VRAM at a time.
+        shared_models = {}
         for _unit, docs in walk_units(reporter, self.documents, "transcription"):
             for document in docs:
                 reporter.set_postfix(getattr(document, "name", "") or str(document.file))
@@ -403,8 +478,19 @@ class Corpus:
                     transcription_dir,
                     f"{Path(document.file).stem}_transcript.txt",
                 )
+                fusion_file = os.path.join(
+                    transcription_dir,
+                    f"{Path(document.file).stem}_fusion.json",
+                )
 
-                if skip_existing and os.path.exists(transcription_file) and os.path.exists(transcription_text_file):
+                if skip_existing and _transcription_outputs_ready(
+                    transcription_file,
+                    transcription_text_file,
+                    fusion_file,
+                    patching_enabled=patching_enabled,
+                    primary_model_id=primary_model_id,
+                    patch_model_id=patch_model_id,
+                ):
                     debug_print(f"Transcription already exists for {document.file}. Skipping...")
                     skipped_count += 1
                     document.transcription_file = transcription_file
@@ -414,30 +500,93 @@ class Corpus:
 
                 try:
                     document._normalized_audio_dir = normalized_audio_dir
+                    document.num_speakers = num_speakers
+                    stem = Path(document.file).stem
+                    process_kwargs = {
+                        "hf_token": hf_token,
+                        "diarizer_params": diarizer_params,
+                        "num_speakers": num_speakers,
+                        "min_silence_len": min_silence_len,
+                        "silence_thresh": silence_thresh,
+                        "min_length": min_length,
+                        "max_length": max_length,
+                        "timestamp_source": timestamp_source,
+                        "language": language,
+                        "generate_kwargs": generate_kwargs,
+                        "utterance_max_gap": utterance_max_gap,
+                    }
 
-                    if transcriber is None:
-                        reporter.set_postfix("loading transcription models")
-                        if transcription_model:
-                            transcriber = AudioTranscriber(model=transcription_model)
-                        else:
-                            transcriber = AudioTranscriber()
+                    if patching_enabled:
+                        reporter.set_postfix("transcribe primary")
+                        primary_json = os.path.join(
+                            transcription_dir,
+                            f"{stem}_model-{asr_model_filename_slug(primary_model_id)}_allOutputs.json",
+                        )
+                        primary_txt = os.path.join(
+                            transcription_dir,
+                            f"{stem}_model-{asr_model_filename_slug(primary_model_id)}_transcript.txt",
+                        )
 
-                    processed_document = process_single_audio_file(
-                        audio_file=document,
-                        hf_token=hf_token,
-                        diarizer_params=diarizer_params,
-                        num_speakers=num_speakers,
-                        min_silence_len=min_silence_len,
-                        silence_thresh=silence_thresh,
-                        min_length=min_length,
-                        max_length=max_length,
-                        timestamp_source=timestamp_source,
-                        transcription_model=transcription_model,
-                        transcriber=transcriber,
-                        aligner=None,
-                        diarizer=None,
-                        release_models=False,
-                    )
+                        def store_primary(processed):
+                            processed.save_as_json(primary_json)
+                            processed.save_as_text(primary_txt)
+
+                        try:
+                            processed_document, patch_document = transcribe_with_independent_patch(
+                                document,
+                                process_kwargs=process_kwargs,
+                                primary_model=primary_model_id,
+                                patch_model=patch_model_id,
+                                store_primary=store_primary,
+                            )
+                            patch_json = os.path.join(
+                                transcription_dir,
+                                f"{stem}_model-{asr_model_filename_slug(patch_model_id)}_allOutputs.json",
+                            )
+                            patch_txt = os.path.join(
+                                transcription_dir,
+                                f"{stem}_model-{asr_model_filename_slug(patch_model_id)}_transcript.txt",
+                            )
+                            patch_document.save_as_json(patch_json)
+                            patch_document.save_as_text(patch_txt)
+
+                            payload = fuse_transcriptions(
+                                audio_file_to_source_dict(processed_document),
+                                audio_file_to_source_dict(patch_document),
+                                language=language,
+                                session=stem,
+                            )
+                            apply_fusion_to_audio_file(processed_document, payload)
+                            with open(fusion_file, "w", encoding="utf-8") as handle:
+                                json.dump(payload, handle, ensure_ascii=False, indent=2)
+                                handle.write("\n")
+                            if hasattr(patch_document, "clear_audio_data"):
+                                patch_document.clear_audio_data()
+                        except Exception as patch_error:
+                            reporter.warn(
+                                f"Patching failed for {document.file} ({patch_error}); "
+                                "keeping the primary transcript."
+                            )
+                            import traceback
+                            debug_print(traceback.format_exc())
+                            processed_document = document
+                    else:
+                        if shared_models.get("transcriber") is None:
+                            reporter.set_postfix("loading transcription models")
+                            shared_models["transcriber"] = AudioTranscriber(
+                                model=primary_model_id,
+                                language=language,
+                                generate_kwargs=generate_kwargs,
+                            )
+
+                        processed_document = process_single_audio_file(
+                            audio_file=document,
+                            transcription_model=transcription_model,
+                            transcriber=shared_models.get("transcriber"),
+                            shared_models=shared_models,
+                            release_models=False,
+                            **process_kwargs,
+                        )
 
                     processed_document.save_as_json(transcription_file)
                     processed_document.save_as_text(transcription_text_file)
@@ -473,8 +622,13 @@ class Corpus:
                     torch.cuda.empty_cache()
                     torch.cuda.synchronize()
 
-        if transcriber is not None:
-            release_transcription_models(transcriber, aligner, diarizer)
+        if shared_models:
+            release_transcription_models(
+                shared_models.get("transcriber"),
+                shared_models.get("aligner"),
+                shared_models.get("diarizer"),
+            )
+            shared_models.clear()
         debug_print(
             f"Audio transcription completed. Processed {len(self.documents) - skipped_count} files, "
             f"skipped {skipped_count}."

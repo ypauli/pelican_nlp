@@ -1,7 +1,7 @@
 {
-    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
+    "audio_file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
     "metadata": {
-        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
+        "file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-03_sentence-85.wav",
         "length_seconds": 3.288,
         "sample_rate": 44100,
         "target_rms_db": -20,
@@ -15,11 +15,14 @@
             },
             "Transcription": {
                 "model": "openai/whisper-medium",
-                "device": "cuda"
+                "device": "cpu",
+                "dtype": "float32",
+                "language": "auto-detect",
+                "generate_kwargs": {}
             },
             "Forced Alignment": {
                 "model": "torchaudio.pipelines.MMS_FA",
-                "device": "cuda"
+                "device": "cpu"
             },
             "Speaker Diarization": {
                 "model": "none",
@@ -27,7 +30,13 @@
                 "parameters": {},
                 "speakers": "skipped (single speaker)"
             }
-        }
+        },
+        "normalization": {
+            "target_rms_db": -20,
+            "applied_gain_db": -0.672,
+            "peak_limited": false
+        },
+        "alignment_source": "whisper_alignments"
     },
     "transcript_text": "They sent the bad boy to detention in his.",
     "whisper_alignments": [
@@ -79,49 +88,58 @@
     ],
     "forced_alignments": [
         {
-            "word": "they",
+            "word": "They",
             "start_time": 0.3007317073170731,
-            "end_time": 0.44107317073170726
+            "end_time": 0.44107317073170726,
+            "score": 0.9964
         },
         {
             "word": "sent",
             "start_time": 0.5413170731707316,
-            "end_time": 0.7618536585365853
+            "end_time": 0.7618536585365853,
+            "score": 0.9987
         },
         {
             "word": "the",
             "start_time": 0.8019512195121951,
-            "end_time": 0.8821463414634145
+            "end_time": 0.8821463414634145,
+            "score": 0.9975
         },
         {
             "word": "bad",
             "start_time": 0.9422926829268292,
-            "end_time": 1.2029268292682924
+            "end_time": 1.2029268292682924,
+            "score": 0.9993
         },
         {
             "word": "boy",
             "start_time": 1.2630731707317073,
-            "end_time": 1.5237073170731705
+            "end_time": 1.5237073170731705,
+            "score": 0.9998
         },
         {
             "word": "to",
             "start_time": 1.6039024390243901,
-            "end_time": 1.6840975609756097
+            "end_time": 1.6840975609756097,
+            "score": 0.9974
         },
         {
             "word": "detention",
             "start_time": 1.7442439024390242,
-            "end_time": 2.3657560975609755
+            "end_time": 2.3657560975609755,
+            "score": 0.9903
         },
         {
             "word": "in",
             "start_time": 2.4459512195121946,
-            "end_time": 2.5261463414634147
+            "end_time": 2.5261463414634147,
+            "score": 0.993
         },
         {
-            "word": "his",
+            "word": "his.",
             "start_time": 2.6263902439024385,
-            "end_time": 2.967219512195122
+            "end_time": 2.967219512195122,
+            "score": 0.9991
         }
     ],
     "combined_data": [

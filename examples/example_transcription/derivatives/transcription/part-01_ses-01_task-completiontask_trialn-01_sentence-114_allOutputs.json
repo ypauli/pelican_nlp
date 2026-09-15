@@ -1,7 +1,7 @@
 {
-    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
+    "audio_file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
     "metadata": {
-        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
+        "file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-01_sentence-114.wav",
         "length_seconds": 4.008,
         "sample_rate": 44100,
         "target_rms_db": -20,
@@ -15,11 +15,14 @@
             },
             "Transcription": {
                 "model": "openai/whisper-medium",
-                "device": "cuda"
+                "device": "cpu",
+                "dtype": "float32",
+                "language": "auto-detect",
+                "generate_kwargs": {}
             },
             "Forced Alignment": {
                 "model": "torchaudio.pipelines.MMS_FA",
-                "device": "cuda"
+                "device": "cpu"
             },
             "Speaker Diarization": {
                 "model": "none",
@@ -27,7 +30,13 @@
                 "parameters": {},
                 "speakers": "skipped (single speaker)"
             }
-        }
+        },
+        "normalization": {
+            "target_rms_db": -20,
+            "applied_gain_db": 1.096,
+            "peak_limited": false
+        },
+        "alignment_source": "whisper_alignments"
     },
     "transcript_text": "It is best not to place the piano directly next to thee.",
     "whisper_alignments": [
@@ -94,64 +103,76 @@
     ],
     "forced_alignments": [
         {
-            "word": "it",
+            "word": "It",
             "start_time": 0.34068,
-            "end_time": 0.42084
+            "end_time": 0.42084,
+            "score": 0.9998
         },
         {
             "word": "is",
             "start_time": 0.48096,
-            "end_time": 0.56112
+            "end_time": 0.56112,
+            "score": 0.9997
         },
         {
             "word": "best",
             "start_time": 0.62124,
-            "end_time": 0.9017999999999999
+            "end_time": 0.9017999999999999,
+            "score": 0.9931
         },
         {
             "word": "not",
             "start_time": 0.96192,
-            "end_time": 1.1022
+            "end_time": 1.1022,
+            "score": 0.9997
         },
         {
             "word": "to",
             "start_time": 1.14228,
-            "end_time": 1.22244
+            "end_time": 1.22244,
+            "score": 0.9986
         },
         {
             "word": "place",
             "start_time": 1.26252,
-            "end_time": 1.5631199999999998
+            "end_time": 1.5631199999999998,
+            "score": 0.9989
         },
         {
             "word": "the",
             "start_time": 1.58316,
-            "end_time": 1.66332
+            "end_time": 1.66332,
+            "score": 0.9957
         },
         {
             "word": "piano",
             "start_time": 1.7033999999999998,
-            "end_time": 2.1442799999999997
+            "end_time": 2.1442799999999997,
+            "score": 0.9974
         },
         {
             "word": "directly",
             "start_time": 2.3045999999999998,
-            "end_time": 2.8456799999999998
+            "end_time": 2.8456799999999998,
+            "score": 0.9864
         },
         {
             "word": "next",
             "start_time": 2.96592,
-            "end_time": 3.26652
+            "end_time": 3.26652,
+            "score": 0.9993
         },
         {
             "word": "to",
             "start_time": 3.32664,
-            "end_time": 3.3867599999999998
+            "end_time": 3.3867599999999998,
+            "score": 0.9979
         },
         {
-            "word": "thee",
+            "word": "thee.",
             "start_time": 3.4468799999999997,
-            "end_time": 3.64728
+            "end_time": 3.64728,
+            "score": 0.977
         }
     ],
     "combined_data": [

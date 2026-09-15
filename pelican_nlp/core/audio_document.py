@@ -19,6 +19,11 @@ from pelican_nlp.config import debug_print
 if TYPE_CHECKING:
     from pydub import AudioSegment
 
+# Sentence-final punctuation, including the ellipsis and the CJK forms Whisper
+# emits for Chinese/Japanese audio (ASCII-only matching used to leave such
+# transcripts as one utterance per recording).
+SENTENCE_ENDINGS = re.compile(r'[.?!\u2026\u3002\uff1f\uff01]["\'\u201d\u2019)\]]*$')
+
 
 class Chunk:
     """Represents a chunk of audio with transcription data."""
@@ -103,19 +108,35 @@ class AudioFile:
         """
         self.metadata["models_used"][model_name] = parameters
 
-    def rms_normalization(self, output_dir=None):
+    def rms_normalization(self, output_dir=None, peak_ceiling: float = 0.99):
         """
         Normalize the audio to the target RMS level and save it.
-        
+
+        The gain is capped so that peaks stay below ``peak_ceiling``: WAV output is
+        16-bit PCM, so an uncapped RMS gain clips loud passages and feeds distorted
+        audio to the ASR model.
+
         :param output_dir: Directory to save normalized audio. If None, saves in same directory as original file.
+        :param peak_ceiling: Maximum absolute sample value allowed after normalization.
         """
         import soundfile as sf
 
         target_rms = 10 ** (self.target_rms_db / 20)
-        rms = np.sqrt(np.mean(self.audio ** 2))
-        gain = target_rms / rms
+        rms = float(np.sqrt(np.mean(np.square(self.audio, dtype=np.float64))))
+        if not np.isfinite(rms) or rms <= 0:
+            debug_print("Audio has no measurable signal (RMS is zero); skipping RMS gain.")
+            gain = 1.0
+        else:
+            gain = target_rms / rms
+
+        peak = float(np.max(np.abs(self.audio))) if self.audio.size else 0.0
+        peak_limited = False
+        if peak > 0 and peak * gain > peak_ceiling:
+            gain = peak_ceiling / peak
+            peak_limited = True
+
         normalized_audio = self.audio * gain
-        
+
         if output_dir:
             # Create output directory if it doesn't exist
             os.makedirs(output_dir, exist_ok=True)
@@ -124,10 +145,21 @@ class AudioFile:
             normalized_filename = f"{base_name}_normalized.wav"
             self.normalized_path = os.path.join(output_dir, normalized_filename)
         else:
-            # Fallback to original behavior: save in same directory as original file
-            self.normalized_path = self.file.replace(".wav", "_normalized.wav")
-        
+            # Same directory as the original, but never the original path itself:
+            # a plain ".wav" replacement is a no-op for .mp3/.m4a inputs.
+            self.normalized_path = f"{os.path.splitext(self.file)[0]}_normalized.wav"
+
         sf.write(self.normalized_path, normalized_audio, self.sample_rate)
+        self.metadata["normalization"] = {
+            "target_rms_db": self.target_rms_db,
+            "applied_gain_db": round(float(20 * np.log10(gain)), 3) if gain > 0 else None,
+            "peak_limited": peak_limited,
+        }
+        if peak_limited:
+            debug_print(
+                f"Reduced normalization gain to keep peaks below {peak_ceiling}; "
+                f"target RMS of {self.target_rms_db} dB was not reached."
+            )
         debug_print(f"Normalized audio saved as: {self.normalized_path}")
 
     def split_on_silence(self, min_silence_len=1000, silence_thresh=-30,
@@ -149,7 +181,9 @@ class AudioFile:
         silence_ranges = self._detect_silence_intervals(audio_segment, min_silence_len, silence_thresh)
         splitting_points = self._get_splitting_points(silence_ranges, audio_length_ms)
         initial_intervals = self._create_initial_chunks(splitting_points)
-        adjusted_intervals = self._adjust_intervals_by_length(initial_intervals, min_length, max_length)
+        adjusted_intervals = self._adjust_intervals_by_length(
+            initial_intervals, min_length, max_length, candidate_points=splitting_points
+        )
         chunks_with_timestamps = self._split_audio_by_intervals(audio_segment, adjusted_intervals)
 
         self.chunks = [Chunk(chunk_audio, start_i / 1000.0) for chunk_audio, start_i, end_i in chunks_with_timestamps]
@@ -181,7 +215,8 @@ class AudioFile:
         """Create initial chunks based on splitting points."""
         return list(zip(splitting_points[:-1], splitting_points[1:]))
 
-    def _adjust_intervals_by_length(self, intervals: List[tuple], min_length: int, max_length: int) -> List[tuple]:
+    def _adjust_intervals_by_length(self, intervals: List[tuple], min_length: int, max_length: int,
+                                    candidate_points: List[int] = None) -> List[tuple]:
         """Adjust intervals based on minimum and maximum length constraints."""
         adjusted_intervals = []
         buffer_start, buffer_end = intervals[0]
@@ -195,13 +230,11 @@ class AudioFile:
                 continue
             else:
                 if buffer_length > max_length:
-                    # Split the buffer into multiple chunks of `max_length`
-                    num_splits = int(np.ceil(buffer_length / max_length))
-                    split_size = int(np.ceil(buffer_length / num_splits))
-                    for i in range(num_splits):
-                        split_start = buffer_start + i * split_size
-                        split_end = min(buffer_start + (i + 1) * split_size, buffer_end)
-                        adjusted_intervals.append((split_start, split_end))
+                    adjusted_intervals.extend(
+                        self._split_oversized_buffer(
+                            buffer_start, buffer_end, max_length, candidate_points
+                        )
+                    )
                 else:
                     # Add the buffer as a valid interval
                     adjusted_intervals.append((buffer_start, buffer_end))
@@ -210,16 +243,67 @@ class AudioFile:
         # Handle any remaining buffer (final chunk)
         buffer_length = buffer_end - buffer_start
         if buffer_length > 0:
-            if buffer_length >= min_length:
-                # Include the final chunk if it's greater than `min_length`
-                adjusted_intervals.append((buffer_start, buffer_end))
-            else:
-                # Optionally include shorter chunks
+            if buffer_length < min_length:
                 debug_print(f"Final chunk is shorter than min_length ({buffer_length} ms), including it anyway.")
+            if buffer_length > max_length:
+                adjusted_intervals.extend(
+                    self._split_oversized_buffer(
+                        buffer_start, buffer_end, max_length, candidate_points
+                    )
+                )
+            else:
                 adjusted_intervals.append((buffer_start, buffer_end))
 
         return adjusted_intervals
-    
+
+    @staticmethod
+    def _split_oversized_buffer(buffer_start: int, buffer_end: int, max_length: int,
+                                candidate_points: List[int] = None) -> List[tuple]:
+        """Split a too-long span, snapping cuts to silence instead of cutting mid-word.
+
+        Each cut aims at an evenly spaced target and may move to a detected silence
+        midpoint within a quarter of ``max_length`` of that target. Snapping can add
+        one chunk compared to a blind division, which is cheap; cutting through a
+        word is not, because both sides then start or end mid-utterance.
+
+        Pieces stay contiguous, gapless and within ``max_length`` so that
+        :meth:`validate_chunk_lengths` still passes.
+        """
+        if buffer_end - buffer_start <= max_length:
+            return [(buffer_start, buffer_end)]
+
+        candidates = sorted(
+            point for point in (candidate_points or []) if buffer_start < point < buffer_end
+        )
+        tolerance = max(1, max_length // 4)
+
+        pieces = []
+        cut_start = buffer_start
+        while buffer_end - cut_start > max_length:
+            remaining = buffer_end - cut_start
+            splits = int(np.ceil(remaining / max_length))
+            target = cut_start + int(np.ceil(remaining / splits))
+            earliest = max(cut_start + tolerance, target - tolerance)
+            latest = min(cut_start + max_length, target + tolerance)
+
+            best = None
+            for point in candidates:
+                if point < earliest:
+                    continue
+                if point > latest:
+                    break  # candidates are sorted
+                if best is None or abs(point - target) < abs(best - target):
+                    best = point
+
+            cut = best if best is not None else min(target, cut_start + max_length)
+            if cut <= cut_start:  # pathological input; fall back to a hard cut
+                cut = min(cut_start + max_length, buffer_end)
+            pieces.append((cut_start, cut))
+            cut_start = cut
+
+        pieces.append((cut_start, buffer_end))
+        return pieces
+
     def validate_chunk_lengths(self, audio_length_ms: int, tolerance: float = 1.0):
         """Validate that the combined length of all chunks matches the original audio length."""
         # Sum up the duration of all chunks
@@ -271,159 +355,220 @@ class AudioFile:
             else:
                 debug_print("No speaker segments available for diarization. All words will be labeled as 'UNKNOWN'.")
                 self.combined_data = [{**word, 'speaker': 'UNKNOWN'} for word in alignment]
+            self.metadata["alignment_source"] = alignment_source
             return
 
-        # DEBUG: Print diagnostic information before combining
-        debug_print(f"DEBUG: Starting combine_alignment_and_diarization")
-        debug_print(f"DEBUG: Alignment entries: {len(alignment)}")
-        debug_print(f"DEBUG: Speaker segments: {len(self.speaker_segments)}")
-        if alignment:
-            debug_print(f"DEBUG: First word alignment: {alignment[0]}")
-            debug_print(f"DEBUG: Last word alignment: {alignment[-1]}")
-            word_time_range = (alignment[0]['start_time'], alignment[-1]['end_time'])
-            debug_print(f"DEBUG: Word alignment time range: {word_time_range[0]:.2f}s - {word_time_range[1]:.2f}s")
-        if self.speaker_segments:
-            debug_print(f"DEBUG: First speaker segment: {self.speaker_segments[0]}")
-            debug_print(f"DEBUG: Last speaker segment: {self.speaker_segments[-1]}")
-            seg_time_range = (self.speaker_segments[0]['start'], self.speaker_segments[-1]['end'])
-            debug_print(f"DEBUG: Speaker segment time range: {seg_time_range[0]:.2f}s - {seg_time_range[1]:.2f}s")
+        segments = sorted(self.speaker_segments, key=lambda seg: (seg['start'], seg['end']))
+        num_segments = len(segments)
 
-        combined = []
+        # Whisper word timestamps are not strictly monotonic (chunk boundaries and
+        # collapsed timestamps reorder them), so walk the words in time order and
+        # write results back to their original position.
+        order = sorted(
+            range(len(alignment)),
+            key=lambda i: (alignment[i]['start_time'], alignment[i]['end_time']),
+        )
+
+        combined = [None] * len(alignment)
         seg_idx = 0
-        num_segments = len(self.speaker_segments)
-        
-        # DEBUG: Track statistics
-        words_with_speaker = 0
         words_without_speaker = 0
 
-        for word in alignment:
+        for position in order:
+            word = alignment[position]
             word_start = word['start_time']
-            word_end = word['end_time']
-            word_duration = max(1e-6, word_end - word_start)  # Avoid zero-duration
+            word_end = max(word['end_time'], word_start)
 
             speaker_overlap = {}
 
             # Advance segments that have ended before the word starts
-            while seg_idx < num_segments and self.speaker_segments[seg_idx]['end'] < word_start:
+            while seg_idx < num_segments and segments[seg_idx]['end'] < word_start:
                 seg_idx += 1
 
             temp_idx = seg_idx
-            while temp_idx < num_segments and self.speaker_segments[temp_idx]['start'] < word_end:
-                seg = self.speaker_segments[temp_idx]
+            while temp_idx < num_segments and segments[temp_idx]['start'] <= word_end:
+                seg = segments[temp_idx]
                 seg_start = seg['start']
                 seg_end = seg['end']
-                speaker = seg['speaker']
 
-                if seg_start <= word_start < seg_end:
-                    overlap = word_duration  # Full overlap
-                else:
-                    overlap_start = max(word_start, seg_start)
-                    overlap_end = min(word_end, seg_end)
-                    overlap = max(0.0, overlap_end - overlap_start)
+                overlap = max(0.0, min(word_end, seg_end) - max(word_start, seg_start))
+                if overlap <= 0 and seg_start <= word_start < seg_end:
+                    # Zero-duration word (Whisper emits many) that falls inside a
+                    # segment: credit it to that segment instead of dropping it.
+                    overlap = 1e-6
 
                 if overlap > 0:
+                    speaker = seg['speaker']
                     speaker_overlap[speaker] = speaker_overlap.get(speaker, 0.0) + overlap
 
                 temp_idx += 1
 
             assigned_speaker = max(speaker_overlap, key=speaker_overlap.get) if speaker_overlap else 'UNKNOWN'
-            word_with_speaker = word.copy()
-            word_with_speaker['speaker'] = assigned_speaker
-            combined.append(word_with_speaker)
-            
-            # DEBUG: Track statistics
             if assigned_speaker == 'UNKNOWN':
                 words_without_speaker += 1
-                # Print first few UNKNOWN cases for debugging
-                if words_without_speaker <= 3:
-                    debug_print(f"DEBUG: Word '{word['word']}' at {word_start:.2f}-{word_end:.2f}s got UNKNOWN. "
-                          f"Speaker overlap: {speaker_overlap}")
-            else:
-                words_with_speaker += 1
+
+            word_with_speaker = word.copy()
+            word_with_speaker['speaker'] = assigned_speaker
+            combined[position] = word_with_speaker
+
+        self._fill_unknown_speakers(combined)
+        self._smooth_word_speakers(combined)
 
         self.combined_data = combined
         self.metadata["alignment_source"] = alignment_source
-        debug_print(f"Combined alignment and diarization data with {len(self.combined_data)} entries.")
-        
-        # DEBUG: Print final statistics
-        unique_speakers = set([word['speaker'] for word in self.combined_data])
-        debug_print(f"DEBUG: Unique speakers in combined_data: {unique_speakers}")
-        debug_print(f"DEBUG: Words with speaker: {words_with_speaker}, Words without speaker (UNKNOWN): {words_without_speaker}")
-        if words_without_speaker > 0:
-            debug_print(f"DEBUG: WARNING - {words_without_speaker} words were assigned 'UNKNOWN' speaker")
+        unique_speakers = sorted({word['speaker'] for word in combined})
+        debug_print(
+            f"Combined {len(combined)} words with {num_segments} speaker segments; "
+            f"speakers={unique_speakers}; unassigned={words_without_speaker}."
+        )
+        if words_without_speaker:
+            debug_print(
+                f"Warning: {words_without_speaker} words fell outside every speaker "
+                "segment and were labeled 'UNKNOWN'."
+            )
 
-    def aggregate_to_utterances(self):
-        """Aggregate word-level data into utterances based on sentence endings."""
+    @staticmethod
+    def _fill_unknown_speakers(words: List[dict]) -> int:
+        """Assign words in a diarization gap to the speaker surrounding the gap.
+
+        A stretch of words that overlaps no speaker segment but is flanked by the
+        same speaker on both sides belongs to that speaker's turn. Without this the
+        gap becomes a spurious 'UNKNOWN' utterance in the middle of a turn.
+
+        :return: Number of words relabeled.
+        """
+        relabeled = 0
+        index = 0
+        total = len(words)
+        while index < total:
+            if words[index]['speaker'] != 'UNKNOWN':
+                index += 1
+                continue
+            end = index
+            while end < total and words[end]['speaker'] == 'UNKNOWN':
+                end += 1
+            if index > 0 and end < total:
+                previous = words[index - 1]['speaker']
+                if previous != 'UNKNOWN' and previous == words[end]['speaker']:
+                    for word in words[index:end]:
+                        word['speaker'] = previous
+                    relabeled += end - index
+            index = end
+        if relabeled:
+            debug_print(f"Filled {relabeled} words in diarization gaps from surrounding speaker.")
+        return relabeled
+
+    @staticmethod
+    def _smooth_word_speakers(words: List[dict], min_run: int = 2) -> int:
+        """Absorb single-word speaker flips into the surrounding speaker.
+
+        Diarization plus noisy word timestamps produces isolated one-word speaker
+        switches inside an otherwise uniform turn. Left in place they fragment
+        utterance aggregation, so a run shorter than ``min_run`` that is flanked by
+        the same speaker on both sides is reassigned to that speaker.
+
+        :return: Number of words relabeled.
+        """
+        relabeled = 0
+        index = 0
+        total = len(words)
+        while index < total:
+            end = index + 1
+            while end < total and words[end]['speaker'] == words[index]['speaker']:
+                end += 1
+            run_length = end - index
+            has_neighbours = index > 0 and end < total
+            if run_length < min_run and has_neighbours:
+                previous = words[index - 1]['speaker']
+                following = words[end]['speaker']
+                if previous == following and previous != words[index]['speaker']:
+                    for word in words[index:end]:
+                        word['speaker'] = previous
+                    relabeled += run_length
+            index = end
+        if relabeled:
+            debug_print(f"Smoothed {relabeled} isolated speaker flips at word level.")
+        return relabeled
+
+    def aggregate_to_utterances(self, max_gap: float = 1.0):
+        """Aggregate word-level data into utterances.
+
+        An utterance ends at sentence-final punctuation, at a speaker change, or
+        after a silent gap longer than ``max_gap`` seconds. Punctuation alone is not
+        enough: Whisper does not guarantee it (a transcript without any ``.?!`` used
+        to collapse into a single utterance spanning the whole recording) and a
+        sentence can run straight through a speaker change.
+
+        :param max_gap: Silence in seconds that forces an utterance break. ``None``
+            disables gap-based splitting.
+        """
         if not self.combined_data:
             debug_print("No combined data available to aggregate.")
             return
 
         utterances = []
-        current_utterance = {
-            "text": "",
-            "start_time": None,
-            "end_time": None,
-            "speakers": {}
-        }
+        current = None
+        breaks = {"punctuation": 0, "speaker": 0, "gap": 0}
 
-        sentence_endings = re.compile(r'[.?!]$')
         debug_print("Aggregating words into utterances...")
+
+        def flush():
+            nonlocal current
+            if current is None:
+                return
+            text = current["text"].strip()
+            if text:
+                majority_speaker, majority_count = max(
+                    current["speakers"].items(), key=lambda item: item[1]
+                )
+                total_words = sum(current["speakers"].values())
+                utterances.append({
+                    "text": text,
+                    "start_time": current["start_time"],
+                    "end_time": current["end_time"],
+                    "speaker": majority_speaker,
+                    "confidence": round(majority_count / total_words, 2),
+                })
+            current = None
+
         for word_data in self.combined_data:
             word = word_data["word"]
             start_time = word_data["start_time"]
             end_time = word_data["end_time"]
-            speaker = word_data["speaker"]
+            speaker = word_data.get("speaker", "UNKNOWN")
 
-            if current_utterance["start_time"] is None:
-                current_utterance["start_time"] = start_time
+            if current is not None:
+                if speaker != current["speaker"]:
+                    breaks["speaker"] += 1
+                    flush()
+                elif max_gap is not None and start_time - current["end_time"] > max_gap:
+                    breaks["gap"] += 1
+                    flush()
 
-            current_utterance["text"] += ("" if current_utterance["text"] == "" else " ") + word
-            current_utterance["end_time"] = end_time
-
-            if speaker not in current_utterance["speakers"]:
-                current_utterance["speakers"][speaker] = 0
-            current_utterance["speakers"][speaker] += 1
-
-            if sentence_endings.search(word):
-                majority_speaker, majority_count = max(
-                    current_utterance["speakers"].items(), key=lambda item: item[1]
-                )
-                total_words = sum(current_utterance["speakers"].values())
-                confidence = round(majority_count / total_words, 2)
-
-                utterances.append({
-                    "text": current_utterance["text"],
-                    "start_time": current_utterance["start_time"],
-                    "end_time": current_utterance["end_time"],
-                    "speaker": majority_speaker,
-                    "confidence": confidence,
-                })
-
-                current_utterance = {
+            if current is None:
+                current = {
                     "text": "",
-                    "start_time": None,
-                    "end_time": None,
-                    "speakers": {}
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "speaker": speaker,
+                    "speakers": {},
                 }
 
-        # Handle any remaining words as the last utterance
-        if current_utterance["text"]:
-            majority_speaker, majority_count = max(
-                current_utterance["speakers"].items(), key=lambda item: item[1]
-            )
-            total_words = sum(current_utterance["speakers"].values())
-            confidence = round(majority_count / total_words, 2)
+            current["text"] += ("" if current["text"] == "" else " ") + word
+            current["end_time"] = max(current["end_time"], end_time)
+            current["speakers"][speaker] = current["speakers"].get(speaker, 0) + 1
 
-            utterances.append({
-                "text": current_utterance["text"],
-                "start_time": current_utterance["start_time"],
-                "end_time": current_utterance["end_time"],
-                "speaker": majority_speaker,
-                "confidence": confidence,
-            })
+            if SENTENCE_ENDINGS.search(word):
+                breaks["punctuation"] += 1
+                flush()
+
+        flush()
 
         self.combined_utterances = utterances
-        debug_print("Aggregated utterances from combined data.")
+        debug_print(
+            f"Aggregated {len(utterances)} utterances "
+            f"(breaks: {breaks['punctuation']} punctuation, {breaks['speaker']} speaker, "
+            f"{breaks['gap']} gap>{max_gap}s)."
+        )
 
     def save_as_json(self, output_file="all_transcript_data.json"):
         """
@@ -457,10 +602,19 @@ class AudioFile:
         """
         Save transcript text to a plain text file.
         
+        The text is built from ``combined_utterances`` whenever those exist, so the
+        ``.txt`` and the ``utterance_data`` in the ``.json`` describe the same
+        transcript. Only when aggregation produced nothing does this fall back to the
+        raw concatenation of chunk transcripts.
+
         :param output_file: Path to the output text file. If None, generates from JSON file path.
         :param include_speakers: If True and multiple speakers detected, include speaker labels in output.
         """
-        if not self.transcript_text:
+        utterances = [
+            utterance for utterance in (self.combined_utterances or [])
+            if (utterance.get('text') or '').strip()
+        ]
+        if not utterances and not self.transcript_text:
             debug_print("No transcript text available to save. Ensure transcription is complete.")
             return
         
@@ -475,27 +629,28 @@ class AudioFile:
                 output_file = os.path.join(self.file_path, f"{base_name}_transcript.txt")
         
         try:
-            # Determine if we should include speaker labels
-            has_multiple_speakers = (
-                include_speakers and 
-                self.combined_utterances and 
-                len(self.combined_utterances) > 0 and
-                self.num_speakers and 
-                self.num_speakers > 1
+            # Label speakers when diarization actually distinguished more than one.
+            distinct_speakers = {utterance.get('speaker', 'UNKNOWN') for utterance in utterances}
+            label_speakers = bool(
+                include_speakers
+                and utterances
+                and (len(distinct_speakers) > 1 or (self.num_speakers or 1) > 1)
             )
-            
+
             with open(output_file, "w", encoding="utf-8") as f:
-                if has_multiple_speakers:
+                if not utterances:
+                    f.write(self.transcript_text)
+                    debug_print(
+                        f"No utterances available; wrote raw transcript text to '{output_file}'."
+                    )
+                elif label_speakers:
                     # Format with speaker labels: "SPEAKER_00: text here"
-                    for utterance in self.combined_utterances:
+                    for utterance in utterances:
                         speaker = utterance.get('speaker', 'UNKNOWN')
-                        text = utterance.get('text', '').strip()
-                        if text:  # Only write non-empty utterances
-                            f.write(f"{speaker}: {text}\n")
+                        f.write(f"{speaker}: {utterance['text'].strip()}\n")
                     debug_print(f"Transcript text with speaker labels saved to '{output_file}'.")
                 else:
-                    # Save plain text without speaker labels
-                    f.write(self.transcript_text)
+                    f.write(" ".join(utterance['text'].strip() for utterance in utterances))
                     debug_print(f"Transcript text successfully saved to '{output_file}'.")
             
             self.transcription_text_file = output_file

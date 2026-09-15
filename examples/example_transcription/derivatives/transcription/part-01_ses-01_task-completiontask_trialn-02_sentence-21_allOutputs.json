@@ -1,7 +1,7 @@
 {
-    "audio_file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
+    "audio_file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
     "metadata": {
-        "file_path": "/tmp/pelican-example_transcription-l2r595zj/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
+        "file_path": "/tmp/pelican-example_transcription-sqbqu1ty/participants/part-01/ses-01/completiontask/part-01_ses-01_task-completiontask_trialn-02_sentence-21.wav",
         "length_seconds": 2.472,
         "sample_rate": 44100,
         "target_rms_db": -20,
@@ -15,11 +15,14 @@
             },
             "Transcription": {
                 "model": "openai/whisper-medium",
-                "device": "cuda"
+                "device": "cpu",
+                "dtype": "float32",
+                "language": "auto-detect",
+                "generate_kwargs": {}
             },
             "Forced Alignment": {
                 "model": "torchaudio.pipelines.MMS_FA",
-                "device": "cuda"
+                "device": "cpu"
             },
             "Speaker Diarization": {
                 "model": "none",
@@ -27,7 +30,13 @@
                 "parameters": {},
                 "speakers": "skipped (single speaker)"
             }
-        }
+        },
+        "normalization": {
+            "target_rms_db": -20,
+            "applied_gain_db": -1.074,
+            "peak_limited": false
+        },
+        "alignment_source": "whisper_alignments"
     },
     "transcript_text": "They turned the nutshells into",
     "whisper_alignments": [
@@ -59,29 +68,34 @@
     ],
     "forced_alignments": [
         {
-            "word": "they",
+            "word": "They",
             "start_time": 0.3215609756097561,
-            "end_time": 0.4622439024390244
+            "end_time": 0.4622439024390244,
+            "score": 0.9982
         },
         {
             "word": "turned",
             "start_time": 0.5426341463414635,
-            "end_time": 0.8641951219512196
+            "end_time": 0.8641951219512196,
+            "score": 0.9946
         },
         {
             "word": "the",
             "start_time": 0.8842926829268293,
-            "end_time": 0.9646829268292684
+            "end_time": 0.9646829268292684,
+            "score": 0.9934
         },
         {
             "word": "nutshells",
             "start_time": 1.0249756097560976,
-            "end_time": 1.6078048780487804
+            "end_time": 1.6078048780487804,
+            "score": 0.9657
         },
         {
             "word": "into",
             "start_time": 1.6680975609756097,
-            "end_time": 1.9494634146341463
+            "end_time": 1.9494634146341463,
+            "score": 0.9995
         }
     ],
     "combined_data": [
