@@ -454,6 +454,8 @@ class Corpus:
         import torch
 
         skipped_count = 0
+        succeeded_count = 0
+        failures = []
         # Whisper, MMS and pyannote are built once and reused for every file; each
         # stage parks the others on CPU so only one model holds VRAM at a time.
         shared_models = {}
@@ -462,11 +464,13 @@ class Corpus:
                 reporter.set_postfix(getattr(document, "name", "") or str(document.file))
                 if not (hasattr(document, 'file') and document.file):
                     reporter.warn("No audio file found for document")
+                    failures.append((getattr(document, "name", "?"), "No audio file found for document"))
                     reporter.advance_item(getattr(document, "name", "?"))
                     continue
 
                 if not os.path.exists(document.file):
                     reporter.warn(f"Error: Audio file not found at {document.file}")
+                    failures.append((document.file, "Audio file not found"))
                     reporter.advance_item(document.name)
                     continue
 
@@ -563,6 +567,8 @@ class Corpus:
                             if hasattr(patch_document, "clear_audio_data"):
                                 patch_document.clear_audio_data()
                         except Exception as patch_error:
+                            if not os.path.exists(primary_json):
+                                raise
                             reporter.warn(
                                 f"Patching failed for {document.file} ({patch_error}); "
                                 "keeping the primary transcript."
@@ -604,9 +610,11 @@ class Corpus:
                                 if hasattr(chunk, 'audio_segment'):
                                     chunk.audio_segment = None
                     del processed_document
+                    succeeded_count += 1
 
                 except Exception as e:
                     reporter.warn(f"Error transcribing {document.file}: {e}")
+                    failures.append((document.file, e))
                     import traceback
                     debug_print(traceback.format_exc())
                     if hasattr(document, 'clear_audio_data'):
@@ -630,9 +638,15 @@ class Corpus:
             )
             shared_models.clear()
         debug_print(
-            f"Audio transcription completed. Processed {len(self.documents) - skipped_count} files, "
-            f"skipped {skipped_count}."
+            f"Audio transcription completed. Processed {succeeded_count} files, "
+            f"skipped {skipped_count}, failed {len(failures)}."
         )
+        if failures and succeeded_count == 0:
+            last_path, last_error = failures[-1]
+            raise RuntimeError(
+                "Transcription produced no outputs "
+                f"({len(failures)} file(s) failed). Last error ({last_path}): {last_error}"
+            )
 
     def extract_opensmile_features(self):
         from concurrent.futures import ProcessPoolExecutor

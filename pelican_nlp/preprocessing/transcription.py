@@ -6,6 +6,7 @@ and speaker diarization using various machine learning models.
 """
 
 import io
+import json
 import os
 import re
 import unicodedata
@@ -89,6 +90,130 @@ def _asr_torch_dtype(model_name, device):
     return torch.float16
 
 
+def _cached_hub_file(model_id, filename, hf_kwargs=None):
+    """Resolve a Hub (or local) sidecar without requiring it to exist."""
+    from transformers.utils import cached_file
+
+    hf_kwargs = hf_kwargs or {}
+    allowed = {
+        key: hf_kwargs[key]
+        for key in ("cache_dir", "revision", "token", "local_files_only", "subfolder")
+        if key in hf_kwargs
+    }
+    return cached_file(
+        model_id,
+        filename,
+        _raise_exceptions_for_missing_entries=False,
+        _raise_exceptions_for_connection_errors=False,
+        **allowed,
+    )
+
+
+def asr_tokenizer_from_pretrained_kwargs(model_id, hf_kwargs=None):
+    """Overrides so transformers 4.x can load tokenizers saved by transformers 5.
+
+    Hugging Face 5 writes ``extra_special_tokens`` as a list. 4.49 then calls
+    ``.keys()`` on that value during ``from_pretrained``.
+    """
+    path = _cached_hub_file(model_id, "tokenizer_config.json", hf_kwargs)
+    if not path:
+        return {}
+    try:
+        with open(path, encoding="utf-8") as handle:
+            config = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return {}
+    extra = config.get("extra_special_tokens") if isinstance(config, dict) else None
+    if isinstance(extra, list):
+        return {"extra_special_tokens": {}}
+    return {}
+
+
+def load_asr_tokenizer(model_id, hf_kwargs=None):
+    from transformers import AutoTokenizer
+
+    hf_kwargs = dict(hf_kwargs or {})
+    overrides = asr_tokenizer_from_pretrained_kwargs(model_id, hf_kwargs)
+    return AutoTokenizer.from_pretrained(model_id, **hf_kwargs, **overrides)
+
+
+def load_asr_feature_extractor(model_id, hf_kwargs=None):
+    """Load a Whisper feature extractor, including TF5 ``processor_config.json`` repos."""
+    from transformers import WhisperFeatureExtractor
+
+    hf_kwargs = dict(hf_kwargs or {})
+    try:
+        return WhisperFeatureExtractor.from_pretrained(model_id, **hf_kwargs)
+    except (OSError, EnvironmentError, ValueError) as exc:
+        extractor_error = exc
+
+    path = _cached_hub_file(model_id, "processor_config.json", hf_kwargs)
+    if not path:
+        raise extractor_error
+    try:
+        with open(path, encoding="utf-8") as handle:
+            config = json.load(handle)
+    except (OSError, json.JSONDecodeError) as exc:
+        raise extractor_error from exc
+    nested = config.get("feature_extractor") if isinstance(config, dict) else None
+    if not isinstance(nested, dict):
+        raise extractor_error
+    kwargs = {key: value for key, value in nested.items() if key != "feature_extractor_type"}
+    return WhisperFeatureExtractor(**kwargs)
+
+
+def asr_pipeline_preprocessor_kwargs(model_id) -> dict:
+    """Tokenizer and feature extractor for ``pipeline("automatic-speech-recognition")``.
+
+    Hub cards for Whisper fine-tunes (e.g. ``Flix-AI/flix-swissgerman-full``) load
+    ``WhisperProcessor.from_pretrained``. Transformers 4.49 cannot do that for
+    checkpoints saved with transformers 5 (list ``extra_special_tokens``, nested
+    ``processor_config.json`` and no ``preprocessor_config.json``). Passing the
+    shims here keeps Pelican's word-timestamp pipeline on those weights.
+    """
+    hf_kwargs = huggingface_from_pretrained_kwargs()
+    return {
+        "tokenizer": load_asr_tokenizer(model_id, hf_kwargs),
+        "feature_extractor": load_asr_feature_extractor(model_id, hf_kwargs),
+    }
+
+
+def _sanitize_whisper_generation_config(pipe):
+    """Drop TF5 ``forced_decoder_ids`` slots whose token id is JSON ``null``."""
+    gen = getattr(pipe, "generation_config", None)
+    if gen is None:
+        return
+    forced = getattr(gen, "forced_decoder_ids", None)
+    if not isinstance(forced, list):
+        return
+    cleaned = []
+    for pair in forced:
+        if isinstance(pair, (list, tuple)) and len(pair) >= 2 and pair[1] is None:
+            continue
+        cleaned.append(pair)
+    gen.forced_decoder_ids = cleaned or None
+
+
+def _normalize_asr_pipeline_output(result):
+    """Coerce Hugging Face ASR output to ``{"text", "chunks"}``."""
+    if isinstance(result, dict):
+        return result
+    if isinstance(result, list):
+        texts = []
+        chunks = []
+        for item in result:
+            if not isinstance(item, dict):
+                continue
+            text = (item.get("text") or "").strip()
+            if text:
+                texts.append(text)
+            chunks.extend(item.get("chunks") or [])
+        return {"text": " ".join(texts), "chunks": chunks}
+    raise TypeError(
+        f"ASR pipeline returned {type(result).__name__}, expected a dict or list of dicts."
+    )
+
+
 class AudioTranscriber:
     """Handles transcription of audio chunks using Whisper."""
     
@@ -131,7 +256,10 @@ class AudioTranscriber:
         }
         if self._torch_dtype is not None:
             pipeline_kwargs["torch_dtype"] = self._torch_dtype
-        return pipeline("automatic-speech-recognition", **pipeline_kwargs)
+        pipeline_kwargs.update(asr_pipeline_preprocessor_kwargs(self.model))
+        pipe = pipeline("automatic-speech-recognition", **pipeline_kwargs)
+        _sanitize_whisper_generation_config(pipe)
+        return pipe
 
     def _release_pipeline(self):
         """Move the current ASR pipeline off GPU without dropping the attribute."""
@@ -310,6 +438,7 @@ class AudioTranscriber:
                 transcription_result, word_timestamps = self._transcribe_audio(
                     wav_bytes, chunk_duration
                 )
+                transcription_result = _normalize_asr_pipeline_output(transcription_result)
 
                 # Assign transcript to the chunk
                 chunk.transcript = transcription_result.get('text', "").strip()

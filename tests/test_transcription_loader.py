@@ -1,6 +1,8 @@
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import json
+import pytest
 import torch
 
 from pelican_nlp.utils import gpu_budget
@@ -15,6 +17,7 @@ def _fake_pipeline_capture(monkeypatch, captured):
         return MagicMock()
 
     monkeypatch.setattr(tr, "pipeline", fake_pipeline)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     return tr
 
 
@@ -123,6 +126,7 @@ def test_audio_transcriber_converts_in_place_to_float16_after_oom(monkeypatch):
         return pipe
 
     monkeypatch.setattr(tr, "pipeline", fake_pipeline)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     monkeypatch.setattr(
         "pelican_nlp.utils.gpu_budget.runtime_torch_device",
         lambda **k: torch.device("cuda"),
@@ -164,6 +168,7 @@ def test_audio_transcriber_reloads_float16_after_oom(monkeypatch):
         return BoomPipeline()
 
     monkeypatch.setattr(tr, "pipeline", fake_pipeline)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     monkeypatch.setattr(
         "pelican_nlp.utils.gpu_budget.runtime_torch_device",
         lambda **k: torch.device("cuda"),
@@ -198,6 +203,7 @@ def test_float16_reload_failure_does_not_break_later_chunks(monkeypatch):
         return BoomPipeline()
 
     monkeypatch.setattr(tr, "pipeline", fake_pipeline)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     monkeypatch.setattr(
         "pelican_nlp.utils.gpu_budget.runtime_torch_device",
         lambda **k: torch.device("cuda"),
@@ -405,6 +411,7 @@ def test_word_timestamp_merge_error_falls_back_to_segment_timestamps(monkeypatch
             )
 
     monkeypatch.setattr(tr, "pipeline", lambda *a, **k: MergeBugPipeline())
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     monkeypatch.setattr(
         "pelican_nlp.utils.gpu_budget.runtime_torch_device",
         lambda **k: torch.device("cuda"),
@@ -424,3 +431,139 @@ def test_word_timestamp_merge_error_falls_back_to_segment_timestamps(monkeypatch
     assert chunk.transcript == "hello world"
     assert len(chunk.whisper_alignments) == 2
     assert chunk.whisper_alignments[0]["word"] == "hello"
+
+
+def test_tokenizer_overrides_list_extra_special_tokens(tmp_path):
+    from pelican_nlp.preprocessing.transcription import asr_tokenizer_from_pretrained_kwargs
+
+    (tmp_path / "tokenizer_config.json").write_text(
+        json.dumps({"extra_special_tokens": ["<|de|>", "<|transcribe|>"]}),
+        encoding="utf-8",
+    )
+    assert asr_tokenizer_from_pretrained_kwargs(str(tmp_path), {}) == {
+        "extra_special_tokens": {}
+    }
+
+
+def test_feature_extractor_from_nested_processor_config(tmp_path):
+    from pelican_nlp.preprocessing.transcription import load_asr_feature_extractor
+
+    (tmp_path / "processor_config.json").write_text(
+        json.dumps({
+            "processor_class": "WhisperProcessor",
+            "feature_extractor": {
+                "chunk_length": 30,
+                "dither": 0.0,
+                "feature_extractor_type": "WhisperFeatureExtractor",
+                "feature_size": 128,
+                "hop_length": 160,
+                "n_fft": 400,
+                "n_samples": 480000,
+                "nb_max_frames": 3000,
+                "padding_side": "right",
+                "padding_value": 0.0,
+                "return_attention_mask": False,
+                "sampling_rate": 16000,
+            },
+        }),
+        encoding="utf-8",
+    )
+    extractor = load_asr_feature_extractor(str(tmp_path), {})
+    assert extractor.feature_size == 128
+    assert extractor.sampling_rate == 16000
+    assert extractor.chunk_length == 30
+
+
+def test_pipeline_receives_compat_preprocessors(monkeypatch):
+    captured = {}
+    tokenizer = object()
+    feature_extractor = object()
+    tr = _fake_pipeline_capture(monkeypatch, captured)
+    monkeypatch.setattr(
+        tr,
+        "asr_pipeline_preprocessor_kwargs",
+        lambda *a, **k: {"tokenizer": tokenizer, "feature_extractor": feature_extractor},
+    )
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("cpu"),
+    )
+    tr.AudioTranscriber(model="Flix-AI/flix-swissgerman-full")
+    assert captured["tokenizer"] is tokenizer
+    assert captured["feature_extractor"] is feature_extractor
+    assert captured["model"] == "Flix-AI/flix-swissgerman-full"
+
+
+def test_transcribe_accepts_list_pipeline_output(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    class ListPipeline:
+        def __call__(self, *a, **k):
+            return [
+                {"text": "hallo", "chunks": [{"text": "hallo", "timestamp": (0.0, 0.2)}]},
+                {"text": "welt", "chunks": [{"text": "welt", "timestamp": (0.2, 0.4)}]},
+            ]
+
+    monkeypatch.setattr(tr, "pipeline", lambda *a, **k: ListPipeline())
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("cpu"),
+    )
+    monkeypatch.setattr(tr, "_clear_cuda", lambda: None)
+
+    transcriber = tr.AudioTranscriber(model="openai/whisper-medium")
+    audio = SimpleNamespace(chunks=[_chunk()])
+    audio.register_model = lambda *a, **k: None
+    transcriber.transcribe(audio)
+    assert audio.chunks[0].transcript == "hallo welt"
+    assert [item["word"] for item in audio.chunks[0].whisper_alignments] == ["hallo", "welt"]
+
+
+def test_sanitize_drops_null_forced_decoder_ids():
+    from pelican_nlp.preprocessing.transcription import _sanitize_whisper_generation_config
+
+    pipe = SimpleNamespace(
+        generation_config=SimpleNamespace(
+            forced_decoder_ids=[[1, None], [2, 50360]],
+        )
+    )
+    _sanitize_whisper_generation_config(pipe)
+    assert pipe.generation_config.forced_decoder_ids == [[2, 50360]]
+
+
+def test_transcribe_audio_raises_when_every_file_fails(tmp_path, monkeypatch):
+    from pelican_nlp.core.corpus import Corpus
+
+    wav = tmp_path / "part-VP1_task-interview_n-1.wav"
+    wav.write_bytes(b"RIFF")
+    document = SimpleNamespace(
+        file=str(wav),
+        name=wav.name,
+        source_folder="part-VP1",
+    )
+
+    def boom(*args, **kwargs):
+        raise AttributeError("'list' object has no attribute 'keys'")
+
+    monkeypatch.setattr("pelican_nlp.extras.require_extra", lambda *a, **k: None)
+    monkeypatch.setattr(
+        "pelican_nlp.preprocessing.transcription.AudioTranscriber",
+        boom,
+    )
+
+    corpus = Corpus(
+        "part-VP1",
+        [document],
+        {
+            "transcription": {
+                "transcription_model": "Flix-AI/flix-swissgerman-full",
+                "hf_token": "x",
+            }
+        },
+        tmp_path,
+    )
+    with pytest.raises(RuntimeError, match="produced no outputs"):
+        corpus.transcribe_audio()
+    assert not (tmp_path / "derivatives" / "transcription" / f"{wav.stem}_transcript.txt").exists()
+

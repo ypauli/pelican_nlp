@@ -66,6 +66,7 @@ def _transcriber(monkeypatch, captured, pipeline_impl=None, **kwargs):
         return pipeline_impl if pipeline_impl is not None else (lambda *a, **k: {"text": "", "chunks": []})
 
     monkeypatch.setattr(tr, "pipeline", fake_pipeline)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
     monkeypatch.setattr(
         "pelican_nlp.utils.gpu_budget.runtime_torch_device", lambda **k: torch.device("cpu")
     )
