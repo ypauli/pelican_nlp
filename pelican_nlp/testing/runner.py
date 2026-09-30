@@ -12,6 +12,8 @@ import threading
 import time
 from pathlib import Path
 
+from pelican_nlp.utils.runtime_metadata import RUNTIME_FILENAME
+
 from .example_projects import NO_GOLDENS_SKIP, ExampleProject
 from .golden import compare_derivative_trees
 from .paths import import_root
@@ -311,5 +313,9 @@ def _stage_example(project: ExampleProject, work_dir: Path) -> Path:
 def _replace_tree(destination: Path, source: Path) -> Path:
     if destination.exists():
         shutil.rmtree(destination)
-    shutil.copytree(source, destination)
+    shutil.copytree(
+        source,
+        destination,
+        ignore=shutil.ignore_patterns(RUNTIME_FILENAME),
+    )
     return destination

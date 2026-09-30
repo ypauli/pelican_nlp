@@ -25,7 +25,7 @@ Keys already commented in the example YAML are not repeated here.
 ## Options that are not obvious
 
 **`language`**  
-Selects the spaCy model for optional lemmatization/normalization (`german` or `english`). It is not passed to Whisper.
+Top-level only. Selects the spaCy model for optional lemmatization/normalization (`german` or `english`). The same value is passed to Whisper when you transcribe audio.
 
 **`corpus_key` / `corpus_values`**  
 Groups files that share a filename tag (for example `acq-animals`). Omit both to process each unit folder as its own group.

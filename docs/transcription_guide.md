@@ -16,8 +16,8 @@ Keys already commented in the example YAML are not repeated here.
 
 ## `transcription:` options that are not obvious
 
-**`language`** (or the top-level `language`)  
-Set this. Whisper otherwise detects the language independently for every chunk, so a long recording can switch mid-file and come back partly transcribed (or translated) into another language. Accepts a name (`"german"`) or a code (`"de"`); the transcription block overrides the top-level value. Leave empty only if the spoken language genuinely varies within a file. If the chosen model rejects the value (for example an English-only checkpoint), Pelican warns once and continues with auto-detection.
+**Top-level `language`**  
+Set this in the general section of the YAML, not under `transcription:`. Whisper otherwise detects the language independently for every chunk, so a long recording can switch mid-file and come back partly transcribed (or translated) into another language. Accepts a name (`"german"`) or a code (`"de"`). Leave empty only if the spoken language genuinely varies within a file. If the chosen model rejects the value (for example an English-only checkpoint), Pelican warns once and continues with auto-detection.
 
 **`hf_token`**  
 Leave empty to skip speaker diarization. Set a Hugging Face token only if you need pyannote diarization (accept the model terms on the Hub first).

@@ -482,23 +482,13 @@ def test_explicit_null_speaker_count_falls_back_to_one():
     assert resolve_num_speakers({}) == 1
 
 
-def test_transcription_language_falls_through_to_top_level():
-    # The shipped example config spells out `transcription.language: null`, which
-    # must not suppress the top-level value.
-    assert (
-        resolve_transcription_language(
-            {"language": "german", "transcription": {"language": None}}
-        )
-        == "german"
-    )
-
-
-def test_transcription_block_overrides_top_level_language():
+def test_transcription_language_uses_top_level_only():
+    assert resolve_transcription_language({"language": "german", "transcription": {}}) == "german"
     assert (
         resolve_transcription_language(
             {"language": "german", "transcription": {"language": "english"}}
         )
-        == "english"
+        == "german"
     )
 
 

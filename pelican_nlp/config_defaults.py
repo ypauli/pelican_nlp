@@ -103,25 +103,16 @@ def resolve_num_speakers(config, default: int = 1) -> int:
 
 
 def resolve_transcription_language(config):
-    """Return the language to pin for ASR, or ``None`` for auto-detection.
+    """Return the top-level ``language`` to pin for ASR, or ``None`` for auto-detection.
 
-    ``transcription.language`` overrides the top-level ``language``. An empty string
-    or ``null`` in either place means "not set" and falls through, so a config that
-    spells out ``language: null`` under ``transcription:`` still uses the top-level
-    value.
+    An empty string or ``null`` means "not set". Transcription does not have its
+    own language key.
     """
     if not isinstance(config, dict):
         return None
-
-    transcription = config.get("transcription")
-    candidates = []
-    if isinstance(transcription, dict):
-        candidates.append(transcription.get("language"))
-    candidates.append(config.get("language"))
-
-    for value in candidates:
-        if isinstance(value, str) and value.strip():
-            return value.strip()
+    value = config.get("language")
+    if isinstance(value, str) and value.strip():
+        return value.strip()
     return None
 
 

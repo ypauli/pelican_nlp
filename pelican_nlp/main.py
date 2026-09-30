@@ -15,8 +15,10 @@ License: Attribution-NonCommercial 4.0 International
 All rights reserved.
 """
 
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List
+import os
 import sys
 import subprocess
 
@@ -31,6 +33,14 @@ from pelican_nlp.utils.lpds_paths import (
     unit_folder_for_document,
 )
 from pelican_nlp.extraction.metric_registry import run_configured_metrics
+from pelican_nlp.utils.runtime_metadata import (
+    NESTED_PHASE_ENV,
+    build_runtime_record,
+    clear_runtime_file,
+    current_runtime_device,
+    is_nested_phase,
+    write_runtime_file,
+)
 
 from pelican_nlp.config import debug_print
 from pelican_nlp.utils.progress import (
@@ -133,6 +143,7 @@ class Pelican:
 
     def run(self) -> None:
         """Execute the main processing pipeline."""
+        self._runtime_started_at = datetime.now(timezone.utc)
         self._clear_gpu_memory()
 
         # Only handle/remove output directory in the first (audio/text) phase.
@@ -140,7 +151,11 @@ class Pelican:
             self._handle_output_directory()
         else:
             debug_print("Skipping output directory handling for text-from-transcriptions phase.")
-        
+
+        # A nested text phase must leave the file for the parent process to write.
+        if not is_nested_phase():
+            clear_runtime_file(self.output_directory)
+
         # Check/Create LPDS
         self._LPDS()
         
@@ -149,6 +164,8 @@ class Pelican:
         documents = [document for unit in participants for document in unit.documents]
         n_docs = len(documents)
         n_units = len({unit_folder_for_document(document) for document in documents}) or len(participants)
+        self._runtime_n_documents = n_docs
+        self._runtime_n_units = n_units
         stages = pipeline_stage_labels(
             self.config, text_from_transcriptions=self.text_from_transcriptions
         )
@@ -160,6 +177,7 @@ class Pelican:
             if self.text_from_transcriptions:
                 self._run_text_from_transcriptions(participants)
                 reporter.status("Text-from-transcriptions phase completed")
+                self._write_runtime_metadata()
                 return
 
             for corpus_entity, corpus_documents in grouped_corpus_jobs(
@@ -170,6 +188,7 @@ class Pelican:
                 self._run_on_documents(corpus_entity, corpus_documents)
 
             reporter.status("Pipeline ran successfully")
+            self._write_runtime_metadata()
 
     def _run_on_documents(self, corpus_entity: str, documents: List) -> None:
         """Process a single corpus including preprocessing and metric extraction."""
@@ -242,7 +261,9 @@ class Pelican:
                 ]
                 if self.verbose:
                     cmd.append("--verbose")
-                result = subprocess.run(cmd)
+                env = os.environ.copy()
+                env[NESTED_PHASE_ENV] = "1"
+                result = subprocess.run(cmd, env=env)
                 if result.returncode != 0:
                     reporter.warn(f"Second-phase Pelican run failed with exit code {result.returncode}")
                 else:
@@ -294,6 +315,21 @@ class Pelican:
             return True
         else:
             return False
+
+    def _write_runtime_metadata(self) -> None:
+        """Record this run once it has reached a success exit."""
+        if is_nested_phase():
+            return
+        record = build_runtime_record(
+            config=self.config,
+            config_path=self.config_path,
+            started_at=self._runtime_started_at,
+            finished_at=datetime.now(timezone.utc),
+            n_documents=self._runtime_n_documents,
+            n_units=self._runtime_n_units,
+            device=current_runtime_device(),
+        )
+        write_runtime_file(self.output_directory, record)
 
     @staticmethod
     def _clear_gpu_memory() -> None:
