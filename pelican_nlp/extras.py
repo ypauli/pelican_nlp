@@ -100,13 +100,53 @@ def extras_required_by_config(config: Mapping | None) -> List[str]:
     return extras
 
 
+def _model_name(config, key: str) -> str:
+    block = (config or {}).get(key) or {}
+    if not isinstance(block, dict):
+        return ""
+    return str(block.get("model_name") or "").strip().lower()
+
+
+def _uses_fasttext(config) -> bool:
+    name = _model_name(config, "options_embeddings")
+    return name.startswith("fasttext") or name.startswith("cc.")
+
+
+def _uses_distance(config) -> bool:
+    block = (config or {}).get("options_embeddings") or {}
+    if not isinstance(block, dict):
+        return False
+    return bool(block.get("distance-from-randomness") or block.get("divergence_from_optimality"))
+
+
+def modules_for_extra(name: str, config: Mapping | None = None) -> List[str]:
+    """Libraries this config will import for ``name``.
+
+    The embeddings extra lists fastText, scikit-learn, and OR-Tools, but an
+    encoder-only config never imports them. Requiring them blocks a run that
+    does not use those paths.
+    """
+    if name != "embeddings":
+        return list(EXTRA_MARKERS[name])
+    modules = ["torch", "transformers", "accelerate", "huggingface_hub"]
+    metrics = (config or {}).get("metrics_to_extract") or []
+    block = (config or {}).get("options_embeddings") or {}
+    if isinstance(block, dict) and "embeddings" in metrics and block.get("semantic-similarity"):
+        modules.append("scipy")
+    if _uses_fasttext(config):
+        modules.append("fasttext")
+    if _uses_distance(config):
+        modules.extend(["sklearn", "ortools"])
+    return modules
+
+
 def require_config_extras(config: Mapping | None) -> None:
     """Fail once if any extra required by ``config`` is incomplete."""
     needed = extras_required_by_config(config)
     missing_extras = []
     missing_modules = []
     for name in needed:
-        markers = EXTRA_MARKERS[name]
+        markers = modules_for_extra(name, config)
         absent = _missing_modules(markers)
         if absent:
             missing_extras.append(name)

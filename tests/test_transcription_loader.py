@@ -520,16 +520,16 @@ def test_transcribe_accepts_list_pipeline_output(monkeypatch):
     assert [item["word"] for item in audio.chunks[0].whisper_alignments] == ["hallo", "welt"]
 
 
-def test_sanitize_drops_null_forced_decoder_ids():
+def test_sanitize_keeps_language_detection_and_drops_later_nulls():
     from pelican_nlp.preprocessing.transcription import _sanitize_whisper_generation_config
 
     pipe = SimpleNamespace(
         generation_config=SimpleNamespace(
-            forced_decoder_ids=[[1, None], [2, 50360]],
+            forced_decoder_ids=[[1, None], [2, 50360], [3, None]],
         )
     )
     _sanitize_whisper_generation_config(pipe)
-    assert pipe.generation_config.forced_decoder_ids == [[2, 50360]]
+    assert pipe.generation_config.forced_decoder_ids == [[1, None], [2, 50360]]
 
 
 def test_transcribe_audio_raises_when_every_file_fails(tmp_path, monkeypatch):

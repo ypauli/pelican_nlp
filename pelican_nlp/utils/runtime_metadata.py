@@ -12,10 +12,62 @@ from pathlib import Path
 
 from pelican_nlp._version import __version__
 from pelican_nlp.config_defaults import canonical_asr_model_id
+from pelican_nlp.extraction.long_responses import embedding_response_summary
 
 RUNTIME_FILENAME = "pelican_runtime.json"
 NESTED_PHASE_ENV = "PELICAN_NESTED_PHASE"
 _NESTED_TRUE = {"1", "true", "yes", "on"}
+_MODEL_REVISIONS: dict = {}
+
+
+def clear_model_revisions() -> None:
+    _MODEL_REVISIONS.clear()
+
+
+def remember_model_revision(role, model_id, revision) -> None:
+    """Keep the Hub id and commit that a successful run actually loaded."""
+    _MODEL_REVISIONS[str(role)] = {
+        "id": _plain(model_id),
+        "revision": _plain(revision),
+    }
+
+
+def snapshot_model_revisions() -> dict:
+    return {key: dict(value) for key, value in _MODEL_REVISIONS.items()}
+
+
+def revision_from(*objects, model_id=None):
+    """Commit hash from a loaded model or tokenizer, else the local Hub snapshot."""
+    for obj in objects:
+        if obj is None:
+            continue
+        config = getattr(obj, "config", None)
+        candidates = [
+            getattr(config, "_commit_hash", None) if config is not None else None,
+            getattr(obj, "_commit_hash", None),
+            getattr(obj, "commit_hash", None),
+        ]
+        for candidate in candidates:
+            if candidate:
+                return str(candidate)
+    if model_id:
+        return hub_cache_revision(model_id)
+    return None
+
+
+def hub_cache_revision(model_id) -> str | None:
+    """``refs/main`` commit for a Hub id already present in the local cache."""
+    if not isinstance(model_id, str) or "/" not in model_id.strip():
+        return None
+    from pelican_nlp.utils.model_cache import huggingface_hub_cache
+
+    folder = "models--" + model_id.strip().replace("/", "--")
+    ref = huggingface_hub_cache() / folder / "refs" / "main"
+    try:
+        text = ref.read_text(encoding="utf-8").strip()
+    except OSError:
+        return None
+    return text or None
 
 
 def is_nested_phase() -> bool:
@@ -120,6 +172,8 @@ def build_runtime_record(
         "units": int(n_units),
         "metrics": metrics,
         "models": runtime_models(config),
+        "model_revisions": snapshot_model_revisions(),
+        "embedding_responses": embedding_response_summary(),
         "device": device,
     }
 

@@ -37,6 +37,23 @@ def test_remove_timestamps():
     assert remove_timestamps(text, "#00:00:23-00#") == "hello  world"
 
 
+def test_general_cleaning_strips_direction_isolates():
+    cleaner = TextCleaner(
+        {
+            "remove_timestamps": True,
+            "timestamp_pattern_example": "#00:00:19-0#",
+            "lowercase": False,
+            "general_cleaning": True,
+            "fluency_task": False,
+        }
+    )
+    text = "hello \u2066#00:00:11-0#\u2069 world"
+    cleaned = cleaner.clean(_Doc(), text)
+    assert "\u2066" not in cleaned
+    assert "#" not in cleaned
+    assert "hello" in cleaned and "world" in cleaned
+
+
 def test_general_cleaner_lowercase():
     cleaner = TextCleaner(
         {

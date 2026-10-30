@@ -3,6 +3,7 @@ import pytest
 from pelican_nlp.extras import (
     extras_required_by_config,
     extra_install_hint,
+    modules_for_extra,
     require_config_extras,
     require_extra,
 )
@@ -69,6 +70,36 @@ def test_require_config_extras_missing(monkeypatch):
     assert "transcription" in message
     assert "embeddings" in message
     assert "pelican_nlp[transcription,embeddings]" in message
+
+
+def test_encoder_config_does_not_require_unused_embedding_libraries():
+    modules = modules_for_extra(
+        "embeddings",
+        {
+            "metrics_to_extract": ["embeddings", "logits", "perplexity"],
+            "options_embeddings": {
+                "model_name": "jhu-clsp/mmBERT-base",
+                "semantic-similarity": True,
+                "distance-from-randomness": False,
+            },
+            "options_logits": {"model_name": "DiscoResearch/Llama3-German-8B-32k"},
+        },
+    )
+    assert "scipy" in modules
+    assert "accelerate" in modules
+    assert "ortools" not in modules
+    assert "fasttext" not in modules
+    assert "sklearn" not in modules
+
+
+def test_distance_config_requires_ortools():
+    modules = modules_for_extra(
+        "embeddings",
+        {"options_embeddings": {"model_name": "fastText", "distance-from-randomness": True}},
+    )
+    assert "fasttext" in modules
+    assert "ortools" in modules
+    assert "sklearn" in modules
 
 
 def test_require_config_extras_complete_on_full_install():

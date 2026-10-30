@@ -144,6 +144,11 @@ class Pelican:
     def run(self) -> None:
         """Execute the main processing pipeline."""
         self._runtime_started_at = datetime.now(timezone.utc)
+        from pelican_nlp.extraction.long_responses import clear_embedding_stats
+        from pelican_nlp.utils.runtime_metadata import clear_model_revisions
+
+        clear_embedding_stats()
+        clear_model_revisions()
         self._clear_gpu_memory()
 
         # Only handle/remove output directory in the first (audio/text) phase.
@@ -287,6 +292,11 @@ class Pelican:
 
     def _handle_output_directory(self) -> None:
         """Handle the output directory based on dev mode."""
+        if self.config.get("recompute_everything") and not self.text_from_transcriptions:
+            remove_previous_derivative_dir(self.output_directory)
+            self.skip_existing = False
+            return
+
         # If skip_existing is True, never delete the directory
         if self.skip_existing:
             debug_print("skip_existing is True - preserving existing files in output directory.")

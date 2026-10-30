@@ -130,6 +130,13 @@ class LogitsExtractor:
             model_name=self.options["model_name"],
             trust_remote_code=trust_remote_code,
         )
+        from pelican_nlp.utils.runtime_metadata import remember_model_revision, revision_from
+
+        remember_model_revision(
+            "logits",
+            model_name,
+            revision_from(model.model_instance, tokenizer.tokenizer, model_id=model_name),
+        )
         reporter = get_reporter(corpus)
         short = short_model_name(model_name)
         label = f"logits ({short})" if short else "logits"

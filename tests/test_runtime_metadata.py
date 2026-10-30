@@ -11,11 +11,15 @@ from pelican_nlp._version import __version__
 from pelican_nlp.main import Pelican
 from pelican_nlp.testing.golden import compare_derivative_trees
 from pelican_nlp.testing.runner import _replace_tree
+from pelican_nlp.extraction.long_responses import clear_embedding_stats
 from pelican_nlp.utils.runtime_metadata import (
     NESTED_PHASE_ENV,
     RUNTIME_FILENAME,
     build_runtime_record,
+    clear_model_revisions,
     clear_runtime_file,
+    remember_model_revision,
+    revision_from,
     runtime_models,
     write_runtime_file,
 )
@@ -66,6 +70,8 @@ def _record(tmp_path: Path, config: dict, *, name: str = "config_demo.yml") -> d
 
 
 def test_record_keeps_version_config_name_and_hash(tmp_path):
+    clear_model_revisions()
+    clear_embedding_stats()
     config_path = tmp_path / "config_interview.yml"
     payload = b'input_file: "audio"\nlanguage: "german"\n'
     config_path.write_bytes(payload)
@@ -103,6 +109,9 @@ def test_record_keeps_version_config_name_and_hash(tmp_path):
         "logits": "gpt2",
     }
     assert record["device"] == "cuda"
+    assert record["model_revisions"] == {}
+    assert record["embedding_responses"]["responses"] == 0
+    assert record["embedding_responses"]["chunked"] == 0
 
 
 def test_models_only_include_steps_this_config_runs(tmp_path):
@@ -193,8 +202,39 @@ def test_successful_run_writes_runtime_file(tmp_path):
     assert record["units"] == 1
     assert record["metrics"] == []
     assert record["models"] == {}
+    assert record["model_revisions"] == {}
+    assert record["embedding_responses"]["chunked"] == 0
     assert record["device"] in {"cpu", "cuda", "mps"}
     assert list((tmp_path / "derivatives").glob(".pelican_runtime.*.tmp")) == []
+
+
+def test_recompute_everything_clears_derivatives(tmp_path):
+    config = _project(tmp_path)
+    config.write_text(config.read_text(encoding="utf-8") + "recompute_everything: true\n", encoding="utf-8")
+    stale = tmp_path / "derivatives" / "old.txt"
+    _write(stale, "keep\n")
+    Pelican(str(config)).run()
+    assert not stale.exists()
+    assert (tmp_path / "derivatives" / RUNTIME_FILENAME).is_file()
+
+
+def test_loaded_model_revision_is_recorded(tmp_path):
+    clear_model_revisions()
+
+    class _Config:
+        _commit_hash = "abc123def456"
+
+    class _Model:
+        config = _Config()
+
+    assert revision_from(_Model(), model_id="jhu-clsp/mmBERT-base") == "abc123def456"
+    remember_model_revision("embeddings", "jhu-clsp/mmBERT-base", "abc123def456")
+    record = _record(tmp_path, {"input_file": "text", "metrics_to_extract": ["embeddings"]})
+    assert record["model_revisions"]["embeddings"] == {
+        "id": "jhu-clsp/mmBERT-base",
+        "revision": "abc123def456",
+    }
+    clear_model_revisions()
 
 
 def test_second_successful_run_replaces_stale_runtime_file(tmp_path):

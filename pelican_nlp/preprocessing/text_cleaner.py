@@ -28,6 +28,9 @@ class TextCleaner:
                 text = operation()
 
         if self.options.get('general_cleaning', True):
+            # Directional isolates and zero-width marks show up around timestamps
+            # in some editors and would otherwise become their own tokens.
+            text = re.sub(r"[\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]", "", text)
             replacements = [
                 (r'/', ''),
                 (r'\s+([?.!,"])', r'\1'),

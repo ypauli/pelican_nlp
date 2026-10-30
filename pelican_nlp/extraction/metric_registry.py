@@ -55,25 +55,15 @@ def get_metric_runner(name: str) -> MetricRunner:
     return builtins[name]
 
 
-_METRIC_EXTRAS = {
-    "logits": "embeddings",
-    "embeddings": "embeddings",
-    "perplexity": "embeddings",
-    "topic_modeling": "topic",
-}
-
-
 def run_configured_metrics(corpus, metrics: Optional[Iterable[str]] = None) -> None:
     """Run each metric listed in ``metrics`` or ``corpus.config``."""
     from pelican_nlp.extraction.resources import release_gpu
-    from pelican_nlp.extras import require_extra
+    from pelican_nlp.extras import require_config_extras
 
     if metrics is None:
         metrics = (corpus.config or {}).get("metrics_to_extract") or []
+    require_config_extras(getattr(corpus, "config", None))
     for metric in metrics:
-        extra = _METRIC_EXTRAS.get(metric)
-        if extra:
-            require_extra(extra)
         get_metric_runner(metric)(corpus)
         # Drop leftover FastText / Hub weights before the next metric (e.g. Llama).
         release_gpu()

@@ -3,7 +3,7 @@ import os
 
 from pelican_nlp.config import debug_print
 from pelican_nlp.utils.setup_functions import is_hidden_or_system_file, is_metadata_entry
-from pelican_nlp.utils.lpds_paths import is_participant_folder
+
 
 class LPDS:
     def __init__(self, project_folder, multiple_sessions):
@@ -35,9 +35,7 @@ class LPDS:
         # Check if there is at least one subfolder in 'participants'
         if not self.participant_folders:
             raise FileNotFoundError("Error: No participant subfolders found in the 'participants' folder.")
-        part_folders = [f for f in self.participant_folders if is_participant_folder(f)]
-        if part_folders and 'part-01' not in self.participant_folders:
-            print("Warning: Ideally, participant folders should follow the naming convention 'part-x'.")
+        # Any ``part-<id>`` folder is valid. ``part-01`` is only an example id.
 
         # Iterate through participant subfolders
         for participant_folder in self.participant_folders:

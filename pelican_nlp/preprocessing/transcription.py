@@ -179,7 +179,15 @@ def asr_pipeline_preprocessor_kwargs(model_id) -> dict:
 
 
 def _sanitize_whisper_generation_config(pipe):
-    """Drop TF5 ``forced_decoder_ids`` slots whose token id is JSON ``null``."""
+    """Drop broken forced-decoder slots without removing language detection.
+
+    Multilingual Whisper stores ``forced_decoder_ids`` as
+    ``[[1, None], [2, <transcribe>]]``. The ``None`` means "detect the
+    language". Generation only consumes a contiguous run that starts at
+    index 1, so deleting that first slot also discards the task token and
+    the decoder no longer transcribes. A missing token id at any later
+    index is not that marker and is removed.
+    """
     gen = getattr(pipe, "generation_config", None)
     if gen is None:
         return
@@ -188,7 +196,12 @@ def _sanitize_whisper_generation_config(pipe):
         return
     cleaned = []
     for pair in forced:
-        if isinstance(pair, (list, tuple)) and len(pair) >= 2 and pair[1] is None:
+        if (
+            isinstance(pair, (list, tuple))
+            and len(pair) >= 2
+            and pair[1] is None
+            and pair[0] != 1
+        ):
             continue
         cleaned.append(pair)
     gen.forced_decoder_ids = cleaned or None

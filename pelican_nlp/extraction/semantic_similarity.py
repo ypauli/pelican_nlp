@@ -1,3 +1,6 @@
+import re
+import string
+
 import numpy as np
 import scipy
 from scipy.spatial.distance import cdist
@@ -22,18 +25,23 @@ def _token_to_text_piece(token_str):
     token_str = str(token_str)
     if not token_str:
         return '', False
-    has_word_boundary = token_str.startswith('▁')
-    core = token_str.lstrip('▁')
-    return core, has_word_boundary
+    if token_str.startswith('##'):
+        return token_str[2:], False
+    if token_str.startswith('▁') or token_str.startswith('Ġ'):
+        return token_str[1:], True
+    return token_str, False
 
 def _clean_token_text(token):
     core, _ = _token_to_text_piece(token)
     return core
 
 def tokens_to_text(tokens):
+    pieces = [_token_to_text_piece(token) for token in tokens]
+    # Whitespace tokens and already-pooled words have no subword marker.
+    if not any(has_boundary for _, has_boundary in pieces):
+        return ' '.join(core for core, _ in pieces if core)
     text = ''
-    for token in tokens:
-        core, has_boundary = _token_to_text_piece(token)
+    for core, has_boundary in pieces:
         if not core:
             continue
         if has_boundary:
@@ -270,6 +278,39 @@ def get_semantic_similarity_windows(embedding_vectors, window_size, return_detai
         return result, window_details or []
     return result
 
+def _word_chars(text):
+    return re.sub(r'[^\w]', '', str(text), flags=re.UNICODE)
+
+
+def align_embeddings_to_source_sentences(embedding_vectors, sentence_texts):
+    """Assign embedding rows to source sentences by decoded word characters.
+
+    Splitting the token list into equal lengths mis-aligns a short sentence
+    with a long one. Punctuation is ignored on both sides, because it may have
+    been removed from the tokens while remaining in the source text. A token is
+    placed in the next sentence only after the current sentence's characters
+    are already covered.
+    """
+    targets = [_word_chars(sentence) for sentence in sentence_texts]
+    targets = [target for target in targets if target]
+    if len(targets) < 2 or not embedding_vectors:
+        return None
+    groups = [[] for _ in targets]
+    index = 0
+    filled = 0
+    for token, vector in embedding_vectors:
+        if str(token).startswith('<') and str(token).endswith('>'):
+            continue
+        if index < len(targets) - 1 and filled >= len(targets[index]):
+            index += 1
+            filled = 0
+        groups[index].append((token, vector))
+        core, _boundary = _token_to_text_piece(token)
+        filled += len(_word_chars(core))
+    groups = [group for group in groups if group]
+    return groups if len(groups) >= 2 else None
+
+
 def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclude_punctuation=False, source_text=None):
     """
     Calculate semantic similarity grouped by sentences.
@@ -301,34 +342,11 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
             if len(sentence_text_candidates) >= 2:
                 debug_print(
                     f"[get_sentence_wise_similarity] No token-level sentence boundaries found; "
-                    f"falling back to source_text boundaries ({len(sentence_text_candidates)} sentences)"
+                    f"aligning to source_text ({len(sentence_text_candidates)} sentences)"
                 )
-
-                n_tokens = len(tokens)
-                n_sentences = len(sentence_text_candidates)
-                base_len = n_tokens // n_sentences
-                remainder = n_tokens % n_sentences
-
-                sentences = []
-                start_idx = 0
-                for sentence_idx in range(n_sentences):
-                    sentence_len = base_len + (1 if sentence_idx < remainder else 0)
-                    if sentence_len <= 0:
-                        continue
-                    end_idx = min(start_idx + sentence_len, n_tokens)
-                    if end_idx > start_idx:
-                        sentence_tokens = tokens[start_idx:end_idx]
-                        sentence_vectors = vectors[start_idx:end_idx]
-                        sentences.append(list(zip(sentence_tokens, sentence_vectors)))
-                    start_idx = end_idx
-
-                # Attach any trailing tokens due to rounding to the last sentence
-                if start_idx < n_tokens and sentences:
-                    trailing = list(zip(tokens[start_idx:], vectors[start_idx:]))
-                    sentences[-1].extend(trailing)
-
-                # Filter out empty sentences
-                sentences = [sent for sent in sentences if sent]
+                sentences = align_embeddings_to_source_sentences(
+                    list(zip(tokens, vectors)), sentence_text_candidates
+                ) or []
 
                 # Need at least 2 sentences for inter-sentence similarity
                 if len(sentences) < 2:
@@ -387,7 +405,8 @@ def get_sentence_wise_similarity(embedding_vectors, return_details=False, exclud
         # If only one token, return NaN
         if len(tokens) < 2:
             debug_print(f"[get_sentence_wise_similarity] WARNING: Not enough tokens ({len(tokens)} < 2) for sentence similarity")
-            return np.nan, np.nan, np.nan, np.nan, np.nan
+            summary = _nan_summary()
+            return (summary, []) if return_details else summary
         # Otherwise, treat as single sentence and return NaN (no inter-sentence similarity)
         debug_print(f"[get_sentence_wise_similarity] WARNING: No sentence boundaries found (no tokens ending with . ! or ?). "
                    f"This may occur if punctuation was removed during tokenization. "

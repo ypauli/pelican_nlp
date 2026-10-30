@@ -71,6 +71,8 @@ class PerplexityExtractor:
         # Convert logits data to DataFrame format expected by perplexity calculation
         if not logits_data:
             debug_print(f"No logits data found for document: {document.name}, section: {section_index}")
+            # Keep the response id even when the turn is empty.
+            self._store_perplexity_results(document, [None], [[]], section_index)
             return
             
         # Create DataFrame from logits data
@@ -132,38 +134,39 @@ class PerplexityExtractor:
             
         section_perplexities.append(section_perplexity)
         
-        # Calculate sentence-level perplexities
-        sentence_perplexities = []
-        
-        # Prompt is always sentence 0
+        # A prompt is sentence 0 only when a configured ignore sequence was removed.
+        # An empty prompt is not inserted, so later sentence ids are not shifted.
+        sentence_records = []
+        next_index = 0
         if not prompt_df.empty and "logprob_actual" in prompt_df.columns:
             n_prompt = len(prompt_df)
             logprob_sum_prompt = prompt_df["logprob_actual"].sum()
-            prompt_perplexity = np.exp(-logprob_sum_prompt / n_prompt)
-        else:
-            prompt_perplexity = None
-            
-        sentence_perplexities.append(prompt_perplexity)
-        
-        # Split main text into sentences
+            sentence_records.append({
+                "sentence_index": 0,
+                "perplexity": np.exp(-logprob_sum_prompt / n_prompt),
+            })
+            next_index = 1
+
+        # Split main text into sentences. Short sentences stay in the file with
+        # their original index and an empty perplexity so eligibility filters
+        # can drop scores without renumbering the remaining rows.
         sentences = self._split_df_into_sentences(main_df)
-        
-        for sent_df in sentences:
-            if sent_df.empty or "logprob_actual" not in sent_df.columns:
-                sentence_perplexities.append(None)
-            else:
-                # Count non-punctuation tokens (excluding punctuation-only tokens)
+
+        for offset, sent_df in enumerate(sentences):
+            sentence_index = next_index + offset
+            perplexity = None
+            if not sent_df.empty and "logprob_actual" in sent_df.columns:
                 non_punct_count = self._count_non_punctuation_tokens(sent_df)
-                # Filter out single-word sentences (perplexity is meaningless for a single word)
-                if non_punct_count <= 1:
-                    # Skip single-word sentences - don't calculate perplexity
-                    continue
-                n_sent = len(sent_df)
-                logprob_sum = sent_df["logprob_actual"].sum()
-                sent_perplexity = np.exp(-logprob_sum / n_sent)
-                sentence_perplexities.append(sent_perplexity)
-                
-        sentence_perplexities_per_section.append(sentence_perplexities)
+                if non_punct_count > 1:
+                    n_sent = len(sent_df)
+                    logprob_sum = sent_df["logprob_actual"].sum()
+                    perplexity = np.exp(-logprob_sum / n_sent)
+            sentence_records.append({
+                "sentence_index": sentence_index,
+                "perplexity": perplexity,
+            })
+
+        sentence_perplexities_per_section.append(sentence_records)
             
         return section_perplexities, sentence_perplexities_per_section
     
@@ -270,10 +273,16 @@ class PerplexityExtractor:
             sentence_data = []
             for section_idx, sentence_perplexities in enumerate(sentence_perplexities_per_section):
                 actual_section_idx = section_index_offset + section_idx
-                for sent_idx, perplexity in enumerate(sentence_perplexities):
+                for row in sentence_perplexities:
+                    if isinstance(row, dict):
+                        sentence_index = row.get("sentence_index")
+                        perplexity = row.get("perplexity")
+                    else:
+                        sentence_index = len(sentence_data)
+                        perplexity = row
                     sentence_data.append({
                         'section_index': actual_section_idx,
-                        'sentence_index': sent_idx,
+                        'sentence_index': sentence_index,
                         'perplexity': perplexity
                     })
             

@@ -62,19 +62,195 @@ class EmbeddingsExtractor:
             self.model_name,
             model_kind=embeddings_configurations.get('model_kind'),
         )
+        # YAML max_length is a batching budget, not a cutoff. Truncation to the
+        # model context, and stitching past that, is handled explicitly.
         self.Tokenizer = TextTokenizer(
             self.embeddings_configurations['tokenization_method'],
             self.model_name,
-            self.embeddings_configurations['max_length'],
+            max_length=None,
             trust_remote_code=trust_remote_code,
         )
 
         self.model.load_model(trust_remote_code=trust_remote_code)
         self.model_instance = self.model.model_instance
+        self._remember_model_revision("embeddings")
         if 'pytorch_based_model' not in self.embeddings_configurations:
             self.embeddings_configurations['pytorch_based_model'] = self.model.kind != MODEL_KIND_STATIC
 
-    def extract_embeddings_from_text(self, text_list, embedding_options):
+    def _remember_model_revision(self, role: str) -> None:
+        from pelican_nlp.utils.runtime_metadata import remember_model_revision, revision_from
+
+        tokenizer = getattr(self.Tokenizer, "tokenizer", None)
+        remember_model_revision(
+            role,
+            self.model_name,
+            revision_from(self.model_instance, tokenizer, model_id=self.model_name),
+        )
+
+    def _budget_length(self):
+        raw = self.embeddings_configurations.get("max_length")
+        try:
+            value = int(raw)
+        except (TypeError, ValueError):
+            return None
+        return value if value > 1 else None
+
+    def _context_length(self):
+        config = getattr(getattr(self, "model_instance", None), "config", None)
+        for name in ("max_position_embeddings", "n_positions"):
+            value = getattr(config, name, None)
+            if isinstance(value, int) and 2 <= value <= 1_000_000:
+                return value
+        tokenizer = getattr(getattr(self, "Tokenizer", None), "tokenizer", None)
+        model_max = getattr(tokenizer, "model_max_length", None)
+        if isinstance(model_max, int) and 2 <= model_max <= 1_000_000:
+            return model_max
+        return self._budget_length()
+
+    def _long_overlap(self, window: int) -> int:
+        raw = self.embeddings_configurations.get("long_response_overlap", 64)
+        try:
+            overlap = int(raw)
+        except (TypeError, ValueError):
+            overlap = 64
+        if window <= 2:
+            return 0
+        return max(0, min(overlap, window // 2))
+
+    def _token_ids(self, text, add_special_tokens=True):
+        encoded = self.Tokenizer.tokenizer(
+            text,
+            add_special_tokens=add_special_tokens,
+            truncation=False,
+            padding=False,
+        )
+        ids = encoded["input_ids"]
+        if ids and isinstance(ids[0], list):
+            ids = ids[0]
+        return list(ids)
+
+    def _warn_about_length(self, n_tokens, budget, context, chunked) -> None:
+        from pelican_nlp.utils.progress import active_reporter
+
+        reporter = active_reporter()
+        if chunked and not getattr(self, "_warned_chunk", False):
+            reporter.warn(
+                f"A response is longer than the model context ({context} tokens). "
+                "It is encoded in overlapping windows and stitched so no tokens are dropped."
+            )
+            self._warned_chunk = True
+        elif budget and n_tokens > budget and not getattr(self, "_warned_budget", False):
+            reporter.warn(
+                "Some responses are longer than options_embeddings.max_length. "
+                "They are encoded in full, up to the model context, and are not truncated."
+            )
+            self._warned_budget = True
+
+    def _embeddings_over_context(self, text, embedding_options, observe=True):
+        """Return stitched embeddings when ``text`` exceeds the model context.
+
+        Responses that only exceed the configured ``max_length`` return None so
+        the caller encodes them in one pass. ``max_length`` is not a cutoff.
+        """
+        del embedding_options
+        tokenizer = getattr(getattr(self, "Tokenizer", None), "tokenizer", None)
+        if tokenizer is None or not isinstance(text, str):
+            return None
+        ids = self._token_ids(text, add_special_tokens=True)
+        n_tokens = len(ids)
+        self._last_observed_length = n_tokens
+        context = self._context_length()
+        budget = self._budget_length()
+        chunked = bool(context and n_tokens > context)
+        if observe:
+            from pelican_nlp.extraction.long_responses import note_embedding_response
+
+            note_embedding_response(n_tokens, budget, context, chunked)
+            self._warn_about_length(n_tokens, budget, context, chunked)
+        if not chunked:
+            return None
+        return self._embed_overflow(text, context)
+
+    def _overflow_windows(self, text, max_length, stride):
+        encoded = self.Tokenizer.tokenizer(
+            text,
+            max_length=max_length,
+            truncation=True,
+            stride=stride,
+            return_overflowing_tokens=True,
+            add_special_tokens=True,
+            padding=False,
+        )
+        windows = encoded["input_ids"]
+        if not windows:
+            return []
+        if not isinstance(windows[0], list):
+            return [list(windows)]
+        return [list(window) for window in windows]
+
+    def _hidden_for_ids(self, token_ids):
+        import torch
+        from pelican_nlp.utils.gpu_budget import input_device_for_model
+
+        device = input_device_for_model(self.model_instance)
+        ids = torch.tensor([list(token_ids)], device=device)
+        mask = torch.ones_like(ids)
+        with torch.inference_mode():
+            if self.model.kind == MODEL_KIND_CAUSAL_LM:
+                outputs = self.model_instance(input_ids=ids)
+            else:
+                outputs = self.model_instance(
+                    input_ids=ids,
+                    attention_mask=mask,
+                    output_hidden_states=True,
+                )
+        if getattr(outputs, "hidden_states", None):
+            hidden = outputs.hidden_states[-1]
+        elif hasattr(outputs, "last_hidden_state"):
+            hidden = outputs.last_hidden_state
+        else:
+            raise ValueError("Model output has neither hidden_states nor last_hidden_state.")
+        return hidden[0].detach().cpu()
+
+    def _pairs_from_stitched(self, token_ids, vectors):
+        import torch
+        from types import SimpleNamespace
+
+        if not token_ids:
+            return []
+        stacked = []
+        for vector in vectors:
+            if hasattr(vector, "detach"):
+                stacked.append(vector.detach().cpu().float())
+            else:
+                stacked.append(torch.as_tensor(vector, dtype=torch.float))
+        hidden = torch.stack(stacked, dim=0).unsqueeze(0)
+        input_ids = torch.tensor([list(token_ids)])
+        inputs = {"input_ids": input_ids, "attention_mask": torch.ones_like(input_ids)}
+        outputs = SimpleNamespace(hidden_states=(hidden,), last_hidden_state=hidden)
+        return self._collect_pytorch_token_embeddings(inputs, outputs)
+
+    def _embed_overflow(self, text, context):
+        from pelican_nlp.extraction.long_responses import stitch_window_slices
+
+        overlap = self._long_overlap(context)
+        windows = self._overflow_windows(text, context, overlap)
+        if not windows:
+            return []
+        tokenizer = self.Tokenizer.tokenizer
+        specials = set(getattr(tokenizer, "all_special_ids", []) or [])
+        slices = stitch_window_slices(windows, overlap, specials)
+        hiddens = [self._hidden_for_ids(window) for window in windows]
+        stitched_ids = []
+        stitched_vecs = []
+        for index, start, end in slices:
+            hidden = hiddens[index]
+            for pos in range(start, end):
+                stitched_ids.append(windows[index][pos])
+                stitched_vecs.append(hidden[pos])
+        return self._pairs_from_stitched(stitched_ids, stitched_vecs)
+
+    def extract_embeddings_from_text(self, text_list, embedding_options, observe=True):
 
         batch_size = _embedding_batch_size(embedding_options)
         if (
@@ -89,8 +265,14 @@ class EmbeddingsExtractor:
             return entries, (token_counts[-1] if token_counts else 0)
 
         doc_entry_list = []
+        token_count = 0
 
         for text in text_list:
+            chunked = self._embeddings_over_context(text, embedding_options, observe=observe)
+            if chunked is not None:
+                doc_entry_list.append(chunked)
+                token_count = len(chunked)
+                continue
 
             embeddings = {}
 
@@ -395,46 +577,61 @@ class EmbeddingsExtractor:
                 debug_print(f"[extract_embeddings] Final embeddings after all filtering: {len(final_embeddings)}")
             
             doc_entry_list.append(final_embeddings)
-
-        # Calculate token count properly
-        if isinstance(inputs, dict):
-            token_count = len(inputs['input_ids'][0]) if 'input_ids' in inputs else 0
-        elif hasattr(inputs, 'input_ids'):
-            # Handle BatchEncoding objects
-            token_count = len(inputs['input_ids'][0]) if hasattr(inputs['input_ids'], '__len__') else 0
-        elif hasattr(inputs, '__len__'):
-            token_count = len(inputs)
-        else:
-            token_count = 0
+            token_count = _token_count_from_inputs(inputs)
 
         return doc_entry_list, token_count
 
     def _extract_embeddings_encoder_batched(self, text_list, embedding_options, batch_size):
-        """One encoder forward per chunk of texts. Returns per-text token counts."""
+        """One encoder forward per chunk of short texts. Long texts are not truncated."""
         import torch
         from types import SimpleNamespace
 
-        prepared = [
-            self._prepare_embedding_inputs(text, embedding_options) for text in text_list
-        ]
-        if not prepared:
-            return [], []
-        doc_entry_list = []
-        token_counts = []
-        with torch.inference_mode():
-            for start in range(0, len(prepared), batch_size):
-                chunk = prepared[start:start + batch_size]
-                hidden_rows = self._encoder_last_hidden_batched(chunk)
-                for inputs, hidden in zip(chunk, hidden_rows):
-                    outputs = SimpleNamespace(
-                        hidden_states=(hidden,),
-                        last_hidden_state=hidden,
-                    )
-                    doc_entry_list.append(
-                        self._collect_pytorch_token_embeddings(inputs, outputs)
-                    )
-                    token_counts.append(_token_count_from_inputs(inputs))
-        return doc_entry_list, token_counts
+        entries = [[] for _ in text_list]
+        token_counts = [0] * len(text_list)
+        short_indexes = []
+        budget = self._budget_length()
+        for index, text in enumerate(text_list):
+            chunked = self._embeddings_over_context(text, embedding_options, observe=True)
+            if chunked is not None:
+                entries[index] = chunked
+                token_counts[index] = len(chunked)
+                continue
+            n_tokens = getattr(self, "_last_observed_length", 0)
+            if budget and n_tokens > budget:
+                # One forward for the whole response. A batch sized for max_length
+                # would pad every neighbor up to this length.
+                alone, alone_count = self.extract_embeddings_from_text(
+                    [text], embedding_options, observe=False
+                )
+                entries[index] = alone[0] if alone else []
+                token_counts[index] = alone_count
+                continue
+            short_indexes.append(index)
+
+        if short_indexes:
+            prepared = [
+                self._prepare_embedding_inputs(text_list[index], embedding_options)
+                for index in short_indexes
+            ]
+            short_entries = []
+            short_counts = []
+            with torch.inference_mode():
+                for start in range(0, len(prepared), batch_size):
+                    chunk = prepared[start:start + batch_size]
+                    hidden_rows = self._encoder_last_hidden_batched(chunk)
+                    for inputs, hidden in zip(chunk, hidden_rows):
+                        outputs = SimpleNamespace(
+                            hidden_states=(hidden,),
+                            last_hidden_state=hidden,
+                        )
+                        short_entries.append(
+                            self._collect_pytorch_token_embeddings(inputs, outputs)
+                        )
+                        short_counts.append(_token_count_from_inputs(inputs))
+            for offset, index in enumerate(short_indexes):
+                entries[index] = short_entries[offset]
+                token_counts[index] = short_counts[offset]
+        return entries, token_counts
 
     def _prepare_embedding_inputs(self, text, embedding_options):
         from pelican_nlp.preprocessing.text_tokenizer import TOKENIZATION_WHITESPACE
@@ -772,6 +969,10 @@ def _write_section_embeddings(
     document, corpus, section_parts, embeddings, token_count, write_opts
 ):
     embedding_options = write_opts["embedding_options"]
+    if embedding_options.get("pool_subwords"):
+        from pelican_nlp.extraction.word_pooling import pool_subword_embeddings
+
+        embeddings = [pool_subword_embeddings(utterance) for utterance in embeddings]
     document.embeddings.append(embeddings)
     if corpus.task == "fluency":
         document.fluency_word_count = token_count
