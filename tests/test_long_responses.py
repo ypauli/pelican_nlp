@@ -14,6 +14,7 @@ from pelican_nlp.extraction.long_responses import (
 from pelican_nlp.extraction.model_registry import MODEL_KIND_ENCODER
 from pelican_nlp.extraction.semantic_similarity import (
     align_embeddings_to_source_sentences,
+    calculate_semantic_similarity,
     get_semantic_similarity_windows,
     tokens_to_text,
 )
@@ -58,6 +59,35 @@ def test_tokens_to_text_spaces_words_and_glues_subwords():
     assert tokens_to_text(["Ich", "sehe"]) == "Ich sehe"
     assert tokens_to_text(["▁Ich", "▁sehe", "."]) == "Ich sehe."
     assert tokens_to_text(["▁Bub", "##en"]) == "Buben"
+
+
+def test_semantic_similarity_mean_skips_empty_and_all_nan_pairs():
+    import warnings
+
+    import numpy as np
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", RuntimeWarning)
+        similarities, mean = calculate_semantic_similarity([("only", np.array([1.0, 0.0]))])
+        assert similarities == []
+        assert np.isnan(mean)
+
+        similarities, mean = calculate_semantic_similarity([
+            ("a", np.zeros(2)),
+            ("b", np.array([1.0, 0.0])),
+            ("c", np.zeros(2)),
+        ])
+        assert all(np.isnan(value) for value in similarities)
+        assert np.isnan(mean)
+
+        similarities, mean = calculate_semantic_similarity([
+            ("a", np.array([1.0, 0.0])),
+            ("b", np.array([0.0, 1.0])),
+            ("c", np.zeros(2)),
+        ])
+        assert np.isclose(similarities[0], 0.0)
+        assert np.isnan(similarities[1])
+        assert np.isclose(mean, 0.0)
 
 
 def test_sentence_alignment_follows_source_length_not_equal_splits():

@@ -63,7 +63,14 @@ def calculate_semantic_similarity(embedding_vectors):
     # Extract just the vectors from the list of tuples
     vectors = [vector for _, vector in embedding_vectors]
     consecutive_similarities = get_consecutive_vector_similarities(vectors)
-    mean_similarity = np.nanmean(consecutive_similarities)
+    # One token, or every pair involving a zero vector, leaves nothing to average.
+    # np.nanmean warns "Mean of empty slice" on an empty or all-NaN input.
+    finite_similarities = [
+        value for value in consecutive_similarities if not np.isnan(value)
+    ]
+    if not finite_similarities:
+        return consecutive_similarities, np.nan
+    mean_similarity = float(np.mean(finite_similarities))
     return consecutive_similarities, mean_similarity
 
 def get_consecutive_vector_similarities(vectors):
