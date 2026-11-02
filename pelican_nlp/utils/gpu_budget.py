@@ -13,6 +13,9 @@ from pelican_nlp.config import debug_print
 
 DEFAULT_GPU_RESERVE_GB = 2.0
 DEFAULT_CPU_RESERVE_GB = 3.0
+# Kept free under the allocator cap when weights do not fit, so the forward
+# pass has room. Weights used to be packed up to the cap and then OOM.
+DEFAULT_ACTIVATION_RESERVE_GB = 1.5
 MIN_FRACTION = 0.1
 MAX_FRACTION = 0.95
 MIN_GPU_PLACEMENT_BYTES = int(0.5 * (1024 ** 3))
@@ -44,6 +47,11 @@ def gpu_reserve_gb() -> float:
 
 def cpu_reserve_gb() -> float:
     return max(0.0, _env_float("PELICAN_CPU_RESERVE_GB", DEFAULT_CPU_RESERVE_GB))
+
+
+def activation_reserve_gb() -> float:
+    """GPU bytes left unused by weight placement when the whole model does not fit."""
+    return max(0.0, _env_float("PELICAN_GPU_ACTIVATION_RESERVE_GB", DEFAULT_ACTIVATION_RESERVE_GB))
 
 
 def allow_disk_offload() -> bool:
@@ -198,23 +206,30 @@ def hub_max_memory(needed_bytes: int | None = None) -> dict:
     Always fills the GPU up to the budget when CUDA is usable. Layers that do
     not fit go to CPU. The whole model is not forced onto CPU just because it
     is larger than VRAM.
+
+    Values are byte counts. A model that does not fit leaves
+    ``PELICAN_GPU_ACTIVATION_RESERVE_GB`` (default 1.5) under the allocator cap
+    so the forward pass is not packed out of VRAM.
     """
     import psutil
 
     cpu_total = psutil.virtual_memory().total
     cpu_reserve = int(cpu_reserve_gb() * (1024 ** 3))
     cpu_bytes = max(int(1 * (1024 ** 3)), cpu_total - cpu_reserve)
-    mapping: dict = {"cpu": _bytes_to_gib(cpu_bytes)}
+    mapping: dict = {"cpu": cpu_bytes}
 
     gpu_bytes = gpu_limit_bytes()
     if gpu_bytes is not None:
-        mapping[0] = _bytes_to_gib(gpu_bytes)
         if needed_bytes is not None and not gpu_can_hold(needed_bytes):
+            activation = int(activation_reserve_gb() * (1024 ** 3))
+            gpu_bytes = max(MIN_GPU_PLACEMENT_BYTES, gpu_bytes - activation)
             debug_print(
                 f"Model weights (~{needed_bytes / (1024 ** 3):.1f} GiB) exceed the "
-                f"GPU budget ({gpu_bytes / (1024 ** 3):.1f} GiB). Filling the GPU "
-                "and offloading leftover layers to CPU.",
+                f"GPU budget. Placing weights on {gpu_bytes / (1024 ** 3):.1f} GiB "
+                f"and leaving {activation_reserve_gb():.1f} GiB for activations. "
+                "Leftover layers go to CPU.",
             )
+        mapping[0] = int(gpu_bytes)
     if allow_disk_offload():
         mapping["disk"] = os.environ.get("PELICAN_GPU_DISK_OFFLOAD_SIZE", "50GiB")
     return mapping

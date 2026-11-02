@@ -6,7 +6,7 @@ from pelican_nlp.preprocessing.text_cleaner import lowercase, remove_punctuation
 from pelican_nlp.preprocessing import text_cleaner as textcleaner
 from pelican_nlp.utils.csv_functions import store_features_to_csv
 from pelican_nlp.extraction.sectioning import iter_section_groups
-from pelican_nlp.extraction.resources import release_gpu
+from pelican_nlp.extraction.resources import release_gpu, release_stored_embeddings
 from pelican_nlp.extraction.embedding_batching import (
     auto_encoder_batch_size,
     collect_document_jobs,
@@ -24,6 +24,46 @@ from pelican_nlp.extraction.embedding_batching import (
 )
 
 from pelican_nlp.config import debug_print
+
+
+def _last_hidden(outputs):
+    """Last token vectors. Encoders return ``last_hidden_state`` without storing every layer."""
+    hidden_states = getattr(outputs, "hidden_states", None)
+    if hidden_states:
+        return hidden_states[-1]
+    last = getattr(outputs, "last_hidden_state", None)
+    if last is not None:
+        return last
+    raise ValueError(
+        "Model output has neither hidden_states nor last_hidden_state. "
+        f"Available attributes: {dir(outputs)}"
+    )
+
+
+def _truthy_option(value):
+    if value is None:
+        return None
+    if isinstance(value, str):
+        text = value.strip().lower()
+        if text in {"1", "true", "yes", "on"}:
+            return True
+        if text in {"0", "false", "no", "off"}:
+            return False
+        return None
+    return bool(value)
+
+
+def _retain_embeddings(corpus, embedding_options) -> bool:
+    """Keep vectors on the document only when a later step still needs them.
+
+    ``options_embeddings.keep_in_memory`` overrides the default. Topic modeling
+    is the only built-in metric that reads ``document.embeddings``.
+    """
+    flag = _truthy_option(embedding_options.get("keep_in_memory"))
+    if flag is not None:
+        return flag
+    metrics = (getattr(corpus, "config", None) or {}).get("metrics_to_extract") or []
+    return "topic_modeling" in metrics
 
 
 def _embedding_batch_size(embedding_options) -> int:
@@ -197,20 +237,16 @@ class EmbeddingsExtractor:
         mask = torch.ones_like(ids)
         with torch.inference_mode():
             if self.model.kind == MODEL_KIND_CAUSAL_LM:
-                outputs = self.model_instance(input_ids=ids)
+                outputs = self.model_instance(input_ids=ids, output_hidden_states=True)
             else:
                 outputs = self.model_instance(
                     input_ids=ids,
                     attention_mask=mask,
-                    output_hidden_states=True,
                 )
-        if getattr(outputs, "hidden_states", None):
-            hidden = outputs.hidden_states[-1]
-        elif hasattr(outputs, "last_hidden_state"):
-            hidden = outputs.last_hidden_state
-        else:
-            raise ValueError("Model output has neither hidden_states nor last_hidden_state.")
-        return hidden[0].detach().cpu()
+        hidden = _last_hidden(outputs)
+        row = hidden[0].detach().cpu()
+        del outputs, hidden
+        return row
 
     def _pairs_from_stitched(self, token_ids, vectors):
         import torch
@@ -294,15 +330,21 @@ class EmbeddingsExtractor:
                     self.device = torch.device("cpu")
                 with torch.inference_mode():
                     if self.model.kind == MODEL_KIND_CAUSAL_LM:
-                        # Causal LMs (Llama and others) which expect input_ids directly
-                        outputs = self.model_instance(input_ids=inputs['input_ids'])
+                        # Causal LMs do not return token vectors unless asked.
+                        # output_hidden_states keeps only what this call requests;
+                        # use_cache is left off so the KV cache is not stored.
+                        outputs = self.model_instance(
+                            input_ids=inputs['input_ids'],
+                            output_hidden_states=True,
+                            use_cache=False,
+                        )
                     else:
                         # Handle RoBERTa and other models that accept **inputs
                         if isinstance(inputs, dict):
                             # Ensure inputs are on the same device as the model
                             inputs = {k: v.to(self.device) for k, v in inputs.items()}
                             debug_print(f"Model inputs: {inputs}")
-                            outputs = self.model_instance(**inputs, output_hidden_states=True)
+                            outputs = self.model_instance(**inputs)
                         else:
                             debug_print(f"Input type: {type(inputs)}")
                             debug_print(f"Input content: {inputs}")
@@ -313,7 +355,7 @@ class EmbeddingsExtractor:
                                 input_ids = inputs['input_ids'].to(self.device)
                                 attention_mask = inputs['attention_mask'].to(self.device) if 'attention_mask' in inputs else torch.ones_like(input_ids)
                                 debug_print(f"Extracted from BatchEncoding - input_ids: {input_ids.shape}, attention_mask: {attention_mask.shape}")
-                                outputs = self.model_instance(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True)
+                                outputs = self.model_instance(input_ids=input_ids, attention_mask=attention_mask)
                             else:
                                 # If inputs is a list of strings, convert to token IDs first
                                 if isinstance(inputs, list):
@@ -342,7 +384,7 @@ class EmbeddingsExtractor:
                                 # Create attention mask
                                 attention_mask = torch.ones_like(inputs)
                                 debug_print(f"Model inputs - input_ids: {inputs.shape}, attention_mask: {attention_mask.shape}")
-                                outputs = self.model_instance(input_ids=inputs, attention_mask=attention_mask, output_hidden_states=True)
+                                outputs = self.model_instance(input_ids=inputs, attention_mask=attention_mask)
                                 debug_print(f"Model outputs type: {type(outputs)}")
                                 debug_print(f"Model outputs attributes: {dir(outputs)}")
 
@@ -350,18 +392,8 @@ class EmbeddingsExtractor:
                 if outputs is None:
                     raise ValueError("Model returned None output")
                 
-                if hasattr(outputs, 'hidden_states') and outputs.hidden_states is not None:
-                    word_embeddings = outputs.hidden_states[-1]
-                    debug_print(f"Using hidden_states, shape: {word_embeddings.shape}")
-                elif hasattr(outputs, 'last_hidden_state'):
-                    word_embeddings = outputs.last_hidden_state
-                    debug_print(f"Using last_hidden_state, shape: {word_embeddings.shape}")
-                else:
-                    raise ValueError(f"Model output has neither hidden_states nor last_hidden_state. Available attributes: {dir(outputs)}")
-                
-                # Don't modify word_embeddings here - it's a view of the model output
-                # Moving it to CPU at this point can cause segfaults if the model output is still referenced
-                # Instead, we'll convert individual embeddings to CPU when processing them
+                word_embeddings = _last_hidden(outputs).detach().cpu()
+                del outputs
 
                 # Extract input_ids and attention_mask to identify padding tokens
                 if isinstance(inputs, dict):
@@ -709,18 +741,20 @@ class EmbeddingsExtractor:
                 mask_rows.append(torch.ones_like(row))
         padded_ids = torch.nn.utils.rnn.pad_sequence(id_rows, batch_first=True, padding_value=pad_id)
         padded_mask = torch.nn.utils.rnn.pad_sequence(mask_rows, batch_first=True, padding_value=0)
-        outputs = self.model_instance(
-            input_ids=padded_ids,
-            attention_mask=padded_mask,
-            output_hidden_states=True,
-        )
-        if hasattr(outputs, "hidden_states") and outputs.hidden_states is not None:
-            hidden = outputs.hidden_states[-1]
-        elif hasattr(outputs, "last_hidden_state"):
-            hidden = outputs.last_hidden_state
-        else:
-            raise ValueError("Batched encoder output has neither hidden_states nor last_hidden_state.")
-        return [hidden[i : i + 1, :length, :] for i, length in enumerate(lengths)]
+        with torch.inference_mode():
+            outputs = self.model_instance(
+                input_ids=padded_ids,
+                attention_mask=padded_mask,
+            )
+            hidden = _last_hidden(outputs)
+            # Copy the rows off the GPU before the slow Python token loop. A view
+            # would keep the whole padded batch allocated.
+            rows = [
+                hidden[i : i + 1, :length, :].detach().cpu()
+                for i, length in enumerate(lengths)
+            ]
+        del outputs, hidden, padded_ids, padded_mask, id_rows, mask_rows
+        return rows
 
     def _collect_pytorch_token_embeddings(self, inputs, outputs):
         if outputs is None:
@@ -801,6 +835,13 @@ class EmbeddingsExtractor:
         write_opts = _embedding_write_options(corpus, embedding_options)
         debug_print(len(corpus.documents))
         batch_size = self._resolve_encoder_batch_size(corpus, embedding_options, write_opts)
+        if write_opts["retain_embeddings"]:
+            debug_print("Keeping embeddings in memory for a later metric.")
+        else:
+            debug_print(
+                "Embeddings are written to disk and released. "
+                "They are not kept on the documents."
+            )
         if should_window_batch(
             pytorch_based=self.embeddings_configurations["pytorch_based_model"],
             model_kind=self.model.kind,
@@ -811,6 +852,8 @@ class EmbeddingsExtractor:
             )
         else:
             self._process_corpus_sequential(corpus, embedding_options, write_opts)
+        if not write_opts["retain_embeddings"]:
+            release_stored_embeddings(corpus)
         release_gpu(self)
         debug_print("GPU memory cleared after embeddings extraction")
         return
@@ -914,6 +957,9 @@ class EmbeddingsExtractor:
                     _write_section_embeddings(
                         document, corpus, section_parts, embeddings, token_count, write_opts
                     )
+                for job in doc_jobs:
+                    job.embeddings = None
+                    job.text = None
                 tracker.finish_document(document)
 
     def _encode_jobs(self, jobs, embedding_options, batch_size) -> int:
@@ -962,6 +1008,7 @@ def _embedding_write_options(corpus, embedding_options):
         ),
         "keep_speakertags": embedding_options.get("keep_speakertags", False),
         "run_distance": embedding_options.get("distance-from-randomness", False),
+        "retain_embeddings": _retain_embeddings(corpus, embedding_options),
     }
 
 
@@ -973,7 +1020,8 @@ def _write_section_embeddings(
         from pelican_nlp.extraction.word_pooling import pool_subword_embeddings
 
         embeddings = [pool_subword_embeddings(utterance) for utterance in embeddings]
-    document.embeddings.append(embeddings)
+    if write_opts.get("retain_embeddings"):
+        document.embeddings.append(embeddings)
     if corpus.task == "fluency":
         document.fluency_word_count = token_count
     for utterance_idx, utterance in enumerate(embeddings):

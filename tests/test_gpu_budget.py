@@ -32,6 +32,7 @@ def _isolate_gpu_budget(monkeypatch):
         "PELICAN_GPU_DISK_OFFLOAD_SIZE",
         "PELICAN_CPU_RESERVE_GB",
         "PELICAN_CPU_WORKERS",
+        "PELICAN_GPU_ACTIVATION_RESERVE_GB",
     ):
         monkeypatch.delenv(key, raising=False)
     monkeypatch.setattr("torch.cuda.set_per_process_memory_fraction", lambda *a, **k: None)
@@ -55,7 +56,7 @@ def test_hub_max_memory_has_no_disk_by_default(monkeypatch):
     assert "disk" not in mapping
     assert 0 in mapping
     assert "cpu" in mapping
-    assert mapping[0] == "14GiB"
+    assert mapping[0] == 14 * (1024 ** 3)
 
 
 def test_disk_offload_is_opt_in(monkeypatch):
@@ -186,14 +187,15 @@ def test_hub_max_memory_keeps_gpu_when_model_is_larger_than_budget(monkeypatch):
     _fake_cuda(monkeypatch)
     mapping = hub_max_memory(needed_bytes=20 * (1024 ** 3))
     assert 0 in mapping
-    assert mapping[0] == "14GiB"
+    # 2 GiB display reserve, then 1.5 GiB left for the forward pass.
+    assert mapping[0] == int(12.5 * (1024 ** 3))
     assert "cpu" in mapping
 
 
 def test_hub_max_memory_keeps_gpu_for_small_model(monkeypatch):
     _fake_cuda(monkeypatch)
     mapping = hub_max_memory(needed_bytes=1 * (1024 ** 3))
-    assert 0 in mapping
+    assert mapping[0] == 14 * (1024 ** 3)
 
 
 def test_hub_model_load_kwargs_half_still_uses_gpu_for_large_model(monkeypatch):

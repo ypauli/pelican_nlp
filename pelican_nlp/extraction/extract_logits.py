@@ -56,9 +56,9 @@ class LogitsExtractor:
                 on_chunk(i + 1, len(chunks))
 
             with torch.inference_mode():
-
-                outputs = model(input_ids=chunk)
+                outputs = model(input_ids=chunk, use_cache=False)
                 logits = outputs.logits  # Shape: [1, seq_length, vocab_size]
+            del outputs
 
             # Safely convert chunk to list of token IDs, ensuring we don't create 0-d tensor
             # Remove batch dimension if present (chunk should be [1, seq_len] from _split_into_chunks)
@@ -98,6 +98,7 @@ class LogitsExtractor:
             # Append the chunk data to the per_token_data list
             per_token_data.extend(chunk_data)
             total_processed_tokens += len(chunk_data)
+            del logits, chunk
 
         per_token_data = self._remove_trailing_artifact_tokens(per_token_data)
         return per_token_data

@@ -126,7 +126,7 @@ class _Doc:
 
 
 class _Corpus:
-    def __init__(self, documents, batch_size=None):
+    def __init__(self, documents, batch_size=None, keep_in_memory=None, metrics=None):
         self.documents = documents
         self.task = "fluency"
         self.derivatives_dir = "/tmp"
@@ -138,7 +138,13 @@ class _Corpus:
         }
         if batch_size is not None:
             options["batch_size"] = batch_size
-        self.config = {"discourse": False, "options_embeddings": options}
+        if keep_in_memory is not None:
+            options["keep_in_memory"] = keep_in_memory
+        self.config = {
+            "discourse": False,
+            "options_embeddings": options,
+            "metrics_to_extract": list(metrics or []),
+        }
 
 
 def _stub_extractor():
@@ -178,9 +184,44 @@ def test_windowed_process_encodes_two_documents_together(monkeypatch):
     docs = [_Doc("a.txt", "hello"), _Doc("b.txt", "world")]
     extractor.process_corpus(_Corpus(docs))
     assert calls == [(["hello", "world"], 2)]
+    assert docs[0].embeddings == []
+    assert docs[1].embeddings == []
+    assert docs[0].fluency_word_count == 1
+
+
+def test_retain_embeddings_only_for_topic_modeling_or_explicit_flag():
+    from pelican_nlp.extraction.extract_embeddings import _retain_embeddings
+
+    doc = _Doc("a.txt", "hello")
+    later = _Corpus([doc], metrics=["embeddings", "topic_modeling", "logits"])
+    assert _retain_embeddings(later, later.config["options_embeddings"]) is True
+    same_run = _Corpus([doc], metrics=["embeddings", "logits", "perplexity"])
+    assert _retain_embeddings(same_run, same_run.config["options_embeddings"]) is False
+    forced = _Corpus([doc], keep_in_memory=True, metrics=["embeddings", "logits"])
+    assert _retain_embeddings(forced, forced.config["options_embeddings"]) is True
+
+
+def test_keep_in_memory_retains_embeddings_for_later_metrics(monkeypatch):
+    extractor = _stub_extractor()
+
+    def fake_batched(text_list, embedding_options, batch_size):
+        return ([[(text, [1.0])] for text in text_list], [1] * len(text_list))
+
+    extractor._extract_embeddings_encoder_batched = fake_batched
+    extractor._resolve_encoder_batch_size = lambda *args, **kwargs: 2
+    monkeypatch.setattr(
+        "pelican_nlp.extraction.extract_embeddings.store_features_to_csv",
+        lambda *args, **kwargs: None,
+    )
+    monkeypatch.setattr(
+        "pelican_nlp.extraction.extract_embeddings.release_gpu",
+        lambda *args, **kwargs: None,
+    )
+
+    docs = [_Doc("a.txt", "hello"), _Doc("b.txt", "world")]
+    extractor.process_corpus(_Corpus(docs, keep_in_memory=True))
     assert docs[0].embeddings[0][0][0][0] == "hello"
     assert docs[1].embeddings[0][0][0][0] == "world"
-    assert docs[0].fluency_word_count == 1
 
 
 def test_explicit_batch_size_one_stays_sequential(monkeypatch):
