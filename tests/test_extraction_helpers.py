@@ -105,3 +105,60 @@ def test_config_defaults_do_not_mutate_input():
     original = {"task_name": "fluency"}
     apply_config_defaults(original)
     assert "metrics_to_extract" not in original
+
+
+def test_static_embeddings_accept_fasttext_language_names():
+    from types import SimpleNamespace
+
+    from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
+    from pelican_nlp.extraction.model_registry import MODEL_KIND_STATIC
+
+    extractor = EmbeddingsExtractor.__new__(EmbeddingsExtractor)
+    extractor.embeddings_configurations = {"pytorch_based_model": False}
+    extractor.model_name = "fastText-en"
+    extractor.model = SimpleNamespace(kind=MODEL_KIND_STATIC)
+
+    def _vector(token):
+        return [float(len(token)), 0.5]
+
+    extractor.model_instance = SimpleNamespace(get_word_vector=_vector)
+    extractor.Tokenizer = SimpleNamespace(
+        tokenizer=None,
+        tokenize_text=lambda text: text.split(),
+    )
+    rows, count = extractor.extract_embeddings_from_text(
+        ["cat dog"],
+        {"lowercase": False, "remove_punctuation": False},
+    )
+    assert count == 2
+    assert [token for token, _vector in rows[0]] == ["cat", "dog"]
+    assert rows[0][0][1] == [3.0, 0.5]
+
+
+def test_embedding_prep_edits_the_raw_string_once():
+    from pelican_nlp.extraction.extract_embeddings import EmbeddingsExtractor
+
+    extractor = EmbeddingsExtractor.__new__(EmbeddingsExtractor)
+    calls = []
+
+    class _Tokenizer:
+        def tokenize_text(self, text):
+            calls.append(text)
+            return {"input_ids": [[1, 2, 3]]}
+
+        def __call__(self, text, **kwargs):
+            return {"input_ids": [1, 2, 3]}
+
+    extractor.Tokenizer = _Tokenizer()
+    prepared = extractor._text_for_embedding(
+        "Das ist ein Test.",
+        {"lowercase": True, "remove_punctuation": True},
+    )
+    assert prepared == "das ist ein test"
+    assert "<bos>" not in prepared
+    inputs = extractor._prepare_embedding_inputs(
+        "Das ist ein Test.",
+        {"lowercase": True, "remove_punctuation": False},
+    )
+    assert calls == ["das ist ein test."]
+    assert inputs["input_ids"] == [[1, 2, 3]]

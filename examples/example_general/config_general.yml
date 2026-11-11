@@ -90,6 +90,7 @@ options_embeddings:
   model_kind: null                   # null | "encoder" | "causal_lm" | "static"  (auto-detected if omitted)
   pytorch_based_model: false         # true | false  (inferred from model_kind if omitted; true for transformers)
   trust_remote_code: false           # true | false
+  revision: null                     # null | Hub commit. null keeps the current snapshot.
   max_length: 512                    # integer | null  (transformer max sequence length)
   # batch_size: omit to auto-batch encoder models on GPU across documents.
   # Set an integer to override (1 = one text at a time).
@@ -129,6 +130,7 @@ options_logits:
   model_name: "DiscoResearch/Llama3-German-8B-32k"  # causal LM Hugging Face id (not XLM-R / mmBERT)
   model_kind: null                   # null | "causal_lm" | "encoder" | "static"  (auto-detected if omitted)
   trust_remote_code: false           # true | false
+  revision: null                     # null | Hub commit. null keeps the current snapshot.
   keep_speakertags: true             # true | false
   trailing_artifact_token_sequences: # list[list[str]] of tokenizer pieces to strip from the end
     - ["Ġâģ", "¦", "âģ", "©"]

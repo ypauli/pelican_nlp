@@ -112,9 +112,11 @@ class LogitsExtractor:
 
         model_name = self.options["model_name"]
         trust_remote_code = self.options.get("trust_remote_code", False)
+        revision = self.options.get("revision") or None
         model = Model(
             model_name,
             model_kind=self.options.get("model_kind"),
+            revision=revision,
         )
         model.load_model(trust_remote_code=trust_remote_code)
         from pelican_nlp.utils.gpu_budget import input_device_for_model
@@ -130,6 +132,7 @@ class LogitsExtractor:
             self.options["tokenization_method"],
             model_name=self.options["model_name"],
             trust_remote_code=trust_remote_code,
+            revision=revision,
         )
         from pelican_nlp.utils.runtime_metadata import remember_model_revision, revision_from
 

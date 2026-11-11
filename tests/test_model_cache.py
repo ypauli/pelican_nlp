@@ -152,3 +152,10 @@ def test_pelican_run_cwd_still_finds_yaml_only():
     source = inspect.getsource(_run_pipeline)
     assert "Path.cwd()" in source
     assert "chdir" not in source
+
+
+def test_revision_is_forwarded_only_when_set():
+    omitted = huggingface_from_pretrained_kwargs(revision=None, trust_remote_code=False)
+    assert "revision" not in omitted
+    pinned = huggingface_from_pretrained_kwargs(revision="abc123", trust_remote_code=False)
+    assert pinned["revision"] == "abc123"

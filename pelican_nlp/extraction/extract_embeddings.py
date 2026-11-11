@@ -97,10 +97,12 @@ class EmbeddingsExtractor:
         self.embeddings_configurations = embeddings_configurations
         self.model_name = embeddings_configurations['model_name']  # Embedding model instance (e.g., fastText, RoBERTa)
         trust_remote_code = embeddings_configurations.get('trust_remote_code', False)
+        revision = embeddings_configurations.get("revision") or None
         from pelican_nlp.extraction.language_model import Model
         self.model = Model(
             self.model_name,
             model_kind=embeddings_configurations.get('model_kind'),
+            revision=revision,
         )
         # YAML max_length is a batching budget, not a cutoff. Truncation to the
         # model context, and stitching past that, is handled explicitly.
@@ -109,6 +111,7 @@ class EmbeddingsExtractor:
             self.model_name,
             max_length=None,
             trust_remote_code=trust_remote_code,
+            revision=revision,
         )
 
         self.model.load_model(trust_remote_code=trust_remote_code)
@@ -186,11 +189,27 @@ class EmbeddingsExtractor:
             )
             self._warned_budget = True
 
+    def _text_for_embedding(self, text, embedding_options):
+        """Lowercase and strip punctuation on the raw string, before tokenization.
+
+        Doing this on token strings rewrites special tokens such as ``<bos>``
+        and then tokenizes them a second time.
+        """
+        if not isinstance(text, str):
+            return text
+        options = embedding_options or {}
+        if options.get("lowercase", False):
+            text = lowercase(text)
+        if options.get("remove_punctuation", False):
+            text = remove_punctuation(text)
+        return text
+
     def _embeddings_over_context(self, text, embedding_options, observe=True):
         """Return stitched embeddings when ``text`` exceeds the model context.
 
         Responses that only exceed the configured ``max_length`` return None so
         the caller encodes them in one pass. ``max_length`` is not a cutoff.
+        ``text`` must already be the prepared string from ``_text_for_embedding``.
         """
         del embedding_options
         tokenizer = getattr(getattr(self, "Tokenizer", None), "tokenizer", None)
@@ -298,16 +317,17 @@ class EmbeddingsExtractor:
             entries, token_counts = self._extract_embeddings_encoder_batched(
                 text_list, embedding_options, batch_size
             )
-            return entries, (token_counts[-1] if token_counts else 0)
+            return entries, sum(token_counts)
 
         doc_entry_list = []
-        token_count = 0
+        total_tokens = 0
 
         for text in text_list:
+            text = self._text_for_embedding(text, embedding_options)
             chunked = self._embeddings_over_context(text, embedding_options, observe=observe)
             if chunked is not None:
                 doc_entry_list.append(chunked)
-                token_count = len(chunked)
+                total_tokens += len(chunked)
                 continue
 
             embeddings = {}
@@ -546,36 +566,52 @@ class EmbeddingsExtractor:
                     debug_print(f"[extract_embeddings] CRITICAL: Removed {zero_vector_filtered} zero vector token(s) that would cause NaN in window similarity calculations")
 
             else:
-                if self.model_name == 'fastText':
-                    # Clear embeddings list for fastText (it was initialized above)
-                    embeddings = []
-                    zero_vector_filtered = 0
-                    for token in inputs:
-                        embedding = self.model_instance.get_word_vector(token)
-                        # Check for zero vectors in fastText embeddings too
-                        try:
-                            import numpy as np
-                            embedding_np = np.array(embedding)
-                            embedding_norm = np.linalg.norm(embedding_np)
-                            is_zero_vector = embedding_norm < 1e-10
-                        except:
-                            # Fallback check
-                            if isinstance(embedding, (list, tuple)):
-                                embedding_norm = sum(x*x for x in embedding)
-                            else:
-                                embedding_norm = 0.0
-                            is_zero_vector = embedding_norm < 1e-20
-                        
-                        if is_zero_vector:
-                            zero_vector_filtered += 1
-                            debug_print(f"[extract_embeddings] ERROR: Zero vector detected for fastText token '{token}'")
-                            debug_print(f"[extract_embeddings] Filtering out zero vector token '{token}'")
-                            continue
-                        
-                        embeddings.append((token, embedding))
-                    
-                    if zero_vector_filtered > 0:
-                        debug_print(f"[extract_embeddings] CRITICAL: Removed {zero_vector_filtered} zero vector token(s) from fastText embeddings")
+                getter = getattr(self.model_instance, "get_word_vector", None)
+                if getter is None or self.model.kind != MODEL_KIND_STATIC:
+                    raise ValueError(
+                        f"Model '{self.model_name}' is not a PyTorch encoder and has no "
+                        "static word vectors. Use a fastText model (fastText, fastText-en, "
+                        "cc.de.300) with whitespace tokenization, or a transformer with "
+                        "tokenization_method: model."
+                    )
+                if not isinstance(inputs, list) or (inputs and not isinstance(inputs[0], str)):
+                    raise ValueError(
+                        f"Static model '{self.model_name}' expects whitespace tokens, "
+                        f"got {type(inputs).__name__}."
+                    )
+                embeddings = []
+                zero_vector_filtered = 0
+                for token in inputs:
+                    embedding = getter(token)
+                    try:
+                        import numpy as np
+                        embedding_np = np.array(embedding)
+                        embedding_norm = np.linalg.norm(embedding_np)
+                        is_zero_vector = embedding_norm < 1e-10
+                    except Exception:
+                        if isinstance(embedding, (list, tuple)):
+                            embedding_norm = sum(x * x for x in embedding)
+                        else:
+                            embedding_norm = 0.0
+                        is_zero_vector = embedding_norm < 1e-20
+
+                    if is_zero_vector:
+                        zero_vector_filtered += 1
+                        debug_print(
+                            f"[extract_embeddings] ERROR: Zero vector detected for fastText token '{token}'"
+                        )
+                        debug_print(
+                            f"[extract_embeddings] Filtering out zero vector token '{token}'"
+                        )
+                        continue
+
+                    embeddings.append((token, embedding))
+
+                if zero_vector_filtered > 0:
+                    debug_print(
+                        f"[extract_embeddings] CRITICAL: Removed {zero_vector_filtered} "
+                        "zero vector token(s) from fastText embeddings"
+                    )
 
             # Final pass: Remove any remaining zero vectors that might have slipped through
             final_embeddings = []
@@ -609,9 +645,9 @@ class EmbeddingsExtractor:
                 debug_print(f"[extract_embeddings] Final embeddings after all filtering: {len(final_embeddings)}")
             
             doc_entry_list.append(final_embeddings)
-            token_count = _token_count_from_inputs(inputs)
+            total_tokens += _token_count_from_inputs(inputs)
 
-        return doc_entry_list, token_count
+        return doc_entry_list, total_tokens
 
     def _extract_embeddings_encoder_batched(self, text_list, embedding_options, batch_size):
         """One encoder forward per chunk of short texts. Long texts are not truncated."""
@@ -622,7 +658,8 @@ class EmbeddingsExtractor:
         token_counts = [0] * len(text_list)
         short_indexes = []
         budget = self._budget_length()
-        for index, text in enumerate(text_list):
+        for index, raw_text in enumerate(text_list):
+            text = self._text_for_embedding(raw_text, embedding_options)
             chunked = self._embeddings_over_context(text, embedding_options, observe=True)
             if chunked is not None:
                 entries[index] = chunked
@@ -666,41 +703,8 @@ class EmbeddingsExtractor:
         return entries, token_counts
 
     def _prepare_embedding_inputs(self, text, embedding_options):
-        from pelican_nlp.preprocessing.text_tokenizer import TOKENIZATION_WHITESPACE
-
-        inputs = self.Tokenizer.tokenize_text(text)
-        if not (
-            embedding_options.get("lowercase", False)
-            or embedding_options.get("remove_punctuation", False)
-        ):
-            return inputs
-
-        if self.Tokenizer.tokenization_method == TOKENIZATION_WHITESPACE:
-            if embedding_options.get("lowercase", False):
-                inputs = lowercase(inputs)
-            if embedding_options.get("remove_punctuation", False):
-                inputs = remove_punctuation(inputs)
-            return inputs
-
-        token_ids = inputs["input_ids"]
-        if hasattr(token_ids, "tolist"):
-            token_ids = (
-                token_ids[0].tolist() if len(token_ids.shape) > 1 else token_ids.tolist()
-            )
-        elif isinstance(token_ids, (list, tuple)):
-            token_ids = (
-                token_ids[0]
-                if token_ids and isinstance(token_ids[0], (list, tuple))
-                else token_ids
-            )
-        tokens = self.Tokenizer.tokenizer.convert_ids_to_tokens(token_ids)
-        if embedding_options.get("lowercase", False):
-            tokens = lowercase(tokens)
-        if embedding_options.get("remove_punctuation", False):
-            tokens = remove_punctuation(tokens)
-        tokens = [token for token in tokens if token]
-        reconstructed_text = self.Tokenizer.tokenizer.convert_tokens_to_string(tokens)
-        return self.Tokenizer.tokenize_text(reconstructed_text)
+        text = self._text_for_embedding(text, embedding_options)
+        return self.Tokenizer.tokenize_text(text)
 
     def _encoder_last_hidden_batched(self, inputs_list):
         import torch
@@ -918,7 +922,13 @@ class EmbeddingsExtractor:
                         section_parts, embedding_options
                     )
                     _write_section_embeddings(
-                        document, corpus, section_parts, embeddings, token_count, write_opts
+                        document,
+                        corpus,
+                        section_parts,
+                        embeddings,
+                        token_count,
+                        write_opts,
+                        section_key=key,
                     )
                 reporter.advance_item(document.name)
 
@@ -953,9 +963,15 @@ class EmbeddingsExtractor:
                     for part_index, _text in enumerate(section_parts):
                         job = lookup[(key, part_index)]
                         embeddings.append(job.embeddings)
-                        token_count = job.token_count
+                        token_count += job.token_count or 0
                     _write_section_embeddings(
-                        document, corpus, section_parts, embeddings, token_count, write_opts
+                        document,
+                        corpus,
+                        section_parts,
+                        embeddings,
+                        token_count,
+                        write_opts,
+                        section_key=key,
                     )
                 for job in doc_jobs:
                     job.embeddings = None
@@ -1013,7 +1029,7 @@ def _embedding_write_options(corpus, embedding_options):
 
 
 def _write_section_embeddings(
-    document, corpus, section_parts, embeddings, token_count, write_opts
+    document, corpus, section_parts, embeddings, token_count, write_opts, section_key=None
 ):
     embedding_options = write_opts["embedding_options"]
     if embedding_options.get("pool_subwords"):
@@ -1023,7 +1039,7 @@ def _write_section_embeddings(
     if write_opts.get("retain_embeddings"):
         document.embeddings.append(embeddings)
     if corpus.task == "fluency":
-        document.fluency_word_count = token_count
+        document.fluency_word_count = (document.fluency_word_count or 0) + int(token_count or 0)
     for utterance_idx, utterance in enumerate(embeddings):
         source_text_for_sentence_similarity = (
             section_parts[utterance_idx] if utterance_idx < len(section_parts) else None
@@ -1061,6 +1077,8 @@ def _write_section_embeddings(
             corpus.derivatives_dir,
             document,
             metric="embeddings",
+            section_key=section_key,
+            part_index=utterance_idx,
         )
 
 
@@ -1182,22 +1200,18 @@ def _store_semantic_similarity(
 
 
 def _clean_embedding_tokens(utterance, embedding_options, config):
+    pairs = list(utterance.items()) if isinstance(utterance, dict) else list(utterance)
     if not embedding_options.get("clean_embedding_tokens"):
-        return utterance if isinstance(utterance, list) else [(k, v) for k, v in utterance.items()]
+        return pairs
 
-    cleaned_embeddings = []
     model_name = str(config.get("options_embeddings", {}).get("model_name", "")).lower()
-    if isinstance(utterance, dict):
-        for token, embedding in utterance.items():
-            if "xlm-roberta-base" in model_name:
-                cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
-            else:
-                cleaned_token = textcleaner.clean_token_generic(token)
-            if cleaned_token is not None:
-                cleaned_embeddings.append((cleaned_token, embedding))
-    else:
-        for token, embedding in utterance:
+    use_roberta = "xlm-roberta-base" in model_name
+    cleaned_embeddings = []
+    for token, embedding in pairs:
+        if use_roberta:
+            cleaned_token = textcleaner.clean_subword_token_RoBERTa(token)
+        else:
             cleaned_token = textcleaner.clean_token_generic(token)
-            if cleaned_token is not None:
-                cleaned_embeddings.append((cleaned_token, embedding))
+        if cleaned_token is not None:
+            cleaned_embeddings.append((cleaned_token, embedding))
     return cleaned_embeddings

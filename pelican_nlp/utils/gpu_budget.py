@@ -185,6 +185,7 @@ def estimate_pretrained_weight_bytes(
     *,
     trust_remote_code: bool = False,
     bytes_per_param: int = 2,
+    revision: str | None = None,
 ) -> int | None:
     """Best-effort weight size without loading checkpoints. ``None`` if unknown."""
     try:
@@ -193,7 +194,10 @@ def estimate_pretrained_weight_bytes(
 
         config = AutoConfig.from_pretrained(
             model_name,
-            **huggingface_from_pretrained_kwargs(trust_remote_code=trust_remote_code),
+            **huggingface_from_pretrained_kwargs(
+                trust_remote_code=trust_remote_code,
+                revision=revision,
+            ),
         )
     except Exception:
         return None

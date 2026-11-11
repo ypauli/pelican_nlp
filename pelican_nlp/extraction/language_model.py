@@ -15,19 +15,52 @@ from pelican_nlp.utils.gpu_budget import (
 from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs, load_static_model
 from pelican_nlp.extraction.model_registry import (
     MODEL_KIND_CAUSAL_LM,
+    MODEL_KIND_ENCODER,
     MODEL_KIND_STATIC,
     resolve_model_kind,
 )
 
+# Buffers that are rebuilt at load time. They are not pretrained weights.
+_BENIGN_MISSING_SUFFIXES = ("inv_freq", "position_ids")
+# The matrix a checkpoint may store only on a tied language-model head.
+_EMBEDDING_WEIGHT_MARKERS = (
+    "tok_embeddings.weight",
+    "word_embeddings.weight",
+    "embed_tokens.weight",
+    "wte.weight",
+)
+
+
+def serious_missing_keys(missing_keys):
+    """Checkpoint parameters that were left at their random initialization."""
+    return [
+        key
+        for key in (missing_keys or [])
+        if not str(key).endswith(_BENIGN_MISSING_SUFFIXES)
+    ]
+
+
+def missing_embedding_keys(missing_keys):
+    """Embedding matrices missing because a tied copy lived only on the LM head.
+
+    Any other missing parameter is returned as an empty list so the caller
+    refuses the load instead of treating it as this one recoverable case.
+    """
+    missing = serious_missing_keys(missing_keys)
+    if missing and all(any(marker in key for marker in _EMBEDDING_WEIGHT_MARKERS) for key in missing):
+        return missing
+    return []
+
 
 class Model:
-    def __init__(self, model_name, model_kind=None):
+    def __init__(self, model_name, model_kind=None, revision=None):
         self.model_name = model_name
         self.model_instance = None
         self.device_map = None
         self.kind = None
         self._requested_kind = model_kind
         self._needed_bytes = None
+        self.revision = revision or None
 
     def load_model(self, empty_weights=False, trust_remote_code=False, model_kind=None):
         """Loads and configures the model"""
@@ -36,6 +69,7 @@ class Model:
             self.model_name,
             explicit_kind=requested_kind,
             trust_remote_code=trust_remote_code,
+            revision=self.revision,
         )
 
         if self.kind == MODEL_KIND_STATIC:
@@ -77,6 +111,7 @@ class Model:
             kwargs = huggingface_from_pretrained_kwargs(
                 trust_remote_code=trust_remote_code,
                 use_safetensors=True,
+                revision=self.revision,
             )
             with init_empty_weights():
                 return model_cls.from_pretrained(self.model_name, **kwargs)
@@ -87,6 +122,7 @@ class Model:
             use_safetensors=True,
             needed_bytes=needed_bytes,
             use_half=use_half,
+            revision=self.revision,
         )
         dtype = kwargs.get("torch_dtype", "default")
         device_map = kwargs.get("device_map", "none")
@@ -100,16 +136,116 @@ class Model:
         import time
 
         started = time.monotonic()
-        model = model_cls.from_pretrained(self.model_name, **kwargs)
+        if self.kind == MODEL_KIND_ENCODER and self._config_ties_masked_embeddings(kwargs):
+            # The token matrix is stored once, on the masked-LM head. Loading the
+            # encoder alone initializes that matrix randomly.
+            model = self._encoder_from_masked_lm(kwargs)
+            self._reject_unloaded_embeddings(model)
+        else:
+            model, info = self._call_from_pretrained(model_cls, kwargs)
+            if self.kind == MODEL_KIND_ENCODER:
+                model = self._require_pretrained_encoder(model, info, kwargs)
         reporter.status(
             f"Loaded {self.model_name} in {time.monotonic() - started:.0f}s."
         )
         return model
 
+    def _config_ties_masked_embeddings(self, kwargs) -> bool:
+        """True when this checkpoint is a masked LM with tied input embeddings."""
+        from transformers import AutoConfig
+
+        from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs
+
+        try:
+            config = AutoConfig.from_pretrained(
+                self.model_name,
+                **huggingface_from_pretrained_kwargs(
+                    trust_remote_code=kwargs.get("trust_remote_code", False),
+                    revision=self.revision,
+                ),
+            )
+        except OSError:
+            return False
+        architectures = [str(name) for name in (getattr(config, "architectures", None) or [])]
+        tied = getattr(config, "tie_word_embeddings", True)
+        return bool(tied) and any("MaskedLM" in name for name in architectures)
+
+    def _call_from_pretrained(self, model_cls, kwargs):
+        """Load weights and report which checkpoint tensors were not applied."""
+        load_kwargs = dict(kwargs)
+        load_kwargs["output_loading_info"] = True
+        try:
+            return model_cls.from_pretrained(self.model_name, **load_kwargs)
+        except OSError as exc:
+            # A checkpoint that only has pytorch_model.bin cannot satisfy
+            # use_safetensors=True. The bin file is a valid load.
+            if load_kwargs.get("use_safetensors") is False or "safetensors" not in str(exc).lower():
+                raise
+            load_kwargs["use_safetensors"] = False
+            return model_cls.from_pretrained(self.model_name, **load_kwargs)
+
+    def _require_pretrained_encoder(self, model, info, kwargs):
+        """Keep a load only when the encoder weights came from the checkpoint.
+
+        Masked-LM checkpoints often store the tied token matrix once, on the
+        decoder head. ``AutoModel`` then leaves ``tok_embeddings`` at its
+        random initialization and only logs the missing key. Load the full
+        masked LM so the tie is applied, and refuse to continue if the matrix
+        is still absent.
+        """
+        missing = serious_missing_keys((info or {}).get("missing_keys"))
+        recoverable = missing_embedding_keys(missing)
+        if missing and not recoverable:
+            raise RuntimeError(
+                f"Checkpoint for '{self.model_name}' is missing encoder weights "
+                f"{missing}. Refusing to continue with randomly initialized parameters."
+            )
+        if recoverable:
+            del model
+            model = self._encoder_from_masked_lm(kwargs)
+        self._reject_unloaded_embeddings(model)
+        return model
+
+    def _encoder_from_masked_lm(self, kwargs):
+        """Load the masked LM without ``device_map`` and return its encoder.
+
+        ``device_map`` forces ``low_cpu_mem_usage=True``, which leaves a tied
+        embedding on the meta device. Loading on CPU first materializes the
+        pretrained matrix; placement happens afterwards.
+        """
+        from transformers import AutoModelForMaskedLM
+
+        recover = dict(kwargs)
+        recover.pop("device_map", None)
+        recover.pop("max_memory", None)
+        recover["low_cpu_mem_usage"] = False
+        masked, info = self._call_from_pretrained(AutoModelForMaskedLM, recover)
+        still_missing = missing_embedding_keys(serious_missing_keys((info or {}).get("missing_keys")))
+        if still_missing:
+            raise RuntimeError(
+                f"Checkpoint for '{self.model_name}' is missing token embeddings "
+                f"{still_missing}. Refusing to continue with randomly initialized parameters."
+            )
+        encoder = getattr(masked, "base_model", masked)
+        return encoder
+
+    def _reject_unloaded_embeddings(self, model):
+        embeddings = model.get_input_embeddings() if hasattr(model, "get_input_embeddings") else None
+        weight = None if embeddings is None else getattr(embeddings, "weight", None)
+        unloaded = weight is None or getattr(weight, "is_meta", False) or str(getattr(weight, "device", "")) == "meta"
+        if unloaded:
+            raise RuntimeError(
+                f"Token embeddings for '{self.model_name}' were not loaded from the checkpoint. "
+                "Refusing to continue with randomly initialized parameters."
+            )
+
     def _placement_for_load(self, trust_remote_code=False):
         """Choose fp16 vs fp32. Oversized models still use the GPU up to the budget."""
         fp16_bytes = estimate_pretrained_weight_bytes(
-            self.model_name, trust_remote_code=trust_remote_code, bytes_per_param=2
+            self.model_name,
+            trust_remote_code=trust_remote_code,
+            bytes_per_param=2,
+            revision=self.revision,
         )
         fp32_bytes = None if fp16_bytes is None else fp16_bytes * 2
         if fp16_bytes is None and self.kind == MODEL_KIND_CAUSAL_LM:

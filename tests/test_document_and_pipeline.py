@@ -82,6 +82,67 @@ def test_pipeline_tokenize_whitespace_does_not_crash(tmp_path):
     assert document.tokens_embeddings[0] == ["one", "two", "three"]
 
 
+def test_repeated_section_titles_are_kept_in_order(tmp_path):
+    import warnings
+
+    from pelican_nlp.preprocessing.section_identificator import SectionIdentificator
+
+    text = "Bild: one\nalpha\nBild: one\nbeta\n"
+    identificator = SectionIdentificator(
+        {
+            "has_multiple_sections": True,
+            "has_section_titles": True,
+            "section_identification": "Bild:",
+            "number_of_sections": None,
+            "task": "imgdesc",
+        }
+    )
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        sections = identificator.identify_sections(text)
+    assert list(sections) == ["Bild: one", "Bild: one (2)"]
+    assert sections["Bild: one"] == "alpha"
+    assert sections["Bild: one (2)"] == "beta"
+
+
+def test_preamble_and_unmatched_document_are_kept():
+    import warnings
+
+    from pelican_nlp.preprocessing.section_identificator import SectionIdentificator
+
+    identificator = SectionIdentificator(
+        {
+            "has_multiple_sections": True,
+            "section_identification": "Bild:",
+            "number_of_sections": None,
+            "task": "imgdesc",
+        }
+    )
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        kept = identificator.identify_sections("intro line\nBild: park\ntrees\n")
+    assert list(kept) == ["preamble", "Bild: park"]
+    assert kept["preamble"] == "intro line"
+    assert kept["Bild: park"] == "trees"
+
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("always")
+        whole = identificator.identify_sections("no header here\n")
+    assert whole == {"untitled section": "no header here"}
+
+
+def test_roberta_cleaner_runs_on_embedding_pairs():
+    from pelican_nlp.extraction.extract_embeddings import _clean_embedding_tokens
+
+    cleaned = _clean_embedding_tokens(
+        [("▁Katze", [0.25, 0.5]), ("42", [1.0, 1.0])],
+        {"clean_embedding_tokens": True},
+        {"options_embeddings": {"model_name": "xlm-roberta-base"}},
+    )
+    assert [token for token, _vector in cleaned] == ["Katze"]
+    assert cleaned[0][1] == [0.25, 0.5]
+
+
 def test_load_config_applies_defaults(tmp_path):
     config_path = tmp_path / "config.yml"
     config_path.write_text("task_name: fluency\ninput_file: text\n", encoding="utf-8")

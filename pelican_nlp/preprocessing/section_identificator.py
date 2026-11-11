@@ -5,6 +5,7 @@ The SectionIdentificator class handles different types of section identification
 
 from collections import defaultdict, OrderedDict
 import re
+import warnings
 
 
 class SectionIdentificator:
@@ -64,30 +65,67 @@ class SectionIdentificator:
         
         # Handle documents with sections
         sections = {}
+        used_titles = set()
         current_title, current_content = None, []
-        section_titles = []
+        preamble = []
         section_pattern = re.compile(
             rf"^\s*(?:(?:\d+\.|(?:[IVX]+\.)|(?:[a-z]\)\.?)|(?:[A-Z]\)\.?)|(?:\d+\)\.?))\s*)?{re.escape(self.section_identifier)}")
         for line in lines:
             if section_pattern.match(line):
                 if current_title:
-                    sections[current_title] = "\n".join(current_content).strip()
-                
+                    self._store_section(sections, used_titles, current_title, current_content)
+                elif preamble:
+                    self._store_preamble(sections, used_titles, preamble)
+                    preamble = []
                 current_title = line.strip()
-                section_titles.append(current_title)
                 current_content = []
+            elif current_title:
+                current_content.append(line)
             else:
-                if current_title:
-                    current_content.append(line)
-        
+                preamble.append(line)
+
         if current_title:
-            sections[current_title] = "\n".join(current_content).strip()
-        
+            self._store_section(sections, used_titles, current_title, current_content)
+
+        if not sections:
+            body = raw_text.strip()
+            if body and self.number_of_sections is None:
+                warnings.warn(
+                    "No section headers matched. The whole document is embedded as one section.",
+                    stacklevel=2,
+                )
+                sections["untitled section"] = body
+
         # Validate number of sections if specified
         if self.number_of_sections is not None and len(sections) != self.number_of_sections:
             raise ValueError(f"Incorrect number of sections detected. Expected {self.number_of_sections}, got {len(sections)}.")
-        
+
         return sections
+
+    def _store_preamble(self, sections, used_titles, preamble):
+        body = "\n".join(preamble).strip()
+        if not body:
+            return
+        warnings.warn(
+            "Text before the first section header is kept as its own section.",
+            stacklevel=3,
+        )
+        self._store_section(sections, used_titles, "preamble", preamble)
+
+    def _store_section(self, sections, used_titles, title, content_lines):
+        body = "\n".join(content_lines).strip()
+        key = title
+        if key in used_titles:
+            index = 2
+            while f"{title} ({index})" in used_titles:
+                index += 1
+            key = f"{title} ({index})"
+            warnings.warn(
+                f"Repeated section title {title!r} is stored as {key!r}.",
+                stacklevel=3,
+            )
+        used_titles.add(key)
+        sections[key] = body
     
     def _identify_segments(self, lines, protocol=None, cutoff=1):
         """Identify segments in discourse tasks.

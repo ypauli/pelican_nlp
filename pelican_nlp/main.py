@@ -124,6 +124,7 @@ class Pelican:
             raise ValueError("config_path must be provided unless running in test_mode.")
 
         self.config = load_config(config_path)
+        self.skip_existing = bool(self.config.get("skip_existing", True))
         self.project_path = Path(config_path).resolve().parent
         self.path_to_participants = self.project_path / 'participants'
         self.output_directory = self.project_path / 'derivatives'
@@ -147,8 +148,11 @@ class Pelican:
         from pelican_nlp.extraction.long_responses import clear_embedding_stats
         from pelican_nlp.utils.runtime_metadata import clear_model_revisions
 
+        from pelican_nlp.utils.csv_functions import reset_output_sessions
+
         clear_embedding_stats()
         clear_model_revisions()
+        reset_output_sessions()
         self._clear_gpu_memory()
 
         # Only handle/remove output directory in the first (audio/text) phase.
@@ -297,17 +301,22 @@ class Pelican:
             self.skip_existing = False
             return
 
-        # If skip_existing is True, never delete the directory
+        if self.dev_mode:
+            remove_previous_derivative_dir(self.output_directory)
+            self.skip_existing = False
+            return
+
+        # Kept directories still replace each metric file on its first write
+        # this run. skip_existing only skips audio transcriptions.
         if self.skip_existing:
             debug_print("skip_existing is True - preserving existing files in output directory.")
             return
-        
-        if self.dev_mode:
-            remove_previous_derivative_dir(self.output_directory)
-        elif self.output_directory.exists():
+
+        if self.output_directory.exists():
             should_continue = self._prompt_for_continuation()
-            if not should_continue:
-                # User chose "no" - set flag to skip existing files
+            if should_continue:
+                remove_previous_derivative_dir(self.output_directory)
+            else:
                 self.skip_existing = True
                 get_reporter(self).warn("Will skip files that are already transcribed.")
 

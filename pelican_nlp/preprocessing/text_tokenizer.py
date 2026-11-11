@@ -68,11 +68,12 @@ def model_encode_kwargs(tokenizer, max_length=None):
 
 
 class TextTokenizer:
-    def __init__(self, method, model_name=None, max_length=None, trust_remote_code=False):
+    def __init__(self, method, model_name=None, max_length=None, trust_remote_code=False, revision=None):
         self.tokenization_method = normalize_tokenization_method(method)
         self.model_name = model_name
         self.max_sequence_length = max_length
         self.trust_remote_code = trust_remote_code
+        self.revision = revision or None
 
         self.tokenizer = self.get_tokenizer()
 
@@ -104,6 +105,7 @@ class TextTokenizer:
                 **huggingface_from_pretrained_kwargs(
                     trust_remote_code=self.trust_remote_code,
                     use_safetensors=True,
+                    revision=self.revision,
                 ),
             )
         return None

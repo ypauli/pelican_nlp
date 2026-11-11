@@ -19,6 +19,18 @@ def test_overrides_cover_existing_and_mmbert_names():
     assert resolve_model_kind("jhu-clsp/mmBERT-base") == MODEL_KIND_ENCODER
 
 
+def test_missing_embedding_keys_are_the_tied_matrix_only():
+    from pelican_nlp.extraction.language_model import missing_embedding_keys, serious_missing_keys
+
+    tied = ["model.embeddings.tok_embeddings.weight"]
+    assert missing_embedding_keys(tied) == tied
+    assert serious_missing_keys(["embeddings.position_ids", "layers.0.inv_freq"]) == []
+    assert missing_embedding_keys(["layers.0.attn.weight"]) == []
+    assert missing_embedding_keys(
+        ["model.embeddings.tok_embeddings.weight", "layers.0.attn.weight"]
+    ) == []
+
+
 def test_explicit_kind_wins_over_override():
     assert resolve_model_kind("xlm-roberta-base", explicit_kind="causal_lm") == MODEL_KIND_CAUSAL_LM
 

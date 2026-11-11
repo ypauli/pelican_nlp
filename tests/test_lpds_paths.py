@@ -39,6 +39,14 @@ def test_image_description_keeps_session_then_task():
     assert relative == Path("part-01") / "ses-01" / "task-imgdesc"
 
 
+def test_suffix_is_stripped_only_from_the_end():
+    collided = csv_output_filename("part-01_text_task-fluency.txt", "embeddings")
+    plain = csv_output_filename("part-01_task-fluency_text.txt", "embeddings")
+    assert plain == "part-01_task-fluency_embeddings.csv"
+    assert collided == "part-01_text_task-fluency_embeddings.csv"
+    assert collided != plain
+
+
 def test_collection_file_has_no_extra_path_segments():
     relative = derivatives_subdir("stories", "hansel.txt")
     assert relative == Path("stories")

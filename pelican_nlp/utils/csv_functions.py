@@ -3,7 +3,39 @@ import csv
 from pelican_nlp.config import debug_print
 from .lpds_paths import derivatives_output_path, document_entities, unit_folder_for_document
 
-def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
+_STARTED_OUTPUTS = set()
+_EMBEDDING_IDENTITY = ("section_key", "part_index", "token_index")
+
+
+def reset_output_sessions():
+    """Forget which derivative files this process has already replaced."""
+    _STARTED_OUTPUTS.clear()
+
+
+def _session_state(path):
+    """Return ``(key, mode, continued)`` without recording the write.
+
+    The first write of a path in this run replaces any file left earlier.
+    Later writes append. Call ``_commit_output`` only once the write has a
+    real header, so an empty section cannot freeze the column layout.
+    """
+    key = os.path.abspath(path)
+    continued = key in _STARTED_OUTPUTS
+    return key, ("a" if continued else "w"), continued
+
+
+def _commit_output(key):
+    _STARTED_OUTPUTS.add(key)
+
+
+def store_features_to_csv(
+    input_data,
+    derivatives_dir,
+    doc_class,
+    metric,
+    section_key=None,
+    part_index=None,
+):
     """Store various types of features to CSV files with consistent formatting."""
 
     unit_folder = unit_folder_for_document(doc_class)
@@ -12,31 +44,40 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
         derivatives_dir, unit_folder, doc_class.name, metric, entities
     )
     debug_print(output_filepath)
-    file_exists = os.path.exists(output_filepath)
-    
+    output_key, mode, file_exists = _session_state(output_filepath)
+    if metric == "embeddings":
+        if input_data is None:
+            input_data = []
+        if not isinstance(input_data, list):
+            raise ValueError("Input data for embeddings must be a list (can be empty).")
+        if not input_data and not file_exists:
+            # Dimensions are still unknown. Truncate a previous run, but do not
+            # start this one until a row supplies the embedding width.
+            with open(output_filepath, mode="w", newline="", encoding="utf-8"):
+                pass
+            return output_filepath
+
+    if metric != "embeddings":
+        _commit_output(output_key)
+
     # Write data based on metric type
-    with open(output_filepath, mode='a', newline='', encoding='utf-8') as file:
+    with open(output_filepath, mode=mode, newline='', encoding='utf-8') as file:
         detail_metrics = metric.startswith('semantic-similarity-window-details-') or metric == 'semantic-similarity-sentence-details'
         writer = csv.writer(file, quoting=csv.QUOTE_ALL if detail_metrics else csv.QUOTE_MINIMAL)
         
         if metric == 'embeddings':
-            if input_data is None:
-                input_data = []
-            if not isinstance(input_data, list):
-                raise ValueError("Input data for embeddings must be a list (can be empty).")
-
             if input_data:
-                # Get the dimensionality from the first embedding
                 embedding_dim = len(input_data[0][1])
-                header = ['Token'] + [f"Dim_{i}" for i in range(embedding_dim)]
-            elif file_exists:
-                header = _get_existing_embeddings_header(output_filepath)
-            else:
-                # Fallback header when first section is empty
-                header = ['Token']
-            _write_csv_header(writer, header, file_exists)
-            
-            for token, embedding in input_data:
+                header = list(_EMBEDDING_IDENTITY) + ['Token'] + [
+                    f"Dim_{i}" for i in range(embedding_dim)
+                ]
+                if not file_exists:
+                    writer.writerow(header)
+            _commit_output(output_key)
+
+            section_label = "" if section_key is None else section_key
+            part_label = 0 if part_index is None else part_index
+            for token_index, (token, embedding) in enumerate(input_data):
                 # Handle both list and tensor/array types
                 if hasattr(embedding, 'tolist'):
                     embedding_list = embedding.tolist()
@@ -44,7 +85,9 @@ def store_features_to_csv(input_data, derivatives_dir, doc_class, metric):
                     embedding_list = embedding
                 else:
                     raise ValueError(f"Embedding must be either a list or have tolist() method, got {type(embedding)}")
-                writer.writerow([token] + embedding_list)
+                writer.writerow(
+                    [section_label, part_label, token_index, token] + embedding_list
+                )
 
         elif metric == 'cosine-similarity-matrix':
             _write_csv_header(writer, ['Matrix'], file_exists)
@@ -258,7 +301,7 @@ def _get_existing_embeddings_header(output_filepath):
             continue
         if len(row) == 1 and row[0] == 'New Section':
             continue
-        if row[0] == 'Token':
+        if row[0] == 'Token' or (len(row) > 3 and row[0] == 'section_key' and row[3] == 'Token'):
             return row
 
     return ['Token']

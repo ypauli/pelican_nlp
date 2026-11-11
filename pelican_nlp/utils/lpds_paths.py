@@ -90,8 +90,9 @@ def csv_output_filename(filename, metric, entities=None):
     base_filename = Path(filename).stem
     has_lpds_keys = any(key not in ("extension", "suffix") for key in entities)
     suffix = entities.get("suffix")
-    if has_lpds_keys and suffix:
-        base_filename = base_filename.replace(f"_{suffix}", "")
+    trailing = f"_{suffix}" if suffix else ""
+    if has_lpds_keys and trailing and base_filename.endswith(trailing):
+        base_filename = base_filename[: -len(trailing)]
     return f"{base_filename}_{metric}.csv"
 
 

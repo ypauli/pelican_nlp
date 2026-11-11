@@ -137,14 +137,17 @@ def infer_kind_from_hf_config(config: Any) -> Optional[str]:
     return None
 
 
-def _load_hf_config(model_name: str, trust_remote_code: bool = False):
+def _load_hf_config(model_name: str, trust_remote_code: bool = False, revision: Optional[str] = None):
     from transformers import AutoConfig
 
     from pelican_nlp.utils.model_cache import huggingface_from_pretrained_kwargs
 
     return AutoConfig.from_pretrained(
         model_name,
-        **huggingface_from_pretrained_kwargs(trust_remote_code=trust_remote_code),
+        **huggingface_from_pretrained_kwargs(
+            trust_remote_code=trust_remote_code,
+            revision=revision,
+        ),
     )
 
 
@@ -153,6 +156,7 @@ def resolve_model_kind(
     explicit_kind: Optional[str] = None,
     trust_remote_code: bool = False,
     hf_config: Any = None,
+    revision: Optional[str] = None,
 ) -> str:
     """Return ``static``, ``encoder``, or ``causal_lm`` for ``model_name``.
 
@@ -177,7 +181,7 @@ def resolve_model_kind(
         return MODEL_KIND_STATIC
 
     config = hf_config if hf_config is not None else _load_hf_config(
-        model_name, trust_remote_code=trust_remote_code
+        model_name, trust_remote_code=trust_remote_code, revision=revision
     )
     inferred = infer_kind_from_hf_config(config)
     if inferred is not None:

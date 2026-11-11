@@ -55,6 +55,42 @@ def test_plain_tokens_stay_separate_words():
     assert [token for token, _ in pooled] == ["Ich", "sehe"]
 
 
+def test_sentencepiece_unmarked_piece_continues_the_word():
+    pooled = pool_subword_embeddings([
+        ("▁ti", [1.0, 0.0]),
+        ("ere", [3.0, 0.0]),
+    ])
+    assert [token for token, _ in pooled] == ["tiere"]
+    assert list(pooled[0][1]) == [2.0, 0.0]
+
+    pooled = pool_subword_embeddings([
+        ("▁peli", [0.0, 1.0]),
+        ("kan", [0.0, 3.0]),
+    ])
+    assert [token for token, _ in pooled] == ["pelikan"]
+    assert list(pooled[0][1]) == [0.0, 2.0]
+
+
+def test_byte_level_bpe_unmarked_piece_continues_the_word():
+    pooled = pool_subword_embeddings([
+        ("Ġplay", [1.0, 0.0]),
+        ("ing", [3.0, 0.0]),
+    ])
+    assert [token for token, _ in pooled] == ["playing"]
+    assert list(pooled[0][1]) == [2.0, 0.0]
+
+
+def test_unmarked_word_after_wordpiece_starts_a_new_word():
+    pooled = pool_subword_embeddings([
+        ("play", [1.0, 0.0]),
+        ("##ing", [3.0, 0.0]),
+        ("football", [0.0, 4.0]),
+    ])
+    assert [token for token, _ in pooled] == ["playing", "football"]
+    assert list(pooled[0][1]) == [2.0, 0.0]
+    assert list(pooled[1][1]) == [0.0, 4.0]
+
+
 def test_tokens_to_text_spaces_words_and_glues_subwords():
     assert tokens_to_text(["Ich", "sehe"]) == "Ich sehe"
     assert tokens_to_text(["▁Ich", "▁sehe", "."]) == "Ich sehe."
