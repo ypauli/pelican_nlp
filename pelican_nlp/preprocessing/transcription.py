@@ -49,7 +49,16 @@ def normalize_language(language) -> str | None:
     return cleaned
 
 
+def _mps_is_available() -> bool:
+    return bool(hasattr(torch.backends, "mps") and torch.backends.mps.is_available())
+
+
 def _clear_cuda():
+    """Collect cyclic garbage and release cached CUDA or Apple MPS memory.
+
+    Parking a model on CPU frees its device blocks, but the MPS caching
+    allocator keeps them in unified memory until ``empty_cache`` runs.
+    """
     import gc
 
     gc.collect()
@@ -61,6 +70,14 @@ def _clear_cuda():
             pass
         gc.collect()
         torch.cuda.empty_cache()
+    elif _mps_is_available():
+        torch.mps.empty_cache()
+        try:
+            torch.mps.synchronize()
+        except Exception:
+            pass
+        gc.collect()
+        torch.mps.empty_cache()
 
 
 def _park_model(obj):
@@ -75,17 +92,43 @@ def _restore_model(obj):
         obj.restore_to_device()
 
 
+def _is_accelerator_oom(exc: BaseException) -> bool:
+    """True for a CUDA or MPS allocation failure.
+
+    ``torch.cuda.OutOfMemoryError`` is ``torch.OutOfMemoryError``, which is
+    what current PyTorch raises for both devices. Older MPS builds raise a
+    plain ``RuntimeError`` whose text names the MPS backend.
+    """
+    if isinstance(exc, torch.cuda.OutOfMemoryError):
+        return True
+    if not isinstance(exc, RuntimeError):
+        return False
+    text = str(exc).lower()
+    return "out of memory" in text and "mps" in text
+
+
 def _asr_torch_dtype(model_name, device):
-    """Use float16 only when CUDA cannot hold fp32 weights plus ASR working memory."""
-    if getattr(device, "type", None) != "cuda":
+    """Use float16 when CUDA or MPS cannot hold fp32 weights plus ASR working memory.
+
+    Word-level timestamps need a second working set about as large as the
+    weights. Float32 is kept when that pair fits. An unknown size stays
+    float32; a later out-of-memory error still switches.
+    """
+    kind = getattr(device, "type", None)
+    if kind not in {"cuda", "mps"}:
         return None
-    from pelican_nlp.utils.gpu_budget import estimate_pretrained_weight_bytes, gpu_can_hold
+    from pelican_nlp.utils.gpu_budget import (
+        estimate_pretrained_weight_bytes,
+        gpu_can_hold,
+        mps_can_hold,
+    )
 
     fp32_bytes = estimate_pretrained_weight_bytes(model_name, bytes_per_param=4)
     if fp32_bytes is None:
         return None
-    # Word-level timestamps need working memory on the order of the weights.
-    if gpu_can_hold(fp32_bytes * 2):
+    needed = fp32_bytes * 2
+    fits = gpu_can_hold(needed) if kind == "cuda" else mps_can_hold(needed)
+    if fits:
         return None
     return torch.float16
 
@@ -248,10 +291,10 @@ class AudioTranscriber:
         self.language = normalize_language(language)
         self.extra_generate_kwargs = dict(generate_kwargs or {})
         self._generate_kwargs_disabled = False
-        self._torch_dtype = _asr_torch_dtype(model, self.device)
+        self._torch_dtype = _asr_torch_dtype(self.model, self.device)
         if self._torch_dtype == torch.float16:
             active_reporter().status(
-                f"{model} fp32 weights do not fit the GPU budget; loading float16."
+                f"{self.model} fp32 weights do not fit the device budget; loading float16."
             )
         self.transcriber = self._build_pipeline()
         dtype_note = " (float16)" if self._torch_dtype == torch.float16 else ""
@@ -294,7 +337,7 @@ class AudioTranscriber:
         """Switch an fp32 ASR pipeline to float16. Keep ``self.transcriber`` assigned."""
         if self._torch_dtype == torch.float16:
             return False
-        if getattr(self.device, "type", None) != "cuda":
+        if getattr(self.device, "type", None) not in {"cuda", "mps"}:
             return False
 
         active_reporter().status(
@@ -390,12 +433,20 @@ class AudioTranscriber:
             asr_kwargs["chunk_length_s"] = 30
         try:
             return self._invoke_asr(wav_bytes, asr_kwargs)
-        except torch.cuda.OutOfMemoryError:
+        except ValueError as exc:
+            if not self._disable_generate_kwargs(exc):
+                raise
+            return self._invoke_asr(wav_bytes, asr_kwargs)
+        except Exception as exc:
+            if not _is_accelerator_oom(exc):
+                raise
             _clear_cuda()
             asr_kwargs["chunk_length_s"] = 30
             try:
                 return self._invoke_asr(wav_bytes, asr_kwargs)
-            except torch.cuda.OutOfMemoryError:
+            except Exception as retry_exc:
+                if not _is_accelerator_oom(retry_exc):
+                    raise
                 _clear_cuda()
                 if not self._ensure_float16():
                     raise
@@ -403,10 +454,6 @@ class AudioTranscriber:
                     raise
                 asr_kwargs["chunk_length_s"] = 15
                 return self._invoke_asr(wav_bytes, asr_kwargs)
-        except ValueError as exc:
-            if not self._disable_generate_kwargs(exc):
-                raise
-            return self._invoke_asr(wav_bytes, asr_kwargs)
 
     @staticmethod
     def _infer_uniform_word_timings(text: str, chunk_start: float, chunk_duration: float):
@@ -526,6 +573,8 @@ class AudioTranscriber:
             finally:
                 if torch.cuda.is_available():
                     torch.cuda.empty_cache()
+                elif _mps_is_available():
+                    torch.mps.empty_cache()
 
         audio_file.register_model("Transcription", {
             "model": self.model,
@@ -962,6 +1011,8 @@ def process_single_audio_file(audio_file,
         transcriber.park_on_cpu()
     elif torch.cuda.is_available():
         torch.cuda.empty_cache()
+    elif _mps_is_available():
+        torch.mps.empty_cache()
 
     reporter.set_postfix("align")
     if created_aligner:
@@ -1058,12 +1109,27 @@ def release_transcription_models(transcriber=None, aligner=None, diarizer=None):
         del diarizer
     except Exception:
         pass
+    import gc
+
+    # Deleted weights can remain in the caching allocator until the next
+    # empty_cache. Collect first, then release again after that collection.
+    gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
         torch.cuda.synchronize()
         debug_print("GPU memory cleared after transcription")
-    import gc
+    elif _mps_is_available():
+        try:
+            torch.mps.synchronize()
+        except Exception:
+            pass
+        torch.mps.empty_cache()
+        debug_print("GPU memory cleared after transcription")
     gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    elif _mps_is_available():
+        torch.mps.empty_cache()
 
 
 def unload_transcription_runtime(shared_models: Dict = None):

@@ -629,6 +629,12 @@ class Corpus:
                 if torch.cuda.is_available():
                     torch.cuda.empty_cache()
                     torch.cuda.synchronize()
+                elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+                    try:
+                        torch.mps.synchronize()
+                    except Exception:
+                        pass
+                    torch.mps.empty_cache()
 
         if shared_models:
             release_transcription_models(

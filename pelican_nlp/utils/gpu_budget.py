@@ -102,19 +102,47 @@ def cuda_memory_bytes():
         return None, None
 
 
-def gpu_limit_bytes() -> int | None:
-    """Bytes this process may place on GPU 0. ``None`` means keep the model off GPU."""
-    free, total = cuda_memory_bytes()
+def _usable_memory_bytes(free, total) -> int | None:
+    """Bytes a device can spend after the display reserve.
+
+    ``free`` already excludes memory other programs are using, so the reserve
+    is not subtracted a second time. The same formula is used for CUDA VRAM
+    and Apple Silicon unified memory.
+    """
     if total is None:
         return None
     reserve = int(gpu_reserve_gb() * (1024 ** 3))
     reserve = min(reserve, int(total * (1.0 - MIN_FRACTION)))
     from_total = max(0, total - reserve)
-    # Do not subtract the reserve twice: display use already shows up in ``free``.
     usable = min(from_total, free or 0)
     if usable < MIN_GPU_PLACEMENT_BYTES:
         return None
     return usable
+
+
+def gpu_limit_bytes() -> int | None:
+    """Bytes this process may place on GPU 0. ``None`` means keep the model off GPU."""
+    free, total = cuda_memory_bytes()
+    return _usable_memory_bytes(free, total)
+
+
+def mps_memory_bytes():
+    """``(available, total)`` unified memory, or ``(None, None)`` without MPS."""
+    if not _mps():
+        return None, None
+    try:
+        import psutil
+
+        memory = psutil.virtual_memory()
+        return int(memory.available), int(memory.total)
+    except Exception:
+        return None, None
+
+
+def mps_limit_bytes() -> int | None:
+    """Bytes this process may place on the Apple GPU. ``None`` without MPS."""
+    free, total = mps_memory_bytes()
+    return _usable_memory_bytes(free, total)
 
 
 def allocator_limit_bytes() -> int | None:
@@ -141,14 +169,20 @@ def memory_fraction() -> float | None:
     return min(MAX_FRACTION, max(MIN_FRACTION, limit / total))
 
 
-def gpu_can_hold(needed_bytes: int | None) -> bool:
-    """True when ``needed_bytes`` fits in the GPU budget, including a margin."""
-    if needed_bytes is None:
-        return False
-    limit = gpu_limit_bytes()
-    if limit is None:
+def _bytes_fit(limit: int | None, needed_bytes: int | None) -> bool:
+    if needed_bytes is None or limit is None:
         return False
     return int(needed_bytes * WEIGHT_FIT_MARGIN) <= limit
+
+
+def gpu_can_hold(needed_bytes: int | None) -> bool:
+    """True when ``needed_bytes`` fits in the CUDA budget, including a margin."""
+    return _bytes_fit(gpu_limit_bytes(), needed_bytes)
+
+
+def mps_can_hold(needed_bytes: int | None) -> bool:
+    """True when ``needed_bytes`` fits in the unified-memory budget, including a margin."""
+    return _bytes_fit(mps_limit_bytes(), needed_bytes)
 
 
 def weight_bytes_from_config(config, bytes_per_param: int = 2) -> int | None:

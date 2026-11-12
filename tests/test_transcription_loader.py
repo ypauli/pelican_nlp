@@ -83,6 +83,62 @@ def test_audio_transcriber_uses_float16_when_fp32_working_set_does_not_fit(monke
     assert captured["torch_dtype"] == torch.float16
 
 
+def _fake_unified_memory(monkeypatch, *, available, total):
+    monkeypatch.setattr(gpu_budget, "_mps", lambda: True)
+    monkeypatch.setattr(
+        "psutil.virtual_memory",
+        lambda: SimpleNamespace(available=available, total=total),
+    )
+
+
+def test_audio_transcriber_keeps_fp32_on_mps_when_working_set_fits(monkeypatch):
+    captured = {}
+    tr = _fake_pipeline_capture(monkeypatch, captured)
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("mps"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: 2 * (1024 ** 3)
+    )
+    _fake_unified_memory(monkeypatch, available=12 * (1024 ** 3), total=16 * (1024 ** 3))
+
+    tr.AudioTranscriber(model="openai/whisper-medium")
+    assert "torch_dtype" not in captured
+
+
+def test_audio_transcriber_uses_float16_on_mps_when_working_set_does_not_fit(monkeypatch):
+    captured = {}
+    tr = _fake_pipeline_capture(monkeypatch, captured)
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("mps"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: 8 * (1024 ** 3)
+    )
+    _fake_unified_memory(monkeypatch, available=10 * (1024 ** 3), total=16 * (1024 ** 3))
+
+    tr.AudioTranscriber(model="openai/whisper-large-v3")
+    assert captured["torch_dtype"] == torch.float16
+
+
+def test_audio_transcriber_keeps_fp32_on_mps_when_weight_size_is_unknown(monkeypatch):
+    captured = {}
+    tr = _fake_pipeline_capture(monkeypatch, captured)
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("mps"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: None
+    )
+    _fake_unified_memory(monkeypatch, available=4 * (1024 ** 3), total=8 * (1024 ** 3))
+
+    tr.AudioTranscriber(model="openai/whisper-large-v3")
+    assert "torch_dtype" not in captured
+
+
 def _chunk(text_export=b"RIFF"):
     class Segment:
         def __len__(self):
@@ -222,6 +278,88 @@ def test_float16_reload_failure_does_not_break_later_chunks(monkeypatch):
     assert hasattr(transcriber, "transcriber")
     assert audio.chunks[0].transcript == ""
     assert audio.chunks[1].transcript == ""
+
+
+def test_mps_oom_switches_to_float16_and_keeps_it_for_later_chunks(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    calls = []
+
+    class Model:
+        def __init__(self):
+            self.dtype = None
+
+        def to(self, *args, **kwargs):
+            if kwargs.get("dtype") is not None:
+                self.dtype = kwargs["dtype"]
+            return self
+
+        def half(self):
+            self.dtype = torch.float16
+            return self
+
+    class Pipe:
+        def __init__(self):
+            self.model = Model()
+
+        def __call__(self, *a, **k):
+            calls.append(self.model.dtype)
+            if self.model.dtype != torch.float16:
+                raise RuntimeError(
+                    "MPS backend out of memory. Tried to allocate 2.00 GiB"
+                )
+            return {"text": "hello", "chunks": []}
+
+    pipe = Pipe()
+    monkeypatch.setattr(tr, "pipeline", lambda *a, **k: pipe)
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("mps"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: 2 * (1024 ** 3)
+    )
+    monkeypatch.setattr(gpu_budget, "mps_can_hold", lambda n: True)
+    monkeypatch.setattr(tr, "_clear_cuda", lambda: None)
+
+    transcriber = tr.AudioTranscriber(model="openai/whisper-large-v3")
+    audio = SimpleNamespace(chunks=[_chunk(), _chunk()])
+    audio.register_model = lambda *a, **k: None
+    transcriber.transcribe(audio)
+
+    assert calls == [None, None, torch.float16, torch.float16]
+    assert [chunk.transcript for chunk in audio.chunks] == ["hello", "hello"]
+    assert transcriber._torch_dtype == torch.float16
+    assert transcriber.transcriber is pipe
+
+
+def test_mps_runtime_error_does_not_switch_to_float16(monkeypatch):
+    import pelican_nlp.preprocessing.transcription as tr
+
+    class Pipe:
+        def __call__(self, *a, **k):
+            raise RuntimeError("shape mismatch")
+
+    monkeypatch.setattr(tr, "pipeline", lambda *a, **k: Pipe())
+    monkeypatch.setattr(tr, "asr_pipeline_preprocessor_kwargs", lambda *a, **k: {})
+    monkeypatch.setattr(
+        "pelican_nlp.utils.gpu_budget.runtime_torch_device",
+        lambda **k: torch.device("mps"),
+    )
+    monkeypatch.setattr(
+        gpu_budget, "estimate_pretrained_weight_bytes", lambda *a, **k: 2 * (1024 ** 3)
+    )
+    monkeypatch.setattr(gpu_budget, "mps_can_hold", lambda n: True)
+    monkeypatch.setattr(tr, "_clear_cuda", lambda: None)
+
+    transcriber = tr.AudioTranscriber(model="openai/whisper-medium")
+    audio = SimpleNamespace(chunks=[_chunk()])
+    audio.register_model = lambda *a, **k: None
+    transcriber.transcribe(audio)
+
+    assert transcriber._torch_dtype is None
+    assert audio.chunks[0].transcript == ""
 
 
 def test_process_single_delays_aligner_until_after_asr(monkeypatch):

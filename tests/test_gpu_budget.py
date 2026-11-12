@@ -8,6 +8,8 @@ from pelican_nlp.utils.gpu_budget import (
     apply_gpu_budget,
     cpu_worker_count,
     gpu_can_hold,
+    mps_can_hold,
+    mps_limit_bytes,
     hub_max_memory,
     hub_model_load_kwargs,
     input_device_for_model,
@@ -181,6 +183,35 @@ def test_gpu_can_hold_uses_margin(monkeypatch):
     assert gpu_can_hold(int(limit * 0.5)) is True
     assert gpu_can_hold(limit) is False
     assert gpu_can_hold(None) is False
+
+
+def test_mps_limit_uses_the_cuda_reserve_formula(monkeypatch):
+    monkeypatch.setattr(gpu_budget, "_mps", lambda: True)
+    monkeypatch.setattr(
+        "psutil.virtual_memory",
+        lambda: SimpleNamespace(available=10 * (1024 ** 3), total=SIXTEEN_GIB),
+    )
+    # 2 GiB reserve against 16 GiB, then the 10 GiB that are actually free.
+    assert mps_limit_bytes() == 10 * (1024 ** 3)
+
+
+def test_mps_can_hold_uses_same_margin(monkeypatch):
+    monkeypatch.setattr(gpu_budget, "_mps", lambda: True)
+    monkeypatch.setattr(
+        "psutil.virtual_memory",
+        lambda: SimpleNamespace(available=SIXTEEN_GIB, total=SIXTEEN_GIB),
+    )
+    limit = mps_limit_bytes()
+    assert limit == 14 * (1024 ** 3)
+    assert mps_can_hold(int(limit * 0.5)) is True
+    assert mps_can_hold(limit) is False
+    assert mps_can_hold(None) is False
+
+
+def test_mps_can_hold_is_false_without_mps(monkeypatch):
+    monkeypatch.setattr(gpu_budget, "_mps", lambda: False)
+    assert mps_limit_bytes() is None
+    assert mps_can_hold(1) is False
 
 
 def test_hub_max_memory_keeps_gpu_when_model_is_larger_than_budget(monkeypatch):
